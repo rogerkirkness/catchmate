@@ -1,0 +1,31 @@
+<template name="cvReport">
+  <h2>Customer Volume Report</h2>
+  <div class="col-sm-3">
+    <div class="form-group">
+      <label for="fromDate" class="control-label">From Date (yyyy-mm-dd)</label>
+      <input type="date" class="fromDate form-control"/>
+    </div>
+    <div class="form-group">
+      <label for="toDate" class="control-label">To Date (yyyy-mm-dd)</label>
+      <input type="date" class="toDate form-control"/>
+    </div>
+  </div>
+  <div class="col-sm-9">
+    <table class="table table-condensed table-striped table-bordered table-white">
+        <tbody>
+          <tr>
+            <td>Customer Code</td>
+            <td>Customer Name</td>
+            <td>Total Weight (kg)</td>
+          </tr>
+          {{#each custBatches}}
+          <tr>
+            <td>{{cust_code}}</td>
+            <td>{{customer_name}}</td>
+            <td>{{item_weight}}</td>
+          </tr>
+          {{/each}}
+        </tbody>
+      </table>
+  </div>
+</template>

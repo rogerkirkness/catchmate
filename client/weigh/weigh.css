@@ -1,0 +1,68 @@
+@media print {
+  body * {
+    visibility: hidden;
+  }
+  #section-to-print, #section-to-print * {
+    visibility: visible;
+  }
+  #section-to-print {
+    transform: translate(50%, -100%) rotate(90deg);
+    transform-origin: bottom left;
+    display: block;
+    font-size: 8pt;
+    margin: 0px;
+    margin-top: 5px;
+    border: 0px;
+  }
+}
+
+.optionDropdown {
+  height:30px;
+  line-height:30px;
+}
+
+.barcodeText {
+  text-align:center;
+  margin-bottom: 0px;
+}
+
+.table-print {
+  font-family: Georgia, serif;
+  font-size: 12px;
+  border: 2px dashed #808080;
+  background-color: #FFF;
+}
+
+.table-print > tbody > tr > td {
+  padding: 2px;
+  margin: 0px;
+}
+
+.statusMessage {
+  color:white;
+}
+
+.noMargin {
+  margin-bottom: 0px !important;
+}
+
+.barcode {
+   height: 10mm;
+   width: 120mm;
+   padding-left: 5px;
+   padding-right: 5px;
+}
+
+.clogo {
+  height: 70px;
+  width: 120px;
+}
+
+.plogo {
+  height: 70px;
+  width: 80px;
+}
+
+.zpl {
+  visibility: hidden;
+}

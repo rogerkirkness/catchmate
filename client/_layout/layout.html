@@ -1,0 +1,17 @@
+<template name="layout">
+  <header>
+    {{>Template.dynamic template=header}}
+  </header>
+    <div class="container contentBlock">
+      {{#if currentUser}}
+          {{>Template.dynamic template=content}}
+      {{else}}
+        <div class="loginBlock">
+          {{> atForm}}
+        </div>
+      {{/if}}
+    </div>
+  <footer>
+    {{>Template.dynamic template=footer}}
+  </footer>
+</template>

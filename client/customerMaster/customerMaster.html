@@ -1,0 +1,38 @@
+<template name="customerMaster">
+  <div class="col-sm-12">
+    <h2>Customer Master</h2>
+    {{> tabular table=TabularTables.Customers class="table table-condensed table-striped table-bordered table-white"}}
+  </div>
+  <div class="col-sm-4">
+    {{#autoForm collection="Customers" id="addCustomer" type="method" meteormethod="insertCustomer"}}
+    <fieldset>
+      <legend>Add Customer</legend>
+      {{> afQuickField name="customer_code"}}
+      {{> afQuickField name="customer_name"}}
+      {{> afQuickField name="customer_street1"}}
+      {{> afQuickField name="customer_street2"}}
+      {{> afQuickField name="customer_city"}}
+      {{> afQuickField name="customer_province"}}
+      {{> afQuickField name="customer_country"}}
+      {{> afQuickField name="customer_postal"}}
+    </fieldset>
+    <button type="submit" class="btn btn-default btn-block">Add Customer</button>
+    {{/autoForm}}
+  </div>
+  <div class="col-sm-4">
+    {{#autoForm collection="Customers" id="editCustomer" type="method-update" meteormethod="updateCustomer" doc=customerActive}}
+    <fieldset>
+      <legend>Edit Customer</legend>
+      {{> afQuickField name="customer_code"}}
+      {{> afQuickField name="customer_name"}}
+      {{> afQuickField name="customer_street1"}}
+      {{> afQuickField name="customer_street2"}}
+      {{> afQuickField name="customer_city"}}
+      {{> afQuickField name="customer_province"}}
+      {{> afQuickField name="customer_country"}}
+      {{> afQuickField name="customer_postal"}}
+    </fieldset>
+    <button type="submit" class="btn btn-default btn-block">Save Changes</button>
+    {{/autoForm}}
+  </div>
+</template>

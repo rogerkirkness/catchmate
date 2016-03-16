@@ -1,0 +1,38 @@
+<template name="itemMaster">
+  <div class="col-sm-12">
+    <h2>Item Master</h2>
+    {{> tabular table=TabularTables.Items class="table table-condensed table-striped table-bordered table-white"}}
+  </div>
+  <div class="col-sm-4">
+    {{#autoForm collection="Items" id="addItem" type="method" meteormethod="insertItem"}}
+    <fieldset>
+      <legend>Add Item</legend>
+      {{> afQuickField name="item_gtin"}}
+      {{> afQuickField name="item_name"}}
+      {{> afQuickField name="item_unit"}}
+      {{> afQuickField name="item_brand"}}
+      {{> afQuickField name="item_shelfLife"}}
+      {{> afQuickField name="item_minWeight"}}
+      {{> afQuickField name="item_maxWeight"}}
+      {{> afQuickField name="item_ingredients" options=ingredientOptions}}
+    </fieldset>
+    <button type="submit" class="btn btn-default btn-block">Add Item</button>
+    {{/autoForm}}
+  </div>
+  <div class="col-sm-4">
+    {{#autoForm id="editItem" collection="Items" type="method-update" meteormethod="updateItem" doc=itemActive}}
+    <fieldset>
+      <legend>Edit Item</legend>
+      {{> afQuickField name="item_gtin"}}
+      {{> afQuickField name="item_name"}}
+      {{> afQuickField name="item_unit"}}
+      {{> afQuickField name="item_brand"}}
+      {{> afQuickField name="item_shelfLife"}}
+      {{> afQuickField name="item_minWeight"}}
+      {{> afQuickField name="item_maxWeight"}}
+      {{> afQuickField name="item_ingredients" options=ingredientOptions}}
+    </fieldset>
+    <button type="submit" class="btn btn-default btn-block">Save Changes</button>
+    {{/autoForm}}
+  </div>
+</template>

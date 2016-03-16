@@ -1,0 +1,30 @@
+<template name="scaleMaster">
+  <div class="col-sm-12">
+    <h2>Scale Master</h2>
+    {{> tabular table=TabularTables.Scales class="table table-condensed table-striped table-bordered table-white"}}
+  </div>
+  <div class="col-sm-4">
+    {{#autoForm collection="Scales" id="addScale" type="method" meteormethod="insertScale"}}
+    <fieldset>
+      <legend>Add Scale</legend>
+      {{> afQuickField name="scale_code"}}
+      {{> afQuickField name="scale_name"}}
+      {{> afQuickField name="scale_port"}}
+      {{> afQuickField name="scale_host"}}
+    </fieldset>
+    <button type="submit" class="btn btn-default btn-block">Add Scale</button>
+    {{/autoForm}}
+  </div>
+  <div class="col-sm-4">
+    {{#autoForm collection="Scales" id="editScale" type="method-update" meteormethod="updateScale" doc=scaleActive}}
+    <fieldset>
+      <legend>Edit Scale</legend>
+      {{> afQuickField name="scale_code"}}
+      {{> afQuickField name="scale_name"}}
+      {{> afQuickField name="scale_port"}}
+      {{> afQuickField name="scale_host"}}
+    </fieldset>
+    <button type="submit" class="btn btn-default btn-block">Save Changes</button>
+    {{/autoForm}}
+  </div>
+</template>

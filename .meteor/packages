@@ -1,0 +1,35 @@
+# Meteor packages used by this project, one per line.
+#
+# 'meteor add' and 'meteor remove' will edit this file for you,
+# but you can also edit it by hand.
+
+twbs:bootstrap
+accounts-password
+momentjs:moment
+aldeed:collection2
+meteorhacks:npm
+npm-container
+cfs:filesystem
+meteor-base
+mongo
+blaze-html-templates
+jquery
+tracker
+logging
+random
+spacebars
+reactive-var
+numeral:numeral
+check
+cfs:standard-packages
+kadira:blaze-layout
+kadira:flow-router
+useraccounts:flow-routing
+meteorhacks:fast-render
+useraccounts:bootstrap
+mizzao:autocomplete
+aldeed:tabular
+reactive-dict
+session
+aldeed:autoform
+standard-minifiers
