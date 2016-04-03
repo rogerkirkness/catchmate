@@ -1,6 +1,5 @@
-// Serve barcodes to local client devices
-var http = Meteor.npmRequire('http');
-var bwipjs = Meteor.npmRequire('bwip-js');
+import http from 'http';
+import bwipjs from 'bwip-js';
 
 http.createServer(function(req, res) {
     if (req.url.indexOf('/?bcid=') != 0) {

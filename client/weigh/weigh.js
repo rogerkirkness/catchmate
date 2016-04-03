@@ -1,4 +1,4 @@
-Template.weigh.onCreated(function () {
+Template.weigh.onCreated(function(){
   this.item = new ReactiveVar(null);
   this.batch = new ReactiveVar(null);
   this.numUnits = new ReactiveVar(null);
@@ -7,15 +7,7 @@ Template.weigh.onCreated(function () {
   this.ready = new ReactiveVar(true);
   this.port = new ReactiveVar(null);
   this.host = new ReactiveVar(null);
-  this.autorun(function () {
-    if(typeof Meteor.user().profile.scaleport !== 'undefined'){
-      var port = Meteor.user().profile.scaleport;
-    };
-    if(typeof Meteor.user().profile.scalehost !== 'undefined'){
-      var host = Meteor.user().profile.scalehost;
-    };
-    Meteor.subscribe('update', port, host);
-  });
+  this.scale = new ReactiveVar(null);
   this.subscribe('batch');
   this.subscribe('items');
   this.subscribe('customers');
@@ -26,6 +18,11 @@ Template.weigh.onCreated(function () {
   this.subscribe('plogo');
   this.subscribe('printers');
   this.subscribe('labels');
+  this.autorun(function(){
+    var port = Template.instance().port.get();
+    var host = Template.instance().host.get();
+    Meteor.subscribe('update', port, host);
+  });
 });
 
 var indicatorVar = new ReactiveDict("indicator", 250);
@@ -75,9 +72,8 @@ Template.weigh.events({
       var ip_address = host + ":" + port;
       var url = "http://"+ip_address+"/pstprnt";
       var method = "POST";
-      var async = true;
       var request = new XMLHttpRequest();
-      request.open(method, url, async);
+      request.open(method, url, true);
       request.send(zpl);
     }else{
       while (copies > 0) {
@@ -102,6 +98,9 @@ Template.weigh.events({
     var Scale = $('.scale_name').val();
     var port = Scales.findOne({scale_name: Scale}).scale_port;
     var host = Scales.findOne({scale_name: Scale}).scale_host;
+    Template.instance().port.set(port);
+    Template.instance().host.set(host);
+    Template.instance().scale.set(Scale);
     Meteor.call('updateScaleProfile', Scale, port, host);
   },
   'change #selectprinter': function (event) {
@@ -129,8 +128,10 @@ Template.weigh.helpers({
     var indicator = indicatorVar.get("indicator");
     if (indicator != null) {
       var powIndicator = indicator / Math.pow(10, 3);
-      var cleanIndicator = numeral(powIndicator).format('0.00');
+      var cleanIndicator = numeral(powIndicator).format('0.000');
       return cleanIndicator + " kg";
+    } else {
+      return "0.000 kg (Disconnected)";
     }
   },
   getStatus: function() {
@@ -193,15 +194,15 @@ Template.weigh.helpers({
   },
   showWeight: function(item_weight) {
     var weight = item_weight / Math.pow(10, 3);
-    var cleanWeight = numeral(weight).format('0.00');
+    var cleanWeight = numeral(weight).format('0.000');
     return cleanWeight + " kg";
   },
   netWeight: function(item_weight) {
     var weight = item_weight / Math.pow(10, 3);
-    var cleanWeight = numeral(weight).format('0.00');
+    var cleanWeight = numeral(weight).format('0.000');
     var tare = Meteor.user().profile.tare;
     var netWeight = cleanWeight - tare;
-    var cleanNetWeight = numeral(netWeight).format('0.00');
+    var cleanNetWeight = numeral(netWeight).format('0.000');
     return cleanNetWeight + " kg";
   },
   dateFull: function (createdAt) {
@@ -241,7 +242,7 @@ Template.weigh.helpers({
     }
   },
   scaleSelected: function() {
-    if(this.scale_name === Meteor.user().profile.scale){
+    if(this.scale_name === Template.instance().scale.get()){
       return "selected";
     }
   },
@@ -370,7 +371,6 @@ Template.weigh.helpers({
     };
     var layout = Labels.findOne({label_code: Meteor.user().profile.label}).label_layout;
     var zpl = layout.replace("{{settings.company_name}}", settingsCompanyName).replace("{{settings.street1}}", settingsStreetOne).replace("{{settings.street2}}", settingsStreetTwo).replace("{{settings.city}}", settingsCity).replace("{{settings.province}}", settingsProvince).replace("{{settings.country}}", settingsCountry).replace("{{settings.postal}}", settingsPostal).replace("{{settings.plant_number}}", settingsPlantNumber).replace("{{settings.prefix}}", settingsPrefix).replace("{{dateFull createdAt}}", productionDate).replace("{{showWeight item_weight}}", grossWeight).replace("{{netWeight item_weight}}", netWeight).replace("{{itemName}}", itemName).replace("{{item_code}}", itemCode).replace("{{lotNumber1 createdAt}}", lotNumber).replace("{{custName}}", custName).replace("{{cust_code}}", custCode).replace("{{shelfLife createdAt}}", shelfLife).replace("{{ingredients}}", ingredientsList).replace("{{item_code}}", itemCode).replace("{{codeDate createdAt}}", bcProdDate).replace("{{codeWeight item_weight}}", bcItemWeight).replace("{{codeLot createdAt}}", bcLotNumber).replace(/  /g,'');
-    console.log(zpl);
     return zpl;
   }
 });

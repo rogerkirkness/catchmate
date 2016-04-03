@@ -1,1 +1,0 @@
-1. Cannot print ZPL if field text is missing

@@ -1,8 +1,0 @@
-{
-  "galaxy.meteor.com": {
-    "env": {
-      "ROOT_URL": "http://baymeats.catchmate.ca",
-      "MONGO_URL": "mongodb://admin:asdfasdfasdasdf@ds019698.mlab.com:19698/baymeats"
-    }
-  }
-}
