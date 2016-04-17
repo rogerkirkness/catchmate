@@ -66,3 +66,14 @@
 .zpl {
   visibility: hidden;
 }
+
+.keyboard {
+  padding-top: 30px;
+}
+
+.key {
+  height: 80px;
+  width: 80px;
+  margin: 0px;
+  padding: 0px;
+}

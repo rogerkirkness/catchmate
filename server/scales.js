@@ -1,18 +1,23 @@
 import net from 'net';
 
-Meteor.publish('update', function(port, host) {
-  check(arguments, [Match.Any]);
+Meteor.publish('update', function() {
   if (this.userId) {
+    var port = Meteor.users.findOne(this.userId).profile.scaleport;
+    var host = Meteor.users.findOne(this.userId).profile.scalehost;
     var self = this;
     var weight = 0;
     self.added("scale", "weight", {weight: weight});
-    if (port != null) {
+    if (port = 9999) {
+      self.changed("scale", "weight", {weight: 1000});
+    } else if (port != null) {
       var socket = new net.Socket();
       socket.connect(port, host, function() {
         function writeSocket() {
-          socket.write('P');
+          if (socket.writable){
+            socket.write('P');
+          };
         };
-        setInterval(writeSocket, 300);
+        setInterval(writeSocket, 250);
       });
       socket.on('data', function (data) {
         var rawOutput = data.toString();

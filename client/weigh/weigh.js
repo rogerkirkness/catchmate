@@ -5,9 +5,6 @@ Template.weigh.onCreated(function(){
   this.cust = new ReactiveVar(null);
   this.validItem = new ReactiveVar(null);
   this.ready = new ReactiveVar(true);
-  this.port = new ReactiveVar(null);
-  this.host = new ReactiveVar(null);
-  this.scale = new ReactiveVar(null);
   this.subscribe('batch');
   this.subscribe('items');
   this.subscribe('customers');
@@ -19,18 +16,17 @@ Template.weigh.onCreated(function(){
   this.subscribe('printers');
   this.subscribe('labels');
   this.autorun(function(){
-    var port = Template.instance().port.get();
-    var host = Template.instance().host.get();
-    Meteor.subscribe('update', port, host);
+    Meteor.subscribe('update');
   });
 });
 
-var indicatorVar = new ReactiveDict("indicator", 250);
+var indicatorVar = new ReactiveDict("indicator", null);
 Scale = new Meteor.Collection("scale");
 Scale.find({}).observe({
   changed: function(item){
-    if (item._id == "weight")
+    if (item._id == "weight") {
       indicatorVar.set("indicator", item.weight);
+    }
   }
 });
 
@@ -88,7 +84,7 @@ Template.weigh.events({
     var lastBatch = Template.instance().batch.get();
     Meteor.call('deleteBatch', lastBatch);
   },
-  'keyup .profileTare': function (event) {
+  'input .profileTare': function (event) {
     event.preventDefault();
     var Tare = $('.profileTare').val();
     Meteor.call('updateTareProfile', Tare);
@@ -98,9 +94,6 @@ Template.weigh.events({
     var Scale = $('.scale_name').val();
     var port = Scales.findOne({scale_name: Scale}).scale_port;
     var host = Scales.findOne({scale_name: Scale}).scale_host;
-    Template.instance().port.set(port);
-    Template.instance().host.set(host);
-    Template.instance().scale.set(Scale);
     Meteor.call('updateScaleProfile', Scale, port, host);
   },
   'change #selectprinter': function (event) {
@@ -119,33 +112,59 @@ Template.weigh.events({
 
 Template.weigh.helpers({
   indicator: function() {
-    var scale = indicatorVar.get("indicator");
-    if (scale != null) {
-      return scale;
+    var indicator = indicatorVar.get("indicator");
+    if (indicator != null) {
+      var item = Template.instance().validItem.get();
+      if (item != null){
+        var stdWeight = Items.findOne({item_gtin: item}).item_stdWeight;
+        if (stdWeight != null){
+          return stdWeight;
+        } else {
+          return indicator;
+        }
+      }
     }
   },
   displayIndicator: function() {
     var indicator = indicatorVar.get("indicator");
     if (indicator != null) {
-      var powIndicator = indicator / Math.pow(10, 3);
-      var cleanIndicator = numeral(powIndicator).format('0.000');
-      return cleanIndicator + " kg";
-    } else {
-      return "0.000 kg (Disconnected)";
+      var item = Template.instance().validItem.get();
+      if (item != null) {
+        var stdWeight = Items.findOne({item_gtin: item}).item_stdWeight;
+        if (stdWeight != null){
+          var indicator = stdWeight;
+          var powIndicator = indicator / Math.pow(10, 3);
+          var cleanIndicator = numeral(powIndicator).format('0.000');
+          return cleanIndicator + " kg";
+        } else {
+          var powIndicator = indicator / Math.pow(10, 3);
+          var cleanIndicator = numeral(powIndicator).format('0.000');
+          return cleanIndicator + " kg";
+        }
+      } else {
+        var powIndicator = indicator / Math.pow(10, 3);
+        var cleanIndicator = numeral(powIndicator).format('0.000');
+        return cleanIndicator + " kg";
+      }
     }
   },
   getStatus: function() {
     var indicator = indicatorVar.get("indicator");
     var item = Template.instance().validItem.get();
     if (item != null && indicator != null) {
+      var stdWeight = Items.findOne({item_gtin: item}).item_stdWeight;
+      var maxWeight= Items.findOne({item_gtin: item}).item_maxWeight;
       var minWeight = Items.findOne({item_gtin: item}).item_minWeight;
-      var maxWeight = Items.findOne({item_gtin: item}).item_maxWeight;
-      if (maxWeight < indicator) {
-        return 'blue';
-      } else if (minWeight > indicator) {
-        return 'red';
-      } else {
+      if (stdWeight != null){
         return 'green';
+      } else {
+        if (maxWeight < indicator) {
+          return 'blue';
+        } else if (minWeight > indicator) {
+          return 'red';
+        } else {
+          return 'green';
+        }
       }
     }
   },
@@ -153,14 +172,19 @@ Template.weigh.helpers({
     var indicator = indicatorVar.get("indicator");
     var item = Template.instance().validItem.get();
     if (item != null && indicator != null) {
+      var stdWeight = Items.findOne({item_gtin: item}).item_stdWeight;
+      var maxWeight= Items.findOne({item_gtin: item}).item_maxWeight;
       var minWeight = Items.findOne({item_gtin: item}).item_minWeight;
-      var maxWeight = Items.findOne({item_gtin: item}).item_maxWeight;
-      if (maxWeight < indicator) {
-        return 'Overweight';
-      } else if (minWeight > indicator) {
-        return 'Underweight';
+      if (stdWeight != null){
+        return 'Std Weight';
       } else {
-        return 'In Range';
+        if (maxWeight < indicator) {
+          return 'Overweight';
+        } else if (minWeight > indicator) {
+          return 'Underweight';
+        } else {
+          return 'In Range';
+        }
       }
     }
   },
@@ -209,7 +233,7 @@ Template.weigh.helpers({
     return moment(createdAt).format('DD/MM/YYYY');
   },
   lotNumber1: function (createdAt) {
-    return moment(createdAt).format('YYYYMMDDHHmmss')
+    return moment(createdAt).format('YYYYMMDDHHmmss');
   },
   ingredients: function() {
     var itemCode = Template.instance().item.get();
@@ -242,7 +266,7 @@ Template.weigh.helpers({
     }
   },
   scaleSelected: function() {
-    if(this.scale_name === Template.instance().scale.get()){
+    if(this.scale_name === Meteor.user().profile.scale){
       return "selected";
     }
   },

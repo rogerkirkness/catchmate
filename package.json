@@ -2,6 +2,7 @@
   "name": "catchmate",
   "version": "1.0.0",
   "dependencies": {
+    "bootstrap": "^3.3.6",
     "bwip-js": "^0.15.1",
     "http": "0.0.0",
     "net": "^1.0.2"

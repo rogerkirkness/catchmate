@@ -1,0 +1,26 @@
+<template name="traceReport">
+  <h2>Trace Report</h2>
+  <div class="col-sm-3">
+    <div class="form-group">
+      <label for="batchCode" class="control-label">Batch Code</label>
+      <input type="text" class="batchCode form-control"/>
+    </div>
+    <div class="btn btn-large btn-default btn-block">Search</div>
+  </div>
+  <div class="col-sm-9">
+    <table class="table table-condensed table-striped table-bordered table-white">
+        <tbody>
+          <tr>
+            <td><b>Batch Code</b></td>
+            <td><b>Customer Name</b></td>
+          </tr>
+          {{#each traceBatch}}
+          <tr>
+            <td>{{batch_code}}</td>
+            <td>{{cust_code}}</td>
+          </tr>
+          {{/each}}
+        </tbody>
+      </table>
+  </div>
+</template>

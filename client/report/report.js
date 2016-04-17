@@ -8,13 +8,11 @@ Template.report.onCreated(function () {
 Template.report.events({
   'blur .fromDate': function(event) {
     var fromDateRaw = $('.fromDate').val();
-    console.log(fromDateRaw);
     var from = moment(fromDateRaw, 'YYYY-MM-DD').toDate();
     Template.instance().fromDate.set(from);
   },
   'blur .toDate': function(event) {
     var toDateRaw = $('.toDate').val()
-    console.log(toDateRaw);
     var to = moment(toDateRaw, 'YYYY-MM-DD').endOf("day").toDate();
     Template.instance().toDate.set(to);
   }
