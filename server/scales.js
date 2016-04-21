@@ -2,13 +2,13 @@ import net from 'net';
 
 Meteor.publish('update', function() {
   if (this.userId) {
+    var self = this;
     var port = Meteor.users.findOne(this.userId).profile.scaleport;
     var host = Meteor.users.findOne(this.userId).profile.scalehost;
-    var self = this;
-    var weight = 0;
-    self.added("scale", "weight", {weight: weight});
+    self.added("scale", "weight", {weight: 0});
     if (port = 9999) {
-      self.changed("scale", "weight", {weight: 1000});
+      self.changed("scale", "weight", {weight: 500});
+
     } else if (port != null) {
       var socket = new net.Socket();
       socket.connect(port, host, function() {

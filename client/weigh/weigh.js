@@ -1,3 +1,6 @@
+import moment from 'moment';
+import numeral from 'numeral';
+
 Template.weigh.onCreated(function(){
   this.item = new ReactiveVar(null);
   this.batch = new ReactiveVar(null);
@@ -20,93 +23,18 @@ Template.weigh.onCreated(function(){
   });
 });
 
+pad = function(n, width, z) {
+  z = z || '0';
+  n = n + '';
+  return n.length >= width ? n : new Array(width - n.length + 1).join(z) + n;
+};
+
 var indicatorVar = new ReactiveDict("indicator", null);
 Scale = new Meteor.Collection("scale");
 Scale.find({}).observe({
-  changed: function(item){
-    if (item._id == "weight") {
-      indicatorVar.set("indicator", item.weight);
-    }
-  }
-});
-
-Template.weigh.events({
-  'blur .item_code': function(event) {
-    var item = $('.item_code').val();
-    Template.instance().validItem.set(item);
-  },
-  'click .weigh': function (event) {
-    var indicator = indicatorVar.get("indicator");
-    var item = Template.instance().validItem.get();
-    var minWeight = Items.findOne({item_gtin: item}).item_minWeight;
-    var maxWeight = Items.findOne({item_gtin: item}).item_maxWeight;
-    if (maxWeight < indicator) {
-      console.log("Product weighs too much");
-    } else if (minWeight > indicator) {
-      console.log("Product is underweight");
-    } else {
-      event.preventDefault();
-      Template.instance().ready.set(false);
-      Template.instance().item.set($('.item_code').val());
-      Template.instance().numUnits.set($('.num_units').val());
-      Template.instance().cust.set($('.cust_code').val());
-      var created = moment().toDate();
-      Template.instance().batch.set(created);
-      var item_code = $('.item_code').val();
-      var cust_code = $('.cust_code').val();
-      var item_weight = $('.item_weight').val();
-      var num_units = $('.num_units').val();
-      Meteor.call('insertBatch', created, item_code, cust_code, item_weight, num_units);
-    }
-  },
-  'click .print': function(event) {
-    var copies = Template.instance().numUnits.get();
-    var port = Meteor.user().profile.printerport;
-    var host = Meteor.user().profile.printerhost;
-    if(port != null){
-      var zpl = $('.zpl').val();
-      var ip_address = host + ":" + port;
-      var url = "http://"+ip_address+"/pstprnt";
-      var method = "POST";
-      var request = new XMLHttpRequest();
-      request.open(method, url, true);
-      request.send(zpl);
-    }else{
-      while (copies > 0) {
-        window.print();
-        copies = copies - 1;
-      };
-    }
-  },
-  'click .undo': function(event) {
-    event.preventDefault();
-    confirm("Are you sure you want to undo that label?");
-    var lastBatch = Template.instance().batch.get();
-    Meteor.call('deleteBatch', lastBatch);
-  },
-  'input .profileTare': function (event) {
-    event.preventDefault();
-    var Tare = $('.profileTare').val();
-    Meteor.call('updateTareProfile', Tare);
-  },
-  'change #selectscale': function (event) {
-    event.preventDefault();
-    var Scale = $('.scale_name').val();
-    var port = Scales.findOne({scale_name: Scale}).scale_port;
-    var host = Scales.findOne({scale_name: Scale}).scale_host;
-    Meteor.call('updateScaleProfile', Scale, port, host);
-  },
-  'change #selectprinter': function (event) {
-    event.preventDefault();
-    var Printer = $('.printer_name').val();
-    var port = Printers.findOne({printer_name: Printer}).printer_port;
-    var host = Printers.findOne({printer_name: Printer}).printer_host;
-    Meteor.call('updatePrinterProfile', Printer, port, host);
-  },
-  'change #selectlabel': function (event) {
-    event.preventDefault();
-    var label = $('.label_code').val();
-    Meteor.call('updateLabelProfile', label);
+  changed: function(newDoc, oldDoc){
+    if(newDoc._id == "weight")
+    indicatorVar.set("indicator", newDoc.weight);
   }
 });
 
@@ -305,7 +233,6 @@ Template.weigh.helpers({
     };
   },
   url: function(){
-    // Prepare various data for barcode
     var settingsPrefix = Company.findOne({settings: "company"}).prefix;
     var itemCode = $('.item_code').val();
     var bcProdDate = function(){
@@ -321,8 +248,6 @@ Template.weigh.helpers({
       var formatWeight = pad(itemWeight, 6);
       return formatWeight;
     };
-
-    // If URL contains Catchmate generate barcode using Bwipjs API, otherwise generate it using HTTP API
     if(window.location.href.indexOf("catchmate") > -1){
       var urlapi = "http://api-bwipjs.rhcloud.com/?bcid=gs1-128&text=(01){{settings.prefix}}{{item_code}}(11){{codeDate createdAt}}(3102){{codeWeight item_weight}}(21){{codeLot createdAt}}&parsefnc"
       var url = urlapi.replace("{{settings.prefix}}", settingsPrefix).replace("{{item_code}}", itemCode).replace("{{codeDate createdAt}}", bcProdDate).replace("{{codeWeight item_weight}}", bcItemWeight).replace("{{codeLot createdAt}}", bcLotNumber).replace(/ /g,'');
@@ -333,7 +258,6 @@ Template.weigh.helpers({
       return url;
     }
   },
-  // Generates ZPL code for Zebra printers on the weigh.html screen into {{zpl}}
   zpl: function(){
     var settingsCompanyName = Company.findOne({settings: "company"}).company_name;
     var settingsStreetOne = Company.findOne({settings: "company"}).street1;
@@ -396,5 +320,85 @@ Template.weigh.helpers({
     var layout = Labels.findOne({label_code: Meteor.user().profile.label}).label_layout;
     var zpl = layout.replace("{{settings.company_name}}", settingsCompanyName).replace("{{settings.street1}}", settingsStreetOne).replace("{{settings.street2}}", settingsStreetTwo).replace("{{settings.city}}", settingsCity).replace("{{settings.province}}", settingsProvince).replace("{{settings.country}}", settingsCountry).replace("{{settings.postal}}", settingsPostal).replace("{{settings.plant_number}}", settingsPlantNumber).replace("{{settings.prefix}}", settingsPrefix).replace("{{dateFull createdAt}}", productionDate).replace("{{showWeight item_weight}}", grossWeight).replace("{{netWeight item_weight}}", netWeight).replace("{{itemName}}", itemName).replace("{{item_code}}", itemCode).replace("{{lotNumber1 createdAt}}", lotNumber).replace("{{custName}}", custName).replace("{{cust_code}}", custCode).replace("{{shelfLife createdAt}}", shelfLife).replace("{{ingredients}}", ingredientsList).replace("{{item_code}}", itemCode).replace("{{codeDate createdAt}}", bcProdDate).replace("{{codeWeight item_weight}}", bcItemWeight).replace("{{codeLot createdAt}}", bcLotNumber).replace(/  /g,'');
     return zpl;
+  }
+});
+
+Template.weigh.events({
+  'blur .item_code': function(event) {
+    var item = $('.item_code').val();
+    Template.instance().validItem.set(item);
+  },
+  'click .weigh': function (event) {
+    var indicator = indicatorVar.get("indicator");
+    var item = Template.instance().validItem.get();
+    var minWeight = Items.findOne({item_gtin: item}).item_minWeight;
+    var maxWeight = Items.findOne({item_gtin: item}).item_maxWeight;
+    if (maxWeight < indicator) {
+      console.log("Product weighs too much");
+    } else if (minWeight > indicator) {
+      console.log("Product is underweight");
+    } else {
+      event.preventDefault();
+      Template.instance().ready.set(false);
+      Template.instance().item.set($('.item_code').val());
+      Template.instance().numUnits.set($('.num_units').val());
+      Template.instance().cust.set($('.cust_code').val());
+      var created = moment().toDate();
+      Template.instance().batch.set(created);
+      var item_code = $('.item_code').val();
+      var cust_code = $('.cust_code').val();
+      var item_weight = $('.item_weight').val();
+      var num_units = $('.num_units').val();
+      Meteor.call('insertBatch', created, item_code, cust_code, item_weight, num_units);
+    }
+  },
+  'click .print': function(event) {
+    var copies = Template.instance().numUnits.get();
+    var port = Meteor.user().profile.printerport;
+    var host = Meteor.user().profile.printerhost;
+    if(port != null){
+      var zpl = $('.zpl').val();
+      var ip_address = host + ":" + port;
+      var url = "http://"+ip_address+"/pstprnt";
+      var method = "POST";
+      var request = new XMLHttpRequest();
+      request.open(method, url, true);
+      request.send(zpl);
+    }else{
+      while (copies > 0) {
+        window.print();
+        copies = copies - 1;
+      };
+    }
+  },
+  'click .undo': function(event) {
+    event.preventDefault();
+    confirm("Are you sure you want to undo that label?");
+    var lastBatch = Template.instance().batch.get();
+    Meteor.call('deleteBatch', lastBatch);
+  },
+  'input .profileTare': function (event) {
+    event.preventDefault();
+    var Tare = $('.profileTare').val();
+    Meteor.call('updateTareProfile', Tare);
+  },
+  'change #selectscale': function (event) {
+    event.preventDefault();
+    var Scale = $('.scale_name').val();
+    var port = Scales.findOne({scale_name: Scale}).scale_port;
+    var host = Scales.findOne({scale_name: Scale}).scale_host;
+    Meteor.call('updateScaleProfile', Scale, port, host);
+  },
+  'change #selectprinter': function (event) {
+    event.preventDefault();
+    var Printer = $('.printer_name').val();
+    var port = Printers.findOne({printer_name: Printer}).printer_port;
+    var host = Printers.findOne({printer_name: Printer}).printer_host;
+    Meteor.call('updatePrinterProfile', Printer, port, host);
+  },
+  'change #selectlabel': function (event) {
+    event.preventDefault();
+    var label = $('.label_code').val();
+    Meteor.call('updateLabelProfile', label);
   }
 });

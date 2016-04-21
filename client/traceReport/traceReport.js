@@ -1,3 +1,5 @@
+import moment from 'moment';
+
 Template.traceReport.onCreated(function () {
   this.batchCode = new ReactiveVar(null);
   this.subscribe('customers');
@@ -25,7 +27,6 @@ Template.traceReport.helpers({
       var batchCode = moment(rawBatchCode).format('YYYYMMDDHHmmss');
       var rawCustCode = value;
       if(isNaN(rawCustCode)){
-        // Do nothing
       } else {
         var custCode = Customers.findOne({customer_code: rawCustCode}).customer_name;
         array.push({batch_code: batchCode, cust_code: custCode});

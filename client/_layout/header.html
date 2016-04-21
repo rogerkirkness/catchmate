@@ -28,23 +28,19 @@
           <li class="dropdown">
             <a class="dropdown-toggle" data-toggle="dropdown"><i class="glyphicon glyphicon-stats"></i> Reports</a>
             <ul class="dropdown-menu" role="menu">
-              <li><a href="/report">Item Volume</a></li>
-              <li><a href="/cvReport">Customer Volume</a></li>
-              <li><a href="/traceReport">Trace Report</a></li>
+              <li><a href="/itemVolumeReport">Item Volume</a></li>
+              <li><a href="/customerVolumeReport">Customer Volume</a></li>
+              <li><a href="/traceReport">Trace Batch</a></li>
             </ul>
           </li>
-          <li class="dropdown">
-            <a class="dropdown-toggle" data-toggle="dropdown"><i class="glyphicon glyphicon-cog"></i> Settings</a>
-            <ul class="dropdown-menu" role="menu">
-              <li><a href="/settings">Settings</a></li>
-              <li><a class="logout" href="/sign-in">Sign Out</a></li>
-            </ul>
-          </li>
+          <li><a href="/settings"><i class="glyphicon glyphicon-cog"></i> Settings</a></li>
+          <div class="navbar-right signIn">
+            {{> loginButtons}}
+          </div>
         </ul>
         {{else}}
-        <div class="navbar-right">
-          <a href="/sign-in" class="btn btn-default navbar-btn">Sign in</a>
-          <a href="/sign-up" class="btn btn-primary navbar-btn">Register</a>
+        <div class="navbar-right signIn">
+          {{> loginButtons}}
         </div>
         {{/if}}
       </div>
