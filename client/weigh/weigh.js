@@ -125,9 +125,6 @@ Template.weigh.helpers({
   batches: function(createdAt) {
     return Batches.find({}, {sort: {createdAt: -1}, limit: 1});
   },
-  batch_code: function() {
-    return Batches.findOne({}).batch_code;
-  },
   settings: function() {
     return Company.findOne({settings: "company"});
   },
@@ -167,7 +164,12 @@ Template.weigh.helpers({
     return moment(createdAt).format('DD/MM/YYYY');
   },
   lotNumber1: function (createdAt) {
-    return moment(createdAt).format('YYYYMMDDHHmmss');
+    var batchCode = Template.instance().batchCode.get();
+    if(!batchCode){
+      return moment(createdAt).format('YYYYMMDDHHmmss');
+    } else {
+      return batchCode;
+    }
   },
   ingredients: function() {
     var itemCode = Template.instance().item.get();
