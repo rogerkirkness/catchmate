@@ -8,6 +8,9 @@ Template.weigh.onCreated(function(){
   this.cust = new ReactiveVar(null);
   this.validItem = new ReactiveVar(null);
   this.ready = new ReactiveVar(true);
+  this.batchCode = new ReactiveVar(null);
+  this.numUnitsShow = new ReactiveVar(null);
+  this.batchCodeShow = new ReactiveVar(null);
   this.subscribe('batch');
   this.subscribe('items');
   this.subscribe('customers');
@@ -119,8 +122,11 @@ Template.weigh.helpers({
   hideLabel: function() {
     return Template.instance().ready.get();
   },
-  batches: function() {
+  batches: function(createdAt) {
     return Batches.find({}, {sort: {createdAt: -1}, limit: 1});
+  },
+  batch_code: function() {
+    return Batches.findOne({}).batch_code;
   },
   settings: function() {
     return Company.findOne({settings: "company"});
@@ -201,6 +207,46 @@ Template.weigh.helpers({
   labelSelected: function() {
     if(this.label_code === Meteor.user().profile.label){
       return "selected";
+    }
+  },
+  nuShow: function(){
+    var status = Meteor.user().profile.numUnitsChecked;
+    if(status == true){
+      return 'text';
+    } else {
+      return 'hidden';
+    }
+  },
+  bcShow: function(){
+    var status = Meteor.user().profile.batchCodeChecked;
+    if(status == true){
+      return 'text';
+    } else {
+      return 'hidden';
+    }
+  },
+  nuChecked: function(){
+    var status = Meteor.user().profile.numUnitsChecked;
+    if (status == true){
+      return 'checked';
+    }
+  },
+  bcChecked: function(){
+    var status = Meteor.user().profile.batchCodeChecked;
+    if (status == true){
+      return 'checked';
+    }
+  },
+  nuShowTrue: function(){
+    var status = Meteor.user().profile.numUnitsChecked;
+    if (status == true){
+      return 'true';
+    }
+  },
+  bcShowTrue: function(){
+    var status = Meteor.user().profile.batchCodeChecked;
+    if (status == true){
+      return 'true';
     }
   },
   labels: function() {
@@ -333,15 +379,10 @@ Template.weigh.events({
     var item = Template.instance().validItem.get();
     var minWeight = Items.findOne({item_gtin: item}).item_minWeight;
     var maxWeight = Items.findOne({item_gtin: item}).item_maxWeight;
-    if (maxWeight < indicator) {
-      console.log("Product weighs too much");
-    } else if (minWeight > indicator) {
-      console.log("Product is underweight");
-    } else {
+    if(maxWeight > indicator && minWeight < indicator){
       event.preventDefault();
       Template.instance().ready.set(false);
       Template.instance().item.set($('.item_code').val());
-      Template.instance().numUnits.set($('.num_units').val());
       Template.instance().cust.set($('.cust_code').val());
       var created = moment().toDate();
       Template.instance().batch.set(created);
@@ -349,7 +390,18 @@ Template.weigh.events({
       var cust_code = $('.cust_code').val();
       var item_weight = $('.item_weight').val();
       var num_units = $('.num_units').val();
-      Meteor.call('insertBatch', created, item_code, cust_code, item_weight, num_units);
+      if(!num_units){
+        var num_units = 1;
+        Template.instance().numUnits.set(num_units);
+      }
+      Template.instance().numUnits.set($('.num_units').val());
+      var batch_code = $('.batch_code').val();
+      if(!batch_code){
+        var batch_code = moment(created).format('YYYYMMDDHHmmss');
+        Template.instance().batchCode.set(batch_code);
+      };
+      Template.instance().batchCode.set($('.batch_code').val());
+      Meteor.call('insertBatch', created, item_code, cust_code, item_weight, num_units, batch_code);
     }
   },
   'click .print': function(event) {
@@ -400,5 +452,15 @@ Template.weigh.events({
     event.preventDefault();
     var label = $('.label_code').val();
     Meteor.call('updateLabelProfile', label);
+  },
+  'change #numUnitsCheckbox': function(event) {
+    event.preventDefault();
+    var status = event.target.checked;
+    Meteor.call('updateNumUnitsField', status);
+  },
+  'change #batchCodeCheckbox': function(event) {
+    event.preventDefault();
+    var status = event.target.checked;
+    Meteor.call('updateBatchCodeField', status);
   }
 });

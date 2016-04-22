@@ -10,14 +10,15 @@ Meteor.methods({
       Customers.update(_id, modifier);
     }
   },
-  insertBatch: function (created, item_code, cust_code, item_weight, num_units) {
+  insertBatch: function (created, item_code, cust_code, item_weight, num_units, batch_code) {
     if(this.userId){
       Batches.insert({
         "item_code": item_code,
         "cust_code": cust_code,
         "item_weight": item_weight,
         "num_units": num_units,
-        "createdAt": created
+        "createdAt": created,
+        "batch_code": batch_code
       });
     }
   },
@@ -120,6 +121,20 @@ Meteor.methods({
     if(this.userId){
       Meteor.users.update(this.userId, { $set: {
         "profile.label": label
+      }});
+    }
+  },
+  updateNumUnitsField: function(status) {
+    if(this.userId){
+      Meteor.users.update(this.userId, { $set: {
+        "profile.numUnitsChecked": status
+      }});
+    }
+  },
+  updateBatchCodeField: function(status) {
+    if(this.userId){
+      Meteor.users.update(this.userId, { $set: {
+        "profile.batchCodeChecked": status
       }});
     }
   }

@@ -2,36 +2,38 @@ import moment from 'moment';
 
 Template.traceReport.onCreated(function () {
   this.batchCode = new ReactiveVar(null);
-  this.subscribe('customers');
+  this.serialCode = new ReactiveVar(null);
   this.subscribe('batches');
+  this.subscribe('customers');
 });
 
 Template.traceReport.events({
   'blur .batchCode': function(event){
     var batchCode = $('.batchCode').val();
-    var cBatchCode = moment(batchCode, 'YYYYMMDDHHmmss').toDate();
-    Template.instance().batchCode.set(cBatchCode);
+    Template.instance().batchCode.set(batchCode);
   }
 });
 
 Template.traceReport.helpers({
   traceBatch: function() {
-    var lots = {};
-    var batchCode = Template.instance().batchCode.get();
-    Batches.find({ createdAt: {$gte: batchCode }}).forEach(function(e) {
-      lots[e.createdAt] = e.cust_code;
-    });
-    var array = [];
-    _.each(lots, function(value, key) {
-      var rawBatchCode = key;
-      var batchCode = moment(rawBatchCode).format('YYYYMMDDHHmmss');
-      var rawCustCode = value;
-      if(isNaN(rawCustCode)){
-      } else {
-        var custCode = Customers.findOne({customer_code: rawCustCode}).customer_name;
-        array.push({batch_code: batchCode, cust_code: custCode});
-      }
-    });
-    return array;
+    var batchCode = Number(Template.instance().batchCode.get());
+    if(batchCode != null){
+      var input = {};
+      var searchResults = Batches.find({batch_code: batchCode});
+      _.forEach(searchResults.fetch(), function(r){
+        if(input[r.cust_code] == null)
+        input[r.cust_code] = 0;
+        input[r.cust_code] += r.item_weight * r.num_units;
+      });
+      var output = [];
+      _.forEach(input, function(key, value){
+        var batchCode = Number(Template.instance().batchCode.get());
+        var custCode = value;
+        var amountSold = key;
+        var adjAmountSold = amountSold / Math.pow(10, 3);
+        output.push({batch_code: batchCode, cust_code: custCode, amount_sold: adjAmountSold});
+      });
+      return output;
+    }
   }
 });
