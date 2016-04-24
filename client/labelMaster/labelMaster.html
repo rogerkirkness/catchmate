@@ -1,14 +1,11 @@
 <template name="labelMaster">
-  <div class="col-sm-12">
-    <h2>Label Master</h2>
-    {{> tabular table=TabularTables.Labels class="table table-condensed table-striped table-bordered table-white"}}
-  </div>
+  <h2>Label Master</h2>
   <div class="col-sm-4">
     {{#autoForm collection="Labels" id="addLabel" type="method" meteormethod="insertLabel"}}
     <fieldset>
       <legend>Add Label</legend>
       {{> afQuickField name="label_code"}}
-      {{> afQuickField name="label_layout" rows=40}}
+      {{> afQuickField name="label_layout" rows=60}}
     </fieldset>
     <button type="submit" class="btn btn-default btn-block">Add Label</button>
     {{/autoForm}}
@@ -18,7 +15,7 @@
     <fieldset>
       <legend>Edit Label</legend>
       {{> afQuickField name="label_code"}}
-      {{> afQuickField name="label_layout" rows=40}}
+      {{> afQuickField name="label_layout" rows=60}}
     </fieldset>
     <button type="submit" class="btn btn-default btn-block">Save Changes</button>
     {{/autoForm}}
@@ -72,5 +69,23 @@
       <b>{{|codeLot createdAt}}</b><br>
       Contains barcode friendly lot number<br><br>
     </p>
+  </div>
+  <div class="col-sm-12 pad-top">
+    <table class="table table-condensed table-striped table-bordered table-white">
+      <tbody>
+        <tr>
+          <td><b>Code</b></td>
+          <td><b>Layout</b></td>
+          <td><b>Edit</b></td>
+        </tr>
+        {{#each labels}}
+        <tr>
+          <td>{{label_code}}</td>
+          <td>{{label_layout}}</td>
+          <td>{{> edit}}</td>
+        </tr>
+        {{/each}}
+      </tbody>
+    </table>
   </div>
 </template>

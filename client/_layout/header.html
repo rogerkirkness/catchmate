@@ -13,27 +13,27 @@
       <div class="collapse navbar-collapse" id="main-nav">
         {{#if currentUser}}
         <ul class="nav navbar-nav navbar-right">
-          <li><a href="/weigh"><i class="glyphicon glyphicon-barcode"></i> Weigh</a></li>
+          <li><a href="/weigh">Weigh</a></li>
           <li class="dropdown">
-            <a class="dropdown-toggle" data-toggle="dropdown"><i class="glyphicon glyphicon-list"></i> Master Files</a>
+            <a class="dropdown-toggle" data-toggle="dropdown">Master Files <span class="caret"></span></a>
             <ul class="dropdown-menu" role="menu">
-              <li><a href="/itemMaster">Item Master</a></li>
               <li><a href="/customerMaster">Customer Master</a></li>
               <li><a href="/ingredientMaster">Ingredient Master</a></li>
-              <li><a href="/scaleMaster">Scale Master</a></li>
-              <li><a href="/printerMaster">Printer Master</a></li>
+              <li><a href="/itemMaster">Item Master</a></li>
               <li><a href="/labelMaster">Label Master</a></li>
+              <li><a href="/printerMaster">Printer Master</a></li>
+              <li><a href="/scaleMaster">Scale Master</a></li>
             </ul>
           </li>
           <li class="dropdown">
-            <a class="dropdown-toggle" data-toggle="dropdown"><i class="glyphicon glyphicon-stats"></i> Reports</a>
+            <a class="dropdown-toggle" data-toggle="dropdown">Reports <span class="caret"></span></a>
             <ul class="dropdown-menu" role="menu">
-              <li><a href="/itemVolumeReport">Item Volume</a></li>
               <li><a href="/customerVolumeReport">Customer Volume</a></li>
+              <li><a href="/itemVolumeReport">Item Volume</a></li>
               <li><a href="/traceReport">Trace Batch</a></li>
             </ul>
           </li>
-          <li><a href="/settings"><i class="glyphicon glyphicon-cog"></i> Settings</a></li>
+          <li><a href="/settings">Settings</a></li>
           <div class="navbar-right signIn">
             {{> loginButtons}}
           </div>

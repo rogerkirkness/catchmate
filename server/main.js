@@ -1,4 +1,16 @@
-// Database methods
+import net from 'net';
+import http from 'http';
+import bwipjs from 'bwip-js';
+
+http.createServer(function(req, res) {
+    if (req.url.indexOf('/?bcid=') != 0) {
+        res.writeHead(404, { 'Content-Type':'text/plain' });
+        res.end('BWIP-JS: Unknown request format.', 'utf8');
+    } else {
+        bwipjs(req, res);
+    }
+}).listen(8082);
+
 Meteor.methods({
   insertCustomer: function(doc) {
     if(this.userId){
@@ -136,6 +148,105 @@ Meteor.methods({
       Meteor.users.update(this.userId, { $set: {
         "profile.batchCodeChecked": status
       }});
+    }
+  }
+});
+
+Meteor.publish('batch', function(){
+  if(this.userId){
+    return Batches.find({}, {sort: {createdAt: -1}, limit: 1});
+  }
+})
+
+Meteor.publish('customers', function(){
+  if(this.userId){
+    return Customers.find();
+  }
+});
+
+Meteor.publish('items', function(){
+  if(this.userId){
+    return Items.find();
+  }
+});
+
+Meteor.publish('ingredients', function(){
+  if(this.userId){
+    return Ingredients.find();
+  }
+});
+
+Meteor.publish('labels', function(){
+  if(this.userId){
+    return Labels.find();
+  }
+});
+
+Meteor.publish('scales', function(){
+  if(this.userId){
+    return Scales.find();
+  }
+});
+
+Meteor.publish('printers', function(){
+  if(this.userId){
+    return Printers.find();
+  }
+});
+
+Meteor.publish('batches', function(){
+  if(this.userId){
+    return Batches.find();
+  }
+});
+
+Meteor.publish('company', function(){
+  if(this.userId){
+    return Company.find();
+  }
+});
+
+Meteor.publish('images', function(){
+  if(this.userId){
+    return Images.find({}, { sort: { uploadedAt: -1 }, limit: 1 });
+  }
+});
+
+Meteor.publish('plogo', function(){
+  if(this.userId){
+    return Plogo.find({}, { sort: { uploadedAt: -1 }, limit: 1 });
+  }
+});
+
+Meteor.publish('update', function() {
+  if (this.userId) {
+    var self = this;
+    var port = Meteor.users.findOne(this.userId).profile.scaleport;
+    var host = Meteor.users.findOne(this.userId).profile.scalehost;
+    self.added("scale", "weight", {weight: 0});
+    if (port = 9999) {
+      self.changed("scale", "weight", {weight: 500});
+    } else if (port != null) {
+      var socket = new net.Socket();
+      socket.connect(port, host, function() {
+        function writeSocket() {
+          if (socket.writable){
+            socket.write('P');
+          };
+        };
+        setInterval(writeSocket, 250);
+      });
+      socket.on('data', function (data) {
+        var rawOutput = data.toString();
+        var output = rawOutput.replace(/\D+/g, '');
+        self.changed("scale", "weight", {weight: output});
+      });
+      socket.on('error', function (error) {
+        console.log(error);
+      });
+      socket.on('close', function() {
+        console.log("Socket closed");
+      });
     }
   }
 });

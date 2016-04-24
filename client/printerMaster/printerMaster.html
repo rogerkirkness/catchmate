@@ -1,9 +1,6 @@
 <template name="printerMaster">
-  <div class="col-sm-12">
-    <h2>Printer Master</h2>
-    {{> tabular table=TabularTables.Printers class="table table-condensed table-striped table-bordered table-white"}}
-  </div>
-  <div class="col-sm-4">
+  <h2>Printer Master</h2>
+  <div class="col-sm-6">
     {{#autoForm collection="Printers" id="addPrinter" type="method" meteormethod="insertPrinter"}}
     <fieldset>
       <legend>Add Printer</legend>
@@ -15,7 +12,7 @@
     <button type="submit" class="btn btn-default btn-block">Add Printer</button>
     {{/autoForm}}
   </div>
-  <div class="col-sm-4">
+  <div class="col-sm-6">
     {{#autoForm collection="Printers" id="editPrinter" type="method-update" meteormethod="updatePrinter" doc=printerActive}}
     <fieldset>
       <legend>Edit Printer</legend>
@@ -26,5 +23,27 @@
     </fieldset>
     <button type="submit" class="btn btn-default btn-block">Save Changes</button>
     {{/autoForm}}
+  </div>
+  <div class="col-sm-12 pad-top">
+    <table class="table table-condensed table-striped table-bordered table-white">
+      <tbody>
+        <tr>
+          <td><b>Code</b></td>
+          <td><b>Name</b></td>
+          <td><b>Port</b></td>
+          <td><b>Host</b></td>
+          <td><b>Edit</b></td>
+        </tr>
+        {{#each printers}}
+        <tr>
+          <td>{{printer_code}}</td>
+          <td>{{printer_name}}</td>
+          <td>{{printer_port}}</td>
+          <td>{{printer_host}}</td>
+          <td>{{> edit}}</td>
+        </tr>
+        {{/each}}
+      </tbody>
+    </table>
   </div>
 </template>

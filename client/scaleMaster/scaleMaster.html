@@ -1,9 +1,6 @@
 <template name="scaleMaster">
-  <div class="col-sm-12">
-    <h2>Scale Master</h2>
-    {{> tabular table=TabularTables.Scales class="table table-condensed table-striped table-bordered table-white"}}
-  </div>
-  <div class="col-sm-4">
+  <h2>Scale Master</h2>
+  <div class="col-sm-6">
     {{#autoForm collection="Scales" id="addScale" type="method" meteormethod="insertScale"}}
     <fieldset>
       <legend>Add Scale</legend>
@@ -15,7 +12,7 @@
     <button type="submit" class="btn btn-default btn-block">Add Scale</button>
     {{/autoForm}}
   </div>
-  <div class="col-sm-4">
+  <div class="col-sm-6">
     {{#autoForm collection="Scales" id="editScale" type="method-update" meteormethod="updateScale" doc=scaleActive}}
     <fieldset>
       <legend>Edit Scale</legend>
@@ -26,5 +23,27 @@
     </fieldset>
     <button type="submit" class="btn btn-default btn-block">Save Changes</button>
     {{/autoForm}}
+  </div>
+  <div class="col-sm-12 pad-top">
+    <table class="table table-condensed table-striped table-bordered table-white">
+      <tbody>
+        <tr>
+          <td><b>Code</b></td>
+          <td><b>Name</b></td>
+          <td><b>Port</b></td>
+          <td><b>Host</b></td>
+          <td><b>Edit</b></td>
+        </tr>
+        {{#each scales}}
+        <tr>
+          <td>{{scale_code}}</td>
+          <td>{{scale_name}}</td>
+          <td>{{scale_port}}</td>
+          <td>{{scale_host}}</td>
+          <td>{{> edit}}</td>
+        </tr>
+        {{/each}}
+      </tbody>
+    </table>
   </div>
 </template>

@@ -1,3 +1,5 @@
+@import "{}/node_modules/bootstrap-sass/assets/stylesheets/_bootstrap.scss";
+
 body {
   background-color: #F0F0F0;
 }
@@ -8,6 +10,10 @@ body {
 
 .table-white > tbody > tr > td {
   border: 0px !important;
+}
+
+.pad-top {
+  padding-top: 40px;
 }
 
 .navbar-nav > li > a,
@@ -33,7 +39,7 @@ body {
 }
 
 .contentBlock {
-  padding-bottom: 100px;
+  padding-bottom: 200px;
 }
 
 .loginBlock {

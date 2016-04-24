@@ -2,6 +2,8 @@
   "name": "catchmate",
   "version": "1.0.2",
   "dependencies": {
+    "bootstrap": "^3.3.6",
+    "bootstrap-sass": "^3.3.6",
     "bwip-js": "^0.15.1",
     "http": "0.0.0",
     "jquery": "^2.2.3",

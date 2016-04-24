@@ -1,9 +1,6 @@
 <template name="ingredientMaster">
-  <div class="col-sm-12">
-    <h2>Ingredient Master</h2>
-    {{> tabular table=TabularTables.Ingredients class="table table-condensed table-striped table-bordered table-white"}}
-  </div>
-  <div class="col-sm-4">
+  <h2>Ingredient Master</h2>
+  <div class="col-sm-6">
     {{#autoForm collection="Ingredients" id="addIngredient" type="method" meteormethod="insertIngredients"}}
     <fieldset>
       <legend>Add Ingredient List</legend>
@@ -13,7 +10,7 @@
     <button type="submit" class="btn btn-default btn-block">Add Ingredient List</button>
     {{/autoForm}}
   </div>
-  <div class="col-sm-4">
+  <div class="col-sm-6">
     {{#autoForm collection="Ingredients" id="editIngredient" type="method-update" meteormethod="updateIngredients" doc=ingredientActive}}
     <fieldset>
       <legend>Edit Ingredient List</legend>
@@ -22,5 +19,23 @@
     </fieldset>
     <button type="submit" class="btn btn-default btn-block">Save Changes</button>
     {{/autoForm}}
+  </div>
+  <div class="col-sm-12 pad-top">
+    <table class="table table-condensed table-striped table-bordered table-white">
+      <tbody>
+        <tr>
+          <td><b>Code</b></td>
+          <td><b>List</b></td>
+          <td><b>Edit</b></td>
+        </tr>
+        {{#each ingredients}}
+        <tr>
+          <td>{{ingredients_code}}</td>
+          <td>{{ingredients_list}}</td>
+          <td>{{> edit}}</td>
+        </tr>
+        {{/each}}
+      </tbody>
+    </table>
   </div>
 </template>
