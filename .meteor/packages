@@ -8,16 +8,10 @@ accounts-password
 accounts-ui
 mongo
 blaze-html-templates
-tracker
-logging
 random
-spacebars
-reactive-var
 reactive-dict
-check
 standard-minifier-js
 ecmascript
-modules
 aldeed:collection2
 aldeed:autoform
 cfs:standard-packages
@@ -25,5 +19,6 @@ kadira:blaze-layout
 kadira:flow-router
 mizzao:autocomplete
 cfs:filesystem
-standard-minifier-css
-fourseven:scss
+twbs:bootstrap
+tracker
+logging

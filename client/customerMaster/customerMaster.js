@@ -1,12 +1,13 @@
 Template.customerMaster.onCreated(function () {
-  this.customer = new ReactiveVar(null);
+  this.templateDict = new ReactiveDict();
+  this.templateDict.set('customer', null);
   this.subscribe('customers');
 });
 
 Template.customerMaster.events({
   'click .edit': function (event) {
     event.preventDefault();
-    Template.instance().customer.set(this._id);
+    Template.instance().templateDict.set('customer', this._id)
   }
 });
 
@@ -15,7 +16,7 @@ Template.customerMaster.helpers({
     return Customers.find({});
   },
   customerActive: function () {
-    var customer = Template.instance().customer.get();
+    var customer = Template.instance().templateDict.get('customer');
     if(customer != null)
     return Customers.findOne(customer);
   }

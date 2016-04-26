@@ -1,12 +1,13 @@
 Template.printerMaster.onCreated(function () {
-  this.printer = new ReactiveVar(null);
+  this.templateDict = new ReactiveDict();
+  this.templateDict.set('printer', null);
   this.subscribe('printers');
 });
 
 Template.printerMaster.events({
   'click .edit': function (event) {
     event.preventDefault();
-    Template.instance().printer.set(this._id);
+    Template.instance().templateDict.set('printer', this._id);
   }
 });
 
@@ -15,7 +16,7 @@ Template.printerMaster.helpers({
     return Printers.find({});
   },
   printerActive: function() {
-    var printer= Template.instance().printer.get();
+    var printer= Template.instance().templateDict.get('printer');
     if (printer != null)
     return Printers.findOne(printer);
   }

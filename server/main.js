@@ -244,9 +244,7 @@ Meteor.publish('update', function() {
       socket.on('error', function (error) {
         console.log(error);
       });
-      socket.on('close', function() {
-        console.log("Socket closed");
-      });
+      socket.on('close', function() {});
     }
   }
 });

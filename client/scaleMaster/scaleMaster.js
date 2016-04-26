@@ -1,12 +1,13 @@
 Template.scaleMaster.onCreated(function () {
-  this.scale = new ReactiveVar(null);
+  this.templateDict = new ReactiveDict();
+  this.templateDict.set('scale', null);
   this.subscribe('scales');
 });
 
 Template.scaleMaster.events({
   'click .edit': function (event) {
     event.preventDefault();
-    Template.instance().scale.set(this._id);
+    Template.instance().templateDict.set('scale', this._id);
   }
 });
 
@@ -15,7 +16,7 @@ Template.scaleMaster.helpers({
     return Scales.find({});
   },
   scaleActive: function() {
-    var scale = Template.instance().scale.get();
+    var scale = Template.instance().templateDict.get('scale');
     if (scale != null)
     return Scales.findOne(scale);
   }

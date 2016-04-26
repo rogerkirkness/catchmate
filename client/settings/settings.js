@@ -34,15 +34,15 @@ Template.settings.events({
   },
   'click .save_settings': function (event) {
     event.preventDefault();
-    var companyName = $('.companyName').val();
-    var plantNumber = $('.plantNumber').val();
-    var Street1 = $('.profile_street1').val();
-    var Street2 = $('.profile_street2').val();
-    var City = $('.profile_city').val();
-    var Province = $('.profile_province').val();
-    var Country = $('.profile_country').val();
-    var Postal = $('.profile_postal').val();
-    var Prefix = $('.profile_prefix').val();
+    var companyName = document.getElementById("companyName").value;
+    var plantNumber = document.getElementById("plantNumber").value;
+    var Street1 = document.getElementById("profile_street1").value;
+    var Street2 = document.getElementById("profile_street2").value;
+    var City = document.getElementById("profile_city").value;
+    var Province = document.getElementById("profile_province").value;
+    var Country = document.getElementById("profile_country").value;
+    var Postal = document.getElementById("profile_postal").value;
+    var Prefix = document.getElementById("profile_prefix").value;
     Meteor.call('upsertSettings', companyName, plantNumber, Street1, Street2, City, Province, Country, Postal, Prefix);
   }
 });

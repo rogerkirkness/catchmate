@@ -52,7 +52,6 @@ ecmascript@0.4.3
 ecmascript-runtime@0.2.10
 ejson@1.0.11
 email@1.0.12
-fourseven:scss@3.4.3
 geojson-utils@1.0.8
 hot-code-push@1.0.4
 html-tools@1.0.9
@@ -69,7 +68,6 @@ logging@1.0.12
 mdg:validation-error@0.5.1
 meteor@1.1.14
 meteor-base@1.0.4
-minifier-css@1.1.11
 minifier-js@1.1.11
 minimongo@1.0.16
 mizzao:autocomplete@0.5.1
@@ -98,11 +96,11 @@ sha@1.0.7
 spacebars@1.0.11
 spacebars-compiler@1.0.11
 srp@1.0.8
-standard-minifier-css@1.0.6
 standard-minifier-js@1.0.6
 templating@1.1.9
 templating-tools@1.0.4
 tracker@1.0.13
+twbs:bootstrap@3.3.6
 ui@1.0.11
 underscore@1.0.8
 url@1.0.9

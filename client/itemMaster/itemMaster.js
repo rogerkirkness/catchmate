@@ -1,5 +1,6 @@
 Template.itemMaster.onCreated(function () {
-  this.item = new ReactiveVar(null);
+  this.templateDict = new ReactiveDict();
+  this.templateDict.set('item', null);
   this.subscribe('items');
   this.subscribe('ingredients');
 });
@@ -7,7 +8,7 @@ Template.itemMaster.onCreated(function () {
 Template.itemMaster.events({
   'click .edit': function (event) {
     event.preventDefault();
-    Template.instance().item.set(this._id);
+    Template.instance().templateDict.set('item', this._id);
   }
 });
 
@@ -24,7 +25,7 @@ Template.itemMaster.helpers({
     });
   },
   itemActive: function() {
-    var item = Template.instance().item.get();
+    var item = Template.instance().templateDict.get('item');
     if (item != null)
     return Items.findOne(item);
   }

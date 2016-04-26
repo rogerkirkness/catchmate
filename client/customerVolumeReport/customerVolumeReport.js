@@ -2,30 +2,33 @@ import moment from 'moment';
 import numeral from 'numeral';
 
 Template.customerVolumeReport.onCreated(function () {
-  this.fromDate = new ReactiveVar(0);
-  this.toDate = new ReactiveVar(0);
+  this.templateDict = new ReactiveDict();
+  this.templateDict.set('fromDate', null);
+  this.templateDict.set('toDate', null);
   this.subscribe('customers');
   this.subscribe('batches');
 });
 
 Template.customerVolumeReport.events({
   'blur .fromDate': function(event) {
-    var fromDateRaw = $('.fromDate').val();
+    event.preventDefault();
+    var fromDateRaw = event.target.value;
     var from = moment(fromDateRaw, 'YYYY-MM-DD').toDate();
-    Template.instance().fromDate.set(from);
+    Template.instance().templateDict.set('fromDate', from);
   },
   'blur .toDate': function(event) {
-    var toDateRaw = $('.toDate').val()
+    event.preventDefault();
+    var toDateRaw = event.target.value;
     var to = moment(toDateRaw, 'YYYY-MM-DD').endOf("day").toDate();
-    Template.instance().toDate.set(to);
+    Template.instance().templateDict.set('toDate', to);
   }
 });
 
 Template.customerVolumeReport.helpers({
   custBatches: function() {
     var items = {};
-    var fDate = Template.instance().fromDate.get();
-    var tDate = Template.instance().toDate.get();
+    var fDate = Template.instance().templateDict.get('fromDate');
+    var tDate = Template.instance().templateDict.get('toDate');
     Batches.find({ $and: [{ createdAt: {$gte: fDate }}, { createdAt: {$lte: tDate }}]}).forEach(function(e) {
       if (items[e.cust_code] == null)
       items[e.cust_code] = 0;

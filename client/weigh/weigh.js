@@ -1,31 +1,6 @@
 import moment from 'moment';
 import numeral from 'numeral';
 
-Template.weigh.onCreated(function(){
-  this.item = new ReactiveVar(null);
-  this.batch = new ReactiveVar(null);
-  this.numUnits = new ReactiveVar(null);
-  this.cust = new ReactiveVar(null);
-  this.validItem = new ReactiveVar(null);
-  this.ready = new ReactiveVar(true);
-  this.batchCode = new ReactiveVar(null);
-  this.numUnitsShow = new ReactiveVar(null);
-  this.batchCodeShow = new ReactiveVar(null);
-  this.subscribe('batch');
-  this.subscribe('items');
-  this.subscribe('customers');
-  this.subscribe('ingredients');
-  this.subscribe('scales');
-  this.subscribe('company');
-  this.subscribe('images');
-  this.subscribe('plogo');
-  this.subscribe('printers');
-  this.subscribe('labels');
-  this.autorun(function(){
-    Meteor.subscribe('update');
-  });
-});
-
 pad = function(n, width, z) {
   z = z || '0';
   n = n + '';
@@ -41,11 +16,132 @@ Scale.find({}).observe({
   }
 });
 
+Template.weigh.onCreated(function(){
+  this.templateDict = new ReactiveDict();
+  this.templateDict.set('item', null);
+  this.templateDict.set('batch', null);
+  this.templateDict.set('numUnits', null);
+  this.templateDict.set('cust', null);
+  this.templateDict.set('validItem', null);
+  this.templateDict.set('ready', true);
+  this.templateDict.set('batchCode', null);
+  this.subscribe('batch');
+  this.subscribe('items');
+  this.subscribe('customers');
+  this.subscribe('ingredients');
+  this.subscribe('scales');
+  this.subscribe('company');
+  this.subscribe('images');
+  this.subscribe('plogo');
+  this.subscribe('printers');
+  this.subscribe('labels');
+  this.autorun(function(){
+    Meteor.subscribe('update');
+  });
+});
+
+Template.weigh.events({
+  'blur .item_code': function(event) {
+    var item = event.target.value;
+    Template.instance().templateDict.set('validItem', item);
+  },
+  'click .weigh': function (event) {
+    var indicator = indicatorVar.get("indicator");
+    var item = Template.instance().templateDict.get('validItem');
+    var minWeight = Items.findOne({item_gtin: item}).item_minWeight;
+    var maxWeight = Items.findOne({item_gtin: item}).item_maxWeight;
+    if(maxWeight > indicator && minWeight < indicator){
+      event.preventDefault();
+      Template.instance().templateDict.set('ready', false);
+      var item_code = document.getElementById('item_code').value;
+      var cust_code = document.getElementById('cust_code').value;
+      var created = moment().toDate();
+      Template.instance().templateDict.set('item', item_code);
+      Template.instance().templateDict.set('cust', cust_code);
+      Template.instance().templateDict.set('batch', created);
+      var item_weight = document.getElementById('item_weight').value;
+      var num_units = document.getElementById('num_units').value;
+      Template.instance().templateDict.set('numUnits', num_units)
+      if(!num_units){
+        var num_units = 1;
+        Template.instance().templateDict.set('numUnits', num_units);
+      };
+      var batch_code = document.getElementById('batch_code').value;
+      Template.instance().templateDict.set('batchCode', batch_code);
+      if(!batch_code){
+        var batch_code = moment(created).format('YYYYMMDDHHmmss');
+        Template.instance().templateDict.set('batchCode', batch_code);
+      };
+      Meteor.call('insertBatch', created, item_code, cust_code, item_weight, num_units, batch_code);
+    }
+  },
+  'click .print': function(event) {
+    event.preventDefault();
+    var copies = Template.instance().templateDict.get('numUnits');
+    var port = Meteor.user().profile.printerport;
+    var host = Meteor.user().profile.printerhost;
+    if(port != null && host != null){
+      var zpl = document.getElementById("zpl").value;
+      var ip_address = host + ":" + port;
+      var url = "http://"+ip_address+"/pstprnt";
+      var method = "POST";
+      var request = new XMLHttpRequest();
+      request.open(method, url, true);
+      request.send(zpl);
+    }else{
+      while (copies > 0) {
+        window.print();
+        copies = copies - 1;
+      };
+    }
+  },
+  'click .undo': function(event) {
+    event.preventDefault();
+    confirm("Are you sure you want to undo that label?");
+    var lastBatch = Template.instance().templateDict.get('batch');
+    Meteor.call('deleteBatch', lastBatch);
+  },
+  'input .profileTare': function (event) {
+    event.preventDefault();
+    var Tare = event.target.value;
+    Meteor.call('updateTareProfile', Tare);
+  },
+  'change #selectscale': function (event) {
+    event.preventDefault();
+    var Scale = event.target.value;
+    var port = Scales.findOne({scale_name: Scale}).scale_port;
+    var host = Scales.findOne({scale_name: Scale}).scale_host;
+    Meteor.call('updateScaleProfile', Scale, port, host);
+  },
+  'change #selectprinter': function (event) {
+    event.preventDefault();
+    var Printer = event.target.value;
+    var port = Printers.findOne({printer_name: Printer}).printer_port;
+    var host = Printers.findOne({printer_name: Printer}).printer_host;
+    Meteor.call('updatePrinterProfile', Printer, port, host);
+  },
+  'change #selectlabel': function (event) {
+    event.preventDefault();
+    var label = event.target.value;
+    Meteor.call('updateLabelProfile', label);
+  },
+  'change #numUnitsCheckbox': function(event) {
+    event.preventDefault();
+    var status = event.target.checked;
+    Meteor.call('updateNumUnitsField', status);
+  },
+  'change #batchCodeCheckbox': function(event) {
+    event.preventDefault();
+    var status = event.target.checked;
+    Meteor.call('updateBatchCodeField', status);
+  }
+});
+
 Template.weigh.helpers({
   indicator: function() {
     var indicator = indicatorVar.get("indicator");
     if (indicator != null) {
-      var item = Template.instance().validItem.get();
+      var item = Template.instance().templateDict.get('validItem');
       if (item != null){
         var stdWeight = Items.findOne({item_gtin: item}).item_stdWeight;
         if (stdWeight != null){
@@ -59,7 +155,7 @@ Template.weigh.helpers({
   displayIndicator: function() {
     var indicator = indicatorVar.get("indicator");
     if (indicator != null) {
-      var item = Template.instance().validItem.get();
+      var item = Template.instance().templateDict.get('validItem');
       if (item != null) {
         var stdWeight = Items.findOne({item_gtin: item}).item_stdWeight;
         if (stdWeight != null){
@@ -81,7 +177,7 @@ Template.weigh.helpers({
   },
   getStatus: function() {
     var indicator = indicatorVar.get("indicator");
-    var item = Template.instance().validItem.get();
+    var item = Template.instance().templateDict.get('validItem');
     if (item != null && indicator != null) {
       var stdWeight = Items.findOne({item_gtin: item}).item_stdWeight;
       var maxWeight= Items.findOne({item_gtin: item}).item_maxWeight;
@@ -101,7 +197,7 @@ Template.weigh.helpers({
   },
   statusMessage: function() {
     var indicator = indicatorVar.get("indicator");
-    var item = Template.instance().validItem.get();
+    var item = Template.instance().templateDict.get('validItem');
     if (item != null && indicator != null) {
       var stdWeight = Items.findOne({item_gtin: item}).item_stdWeight;
       var maxWeight= Items.findOne({item_gtin: item}).item_maxWeight;
@@ -120,7 +216,7 @@ Template.weigh.helpers({
     }
   },
   hideLabel: function() {
-    return Template.instance().ready.get();
+    return Template.instance().templateDict.get('ready');
   },
   batches: function(createdAt) {
     return Batches.find({}, {sort: {createdAt: -1}, limit: 1});
@@ -135,16 +231,16 @@ Template.weigh.helpers({
     return Plogo.find({});
   },
   itemName: function() {
-    return Items.findOne({item_gtin: Template.instance().item.get()}).item_name;
+    return Items.findOne({item_gtin: Template.instance().templateDict.get('item')}).item_name;
   },
   custName: function() {
-    var custName = Customers.findOne({customer_code: Template.instance().cust.get()}).customer_name
+    var custName = Customers.findOne({customer_code: Template.instance().templateDict.get('cust')}).customer_name
     if(custName != null){
       return custName;
     }
   },
   shelfLife: function (createdAt) {
-    var shelfLife = Items.findOne({item_gtin: Template.instance().item.get()}).item_shelfLife;
+    var shelfLife = Items.findOne({item_gtin: Template.instance().templateDict.get('item')}).item_shelfLife;
     return moment(createdAt).add(shelfLife, 'days').format('DD/MM/YYYY');
   },
   showWeight: function(item_weight) {
@@ -164,7 +260,7 @@ Template.weigh.helpers({
     return moment(createdAt).format('DD/MM/YYYY');
   },
   lotNumber1: function (createdAt) {
-    var batchCode = Template.instance().batchCode.get();
+    var batchCode = Template.instance().templateDict.get('batchCode');
     if(!batchCode){
       return moment(createdAt).format('YYYYMMDDHHmmss');
     } else {
@@ -172,7 +268,7 @@ Template.weigh.helpers({
     }
   },
   ingredients: function() {
-    var itemCode = Template.instance().item.get();
+    var itemCode = Template.instance().templateDict.get('item');
     if (itemCode != null) {
       var ingredientCode = Items.findOne({item_gtin: itemCode}).item_ingredients;
       if (ingredientCode != null) {
@@ -209,22 +305,6 @@ Template.weigh.helpers({
   labelSelected: function() {
     if(this.label_code === Meteor.user().profile.label){
       return "selected";
-    }
-  },
-  nuShow: function(){
-    var status = Meteor.user().profile.numUnitsChecked;
-    if(status == true){
-      return 'text';
-    } else {
-      return 'hidden';
-    }
-  },
-  bcShow: function(){
-    var status = Meteor.user().profile.batchCodeChecked;
-    if(status == true){
-      return 'text';
-    } else {
-      return 'hidden';
     }
   },
   nuChecked: function(){
@@ -282,7 +362,7 @@ Template.weigh.helpers({
   },
   url: function(){
     var settingsPrefix = Company.findOne({settings: "company"}).prefix;
-    var itemCode = $('.item_code').val();
+    var itemCode = document.getElementById('item_code').value;
     var bcProdDate = function(){
       var date = Batches.findOne({}).createdAt;
       return moment(date).format('YYMMDD');
@@ -292,7 +372,7 @@ Template.weigh.helpers({
       return moment(date).format('YYYYMMDDHHmmss');
     };
     var bcItemWeight = function(){
-      var itemWeight = $('.item_weight').val();
+      var itemWeight = document.getElementById('item_weight').value;
       var formatWeight = pad(itemWeight, 6);
       return formatWeight;
     };
@@ -326,7 +406,7 @@ Template.weigh.helpers({
     };
     var shelfLife = function(){
       var date = Batches.findOne({}).createdAt;
-      var shelfLife = Items.findOne({item_gtin: Template.instance().item.get()}).item_shelfLife;
+      var shelfLife = Items.findOne({item_gtin: Template.instance().templateDict.get('item')}).item_shelfLife;
       return moment(date).add(shelfLife, 'days').format('DD/MM/YYYY');
     };
     var bcProdDate = function(){
@@ -338,13 +418,13 @@ Template.weigh.helpers({
       return moment(date).format('YYYYMMDDHHmmss');
     };
     var grossWeight = function(){
-      var itemWeight = $('.item_weight').val();
+      var itemWeight = document.getElementById('item_weight').value;
       var weight = itemWeight / Math.pow(10, 3);
       var cleanWeight = numeral(weight).format('0.00');
       return cleanWeight + " kg";
     };
     var netWeight = function(){
-      var itemWeight = $('.item_weight').val();
+      var itemWeight = document.getElementById('item_weight').value;
       var weight = itemWeight / Math.pow(10, 3);
       var cleanWeight = numeral(weight).format('0.00');
       var tare = Meteor.user().profile.tare;
@@ -353,116 +433,20 @@ Template.weigh.helpers({
       return cleanNetWeight + " kg";
     };
     var bcItemWeight = function(){
-      var itemWeight = $('.item_weight').val();
+      var itemWeight = document.getElementById('item_weight').value;
       var formatWeight = pad(itemWeight, 6);
       return formatWeight;
     };
-    var itemName = Items.findOne({item_gtin: Template.instance().item.get()}).item_name;
-    var itemCode = $('.item_code').val();
-    var custName = Customers.findOne({customer_code: Template.instance().cust.get()}).customer_name;
-    var custCode = $('.cust_code').val();
+    var itemName = Items.findOne({item_gtin: Template.instance().templateDict.get('item')}).item_name;
+    var itemCode = document.getElementById('item_code').value;
+    var custName = Customers.findOne({customer_code: Template.instance().templateDict.get('cust')}).customer_name;
+    var custCode = document.getElementById('cust_code').value;
     var ingredientsList = function() {
-      var ingredientCode = Items.findOne({item_gtin: Template.instance().item.get()}).item_ingredients;
+      var ingredientCode = Items.findOne({item_gtin: Template.instance().templateDict.get('item')}).item_ingredients;
       return Ingredients.findOne({ingredients_code: ingredientCode}).ingredients_list;
     };
     var layout = Labels.findOne({label_code: Meteor.user().profile.label}).label_layout;
     var zpl = layout.replace("{{settings.company_name}}", settingsCompanyName).replace("{{settings.street1}}", settingsStreetOne).replace("{{settings.street2}}", settingsStreetTwo).replace("{{settings.city}}", settingsCity).replace("{{settings.province}}", settingsProvince).replace("{{settings.country}}", settingsCountry).replace("{{settings.postal}}", settingsPostal).replace("{{settings.plant_number}}", settingsPlantNumber).replace("{{settings.prefix}}", settingsPrefix).replace("{{dateFull createdAt}}", productionDate).replace("{{showWeight item_weight}}", grossWeight).replace("{{netWeight item_weight}}", netWeight).replace("{{itemName}}", itemName).replace("{{item_code}}", itemCode).replace("{{lotNumber1 createdAt}}", lotNumber).replace("{{custName}}", custName).replace("{{cust_code}}", custCode).replace("{{shelfLife createdAt}}", shelfLife).replace("{{ingredients}}", ingredientsList).replace("{{item_code}}", itemCode).replace("{{codeDate createdAt}}", bcProdDate).replace("{{codeWeight item_weight}}", bcItemWeight).replace("{{codeLot createdAt}}", bcLotNumber).replace(/  /g,'');
     return zpl;
-  }
-});
-
-Template.weigh.events({
-  'blur .item_code': function(event) {
-    var item = $('.item_code').val();
-    Template.instance().validItem.set(item);
-  },
-  'click .weigh': function (event) {
-    var indicator = indicatorVar.get("indicator");
-    var item = Template.instance().validItem.get();
-    var minWeight = Items.findOne({item_gtin: item}).item_minWeight;
-    var maxWeight = Items.findOne({item_gtin: item}).item_maxWeight;
-    if(maxWeight > indicator && minWeight < indicator){
-      event.preventDefault();
-      Template.instance().ready.set(false);
-      Template.instance().item.set($('.item_code').val());
-      Template.instance().cust.set($('.cust_code').val());
-      var created = moment().toDate();
-      Template.instance().batch.set(created);
-      var item_code = $('.item_code').val();
-      var cust_code = $('.cust_code').val();
-      var item_weight = $('.item_weight').val();
-      var num_units = $('.num_units').val();
-      if(!num_units){
-        var num_units = 1;
-        Template.instance().numUnits.set(num_units);
-      }
-      Template.instance().numUnits.set($('.num_units').val());
-      var batch_code = $('.batch_code').val();
-      if(!batch_code){
-        var batch_code = moment(created).format('YYYYMMDDHHmmss');
-        Template.instance().batchCode.set(batch_code);
-      };
-      Template.instance().batchCode.set($('.batch_code').val());
-      Meteor.call('insertBatch', created, item_code, cust_code, item_weight, num_units, batch_code);
-    }
-  },
-  'click .print': function(event) {
-    var copies = Template.instance().numUnits.get();
-    var port = Meteor.user().profile.printerport;
-    var host = Meteor.user().profile.printerhost;
-    if(port != null){
-      var zpl = $('.zpl').val();
-      var ip_address = host + ":" + port;
-      var url = "http://"+ip_address+"/pstprnt";
-      var method = "POST";
-      var request = new XMLHttpRequest();
-      request.open(method, url, true);
-      request.send(zpl);
-    }else{
-      while (copies > 0) {
-        window.print();
-        copies = copies - 1;
-      };
-    }
-  },
-  'click .undo': function(event) {
-    event.preventDefault();
-    confirm("Are you sure you want to undo that label?");
-    var lastBatch = Template.instance().batch.get();
-    Meteor.call('deleteBatch', lastBatch);
-  },
-  'input .profileTare': function (event) {
-    event.preventDefault();
-    var Tare = $('.profileTare').val();
-    Meteor.call('updateTareProfile', Tare);
-  },
-  'change #selectscale': function (event) {
-    event.preventDefault();
-    var Scale = $('.scale_name').val();
-    var port = Scales.findOne({scale_name: Scale}).scale_port;
-    var host = Scales.findOne({scale_name: Scale}).scale_host;
-    Meteor.call('updateScaleProfile', Scale, port, host);
-  },
-  'change #selectprinter': function (event) {
-    event.preventDefault();
-    var Printer = $('.printer_name').val();
-    var port = Printers.findOne({printer_name: Printer}).printer_port;
-    var host = Printers.findOne({printer_name: Printer}).printer_host;
-    Meteor.call('updatePrinterProfile', Printer, port, host);
-  },
-  'change #selectlabel': function (event) {
-    event.preventDefault();
-    var label = $('.label_code').val();
-    Meteor.call('updateLabelProfile', label);
-  },
-  'change #numUnitsCheckbox': function(event) {
-    event.preventDefault();
-    var status = event.target.checked;
-    Meteor.call('updateNumUnitsField', status);
-  },
-  'change #batchCodeCheckbox': function(event) {
-    event.preventDefault();
-    var status = event.target.checked;
-    Meteor.call('updateBatchCodeField', status);
   }
 });

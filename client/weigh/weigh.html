@@ -3,33 +3,41 @@
     <h2>Weight</h2>
     <div class="form-group">
       <div class="input-group">
-        <input type="hidden" class="item_weight form-control"  value="{{indicator}}">
+        <input type="hidden" id="item_weight" class="form-control"  value="{{indicator}}">
         <span class="status form-control">{{displayIndicator}}</span>
         <span class="input-group-addon statusMessage" style="background-color:{{getStatus}};">{{statusMessage}}</span>
       </div>
     </div>
     <div class="form-group">
       <label for="item_code" class="control-label">Item Code</label>
-      {{> inputAutocomplete settings=itemSettings id=item_code class="item_code form-control input-lg" type="text" }}
+      {{> inputAutocomplete settings=itemSettings id="item_code" class="item_code form-control input-lg" type="text" }}
     </div>
     <div class="form-group">
       <label for="cust_code" class="control-label">Customer Code</label>
-      {{> inputAutocomplete settings=custSettings id=cust_code class="cust_code form-control input-lg" type="text" }}
+      {{> inputAutocomplete settings=custSettings id="cust_code" class="cust_code form-control input-lg" type="text" }}
     </div>
     {{#if nuShowTrue}}
     <div class="form-group">
       <label for="num_units" class="control-label">Number of Units</label>
-      <input type="{{nuShow}}" class="num_units form-control input-lg">
+      <input type="text" id="num_units" class="form-control input-lg">
+    </div>
+    {{else}}
+    <div class="form-group">
+      <input type="hidden" id="num_units" class="form-control input-lg">
     </div>
     {{/if}}
     {{#if bcShowTrue}}
     <div class="form-group">
       <label for="batch_code" class="control-label">Batch Code</label>
-      <input type="{{bcShow}}" class="batch_code form-control input-lg">
+      <input type="text" id="batch_code" class="form-control input-lg">
+    </div>
+    {{else}}
+    <div class="form-group">
+      <input type="hidden" id="batch_code" class="form-control input-lg">
     </div>
     {{/if}}
     <div class="form-group">
-      <input class="weigh btn btn-default btn-lg btn-block" type="submit" value="Generate Label">
+      <button type="submit" class="weigh btn btn-default btn-lg btn-block">Generate Label</button>
     </div>
   </div>
   <div class="col-xs-6">
