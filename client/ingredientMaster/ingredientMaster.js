@@ -1,23 +1,24 @@
 Template.ingredientMaster.onCreated(function () {
-  this.templateDict = new ReactiveDict();
-  this.templateDict.set('ingredient', null);
-  this.subscribe('ingredients');
-});
+  this.templateDict = new ReactiveDict()
+  this.templateDict.set('ingredient', null)
+  this.subscribe('ingredients')
+})
 
 Template.ingredientMaster.events({
   'click .edit': function (event) {
-    event.preventDefault();
-    Template.instance().templateDict.set('ingredient', this._id);
-  },
-});
+    event.preventDefault()
+    Template.instance().templateDict.set('ingredient', this._id)
+  }
+})
 
 Template.ingredientMaster.helpers({
-  ingredients: function() {
-    return Ingredients.find({});
+  ingredients: function () {
+    return Ingredients.find({})
   },
   ingredientActive: function () {
-    var ingredient = Template.instance().templateDict.get('ingredient');
-    if (ingredient != null)
-    return Ingredients.findOne(ingredient);
+    var ingredient = Template.instance().templateDict.get('ingredient')
+    if (ingredient != null) {
+      return Ingredients.findOne(ingredient)
+    }
   }
-});
+})
