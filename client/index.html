@@ -1,3 +1,9 @@
+<head>
+  <title>Catchmate</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="icon" href="data:;base64,iVBORw0KGgo=">
+</head>
+
 <template name="header">
   <nav class="navbar navbar-default navbar-static-top hidden-print" role="navigation">
     <div class="container">
@@ -46,4 +52,40 @@
       </div>
     </div>
   </nav>
+</template>
+
+<template name="layout">
+  <header>
+    {{>Template.dynamic template=header}}
+  </header>
+    <div class="container contentBlock">
+      {{#if currentUser}}
+          {{>Template.dynamic template=content}}
+      {{/if}}
+    </div>
+</template>
+
+<template name="notFound">
+  <div class="template-not-found">
+    <div class="container text-center">
+      <h2>Not Found</h2>
+      <p>
+        That page does not exist.
+      </p>
+    </div>
+  </div>
+</template>
+
+<template name="edit">
+  <button class="edit btn btn-sm btn-default">
+    <span class="caret"></span>
+  </button>
+</template>
+
+<template name="itemDropdown">
+  <div class="dropdown optionDropdown">{{item_gtin}}: {{item_name}}</div>
+</template>
+
+<template name="custDropdown">
+  <div class="dropdown optionDropdown">{{customer_code}}: {{customer_name}}</div>
 </template>
