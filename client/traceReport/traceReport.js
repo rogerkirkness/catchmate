@@ -1,3 +1,6 @@
+import { Template } from 'meteor/templating'
+import { ReactiveDict } from 'meteor/reactive-dict'
+
 Template.traceReport.onCreated(function () {
   this.templateDict = new ReactiveDict()
   this.templateDict.set('batchCode', null)
@@ -16,21 +19,20 @@ Template.traceReport.helpers({
   traceBatch: function () {
     var batchCode = Number(Template.instance().templateDict.get('batchCode'))
     if (batchCode != null) {
-      var input = {}
+      var input = []
       var searchResults = Batches.find({batch_code: batchCode})
       _.forEach(searchResults.fetch(), function (r) {
-        if (input[r.cust_code] === null) {
+        if (input[r.cust_code] == null) {
           input[r.cust_code] = 0
-          input[r.cust_code] += r.item_weight * r.num_units
         }
+        input[r.cust_code] += r.item_weight * r.num_units
       })
       var output = []
-      _.forEach(input, function (key, value) {
+      input.forEach(function (key, value) {
+        var amountSold = (key / 1000).toFixed(3)
         var batchCode = Number(Template.instance().templateDict.get('batchCode'))
         var custCode = value
-        var amountSold = key
-        var adjAmountSold = amountSold / Math.pow(10, 3)
-        output.push({batch_code: batchCode, cust_code: custCode, amount_sold: adjAmountSold})
+        output.push({batch_code: batchCode, cust_code: custCode, amount_sold: amountSold})
       })
       return output
     }

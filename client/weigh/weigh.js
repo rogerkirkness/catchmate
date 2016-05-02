@@ -1,13 +1,16 @@
 import moment from 'moment'
+import { Meteor } from 'meteor/meteor'
+import { Template } from 'meteor/templating'
+import { ReactiveDict } from 'meteor/reactive-dict'
 
-var pad = function (n, width, z) {
+const pad = function (n, width, z) {
   z = z || '0'
   n = n + ''
   return n.length >= width ? n : new Array(width - n.length + 1).join(z) + n
 }
 
 var indicatorVar = new ReactiveDict('indicator', null)
-Scale = new Meteor.Collection('scale')
+var Scale = new Meteor.Collection('scale')
 Scale.find({}).observe({
   changed: function (newDoc, oldDoc) {
     if (newDoc._id === 'weight') {

@@ -1,3 +1,6 @@
+import { Template } from 'meteor/templating'
+import { ReactiveDict } from 'meteor/reactive-dict'
+
 Template.labelMaster.onCreated(function () {
   this.templateDict = new ReactiveDict()
   this.templateDict.set('label', null)

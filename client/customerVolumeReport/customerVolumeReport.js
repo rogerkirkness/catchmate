@@ -1,4 +1,6 @@
 import moment from 'moment'
+import { Template } from 'meteor/templating'
+import { ReactiveDict } from 'meteor/reactive-dict'
 
 Template.customerVolumeReport.onCreated(function () {
   this.templateDict = new ReactiveDict()
@@ -29,10 +31,10 @@ Template.customerVolumeReport.helpers({
     var fDate = Template.instance().templateDict.get('fromDate')
     var tDate = Template.instance().templateDict.get('toDate')
     Batches.find({ $and: [ { createdAt: { $gte: fDate } }, { createdAt: { $lte: tDate } } ] }).forEach(function (e) {
-      if (items[e.cust_code] === null) {
+      if (items[e.cust_code] == null) {
         items[e.cust_code] = 0
-        items[e.cust_code] += e.item_weight * e.num_units
       }
+      items[e.cust_code] += e.item_weight * e.num_units
     })
     var results = []
     _.each(items, function (value, key) {

@@ -8,9 +8,7 @@ accounts-password
 accounts-ui
 mongo
 blaze-html-templates
-random
 reactive-dict
-standard-minifier-js
 ecmascript
 aldeed:collection2
 aldeed:autoform
@@ -21,4 +19,3 @@ mizzao:autocomplete
 cfs:filesystem
 twbs:bootstrap
 tracker
-logging

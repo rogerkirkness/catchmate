@@ -1,12 +1,11 @@
+import { Meteor } from 'meteor/meteor'
+import { Template } from 'meteor/templating'
+import { FS } from 'meteor/cfs:base-package'
+
 Template.settings.onCreated(function () {
-  var self = this
-  self.autorun(function () {
-    self.subscribe('images')
-  })
-  self.autorun(function () {
-    self.subscribe('plogo')
-  })
-  self.subscribe('company')
+  this.subscribe('images')
+  this.subscribe('plogo')
+  this.subscribe('company')
 })
 
 Template.settings.events({

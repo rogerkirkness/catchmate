@@ -1,6 +1,7 @@
 import net from 'net'
 import http from 'http'
 import bwipjs from 'bwip-js'
+import { Meteor } from 'meteor/meteor'
 
 http.createServer(function (req, res) {
   if (req.url.indexOf('/?bcid=') !== 0) {
@@ -220,12 +221,11 @@ Meteor.publish('plogo', function () {
 
 Meteor.publish('update', function () {
   if (this.userId) {
-    var self = this
     var port = Meteor.users.findOne(this.userId).profile.scaleport
     var host = Meteor.users.findOne(this.userId).profile.scalehost
-    self.added('scale', 'weight', {weight: 0})
+    this.added('scale', 'weight', {weight: 0})
     if (port === '9999') {
-      self.changed('scale', 'weight', {weight: 500})
+      this.changed('scale', 'weight', {weight: 500})
     } else if (port != null) {
       var socket = new net.Socket()
       socket.connect(port, host, function () {
@@ -239,7 +239,7 @@ Meteor.publish('update', function () {
       socket.on('data', function (data) {
         var rawOutput = data.toString()
         var output = rawOutput.replace(/\D+/g, '')
-        self.changed('scale', 'weight', {weight: output})
+        this.changed('scale', 'weight', {weight: output})
       })
       socket.on('error', function (error) {
         console.log(error)
