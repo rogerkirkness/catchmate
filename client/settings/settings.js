@@ -47,7 +47,7 @@ Template.settings.events({
     var Prefix = document.getElementById('profile_prefix').value
     Meteor.call('upsertSettings', companyName, plantNumber, Street1, Street2, City, Province, Country, Postal, Prefix, function (error) {
       if (error) {
-        console.log(error)
+        window.alert(error)
       }
     })
   }

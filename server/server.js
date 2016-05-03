@@ -252,7 +252,7 @@ Meteor.publish('update', function () {
         this.changed('scale', 'weight', {weight: output})
       })
       socket.on('error', function (error) {
-        console.log(error)
+        window.alert(error)
       })
       socket.on('close', function () {})
     }

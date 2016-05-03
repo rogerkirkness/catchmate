@@ -1,9 +1,8 @@
 import moment from 'moment'
 import { Template } from 'meteor/templating'
 import { ReactiveDict } from 'meteor/reactive-dict'
-import { _ } from 'meteor/meteor-base'
-import { Batches } from '/imports/collections'
 import { Items } from '/imports/collections'
+import { Batches } from '/imports/collections'
 
 Template.itemVolumeReport.onCreated(function () {
   this.templateDict = new ReactiveDict()
@@ -14,14 +13,12 @@ Template.itemVolumeReport.onCreated(function () {
 })
 
 Template.itemVolumeReport.events({
-  'blur .fromDate': function (event) {
-    var fromDateRaw = event.target.value
+  'click .updateReport': function (event) {
+    var fromDateRaw = document.getElementById('fromDate').value
+    var toDateRaw = document.getElementById('toDate').value
     var from = moment(fromDateRaw, 'YYYY-MM-DD').toDate()
-    Template.instance().templateDict.set('fromDate', from)
-  },
-  'blur .toDate': function (event) {
-    var toDateRaw = event.target.value
     var to = moment(toDateRaw, 'YYYY-MM-DD').endOf('day').toDate()
+    Template.instance().templateDict.set('fromDate', from)
     Template.instance().templateDict.set('toDate', to)
   }
 })
@@ -43,6 +40,8 @@ Template.itemVolumeReport.helpers({
       var name = Items.findOne({item_gtin: key}).item_name
       results.push({item_code: key, item_name: name, item_weight: displayValue})
     })
-    return results
+    if (results != null) {
+      return results
+    }
   }
 })

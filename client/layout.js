@@ -5,14 +5,14 @@ import { ReactiveDict } from 'meteor/reactive-dict'
 
 Template.layout.onCreated(function () {
   this.layoutDict = new ReactiveDict()
-  this.layoutDict.set('activePage', 'signIn')
+  this.layoutDict.set('activePage', 'weigh')
 })
 
 Template.layout.events({
   'click .signOut': function () {
     Meteor.logout(function (error) {
       if (error) {
-        console.log(error)
+        window.alert(error)
       }
     })
   },
@@ -21,10 +21,12 @@ Template.layout.events({
     var password = document.getElementById('password').value
     Meteor.loginWithPassword(user, password, function (error) {
       if (error) {
-        console.log(error)
+        window.alert(error)
       }
     })
-    Template.instance().layoutDict.set('activePage', 'weigh')
+    if (Meteor.user() != null) {
+      Template.instance().layoutDict.set('activePage', 'weigh')
+    }
   },
   'click .signUp': function () {
     var email = document.getElementById('user_signup').value
@@ -35,15 +37,17 @@ Template.layout.events({
     }
     Accounts.createUser(userObject, function (error) {
       if (error) {
-        console.log(error)
+        window.alert(error)
       } else {
         var user = email
         Meteor.loginWithPassword(user, password, function (error) {
           if (error) {
-            console.log(error)
+            window.alert(error)
           }
         })
-        Template.instance().layoutDict.set('activePage', 'weigh')
+        if (Meteor.user() != null) {
+          Template.instance().layoutDict.set('activePage', 'weigh')
+        }
       }
     })
   },

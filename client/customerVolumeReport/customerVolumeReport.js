@@ -1,7 +1,6 @@
 import moment from 'moment'
 import { Template } from 'meteor/templating'
 import { ReactiveDict } from 'meteor/reactive-dict'
-import { _ } from 'meteor/meteor-base'
 import { Customers } from '/imports/collections'
 import { Batches } from '/imports/collections'
 
@@ -14,16 +13,12 @@ Template.customerVolumeReport.onCreated(function () {
 })
 
 Template.customerVolumeReport.events({
-  'blur .fromDate': function (event) {
-    event.preventDefault()
-    var fromDateRaw = event.target.value
+  'click .updateReport': function (event) {
+    var fromDateRaw = document.getElementById('fromDate').value
+    var toDateRaw = document.getElementById('toDate').value
     var from = moment(fromDateRaw, 'YYYY-MM-DD').toDate()
-    Template.instance().templateDict.set('fromDate', from)
-  },
-  'blur .toDate': function (event) {
-    event.preventDefault()
-    var toDateRaw = event.target.value
     var to = moment(toDateRaw, 'YYYY-MM-DD').endOf('day').toDate()
+    Template.instance().templateDict.set('fromDate', from)
     Template.instance().templateDict.set('toDate', to)
   }
 })
@@ -40,11 +35,13 @@ Template.customerVolumeReport.helpers({
       items[e.cust_code] += e.item_weight * e.num_units
     })
     var results = []
-    _.each(items, function (value, key) {
+    _.forEach(items, function (value, key) {
       var displayValue = (value / 1000).toFixed(3)
       var name = Customers.findOne({customer_code: key}).customer_name
       results.push({cust_code: key, customer_name: name, item_weight: displayValue})
     })
-    return results
+    if (results != null) {
+      return results
+    }
   }
 })

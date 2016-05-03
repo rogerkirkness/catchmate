@@ -87,7 +87,7 @@ Template.weigh.events({
       }
       Meteor.call('insertBatch', created, item_code, cust_code, item_weight, num_units, batch_code, function (error) {
         if (error) {
-          console.log(error)
+          window.alert(error)
         }
       })
     }
@@ -118,7 +118,7 @@ Template.weigh.events({
     var lastBatch = Template.instance().templateDict.get('batch')
     Meteor.call('deleteBatch', lastBatch, function (error) {
       if (error) {
-        console.log(error)
+        window.alert(error)
       }
     })
   },
@@ -127,7 +127,7 @@ Template.weigh.events({
     var Tare = event.target.value
     Meteor.call('updateTareProfile', Tare, function (error) {
       if (error) {
-        console.log(error)
+        window.alert(error)
       }
     })
   },
@@ -138,7 +138,7 @@ Template.weigh.events({
     var host = Scales.findOne({scale_name: Scale}).scale_host
     Meteor.call('updateScaleProfile', Scale, port, host, function (error) {
       if (error) {
-        console.log(error)
+        window.alert(error)
       }
     })
   },
@@ -149,7 +149,7 @@ Template.weigh.events({
     var host = Printers.findOne({printer_name: Printer}).printer_host
     Meteor.call('updatePrinterProfile', Printer, port, host, function (error) {
       if (error) {
-        console.log(error)
+        window.alert(error)
       }
     })
   },
@@ -158,7 +158,7 @@ Template.weigh.events({
     var label = event.target.value
     Meteor.call('updateLabelProfile', label, function (error) {
       if (error) {
-        console.log(error)
+        window.alert(error)
       }
     })
   },
@@ -167,7 +167,7 @@ Template.weigh.events({
     var status = event.target.checked
     Meteor.call('updateNumUnitsField', status, function (error) {
       if (error) {
-        console.log(error)
+        window.alert(error)
       }
     })
   },
@@ -176,7 +176,7 @@ Template.weigh.events({
     var status = event.target.checked
     Meteor.call('updateBatchCodeField', status, function (error) {
       if (error) {
-        console.log(error)
+        window.alert(error)
       }
     })
   }

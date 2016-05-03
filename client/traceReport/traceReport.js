@@ -1,7 +1,7 @@
 import { Template } from 'meteor/templating'
 import { ReactiveDict } from 'meteor/reactive-dict'
-import { _ } from 'meteor/meteor-base'
 import { Batches } from '/imports/collections'
+import { Customers } from '/imports/collections'
 
 Template.traceReport.onCreated(function () {
   this.templateDict = new ReactiveDict()
@@ -11,8 +11,8 @@ Template.traceReport.onCreated(function () {
 })
 
 Template.traceReport.events({
-  'blur .batchCode': function (event) {
-    var batchCode = event.target.value
+  'click .updateReport': function (event) {
+    var batchCode = document.getElementById('batchCode').value
     Template.instance().templateDict.set('batchCode', batchCode)
   }
 })
@@ -36,7 +36,9 @@ Template.traceReport.helpers({
         var custCode = value
         output.push({batch_code: batchCode, cust_code: custCode, amount_sold: amountSold})
       })
-      return output
+      if (output != null) {
+        return output
+      }
     }
   }
 })

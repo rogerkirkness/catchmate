@@ -1,9 +1,12 @@
 <template name="traceReport">
-  <h2>Trace Report</h2>
+  <h3>Trace Report</h3>
   <div class="col-sm-3">
     <div class="form-group">
       <label for="batchCode" class="control-label">Batch Code</label>
-      <input type="text" class="batchCode form-control">
+      <input type="text" id="batchCode" class="form-control">
+    </div>
+    <div class="form-group">
+      <button type="submit" class="updateReport btn btn-default btn-lg btn-block">Update Report</button>
     </div>
   </div>
   <div class="col-sm-9">
