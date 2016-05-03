@@ -1,6 +1,9 @@
 import moment from 'moment'
 import { Template } from 'meteor/templating'
 import { ReactiveDict } from 'meteor/reactive-dict'
+import { _ } from 'meteor/meteor-base'
+import { Customers } from '/imports/collections'
+import { Batches } from '/imports/collections'
 
 Template.customerVolumeReport.onCreated(function () {
   this.templateDict = new ReactiveDict()

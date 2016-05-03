@@ -1,6 +1,9 @@
 import { Meteor } from 'meteor/meteor'
 import { Template } from 'meteor/templating'
 import { FS } from 'meteor/cfs:base-package'
+import { Company } from '/imports/collections'
+import { Images } from '/imports/collections'
+import { Plogo } from '/imports/collections'
 
 Template.settings.onCreated(function () {
   this.subscribe('images')

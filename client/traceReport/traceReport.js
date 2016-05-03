@@ -1,5 +1,7 @@
 import { Template } from 'meteor/templating'
 import { ReactiveDict } from 'meteor/reactive-dict'
+import { _ } from 'meteor/meteor-base'
+import { Batches } from '/imports/collections'
 
 Template.traceReport.onCreated(function () {
   this.templateDict = new ReactiveDict()

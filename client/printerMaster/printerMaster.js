@@ -1,5 +1,6 @@
 import { Template } from 'meteor/templating'
 import { ReactiveDict } from 'meteor/reactive-dict'
+import { Printers } from '/imports/collections'
 
 Template.printerMaster.onCreated(function () {
   this.templateDict = new ReactiveDict()
@@ -23,5 +24,8 @@ Template.printerMaster.helpers({
     if (printer != null) {
       return Printers.findOne(printer)
     }
+  },
+  collection: function () {
+    return Printers
   }
 })

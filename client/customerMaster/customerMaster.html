@@ -1,7 +1,7 @@
 <template name="customerMaster">
   <h2>Customer Master</h2>
   <div class="col-sm-6">
-    {{#autoForm collection="Customers" id="addCustomer" type="method" meteormethod="insertCustomer"}}
+    {{#autoForm collection=collection id="addCustomer" type="method" meteormethod="insertCustomer"}}
     <fieldset>
       <legend>Add Customer</legend>
       {{> afQuickField name="customer_code"}}
@@ -17,7 +17,7 @@
     {{/autoForm}}
   </div>
   <div class="col-sm-6">
-    {{#autoForm collection="Customers" id="editCustomer" type="method-update" meteormethod="updateCustomer" doc=customerActive}}
+    {{#autoForm collection=collection id="editCustomer" type="method-update" meteormethod="updateCustomer" doc=customerActive}}
     <fieldset>
       <legend>Edit Customer</legend>
       {{> afQuickField name="customer_code"}}

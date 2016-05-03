@@ -1,7 +1,7 @@
 <template name="ingredientMaster">
   <h2>Ingredient Master</h2>
   <div class="col-sm-6">
-    {{#autoForm collection="Ingredients" id="addIngredient" type="method" meteormethod="insertIngredients"}}
+    {{#autoForm collection=collection id="addIngredient" type="method" meteormethod="insertIngredients"}}
     <fieldset>
       <legend>Add Ingredient List</legend>
       {{> afQuickField name="ingredients_code"}}
@@ -11,7 +11,7 @@
     {{/autoForm}}
   </div>
   <div class="col-sm-6">
-    {{#autoForm collection="Ingredients" id="editIngredient" type="method-update" meteormethod="updateIngredients" doc=ingredientActive}}
+    {{#autoForm collection=collection id="editIngredient" type="method-update" meteormethod="updateIngredients" doc=ingredientActive}}
     <fieldset>
       <legend>Edit Ingredient List</legend>
       {{> afQuickField name="ingredients_code"}}

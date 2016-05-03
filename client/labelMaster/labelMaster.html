@@ -1,7 +1,7 @@
 <template name="labelMaster">
   <h2>Label Master</h2>
   <div class="col-sm-4">
-    {{#autoForm collection="Labels" id="addLabel" type="method" meteormethod="insertLabel"}}
+    {{#autoForm collection=collection id="addLabel" type="method" meteormethod="insertLabel"}}
     <fieldset>
       <legend>Add Label</legend>
       {{> afQuickField name="label_code"}}
@@ -11,7 +11,7 @@
     {{/autoForm}}
   </div>
   <div class="col-sm-4">
-    {{#autoForm collection="Labels" id="editLabel" type="method-update" meteormethod="updateLabel" doc=labelActive}}
+    {{#autoForm collection=collection id="editLabel" type="method-update" meteormethod="updateLabel" doc=labelActive}}
     <fieldset>
       <legend>Edit Label</legend>
       {{> afQuickField name="label_code"}}

@@ -1,7 +1,7 @@
 <template name="itemMaster">
   <h2>Item Master</h2>
   <div class="col-sm-6">
-    {{#autoForm collection="Items" id="addItem" type="method" meteormethod="insertItem"}}
+    {{#autoForm collection=collection id="addItem" type="method" meteormethod="insertItem"}}
     <fieldset>
       <legend>Add Item</legend>
       {{> afQuickField name="item_gtin"}}
@@ -18,7 +18,7 @@
     {{/autoForm}}
   </div>
   <div class="col-sm-6">
-    {{#autoForm id="editItem" collection="Items" type="method-update" meteormethod="updateItem" doc=itemActive}}
+    {{#autoForm id="editItem" collection=collection type="method-update" meteormethod="updateItem" doc=itemActive}}
     <fieldset>
       <legend>Edit Item</legend>
       {{> afQuickField name="item_gtin"}}

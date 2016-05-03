@@ -1,7 +1,7 @@
 <template name="scaleMaster">
   <h2>Scale Master</h2>
   <div class="col-sm-6">
-    {{#autoForm collection="Scales" id="addScale" type="method" meteormethod="insertScale"}}
+    {{#autoForm collection=collection id="addScale" type="method" meteormethod="insertScale"}}
     <fieldset>
       <legend>Add Scale</legend>
       {{> afQuickField name="scale_code"}}
@@ -13,7 +13,7 @@
     {{/autoForm}}
   </div>
   <div class="col-sm-6">
-    {{#autoForm collection="Scales" id="editScale" type="method-update" meteormethod="updateScale" doc=scaleActive}}
+    {{#autoForm collection=collection id="editScale" type="method-update" meteormethod="updateScale" doc=scaleActive}}
     <fieldset>
       <legend>Edit Scale</legend>
       {{> afQuickField name="scale_code"}}

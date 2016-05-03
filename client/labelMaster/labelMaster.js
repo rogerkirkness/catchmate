@@ -1,5 +1,6 @@
 import { Template } from 'meteor/templating'
 import { ReactiveDict } from 'meteor/reactive-dict'
+import { Labels } from '/imports/collections'
 
 Template.labelMaster.onCreated(function () {
   this.templateDict = new ReactiveDict()
@@ -23,5 +24,8 @@ Template.labelMaster.helpers({
     if (label != null) {
       return Labels.findOne(label)
     }
+  },
+  collection: function () {
+    return Labels
   }
 })

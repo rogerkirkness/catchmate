@@ -1,7 +1,7 @@
 <template name="printerMaster">
   <h2>Printer Master</h2>
   <div class="col-sm-6">
-    {{#autoForm collection="Printers" id="addPrinter" type="method" meteormethod="insertPrinter"}}
+    {{#autoForm collection=collection id="addPrinter" type="method" meteormethod="insertPrinter"}}
     <fieldset>
       <legend>Add Printer</legend>
       {{> afQuickField name="printer_code"}}
@@ -13,7 +13,7 @@
     {{/autoForm}}
   </div>
   <div class="col-sm-6">
-    {{#autoForm collection="Printers" id="editPrinter" type="method-update" meteormethod="updatePrinter" doc=printerActive}}
+    {{#autoForm collection=collection id="editPrinter" type="method-update" meteormethod="updatePrinter" doc=printerActive}}
     <fieldset>
       <legend>Edit Printer</legend>
       {{> afQuickField name="printer_code"}}

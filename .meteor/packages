@@ -12,8 +12,6 @@ ecmascript
 aldeed:collection2
 aldeed:autoform
 cfs:standard-packages
-kadira:blaze-layout
-kadira:flow-router
 mizzao:autocomplete
 cfs:filesystem
 tracker

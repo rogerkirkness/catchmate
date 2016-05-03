@@ -2,6 +2,16 @@ import net from 'net'
 import http from 'http'
 import bwipjs from 'bwip-js'
 import { Meteor } from 'meteor/meteor'
+import { Customers } from '/imports/collections'
+import { Batches } from '/imports/collections'
+import { Items } from '/imports/collections'
+import { Ingredients } from '/imports/collections'
+import { Printers } from '/imports/collections'
+import { Scales } from '/imports/collections'
+import { Company } from '/imports/collections'
+import { Labels } from '/imports/collections'
+import { Images } from '/imports/collections'
+import { Plogo } from '/imports/collections'
 
 http.createServer(function (req, res) {
   if (req.url.indexOf('/?bcid=') !== 0) {

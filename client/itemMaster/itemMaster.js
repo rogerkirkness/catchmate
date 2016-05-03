@@ -1,11 +1,14 @@
 import { Template } from 'meteor/templating'
 import { ReactiveDict } from 'meteor/reactive-dict'
+import { Items } from '/imports/collections'
+import { Ingredients } from '/imports/collections'
 
 Template.itemMaster.onCreated(function () {
   this.templateDict = new ReactiveDict()
   this.templateDict.set('item', null)
   this.subscribe('items')
   this.subscribe('ingredients')
+  window.Ingredients = Ingredients
 })
 
 Template.itemMaster.events({
@@ -32,5 +35,8 @@ Template.itemMaster.helpers({
     if (item != null) {
       return Items.findOne(item)
     }
+  },
+  collection: function () {
+    return Items
   }
 })

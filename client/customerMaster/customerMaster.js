@@ -1,10 +1,12 @@
 import { Template } from 'meteor/templating'
 import { ReactiveDict } from 'meteor/reactive-dict'
+import { Customers } from '/imports/collections'
 
 Template.customerMaster.onCreated(function () {
   this.templateDict = new ReactiveDict()
   this.templateDict.set('customer', null)
   this.subscribe('customers')
+
 })
 
 Template.customerMaster.events({
@@ -23,5 +25,8 @@ Template.customerMaster.helpers({
     if (customer != null) {
       return Customers.findOne(customer)
     }
+  },
+  collection: function() {
+    return Customers
   }
 })

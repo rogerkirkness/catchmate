@@ -1,5 +1,6 @@
 import { Template } from 'meteor/templating'
 import { ReactiveDict } from 'meteor/reactive-dict'
+import { Ingredients } from '/imports/collections'
 
 Template.ingredientMaster.onCreated(function () {
   this.templateDict = new ReactiveDict()
@@ -23,5 +24,8 @@ Template.ingredientMaster.helpers({
     if (ingredient != null) {
       return Ingredients.findOne(ingredient)
     }
+  },
+  collection: function() {
+    return Ingredients
   }
 })
