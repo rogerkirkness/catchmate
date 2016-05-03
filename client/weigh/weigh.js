@@ -75,7 +75,11 @@ Template.weigh.events({
         batch_code = moment(created).format('YYYYMMDDHHmmss')
         Template.instance().templateDict.set('batchCode', batch_code)
       }
-      Meteor.call('insertBatch', created, item_code, cust_code, item_weight, num_units, batch_code)
+      Meteor.call('insertBatch', created, item_code, cust_code, item_weight, num_units, batch_code, function (error) {
+        if (error) {
+          console.log(error)
+        }
+      })
     }
   },
   'click .print': function (event) {
@@ -102,41 +106,69 @@ Template.weigh.events({
     event.preventDefault()
     window.confirm('Are you sure you want to undo that label?')
     var lastBatch = Template.instance().templateDict.get('batch')
-    Meteor.call('deleteBatch', lastBatch)
+    Meteor.call('deleteBatch', lastBatch, function (error) {
+      if (error) {
+        console.log(error)
+      }
+    })
   },
   'input .profileTare': function (event) {
     event.preventDefault()
     var Tare = event.target.value
-    Meteor.call('updateTareProfile', Tare)
+    Meteor.call('updateTareProfile', Tare, function (error) {
+      if (error) {
+        console.log(error)
+      }
+    })
   },
   'change #selectscale': function (event) {
     event.preventDefault()
     var Scale = event.target.value
     var port = Scales.findOne({scale_name: Scale}).scale_port
     var host = Scales.findOne({scale_name: Scale}).scale_host
-    Meteor.call('updateScaleProfile', Scale, port, host)
+    Meteor.call('updateScaleProfile', Scale, port, host, function (error) {
+      if (error) {
+        console.log(error)
+      }
+    })
   },
   'change #selectprinter': function (event) {
     event.preventDefault()
     var Printer = event.target.value
     var port = Printers.findOne({printer_name: Printer}).printer_port
     var host = Printers.findOne({printer_name: Printer}).printer_host
-    Meteor.call('updatePrinterProfile', Printer, port, host)
+    Meteor.call('updatePrinterProfile', Printer, port, host, function (error) {
+      if (error) {
+        console.log(error)
+      }
+    })
   },
   'change #selectlabel': function (event) {
     event.preventDefault()
     var label = event.target.value
-    Meteor.call('updateLabelProfile', label)
+    Meteor.call('updateLabelProfile', label, function (error) {
+      if (error) {
+        console.log(error)
+      }
+    })
   },
   'change #numUnitsCheckbox': function (event) {
     event.preventDefault()
     var status = event.target.checked
-    Meteor.call('updateNumUnitsField', status)
+    Meteor.call('updateNumUnitsField', status, function (error) {
+      if (error) {
+        console.log(error)
+      }
+    })
   },
   'change #batchCodeCheckbox': function (event) {
     event.preventDefault()
     var status = event.target.checked
-    Meteor.call('updateBatchCodeField', status)
+    Meteor.call('updateBatchCodeField', status, function (error) {
+      if (error) {
+        console.log(error)
+      }
+    })
   }
 })
 

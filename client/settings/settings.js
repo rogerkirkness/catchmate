@@ -42,7 +42,11 @@ Template.settings.events({
     var Country = document.getElementById('profile_country').value
     var Postal = document.getElementById('profile_postal').value
     var Prefix = document.getElementById('profile_prefix').value
-    Meteor.call('upsertSettings', companyName, plantNumber, Street1, Street2, City, Province, Country, Postal, Prefix)
+    Meteor.call('upsertSettings', companyName, plantNumber, Street1, Street2, City, Province, Country, Postal, Prefix, function (error) {
+      if (error) {
+        console.log(error)
+      }
+    })
   }
 })
 

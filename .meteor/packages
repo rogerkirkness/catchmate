@@ -5,7 +5,6 @@
 
 meteor-base
 accounts-password
-accounts-ui
 mongo
 blaze-html-templates
 reactive-dict
@@ -17,5 +16,4 @@ kadira:blaze-layout
 kadira:flow-router
 mizzao:autocomplete
 cfs:filesystem
-twbs:bootstrap
 tracker

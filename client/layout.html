@@ -11,6 +11,8 @@
     <div class="container contentBlock">
       {{#if currentUser}}
           {{>Template.dynamic template=content}}
+      {{else}}
+          {{> signIn}}
       {{/if}}
     </div>
 </template>
@@ -51,18 +53,43 @@
             </ul>
           </li>
           <li><a href="/settings">Settings</a></li>
-          <div class="navbar-right signIn">
-            {{> loginButtons}}
-          </div>
+          <li><a href="/" class="signOut">Sign Out</a></li>
         </ul>
-        {{else}}
-        <div class="navbar-right signIn">
-          {{> loginButtons}}
-        </div>
         {{/if}}
       </div>
     </div>
   </nav>
+</template>
+
+<template name="signIn">
+  <div class="container">
+    <div class="loginBlock">
+      <div class="signInBlock">
+        <h3>Sign In</h3>
+        <div class="form-group">
+          <label for="user" class="control-label">Email</label>
+          <input type="text" id="user" class="form-control input-lg">
+        </div>
+        <div class="form-group">
+          <label for="password" class="control-label">Password</label>
+          <input type="password" id="password" class="form-control input-lg">
+        </div>
+        <button class="signIn btn btn-default btn-lg btn-block">Sign In</button>
+      </div>
+      <div class="signUpBlock">
+        <h3>Sign Up</h3>
+        <div class="form-group">
+          <label for="user_signup" class="control-label">Email</label>
+          <input type="text" id="user_signup" class="form-control input-lg">
+        </div>
+        <div class="form-group">
+          <label for="password_signup" class="control-label">Password</label>
+          <input type="password" id="password_signup" class="form-control input-lg">
+        </div>
+        <button class="signUp btn btn-default btn-lg btn-block">Sign Up</button>
+      </div>
+    </div>
+  </div>
 </template>
 
 <template name="notFound">
