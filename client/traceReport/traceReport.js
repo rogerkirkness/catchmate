@@ -1,13 +1,11 @@
 import { Template } from 'meteor/templating'
 import { ReactiveDict } from 'meteor/reactive-dict'
 import { Batches } from '/imports/collections'
-import { Customers } from '/imports/collections'
 
 Template.traceReport.onCreated(function () {
   this.templateDict = new ReactiveDict()
   this.templateDict.set('batchCode', null)
   this.subscribe('batches')
-  this.subscribe('customers')
 })
 
 Template.traceReport.events({

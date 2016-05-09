@@ -6,7 +6,6 @@ Template.customerMaster.onCreated(function () {
   this.templateDict = new ReactiveDict()
   this.templateDict.set('customer', null)
   this.subscribe('customers')
-
 })
 
 Template.customerMaster.events({
@@ -26,7 +25,7 @@ Template.customerMaster.helpers({
       return Customers.findOne(customer)
     }
   },
-  collection: function() {
+  collection: function () {
     return Customers
   }
 })

@@ -25,7 +25,7 @@ Template.ingredientMaster.helpers({
       return Ingredients.findOne(ingredient)
     }
   },
-  collection: function() {
+  collection: function () {
     return Ingredients
   }
 })

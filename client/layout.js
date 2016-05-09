@@ -92,3 +92,7 @@ Template.layout.helpers({
     return activePage
   }
 })
+
+window.addEventListener('error', function (e) {
+  console.log(e.error)
+})
