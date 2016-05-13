@@ -9,23 +9,23 @@ Template.customerMaster.onCreated(function () {
 })
 
 Template.customerMaster.events({
-  'click .edit': function (event) {
+  'click .edit' (event) {
     event.preventDefault()
     Template.instance().templateDict.set('customer', this._id)
   }
 })
 
 Template.customerMaster.helpers({
-  customers: function () {
+  customers() {
     return Customers.find({})
   },
-  customerActive: function () {
+  customerActive() {
     var customer = Template.instance().templateDict.get('customer')
     if (customer != null) {
       return Customers.findOne(customer)
     }
   },
-  collection: function () {
+  collection() {
     return Customers
   }
 })

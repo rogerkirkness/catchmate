@@ -9,23 +9,23 @@ Template.printerMaster.onCreated(function () {
 })
 
 Template.printerMaster.events({
-  'click .edit': function (event) {
+  'click .edit' (event) {
     event.preventDefault()
     Template.instance().templateDict.set('printer', this._id)
   }
 })
 
 Template.printerMaster.helpers({
-  printers: function () {
+  printers() {
     return Printers.find({})
   },
-  printerActive: function () {
+  printerActive() {
     var printer = Template.instance().templateDict.get('printer')
     if (printer != null) {
       return Printers.findOne(printer)
     }
   },
-  collection: function () {
+  collection() {
     return Printers
   }
 })

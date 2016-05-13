@@ -9,14 +9,14 @@ Template.layout.onCreated(function () {
 })
 
 Template.layout.events({
-  'click .signOut': function () {
+  'click .signOut' () {
     Meteor.logout(function (error) {
       if (error) {
         window.alert(error)
       }
     })
   },
-  'click .signIn': function () {
+  'click .signIn' () {
     var user = document.getElementById('user').value
     var password = document.getElementById('password').value
     Meteor.loginWithPassword(user, password, function (error) {
@@ -28,7 +28,7 @@ Template.layout.events({
       Template.instance().layoutDict.set('activePage', 'weigh')
     }
   },
-  'click .signUp': function () {
+  'click .signUp' () {
     var email = document.getElementById('user_signup').value
     var password = document.getElementById('password_signup').value
     var userObject = {
@@ -51,43 +51,43 @@ Template.layout.events({
       }
     })
   },
-  'click .weighTemplate': function () {
+  'click .weighTemplate' () {
     Template.instance().layoutDict.set('activePage', 'weigh')
   },
-  'click .customerMasterTemplate': function () {
+  'click .customerMasterTemplate' () {
     Template.instance().layoutDict.set('activePage', 'customerMaster')
   },
-  'click .ingredientMasterTemplate': function () {
+  'click .ingredientMasterTemplate' () {
     Template.instance().layoutDict.set('activePage', 'ingredientMaster')
   },
-  'click .itemMasterTemplate': function () {
+  'click .itemMasterTemplate' () {
     Template.instance().layoutDict.set('activePage', 'itemMaster')
   },
-  'click .labelMasterTemplate': function () {
+  'click .labelMasterTemplate' () {
     Template.instance().layoutDict.set('activePage', 'labelMaster')
   },
-  'click .printerMasterTemplate': function () {
+  'click .printerMasterTemplate' () {
     Template.instance().layoutDict.set('activePage', 'printerMaster')
   },
-  'click .scaleMasterTemplate': function () {
+  'click .scaleMasterTemplate' () {
     Template.instance().layoutDict.set('activePage', 'scaleMaster')
   },
-  'click .customerVolumeReportTemplate': function () {
+  'click .customerVolumeReportTemplate' () {
     Template.instance().layoutDict.set('activePage', 'customerVolumeReport')
   },
-  'click .itemVolumeReportTemplate': function () {
+  'click .itemVolumeReportTemplate' () {
     Template.instance().layoutDict.set('activePage', 'itemVolumeReport')
   },
-  'click .traceReportTemplate': function () {
+  'click .traceReportTemplate' () {
     Template.instance().layoutDict.set('activePage', 'traceReport')
   },
-  'click .settingsTemplate': function () {
+  'click .settingsTemplate' () {
     Template.instance().layoutDict.set('activePage', 'settings')
   }
 })
 
 Template.layout.helpers({
-  activePage: function () {
+  activePage() {
     var activePage = Template.instance().layoutDict.get('activePage')
     return activePage
   }

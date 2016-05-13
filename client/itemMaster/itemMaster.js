@@ -12,31 +12,31 @@ Template.itemMaster.onCreated(function () {
 })
 
 Template.itemMaster.events({
-  'click .edit': function (event) {
+  'click .edit' (event) {
     event.preventDefault()
     Template.instance().templateDict.set('item', this._id)
   }
 })
 
 Template.itemMaster.helpers({
-  items: function () {
+  items() {
     return Items.find({})
   },
-  ingredients: function () {
+  ingredients() {
     return Ingredients.find({})
   },
-  ingredientOptions: function () {
+  ingredientOptions() {
     return Ingredients.find().map(function (ingredients) {
       return {label: ingredients.ingredients_code, value: ingredients.ingredients_code}
     })
   },
-  itemActive: function () {
+  itemActive() {
     var item = Template.instance().templateDict.get('item')
     if (item != null) {
       return Items.findOne(item)
     }
   },
-  collection: function () {
+  collection() {
     return Items
   }
 })

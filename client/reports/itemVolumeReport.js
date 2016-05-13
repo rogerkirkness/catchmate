@@ -13,7 +13,7 @@ Template.itemVolumeReport.onCreated(function () {
 })
 
 Template.itemVolumeReport.events({
-  'click .updateReport': function (event) {
+  'click .updateReport' (event) {
     var fromDateRaw = document.getElementById('fromDate').value
     var toDateRaw = document.getElementById('toDate').value
     var from = moment(fromDateRaw, 'YYYY-MM-DD').toDate()
@@ -24,7 +24,7 @@ Template.itemVolumeReport.events({
 })
 
 Template.itemVolumeReport.helpers({
-  itemBatches: function () {
+  itemBatches() {
     var items = {}
     var fDate = Template.instance().templateDict.get('fromDate')
     var tDate = Template.instance().templateDict.get('toDate')

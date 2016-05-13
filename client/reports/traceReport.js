@@ -9,14 +9,14 @@ Template.traceReport.onCreated(function () {
 })
 
 Template.traceReport.events({
-  'click .updateReport': function (event) {
+  'click .updateReport' (event) {
     var batchCode = document.getElementById('batchCode').value
     Template.instance().templateDict.set('batchCode', batchCode)
   }
 })
 
 Template.traceReport.helpers({
-  traceBatch: function () {
+  traceBatch() {
     var batchCode = Number(Template.instance().templateDict.get('batchCode'))
     if (batchCode != null) {
       var input = []

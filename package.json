@@ -2,9 +2,14 @@
   "name": "catchmate",
   "version": "0.0.0",
   "dependencies": {
+    "bwip-js": "^0.15.1",
+    "express": "^4.13.4",
+    "fs": "0.0.2",
     "http": "0.0.0",
-    "net": "^1.0.2",
+    "index.js": "0.0.3",
+    "meteor-node-stubs": "^0.2.3",
+    "mkdirp": "^0.5.1",
     "moment": "^2.13.0",
-    "bwip-js": "^0.15.1"
+    "net": "^1.0.2"
   }
 }

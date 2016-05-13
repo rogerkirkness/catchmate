@@ -1,40 +1,39 @@
 import { Meteor } from 'meteor/meteor'
 import { Template } from 'meteor/templating'
-import { FS } from 'meteor/cfs:base-package'
 import { Company } from '/imports/collections'
-import { Images } from '/imports/collections'
-import { Plogo } from '/imports/collections'
 
 Template.settings.onCreated(function () {
-  this.subscribe('images')
-  this.subscribe('plogo')
   this.subscribe('company')
 })
 
 Template.settings.events({
-  'change .companyLogo': function (event, template) {
-    FS.Utility.eachFile(event, function (file) {
-      Images.insert(file, function (err, fileObj) {
-        if (err) {
-          window.alert('Upload failed... please try again.')
-        } else {
-          window.alert('Upload succeeded!')
-        }
-      })
-    })
+  'change .companyLogo' (event) {
+    var file = event.target.files[0]
+    var xhr = new XMLHttpRequest()
+    xhr.open('POST', '/uploadCompanyLogo', true)
+    xhr.onload = function (event) {
+      window.alert('Upload successful')
+      window.location.reload()
+    }
+    xhr.onerror = function (error) {
+      window.alert(error)
+    }
+    xhr.send(file)
   },
-  'change .plantLogo': function (event, template) {
-    FS.Utility.eachFile(event, function (file) {
-      Plogo.insert(file, function (err, fileObj) {
-        if (err) {
-          window.alert('Upload failed... please try again.')
-        } else {
-          window.alert('Upload succeeded!')
-        }
-      })
-    })
+  'change .plantLogo' (event) {
+    var file = event.target.files[0]
+    var xhr = new XMLHttpRequest()
+    xhr.open('POST', '/uploadPlantLogo', true)
+    xhr.onload = function (event) {
+      window.alert('Upload successful')
+      window.location.reload()
+    }
+    xhr.onerror = function (error) {
+      window.alert(error)
+    }
+    xhr.send(file)
   },
-  'click .save_settings': function (event) {
+  'click .save_settings' (event) {
     event.preventDefault()
     var companyName = document.getElementById('companyName').value
     var plantNumber = document.getElementById('plantNumber').value
@@ -54,13 +53,13 @@ Template.settings.events({
 })
 
 Template.settings.helpers({
-  images: function () {
-    return Images.find({}, {sort: {uploadedAt: -1}, limit: 1})
-  },
-  plogo: function () {
-    return Plogo.find({}, {sort: {uploadedAt: -1}, limit: 1})
-  },
-  settings: function () {
+  settings() {
     return Company.findOne({settings: 'company'})
+  },
+  companylogo() {
+    return 'http://localhost:8083/files/companylogo.jpg'
+  },
+  plantlogo() {
+    return 'http://localhost:8084/files/plantlogo.jpg'
   }
 })

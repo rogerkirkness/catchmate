@@ -1,5 +1,4 @@
 import { Mongo } from 'meteor/mongo'
-import { FS } from 'meteor/cfs:base-package'
 import { SimpleSchema } from 'meteor/aldeed:simple-schema'
 
 const Customers = new Mongo.Collection('customers')
@@ -10,20 +9,6 @@ const Labels = new Mongo.Collection('labels')
 const Company = new Mongo.Collection('company')
 const Scales = new Mongo.Collection('scales')
 const Printers = new Mongo.Collection('printers')
-const Images = new FS.Collection('images', {stores: [new FS.Store.FileSystem('images')]})
-const Plogo = new FS.Collection('plogo', {stores: [new FS.Store.FileSystem('plogo')]})
-
-Images.allow({
-  insert: function () { return true },
-  update: function () { return true },
-  download: function () { return true }
-})
-
-Plogo.allow({
-  insert: function () { return true },
-  update: function () { return true },
-  download: function () { return true }
-})
 
 var CustomersSchema = {}
 var BatchesSchema = {}
@@ -241,5 +226,3 @@ export { Printers }
 export { Scales }
 export { Company }
 export { Labels }
-export { Images }
-export { Plogo }

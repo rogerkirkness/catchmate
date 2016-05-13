@@ -9,23 +9,23 @@ Template.ingredientMaster.onCreated(function () {
 })
 
 Template.ingredientMaster.events({
-  'click .edit': function (event) {
+  'click .edit' (event) {
     event.preventDefault()
     Template.instance().templateDict.set('ingredient', this._id)
   }
 })
 
 Template.ingredientMaster.helpers({
-  ingredients: function () {
+  ingredients() {
     return Ingredients.find({})
   },
-  ingredientActive: function () {
+  ingredientActive() {
     var ingredient = Template.instance().templateDict.get('ingredient')
     if (ingredient != null) {
       return Ingredients.findOne(ingredient)
     }
   },
-  collection: function () {
+  collection() {
     return Ingredients
   }
 })

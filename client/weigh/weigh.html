@@ -51,8 +51,8 @@
       <tbody>
         <tr>
           <td><b>{{settings.company_name}}</b><br>{{settings.street1}} {{settings.street2}}<br>{{settings.city}}, {{settings.province}}, {{settings.country}}<br>{{settings.postal}}</td>
-          {{#each images}}<td><img class="clogo" src="{{this.url store='images'}}"></td>{{/each}}
-          {{#each plogo}}<td><img class="plogo" src="{{this.url store='plogo'}}"></td>{{/each}}
+          <td><img class="clogo" src="{{companylogo}}"></td>
+          <td><img class="plogo" src="{{plantlogo}}"></td>
         </tr>
         <tr>
           <td><b>Date:</b> {{dateFull createdAt}}<br><b>Gr Weight:</b> {{showWeight item_weight}}<br><b>Net Weight:</b> {{netWeight item_weight}}</td>

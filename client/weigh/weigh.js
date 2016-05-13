@@ -10,10 +10,8 @@ import { Printers } from '/imports/collections'
 import { Scales } from '/imports/collections'
 import { Company } from '/imports/collections'
 import { Labels } from '/imports/collections'
-import { Images } from '/imports/collections'
-import { Plogo } from '/imports/collections'
 
-const pad = function (n, width, z) {
+const pad = (n, width, z) => {
   z = z || '0'
   n = n + ''
   return n.length >= width ? n : new Array(width - n.length + 1).join(z) + n
@@ -22,7 +20,7 @@ const pad = function (n, width, z) {
 var indicatorVar = new ReactiveDict('indicator', null)
 var Scale = new Meteor.Collection('scale')
 Scale.find({}).observe({
-  changed: function (newDoc, oldDoc) {
+  changed(newDoc, oldDoc) {
     if (newDoc._id === 'weight') {
       indicatorVar.set('indicator', newDoc.weight)
     }
@@ -44,8 +42,6 @@ Template.weigh.onCreated(function () {
   this.subscribe('ingredients')
   this.subscribe('scales')
   this.subscribe('company')
-  this.subscribe('images')
-  this.subscribe('plogo')
   this.subscribe('printers')
   this.subscribe('labels')
   this.autorun(function () {
@@ -54,11 +50,11 @@ Template.weigh.onCreated(function () {
 })
 
 Template.weigh.events({
-  'blur .item_code': function (event) {
+  'blur .item_code' (event) {
     var item = event.target.value
     Template.instance().templateDict.set('validItem', item)
   },
-  'click .weigh': function (event) {
+  'click .weigh' (event) {
     var indicator = indicatorVar.get('indicator')
     var item = Template.instance().templateDict.get('validItem')
     var minWeight = Items.findOne({item_gtin: item}).item_minWeight
@@ -92,7 +88,7 @@ Template.weigh.events({
       })
     }
   },
-  'click .print': function (event) {
+  'click .print' (event) {
     event.preventDefault()
     var copies = Template.instance().templateDict.get('numUnits')
     var port = Meteor.user().profile.printerport
@@ -112,7 +108,7 @@ Template.weigh.events({
       }
     }
   },
-  'click .undo': function (event) {
+  'click .undo' (event) {
     event.preventDefault()
     window.confirm('Are you sure you want to undo that label?')
     var lastBatch = Template.instance().templateDict.get('batch')
@@ -122,7 +118,7 @@ Template.weigh.events({
       }
     })
   },
-  'input .profileTare': function (event) {
+  'input .profileTare' (event) {
     event.preventDefault()
     var Tare = event.target.value
     Meteor.call('updateTareProfile', Tare, function (error) {
@@ -131,7 +127,7 @@ Template.weigh.events({
       }
     })
   },
-  'change #selectscale': function (event) {
+  'change #selectscale' (event) {
     event.preventDefault()
     var Scale = event.target.value
     var port = Scales.findOne({scale_name: Scale}).scale_port
@@ -142,7 +138,7 @@ Template.weigh.events({
       }
     })
   },
-  'change #selectprinter': function (event) {
+  'change #selectprinter' (event) {
     event.preventDefault()
     var Printer = event.target.value
     var port = Printers.findOne({printer_name: Printer}).printer_port
@@ -153,7 +149,7 @@ Template.weigh.events({
       }
     })
   },
-  'change #selectlabel': function (event) {
+  'change #selectlabel' (event) {
     event.preventDefault()
     var label = event.target.value
     Meteor.call('updateLabelProfile', label, function (error) {
@@ -162,7 +158,7 @@ Template.weigh.events({
       }
     })
   },
-  'change #numUnitsCheckbox': function (event) {
+  'change #numUnitsCheckbox' (event) {
     event.preventDefault()
     var status = event.target.checked
     Meteor.call('updateNumUnitsField', status, function (error) {
@@ -171,7 +167,7 @@ Template.weigh.events({
       }
     })
   },
-  'change #batchCodeCheckbox': function (event) {
+  'change #batchCodeCheckbox' (event) {
     event.preventDefault()
     var status = event.target.checked
     Meteor.call('updateBatchCodeField', status, function (error) {
@@ -183,7 +179,7 @@ Template.weigh.events({
 })
 
 Template.weigh.helpers({
-  indicator: function () {
+  indicator() {
     var indicator = indicatorVar.get('indicator')
     if (indicator != null) {
       var item = Template.instance().templateDict.get('validItem')
@@ -197,7 +193,7 @@ Template.weigh.helpers({
       }
     }
   },
-  displayIndicator: function () {
+  displayIndicator() {
     var indicator = indicatorVar.get('indicator')
     if (indicator != null) {
       var item = Template.instance().templateDict.get('validItem')
@@ -213,7 +209,7 @@ Template.weigh.helpers({
       }
     }
   },
-  getStatus: function () {
+  getStatus() {
     var indicator = indicatorVar.get('indicator')
     var item = Template.instance().templateDict.get('validItem')
     if (item != null && indicator != null) {
@@ -233,7 +229,7 @@ Template.weigh.helpers({
       }
     }
   },
-  statusMessage: function () {
+  statusMessage() {
     var indicator = indicatorVar.get('indicator')
     var item = Template.instance().templateDict.get('validItem')
     if (item != null && indicator != null) {
@@ -253,45 +249,45 @@ Template.weigh.helpers({
       }
     }
   },
-  hideLabel: function () {
+  hideLabel() {
     return Template.instance().templateDict.get('ready')
   },
-  batches: function (createdAt) {
+  batches(createdAt) {
     return Batches.find({}, {sort: {createdAt: -1}, limit: 1})
   },
-  settings: function () {
+  settings() {
     return Company.findOne({settings: 'company'})
   },
-  images: function () {
-    return Images.find({})
+  companylogo() {
+    return 'http://localhost:8083/files/companylogo.jpg'
   },
-  plogo: function () {
-    return Plogo.find({})
+  plantlogo() {
+    return 'http://localhost:8084/files/plantlogo.jpg'
   },
-  itemName: function () {
+  itemName() {
     return Items.findOne({item_gtin: Template.instance().templateDict.get('item')}).item_name
   },
-  custName: function () {
+  custName() {
     var custName = Customers.findOne({customer_code: Template.instance().templateDict.get('cust')}).customer_name
     if (custName != null) {
       return custName
     }
   },
-  shelfLife: function (createdAt) {
+  shelfLife(createdAt) {
     var shelfLife = Items.findOne({item_gtin: Template.instance().templateDict.get('item')}).item_shelfLife
     return moment(createdAt).add(shelfLife, 'days').format('DD/MM/YYYY')
   },
-  showWeight: function (item_weight) {
+  showWeight(item_weight) {
     return (item_weight / 1000).toFixed(3) + ' kg'
   },
-  netWeight: function (item_weight) {
+  netWeight(item_weight) {
     var tare = Meteor.user().profile.tare
     return (item_weight / 1000 - tare).toFixed(3) + ' kg'
   },
-  dateFull: function (createdAt) {
+  dateFull(createdAt) {
     return moment(createdAt).format('DD/MM/YYYY')
   },
-  lotNumber1: function (createdAt) {
+  lotNumber1(createdAt) {
     var batchCode = Template.instance().templateDict.get('batchCode')
     if (!batchCode) {
       return moment(createdAt).format('YYYYMMDDHHmmss')
@@ -299,7 +295,7 @@ Template.weigh.helpers({
       return batchCode
     }
   },
-  ingredients: function () {
+  ingredients() {
     var itemCode = Template.instance().templateDict.get('item')
     if (itemCode != null) {
       var ingredientCode = Items.findOne({item_gtin: itemCode}).item_ingredients
@@ -308,65 +304,65 @@ Template.weigh.helpers({
       }
     }
   },
-  codeDate: function (createdAt) {
+  codeDate(createdAt) {
     return moment(createdAt).format('YYMMDD')
   },
-  codeWeight: function (item_weight) {
+  codeWeight(item_weight) {
     var formatWeight = pad(item_weight, 6)
     return formatWeight
   },
-  codeLot: function (createdAt) {
+  codeLot(createdAt) {
     return moment(createdAt).format('YYYYMMDDHHmmss')
   },
-  scales: function () {
+  scales() {
     return Scales.find({})
   },
-  printers: function () {
+  printers() {
     return Printers.find({})
   },
-  printerSelected: function () {
+  printerSelected() {
     if (this.printer_name === Meteor.user().profile.printer) {
       return 'selected'
     }
   },
-  scaleSelected: function () {
+  scaleSelected() {
     if (this.scale_name === Meteor.user().profile.scale) {
       return 'selected'
     }
   },
-  labelSelected: function () {
+  labelSelected() {
     if (this.label_code === Meteor.user().profile.label) {
       return 'selected'
     }
   },
-  nuChecked: function () {
+  nuChecked() {
     var status = Meteor.user().profile.numUnitsChecked
     if (status === true) {
       return 'checked'
     }
   },
-  bcChecked: function () {
+  bcChecked() {
     var status = Meteor.user().profile.batchCodeChecked
     if (status === true) {
       return 'checked'
     }
   },
-  nuShowTrue: function () {
+  nuShowTrue() {
     var status = Meteor.user().profile.numUnitsChecked
     if (status === true) {
       return 'true'
     }
   },
-  bcShowTrue: function () {
+  bcShowTrue() {
     var status = Meteor.user().profile.batchCodeChecked
     if (status === true) {
       return 'true'
     }
   },
-  labels: function () {
+  labels() {
     return Labels.find({})
   },
-  itemSettings: function () {
+  itemSettings() {
     return {
       position: 'bottom',
       limit: 5,
@@ -379,7 +375,7 @@ Template.weigh.helpers({
       }]
     }
   },
-  custSettings: function () {
+  custSettings() {
     return {
       position: 'bottom',
       limit: 5,
@@ -392,7 +388,7 @@ Template.weigh.helpers({
       }]
     }
   },
-  url: function () {
+  url() {
     var settingsPrefix = Company.findOne({settings: 'company'}).prefix
     var itemCode = document.getElementById('item_code').value
     var bcProdDate = function () {
@@ -418,7 +414,7 @@ Template.weigh.helpers({
       return localUrl
     }
   },
-  zpl: function () {
+  zpl() {
     var settingsCompanyName = Company.findOne({settings: 'company'}).company_name
     var settingsStreetOne = Company.findOne({settings: 'company'}).street1
     var settingsStreetTwo = Company.findOne({settings: 'company'}).street2

@@ -123,6 +123,14 @@ body {
 .login-link-text {
   color: #FFF;
 }
+nav ul li:hover > ul {
+	display:inherit;
+}
+nav ul ul li {
+	float:none;
+	display:list-item;
+	position: relative;
+}
 
 #nutritionfacts {
     background-color:white;

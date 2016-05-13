@@ -11,8 +11,5 @@ reactive-dict
 ecmascript
 aldeed:collection2
 aldeed:autoform
-cfs:standard-packages
 mizzao:autocomplete
-cfs:filesystem
 tracker
-twbs:bootstrap

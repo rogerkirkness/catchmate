@@ -1,23 +1,13 @@
 <template name="settings">
-  <div class="col-sm-4">
-    <h3>Settings</h3>
+  <h3>Settings</h3>
+  <div class="col-sm-6">
     <div class="form-group">
       <label for="companyName" class="control-label">Company Name: </label>
       <input type="text" id="companyName" class="form-control" value="{{settings.company_name}}">
     </div>
     <div class="form-group">
-      <label for="companyLogo" class="control-label"> Upload Company Logo: </label>
-      <input type="file" class="companyLogo" id="companyLogo"><br>
-      {{#each images}}<div><img src="{{this.url store='images'}}" alt="(Company Logo)" class="thumbnail"></div>{{/each}}
-    </div>
-    <div class="form-group">
       <label for="plantNumber" class="control-label">Plant Number: </label>
       <input type="text" id="plantNumber" class="form-control" value="{{settings.plant_number}}">
-    </div>
-    <div class="form-group">
-      <label for="plantLogo" class="control-label">Upload Plant Logo: </label>
-      <input type="file" class="plantLogo" id="plantLogo"><br>
-      {{#each plogo}}<div><img src="{{this.url store='plogo'}}" alt="(Plant Logo)" class="thumbnail"></div>{{/each}}
     </div>
     <div class="form-group">
       <label for="profile_street1" class="control-label">Address Line 1: </label>
@@ -49,6 +39,18 @@
     </div>
     <div class="form-group">
       <input class="save_settings btn btn-default btn-block" type="submit" value="Save Settings">
+    </div>
+  </div>
+  <div class="col-sm-6">
+    <div class="form-group">
+      <label for="companyLogo" class="control-label"> Upload Company Logo: </label>
+      <input type="file" class="companyLogo" id="companyLogo"><br>
+      <img src="{{companylogo}}" alt="(Company Logo)" class="thumbnail">
+    </div>
+    <div class="form-group">
+      <label for="plantLogo" class="control-label">Upload Plant Logo: </label>
+      <input type="file" class="plantLogo" id="plantLogo"><br>
+      <img src="{{plantlogo}}" alt="(Plant Logo)" class="thumbnail">
     </div>
   </div>
 </template>

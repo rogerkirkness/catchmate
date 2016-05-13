@@ -9,23 +9,23 @@ Template.labelMaster.onCreated(function () {
 })
 
 Template.labelMaster.events({
-  'click .edit': function (event) {
+  'click .edit' (event) {
     event.preventDefault()
     Template.instance().templateDict.set('label', this._id)
   }
 })
 
 Template.labelMaster.helpers({
-  labels: function () {
+  labels() {
     return Labels.find({})
   },
-  labelActive: function () {
+  labelActive() {
     var label = Template.instance().templateDict.get('label')
     if (label != null) {
       return Labels.findOne(label)
     }
   },
-  collection: function () {
+  collection() {
     return Labels
   }
 })

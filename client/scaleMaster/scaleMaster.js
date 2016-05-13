@@ -9,23 +9,23 @@ Template.scaleMaster.onCreated(function () {
 })
 
 Template.scaleMaster.events({
-  'click .edit': function (event) {
+  'click .edit' (event) {
     event.preventDefault()
     Template.instance().templateDict.set('scale', this._id)
   }
 })
 
 Template.scaleMaster.helpers({
-  scales: function () {
+  scales() {
     return Scales.find({})
   },
-  scaleActive: function () {
+  scaleActive() {
     var scale = Template.instance().templateDict.get('scale')
     if (scale != null) {
       return Scales.findOne(scale)
     }
   },
-  collection: function () {
+  collection() {
     return Scales
   }
 })
