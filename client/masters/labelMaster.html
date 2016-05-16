@@ -1,24 +1,28 @@
 <template name="labelMaster">
   <h3>Label Master</h3>
   <div class="col-sm-4">
-    {{#autoForm collection=collection id="addLabel" type="method" meteormethod="insertLabel"}}
-    <fieldset>
-      <legend>Add Label</legend>
-      {{> afQuickField name="label_code"}}
-      {{> afQuickField name="label_layout" rows=60}}
-    </fieldset>
-    <button type="submit" class="btn btn-default btn-block">Add Label</button>
-    {{/autoForm}}
+    <legend>Add Label</legend>
+    <div class="form-group">
+      <label for="label_code" class="control-label">Label Code</label>
+      <input type="text" id="label_code" class="form-control">
+    </div>
+    <div class="form-group">
+      <label for="label_layout" class="control-label">Label Layout</label>
+      <textarea id="label_layout" class="form-control" rows="60"></textarea>
+    </div>
+    <button type="submit" id="addLabel" class="btn btn-default btn-block">Add Label</button>
   </div>
   <div class="col-sm-4">
-    {{#autoForm collection=collection id="editLabel" type="method-update" meteormethod="updateLabel" doc=labelActive}}
-    <fieldset>
-      <legend>Edit Label</legend>
-      {{> afQuickField name="label_code"}}
-      {{> afQuickField name="label_layout" rows=60}}
-    </fieldset>
-    <button type="submit" class="btn btn-default btn-block">Save Changes</button>
-    {{/autoForm}}
+    <legend>Edit Label</legend>
+    <div class="form-group">
+      <label for="label_code_edit" class="control-label">Label Code</label>
+      <input type="text" id="label_code_edit" class="form-control" value="{{label.label_code}}">
+    </div>
+    <div class="form-group">
+      <label for="label_layout_edit" class="control-label">Label Layout</label>
+      <textarea id="label_layout_edit" class="form-control" rows="60" value="{{label.label_code}}"></textarea>
+    </div>
+    <button type="submit" id="editLabel" class="btn btn-default btn-block">Edit Label</button>
   </div>
   <div class="col-sm-4">
     <h3>Label Elements</h3>
@@ -82,7 +86,7 @@
         <tr>
           <td>{{label_code}}</td>
           <td>{{label_layout}}</td>
-          <td>{{> edit}}</td>
+          <td><button id="edit" class="btn btn-sm btn-default"><span class="caret"></span></button></td>
         </tr>
         {{/each}}
       </tbody>

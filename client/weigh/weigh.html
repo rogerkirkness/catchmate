@@ -70,7 +70,7 @@
         </tr>
       </tbody>
     </table>
-    <textarea class="zpl">
+    <textarea class="zpl" id="zpl">
       {{zpl}}
     </textarea>
     {{/each}}
@@ -133,4 +133,12 @@
       </label>
     </div>
   </div>
+</template>
+
+<template name="itemDropdown">
+  <div class="dropdown optionDropdown">{{item_gtin}}: {{item_name}}</div>
+</template>
+
+<template name="custDropdown">
+  <div class="dropdown optionDropdown">{{customer_code}}: {{customer_name}}</div>
 </template>

@@ -9,22 +9,40 @@ import { Customers } from '/imports/collections'
 import { Batches } from '/imports/collections'
 import { Items } from '/imports/collections'
 import { Ingredients } from '/imports/collections'
-import { Printers } from '/imports/collections'
 import { Scales } from '/imports/collections'
-import { Company } from '/imports/collections'
 import { Labels } from '/imports/collections'
+import { Printers } from '/imports/collections'
+import { Company } from '/imports/collections'
 
-var app = express()
+const app = express()
 
 Meteor.methods({
-  insertCustomer(doc) {
+  insertCustomer(customer_code, customer_name, customer_street1, customer_street2, customer_city, customer_province, customer_country, customer_postal) {
     if (this.userId) {
-      Customers.insert(doc)
+      Customers.insert({
+        'customer_code': customer_code,
+        'customer_name': customer_name,
+        'customer_street1': customer_street1,
+        'customer_street2': customer_street2,
+        'customer_city': customer_city,
+        'customer_province': customer_province,
+        'customer_country': customer_country,
+        'customer_postal': customer_postal
+      })
     }
   },
-  updateCustomer(modifier, _id) {
+  updateCustomer(customer_code, customer_name, customer_street1, customer_street2, customer_city, customer_province, customer_country, customer_postal) {
     if (this.userId) {
-      Customers.update(_id, modifier)
+      Customers.update({customer_code: customer_code}, { $set: {
+        'customer_code': customer_code,
+        'customer_name': customer_name,
+        'customer_street1': customer_street1,
+        'customer_street2': customer_street2,
+        'customer_city': customer_city,
+        'customer_province': customer_province,
+        'customer_country': customer_country,
+        'customer_postal': customer_postal
+      }})
     }
   },
   insertBatch(created, item_code, cust_code, item_weight, num_units, batch_code) {
@@ -44,54 +62,106 @@ Meteor.methods({
       Batches.remove({createdAt: lastBatch})
     }
   },
-  insertItem(doc) {
+  insertItem(item_gtin, item_name, item_unit, item_brand, item_shelfLife, item_stdWeight, item_minWeight, item_maxWeight, item_ingredients) {
     if (this.userId) {
-      Items.insert(doc)
+      Items.insert({
+        'item_gtin': item_gtin,
+        'item_name': item_name,
+        'item_unit': item_unit,
+        'item_brand': item_brand,
+        'item_shelfLife': item_shelfLife,
+        'item_stdWeight': item_stdWeight,
+        'item_minWeight': item_minWeight,
+        'item_maxWeight': item_maxWeight,
+        'item_ingredients': item_ingredients
+      })
     }
   },
-  updateItem(modifier, _id) {
+  updateItem(item_gtin, item_name, item_unit, item_brand, item_shelfLife, item_stdWeight, item_minWeight, item_maxWeight, item_ingredients) {
     if (this.userId) {
-      Items.update(_id, modifier)
+      Items.update({item_gtin: item_gtin}, { $set: {
+        'item_gtin': item_gtin,
+        'item_name': item_name,
+        'item_unit': item_unit,
+        'item_brand': item_brand,
+        'item_shelfLife': item_shelfLife,
+        'item_stdWeight': item_stdWeight,
+        'item_minWeight': item_minWeight,
+        'item_maxWeight': item_maxWeight,
+        'item_ingredients': item_ingredients
+      }})
     }
   },
-  insertIngredients(doc) {
+  insertIngredients(ingredients_code, ingredients_list) {
     if (this.userId) {
-      Ingredients.insert(doc)
+      Ingredients.insert({
+        'ingredients_code': ingredients_code,
+        'ingredients_list': ingredients_list
+      })
     }
   },
-  updateIngredients(modifier, _id) {
+  updateIngredients(ingredients_code, ingredients_list) {
     if (this.userId) {
-      Ingredients.update(_id, modifier)
+      Ingredients.update({ingredients_code: ingredients_code}, { $set: {
+        'ingredients_code': ingredients_code,
+        'ingredients_list': ingredients_list
+      }})
     }
   },
-  insertLabel(doc) {
+  insertLabel(label_code, label_layout) {
     if (this.userId) {
-      Labels.insert(doc)
+      Labels.insert({
+        'label_code': label_code,
+        'label_layout': label_layout
+      })
     }
   },
-  updateLabel(modifier, _id) {
+  updateLabel(label_code, label_layout) {
     if (this.userId) {
-      Labels.update(_id, modifier)
+      Labels.update({label_code: label_code}, { $set: {
+        'label_code': label_code,
+        'label_layout': label_layout
+      }})
     }
   },
-  insertScale(doc) {
+  insertScale(scale_code, scale_name, scale_port, scale_host) {
     if (this.userId) {
-      Scales.insert(doc)
+      Scales.insert({
+        'scale_code': scale_code,
+        'scale_name': scale_name,
+        'scale_port': scale_port,
+        'scale_host': scale_host
+      })
     }
   },
-  updateScale(modifier, _id) {
+  updateScale(scale_code, scale_name, scale_port, scale_host) {
     if (this.userId) {
-      Scales.update(_id, modifier)
+      Scales.update({scale_code: scale_code}, { $set: {
+        'scale_code': scale_code,
+        'scale_name': scale_name,
+        'scale_port': scale_port,
+        'scale_host': scale_host
+      }})
     }
   },
-  insertPrinter(doc) {
+  insertPrinter(printer_code, printer_name, printer_port, printer_host) {
     if (this.userId) {
-      Printers.insert(doc)
+      Printers.insert({
+        'printer_code': printer_code,
+        'printer_name': printer_name,
+        'printer_port': printer_port,
+        'printer_host': printer_host
+      })
     }
   },
-  updatePrinter(modifier, _id) {
+  updatePrinter(printer_code, printer_name, printer_port, printer_host) {
     if (this.userId) {
-      Printers.update(_id, modifier)
+      Printers.update({printer_code: printer_code}, { $set: {
+        'printer_code': printer_code,
+        'printer_name': printer_name,
+        'printer_port': printer_port,
+        'printer_host': printer_host
+      }})
     }
   },
   upsertSettings(companyName, plantNumber, Street1, Street2, City, Province, Country, Postal, Prefix) {

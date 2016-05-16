@@ -8,8 +8,7 @@ accounts-password
 mongo
 blaze-html-templates
 reactive-dict
-ecmascript
 aldeed:collection2
-aldeed:autoform
 mizzao:autocomplete
 tracker
+ecmascript

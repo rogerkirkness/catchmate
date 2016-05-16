@@ -1,0 +1,105 @@
+<template name="customerMaster">
+  <h3>Customer Master</h3>
+  <div class="col-sm-6">
+    <legend>Add Customer</legend>
+    <div class="form-group">
+      <label for="customer_code" class="control-label">Customer Code</label>
+      <input type="text" id="customer_code" class="form-control">
+    </div>
+    <div class="form-group">
+      <label for="customer_name" class="control-label">Customer Name</label>
+      <input type="text" id="customer_name" class="form-control">
+    </div>
+    <div class="form-group">
+      <label for="customer_street1" class="control-label">Address One</label>
+      <input type="text" id="customer_street1" class="form-control">
+    </div>
+    <div class="form-group">
+      <label for="customer_street2" class="control-label">Address Two</label>
+      <input type="text" id="customer_street2" class="form-control">
+    </div>
+    <div class="form-group">
+      <label for="customer_city" class="control-label">City</label>
+      <input type="text" id="customer_city" class="form-control">
+    </div>
+    <div class="form-group">
+      <label for="customer_province" class="control-label">Province / State</label>
+      <input type="text" id="customer_province" class="form-control">
+    </div>
+    <div class="form-group">
+      <label for="customer_country" class="control-label">Country</label>
+      <input type="text" id="customer_country" class="form-control">
+    </div>
+    <div class="form-group">
+      <label for="customer_postal" class="control-label">Postal / Zip</label>
+      <input type="text" id="customer_postal" class="form-control">
+    </div>
+    <button type="submit" id="addCustomer" class="btn btn-default btn-block">Add Customer</button>
+  </div>
+  <div class="col-sm-6">
+    <legend>Edit Customer</legend>
+    <div class="form-group">
+      <label for="customer_code_edit" class="control-label">Customer Code</label>
+      <input type="text" id="customer_code_edit" class="form-control" value="{{customer.customer_code}}">
+    </div>
+    <div class="form-group">
+      <label for="customer_name_edit" class="control-label">Customer Name</label>
+      <input type="text" id="customer_name_edit" class="form-control" value="{{customer.customer_name}}">
+    </div>
+    <div class="form-group">
+      <label for="customer_street1_edit" class="control-label">Address One</label>
+      <input type="text" id="customer_street1_edit" class="form-control" value="{{customer.customer_street1}}">
+    </div>
+    <div class="form-group">
+      <label for="customer_street2_edit" class="control-label">Address Two</label>
+      <input type="text" id="customer_street2_edit" class="form-control" value="{{customer.customer_street2}}">
+    </div>
+    <div class="form-group">
+      <label for="customer_city_edit" class="control-label">City</label>
+      <input type="text" id="customer_city_edit" class="form-control" value="{{customer.customer_city}}">
+    </div>
+    <div class="form-group">
+      <label for="customer_province_edit" class="control-label">Province / State</label>
+      <input type="text" id="customer_province_edit" class="form-control" value="{{customer.customer_province}}">
+    </div>
+    <div class="form-group">
+      <label for="customer_country_edit" class="control-label">Country</label>
+      <input type="text" id="customer_country_edit" class="form-control" value="{{customer.customer_country}}">
+    </div>
+    <div class="form-group">
+      <label for="customer_postal_edit" class="control-label">Postal / Zip</label>
+      <input type="text" id="customer_postal_edit" class="form-control" value="{{customer.customer_postal}}">
+    </div>
+    <button type="submit" id="editCustomer" class="btn btn-default btn-block">Edit Customer</button>
+  </div>
+  <div class="col-sm-12 pad-top">
+    <table class="table table-condensed table-striped table-bordered table-white">
+      <tbody>
+        <tr>
+          <td><b>Code</b></td>
+          <td><b>Name</b></td>
+          <td><b>Address 1</b></td>
+          <td><b>Address 2</b></td>
+          <td><b>City</b></td>
+          <td><b>Province</b></td>
+          <td><b>Country</b></td>
+          <td><b>Postal Code</b></td>
+          <td><b>Edit</b></td>
+        </tr>
+        {{#each customers}}
+        <tr>
+          <td>{{customer_code}}</td>
+          <td>{{customer_name}}</td>
+          <td>{{customer_street1}}</td>
+          <td>{{customer_street2}}</td>
+          <td>{{customer_city}}</td>
+          <td>{{customer_province}}</td>
+          <td>{{customer_country}}</td>
+          <td>{{customer_postal}}</td>
+          <td><button id="edit" class="btn btn-sm btn-default"><span class="caret"></span></button></td>
+        </tr>
+        {{/each}}
+      </tbody>
+    </table>
+  </div>
+</template>

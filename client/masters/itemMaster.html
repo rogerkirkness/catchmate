@@ -1,0 +1,119 @@
+<template name="itemMaster">
+  <h3>Item Master</h3>
+  <div class="col-sm-6">
+    <legend>Add Item</legend>
+    <div class="form-group">
+      <label for="item_gtin" class="control-label">Item GTIN</label>
+      <input type="text" id="item_gtin" class="form-control">
+    </div>
+    <div class="form-group">
+      <label for="item_name" class="control-label">Item Name</label>
+      <input type="text" id="item_name" class="form-control">
+    </div>
+    <div class="form-group">
+      <label for="item_unit" class="control-label">Units of Measure</label>
+      <input type="text" id="item_unit" class="form-control">
+    </div>
+    <div class="form-group">
+      <label for="item_brand" class="control-label">Brand Name</label>
+      <input type="text" id="item_brand" class="form-control">
+    </div>
+    <div class="form-group">
+      <label for="item_shelfLife" class="control-label">Shelf Life (Days)</label>
+      <input type="text" id="item_shelfLife" class="form-control">
+    </div>
+    <div class="form-group">
+      <label for="item_stdWeight" class="control-label">Standard Weight (g)</label>
+      <input type="text" id="item_stdWeight" class="form-control">
+    </div>
+    <div class="form-group">
+      <label for="item_minWeight" class="control-label">Min Weight (g)</label>
+      <input type="text" id="item_minWeight" class="form-control">
+    </div>
+    <div class="form-group">
+      <label for="item_maxWeight" class="control-label">Max Weight (g)</label>
+      <input type="text" id="item_maxWeight" class="form-control">
+    </div>
+    <div class="form-group">
+      <label for="selectIngredients" class="control-label">Ingredient List</label>
+      <select class="form-control" id="selectIngredients">
+        {{#each ingredients}}
+        <option class="dropdown optionDropdown">{{ingredients_code}}</option>
+        {{/each}}
+      </select>
+    </div>
+    <button type="submit" id="addItem" class="btn btn-default btn-block">Add Item</button>
+  </div>
+  <div class="col-sm-6">
+    <legend>Edit Item</legend>
+    <div class="form-group">
+      <label for="item_gtin_edit" class="control-label">Item GTIN</label>
+      <input type="text" id="item_gtin_edit" class="form-control" value="{{item.item_gtin}}">
+    </div>
+    <div class="form-group">
+      <label for="item_name_edit" class="control-label">Item Name</label>
+      <input type="text" id="item_name_edit" class="form-control" value="{{item.item_name}}">
+    </div>
+    <div class="form-group">
+      <label for="item_unit_edit" class="control-label">Units of Measure</label>
+      <input type="text" id="item_unit_edit" class="form-control" value="{{item.item_unit}}">
+    </div>
+    <div class="form-group">
+      <label for="item_brand_edit" class="control-label">Brand Name</label>
+      <input type="text" id="item_brand_edit" class="form-control" value="{{item.item_brand}}">
+    </div>
+    <div class="form-group">
+      <label for="item_shelfLife_edit" class="control-label">Shelf Life (Days)</label>
+      <input type="text" id="item_shelfLife_edit" class="form-control" value="{{item.item_shelfLife}}">
+    </div>
+    <div class="form-group">
+      <label for="item_stdWeight_edit" class="control-label">Standard Weight (g)</label>
+      <input type="text" id="item_stdWeight_edit" class="form-control" value="{{item.item_stdWeight}}">
+    </div>
+    <div class="form-group">
+      <label for="item_minWeight_edit" class="control-label">Min Weight (g)</label>
+      <input type="text" id="item_minWeight_edit" class="form-control" value="{{item.item_minWeight}}">
+    </div>
+    <div class="form-group">
+      <label for="item_maxWeight_edit" class="control-label">Max Weight (g)</label>
+      <input type="text" id="item_maxWeight_edit" class="form-control" value="{{item.item_maxWeight}}">
+    </div>
+    <div class="form-group">
+      <label for="selectIngredients" class="control-label">Ingredient List</label>
+      <select class="form-control" id="selectIngredients_edit">
+        {{#each ingredients}}
+        <option class="dropdown optionDropdown" {{selectedIngredient}}>{{ingredients_code}}</option>
+        {{/each}}
+      </select>
+    </div>
+    <button type="submit" id="editItem" class="btn btn-default btn-block">Edit Item</button>
+  </div>
+  <div class="col-sm-12 pad-top">
+    <table class="table table-condensed table-striped table-bordered table-white">
+      <tbody>
+        <tr>
+          <td><b>Code</b></td>
+          <td><b>Name</b></td>
+          <td><b>Brand</b></td>
+          <td><b>Life (Days)</b></td>
+          <td><b>Weight (g)</b></td>
+          <td><b>Min (g)</b></td>
+          <td><b>Max (g)</b></td>
+          <td><b>Edit</b></td>
+        </tr>
+        {{#each items}}
+        <tr>
+          <td>{{item_gtin}}</td>
+          <td>{{item_name}}</td>
+          <td>{{item_brand}}</td>
+          <td>{{item_shelfLife}}</td>
+          <td>{{item_stdWeight}}</td>
+          <td>{{item_minWeight}}</td>
+          <td>{{item_maxWeight}}</td>
+          <td><button id="edit" class="btn btn-sm btn-default"><span class="caret"></span></button></td>
+        </tr>
+        {{/each}}
+      </tbody>
+    </table>
+  </div>
+</template>

@@ -1,0 +1,45 @@
+<template name="ingredientMaster">
+  <h3>Ingredient Master</h3>
+  <div class="col-sm-6">
+    <legend>Add Ingredient List</legend>
+    <div class="form-group">
+      <label for="ingredients_code" class="control-label">Ingredients Code</label>
+      <input type="text" id="ingredients_code" class="form-control">
+    </div>
+    <div class="form-group">
+      <label for="ingredients_list" class="control-label">Ingredients List</label>
+      <textarea id="ingredients_list" class="form-control" rows="5"></textarea>
+    </div>
+    <button type="submit" id="addIngredient" class="btn btn-default btn-block">Add Ingredient List</button>
+  </div>
+  <div class="col-sm-6">
+    <legend>Edit Ingredient List</legend>
+    <div class="form-group">
+      <label for="ingredients_code" class="control-label">Ingredients Code</label>
+      <input type="text" id="ingredients_code_edit" class="form-control" value="{{ingredient.ingredients_code}}">
+    </div>
+    <div class="form-group">
+      <label for="ingredients_code" class="control-label">Ingredients List</label>
+      <textarea id="ingredients_list_edit" class="form-control" rows="5" value="{{ingredient.ingredients_list}}"></textarea>
+    </div>
+    <button type="submit" id="editIngredient" class="btn btn-default btn-block">Edit Ingredient List</button>
+  </div>
+  <div class="col-sm-12 pad-top">
+    <table class="table table-condensed table-striped table-bordered table-white">
+      <tbody>
+        <tr>
+          <td><b>Code</b></td>
+          <td><b>List</b></td>
+          <td><b>Edit</b></td>
+        </tr>
+        {{#each ingredients}}
+        <tr>
+          <td>{{ingredients_code}}</td>
+          <td>{{ingredients_list}}</td>
+          <td><button id="edit" class="btn btn-sm btn-default"><span class="caret"></span></button></td>
+        </tr>
+        {{/each}}
+      </tbody>
+    </table>
+  </div>
+</template>

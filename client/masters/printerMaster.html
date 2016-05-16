@@ -1,0 +1,65 @@
+<template name="printerMaster">
+  <h3>Printer Master</h3>
+  <div class="col-sm-6">
+    <legend>Add Printer</legend>
+    <div class="form-group">
+      <label for="printer_code" class="control-label">Printer Code</label>
+      <input type="text" id="printer_code" class="form-control">
+    </div>
+    <div class="form-group">
+      <label for="printer_name" class="control-label">Printer Name</label>
+      <input type="text" id="printer_name" class="form-control">
+    </div>
+    <div class="form-group">
+      <label for="printer_port" class="control-label">Printer Port</label>
+      <input type="text" id="printer_port" class="form-control">
+    </div>
+    <div class="form-group">
+      <label for="printer_host" class="control-label">Printer Host</label>
+      <input type="text" id="printer_host" class="form-control">
+    </div>
+    <button type="submit" id="addPrinter" class="btn btn-default btn-block">Add Printer</button>
+  </div>
+  <div class="col-sm-6">
+    <legend>Edit Printer</legend>
+    <div class="form-group">
+      <label for="printer_code_edit" class="control-label">Printer Code</label>
+      <input type="text" id="printer_code_edit" class="form-control" value="{{printer.printer_code}}">
+    </div>
+    <div class="form-group">
+      <label for="printer_name_edit" class="control-label">Printer Name</label>
+      <input type="text" id="printer_name_edit" class="form-control" value="{{printer.printer_name}}">
+    </div>
+    <div class="form-group">
+      <label for="printer_port_edit" class="control-label">Printer Port</label>
+      <input type="text" id="printer_port_edit" class="form-control" value="{{printer.printer_port}}">
+    </div>
+    <div class="form-group">
+      <label for="printer_host_edit" class="control-label">Printer Host</label>
+      <input type="text" id="printer_host_edit" class="form-control" value="{{printer.printer_host}}">
+    </div>
+    <button type="submit" id="editPrinter" class="btn btn-default btn-block">Edit Printer</button>
+  </div>
+  <div class="col-sm-12 pad-top">
+    <table class="table table-condensed table-striped table-bordered table-white">
+      <tbody>
+        <tr>
+          <td><b>Code</b></td>
+          <td><b>Name</b></td>
+          <td><b>Port</b></td>
+          <td><b>Host</b></td>
+          <td><b>Edit</b></td>
+        </tr>
+        {{#each printers}}
+        <tr>
+          <td>{{printer_code}}</td>
+          <td>{{printer_name}}</td>
+          <td>{{printer_port}}</td>
+          <td>{{printer_host}}</td>
+          <td><button id="edit" class="btn btn-sm btn-default"><span class="caret"></span></button></td>
+        </tr>
+        {{/each}}
+      </tbody>
+    </table>
+  </div>
+</template>

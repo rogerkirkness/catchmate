@@ -3,12 +3,12 @@ import { Template } from 'meteor/templating'
 import { Accounts } from 'meteor/accounts-base'
 import { ReactiveDict } from 'meteor/reactive-dict'
 
-Template.layout.onCreated(function () {
+Template.body.onCreated(function () {
   this.layoutDict = new ReactiveDict()
   this.layoutDict.set('activePage', 'weigh')
 })
 
-Template.layout.events({
+Template.body.events({
   'click .signOut' () {
     Meteor.logout(function (error) {
       if (error) {
@@ -51,42 +51,13 @@ Template.layout.events({
       }
     })
   },
-  'click .weighTemplate' () {
-    Template.instance().layoutDict.set('activePage', 'weigh')
-  },
-  'click .customerMasterTemplate' () {
-    Template.instance().layoutDict.set('activePage', 'customerMaster')
-  },
-  'click .ingredientMasterTemplate' () {
-    Template.instance().layoutDict.set('activePage', 'ingredientMaster')
-  },
-  'click .itemMasterTemplate' () {
-    Template.instance().layoutDict.set('activePage', 'itemMaster')
-  },
-  'click .labelMasterTemplate' () {
-    Template.instance().layoutDict.set('activePage', 'labelMaster')
-  },
-  'click .printerMasterTemplate' () {
-    Template.instance().layoutDict.set('activePage', 'printerMaster')
-  },
-  'click .scaleMasterTemplate' () {
-    Template.instance().layoutDict.set('activePage', 'scaleMaster')
-  },
-  'click .customerVolumeReportTemplate' () {
-    Template.instance().layoutDict.set('activePage', 'customerVolumeReport')
-  },
-  'click .itemVolumeReportTemplate' () {
-    Template.instance().layoutDict.set('activePage', 'itemVolumeReport')
-  },
-  'click .traceReportTemplate' () {
-    Template.instance().layoutDict.set('activePage', 'traceReport')
-  },
-  'click .settingsTemplate' () {
-    Template.instance().layoutDict.set('activePage', 'settings')
+  'click .link' (event) {
+    var activePage = event.target.id
+    Template.instance().layoutDict.set('activePage', activePage)
   }
 })
 
-Template.layout.helpers({
+Template.body.helpers({
   activePage() {
     var activePage = Template.instance().layoutDict.get('activePage')
     return activePage

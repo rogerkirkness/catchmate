@@ -1,0 +1,65 @@
+<template name="scaleMaster">
+  <h3>Scale Master</h3>
+  <div class="col-sm-6">
+    <legend>Add Scale</legend>
+    <div class="form-group">
+      <label for="scale_code" class="control-label">Scale Code</label>
+      <input type="text" id="scale_code" class="form-control">
+    </div>
+    <div class="form-group">
+      <label for="scale_name" class="control-label">Scale Name</label>
+      <input type="text" id="scale_name" class="form-control">
+    </div>
+    <div class="form-group">
+      <label for="scale_port" class="control-label">Scale Port</label>
+      <input type="text" id="scale_port" class="form-control">
+    </div>
+    <div class="form-group">
+      <label for="scale_host" class="control-label">Scale Host</label>
+      <input type="text" id="scale_host" class="form-control">
+    </div>
+    <button type="submit" id="addScale" class="btn btn-default btn-block">Add Scale</button>
+  </div>
+  <div class="col-sm-6">
+    <legend>Edit Scale</legend>
+    <div class="form-group">
+      <label for="scale_code_edit" class="control-label">Scale Code</label>
+      <input type="text" id="scale_code_edit" class="form-control" value="{{scale.scale_code}}">
+    </div>
+    <div class="form-group">
+      <label for="scale_name_edit" class="control-label">Scale Name</label>
+      <input type="text" id="scale_name_edit" class="form-control" value="{{scale.scale_name}}">
+    </div>
+    <div class="form-group">
+      <label for="scale_port_edit" class="control-label">Scale Port</label>
+      <input type="text" id="scale_port_edit" class="form-control" value="{{scale.scale_port}}">
+    </div>
+    <div class="form-group">
+      <label for="scale_host_edit" class="control-label">Scale Host</label>
+      <input type="text" id="scale_host_edit" class="form-control" value="{{scale.scale_host}}">
+    </div>
+    <button type="submit" id="editScale" class="btn btn-default btn-block">Edit Scale</button>
+  </div>
+  <div class="col-sm-12 pad-top">
+    <table class="table table-condensed table-striped table-bordered table-white">
+      <tbody>
+        <tr>
+          <td><b>Code</b></td>
+          <td><b>Name</b></td>
+          <td><b>Port</b></td>
+          <td><b>Host</b></td>
+          <td><b>Edit</b></td>
+        </tr>
+        {{#each scales}}
+        <tr>
+          <td>{{scale_code}}</td>
+          <td>{{scale_name}}</td>
+          <td>{{scale_port}}</td>
+          <td>{{scale_host}}</td>
+          <td><button id="edit" class="btn btn-sm btn-default"><span class="caret"></span></button></td>
+        </tr>
+        {{/each}}
+      </tbody>
+    </table>
+  </div>
+</template>
