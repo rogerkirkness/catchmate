@@ -4,7 +4,6 @@ import http from 'http'
 import mkdirp from 'mkdirp'
 import bwipjs from 'bwip-js'
 import express from 'express'
-import { Meteor } from 'meteor/meteor'
 import { Customers } from '/imports/collections'
 import { Batches } from '/imports/collections'
 import { Items } from '/imports/collections'
@@ -17,7 +16,7 @@ import { Company } from '/imports/collections'
 const app = express()
 
 Meteor.methods({
-  insertCustomer(customer_code, customer_name, customer_street1, customer_street2, customer_city, customer_province, customer_country, customer_postal) {
+  insertCustomer (customer_code, customer_name, customer_street1, customer_street2, customer_city, customer_province, customer_country, customer_postal) {
     if (this.userId) {
       Customers.insert({
         'customer_code': customer_code,
@@ -31,7 +30,7 @@ Meteor.methods({
       })
     }
   },
-  updateCustomer(customer_code, customer_name, customer_street1, customer_street2, customer_city, customer_province, customer_country, customer_postal) {
+  updateCustomer (customer_code, customer_name, customer_street1, customer_street2, customer_city, customer_province, customer_country, customer_postal) {
     if (this.userId) {
       Customers.update({customer_code: customer_code}, { $set: {
         'customer_code': customer_code,
@@ -45,7 +44,7 @@ Meteor.methods({
       }})
     }
   },
-  insertBatch(created, item_code, cust_code, item_weight, num_units, batch_code) {
+  insertBatch (created, item_code, cust_code, item_weight, num_units, batch_code) {
     if (this.userId) {
       Batches.insert({
         'item_code': item_code,
@@ -57,12 +56,12 @@ Meteor.methods({
       })
     }
   },
-  deleteBatch(lastBatch) {
+  deleteBatch (lastBatch) {
     if (this.userId) {
       Batches.remove({createdAt: lastBatch})
     }
   },
-  insertItem(item_gtin, item_name, item_unit, item_brand, item_shelfLife, item_stdWeight, item_minWeight, item_maxWeight, item_ingredients) {
+  insertItem (item_gtin, item_name, item_unit, item_brand, item_shelfLife, item_stdWeight, item_minWeight, item_maxWeight, item_ingredients) {
     if (this.userId) {
       Items.insert({
         'item_gtin': item_gtin,
@@ -77,7 +76,7 @@ Meteor.methods({
       })
     }
   },
-  updateItem(item_gtin, item_name, item_unit, item_brand, item_shelfLife, item_stdWeight, item_minWeight, item_maxWeight, item_ingredients) {
+  updateItem (item_gtin, item_name, item_unit, item_brand, item_shelfLife, item_stdWeight, item_minWeight, item_maxWeight, item_ingredients) {
     if (this.userId) {
       Items.update({item_gtin: item_gtin}, { $set: {
         'item_gtin': item_gtin,
@@ -92,7 +91,7 @@ Meteor.methods({
       }})
     }
   },
-  insertIngredients(ingredients_code, ingredients_list) {
+  insertIngredients (ingredients_code, ingredients_list) {
     if (this.userId) {
       Ingredients.insert({
         'ingredients_code': ingredients_code,
@@ -100,7 +99,7 @@ Meteor.methods({
       })
     }
   },
-  updateIngredients(ingredients_code, ingredients_list) {
+  updateIngredients (ingredients_code, ingredients_list) {
     if (this.userId) {
       Ingredients.update({ingredients_code: ingredients_code}, { $set: {
         'ingredients_code': ingredients_code,
@@ -108,7 +107,7 @@ Meteor.methods({
       }})
     }
   },
-  insertLabel(label_code, label_layout) {
+  insertLabel (label_code, label_layout) {
     if (this.userId) {
       Labels.insert({
         'label_code': label_code,
@@ -116,7 +115,7 @@ Meteor.methods({
       })
     }
   },
-  updateLabel(label_code, label_layout) {
+  updateLabel (label_code, label_layout) {
     if (this.userId) {
       Labels.update({label_code: label_code}, { $set: {
         'label_code': label_code,
@@ -124,7 +123,7 @@ Meteor.methods({
       }})
     }
   },
-  insertScale(scale_code, scale_name, scale_port, scale_host) {
+  insertScale (scale_code, scale_name, scale_port, scale_host) {
     if (this.userId) {
       Scales.insert({
         'scale_code': scale_code,
@@ -134,7 +133,7 @@ Meteor.methods({
       })
     }
   },
-  updateScale(scale_code, scale_name, scale_port, scale_host) {
+  updateScale (scale_code, scale_name, scale_port, scale_host) {
     if (this.userId) {
       Scales.update({scale_code: scale_code}, { $set: {
         'scale_code': scale_code,
@@ -144,7 +143,7 @@ Meteor.methods({
       }})
     }
   },
-  insertPrinter(printer_code, printer_name, printer_port, printer_host) {
+  insertPrinter (printer_code, printer_name, printer_port, printer_host) {
     if (this.userId) {
       Printers.insert({
         'printer_code': printer_code,
@@ -154,7 +153,7 @@ Meteor.methods({
       })
     }
   },
-  updatePrinter(printer_code, printer_name, printer_port, printer_host) {
+  updatePrinter (printer_code, printer_name, printer_port, printer_host) {
     if (this.userId) {
       Printers.update({printer_code: printer_code}, { $set: {
         'printer_code': printer_code,
@@ -164,7 +163,7 @@ Meteor.methods({
       }})
     }
   },
-  upsertSettings(companyName, plantNumber, Street1, Street2, City, Province, Country, Postal, Prefix) {
+  upsertSettings (companyName, plantNumber, Street1, Street2, City, Province, Country, Postal, Prefix) {
     if (this.userId) {
       Company.upsert({settings: 'company'}, { $set: {
         'company_name': companyName,
@@ -179,14 +178,14 @@ Meteor.methods({
       }})
     }
   },
-  updateTareProfile(Tare) {
+  updateTareProfile (Tare) {
     if (this.userId) {
       Meteor.users.update(this.userId, { $set: {
         'profile.tare': Tare
       }})
     }
   },
-  updatePrinterProfile(Printer, port, host) {
+  updatePrinterProfile (Printer, port, host) {
     if (this.userId) {
       Meteor.users.update(this.userId, { $set: {
         'profile.printer': Printer,
@@ -195,7 +194,7 @@ Meteor.methods({
       }})
     }
   },
-  updateScaleProfile(Scale, port, host) {
+  updateScaleProfile (Scale, port, host) {
     if (this.userId) {
       Meteor.users.update(this.userId, { $set: {
         'profile.scale': Scale,
@@ -204,21 +203,21 @@ Meteor.methods({
       }})
     }
   },
-  updateLabelProfile(label) {
+  updateLabelProfile (label) {
     if (this.userId) {
       Meteor.users.update(this.userId, { $set: {
         'profile.label': label
       }})
     }
   },
-  updateNumUnitsField(status) {
+  updateNumUnitsField (status) {
     if (this.userId) {
       Meteor.users.update(this.userId, { $set: {
         'profile.numUnitsChecked': status
       }})
     }
   },
-  updateBatchCodeField(status) {
+  updateBatchCodeField (status) {
     if (this.userId) {
       Meteor.users.update(this.userId, { $set: {
         'profile.batchCodeChecked': status
@@ -283,13 +282,13 @@ Meteor.publish('company', function () {
 
 Meteor.publish('update', function () {
   if (this.userId) {
-    var port = Meteor.users.findOne(this.userId).profile.scaleport
-    var host = Meteor.users.findOne(this.userId).profile.scalehost
+    let port = Meteor.users.findOne(this.userId).profile.scaleport
+    let host = Meteor.users.findOne(this.userId).profile.scalehost
     this.added('scale', 'weight', {weight: 0})
     if (port === '9999') {
       this.changed('scale', 'weight', {weight: 500})
     } else if (port != null) {
-      var socket = new net.Socket()
+      let socket = new net.Socket()
       socket.connect(port, host, function () {
         function writeSocket () {
           if (socket.writable) {
@@ -299,8 +298,8 @@ Meteor.publish('update', function () {
         setInterval(writeSocket, 250)
       })
       socket.on('data', function (data) {
-        var rawOutput = data.toString()
-        var output = rawOutput.replace(/\D+/g, '')
+        let rawOutput = data.toString()
+        let output = rawOutput.replace(/\D+/g, '')
         this.changed('scale', 'weight', {weight: output})
       })
       socket.on('error', function (error) {
@@ -321,21 +320,21 @@ http.createServer((request, response) => {
 }).listen(8082)
 
 http.createServer((request, response) => {
-  var companyLogo = fs.readFileSync('../../../files/companylogo.jpg')
+  let companyLogo = fs.readFileSync('../../../files/companylogo.jpg')
   response.writeHead(200, { 'Content-Type': 'image/jpeg' })
   response.end(companyLogo, 'binary')
 }).listen(8083)
 
 http.createServer((request, response) => {
-  var plantLogo = fs.readFileSync('../../../files/plantlogo.jpg')
+  let plantLogo = fs.readFileSync('../../../files/plantlogo.jpg')
   response.writeHead(200, { 'Content-Type': 'image/jpeg' })
   response.end(plantLogo, 'binary')
 }).listen(8084)
 
 app.get('/uploadCompanyLogo', (request, response) => {
   mkdirp('../../../files/')
-  var path = '../../../files/companylogo.jpg'
-  var file = fs.createWriteStream(path)
+  let path = '../../../files/companylogo.jpg'
+  let file = fs.createWriteStream(path)
   file.on('error', function (error) {
     console.log(error)
   })
@@ -348,8 +347,8 @@ app.get('/uploadCompanyLogo', (request, response) => {
 
 app.get('/uploadPlantLogo', (request, response) => {
   mkdirp('../../../files/')
-  var path = '../../../files/plantlogo.jpg'
-  var file = fs.createWriteStream(path)
+  let path = '../../../files/plantlogo.jpg'
+  let file = fs.createWriteStream(path)
   file.on('error', function (error) {
     console.log(error)
   })

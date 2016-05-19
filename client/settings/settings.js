@@ -1,5 +1,3 @@
-import { Meteor } from 'meteor/meteor'
-import { Template } from 'meteor/templating'
 import { Company } from '/imports/collections'
 
 Template.settings.onCreated(function () {
@@ -8,8 +6,8 @@ Template.settings.onCreated(function () {
 
 Template.settings.events({
   'change .companyLogo' (event) {
-    var file = event.target.files[0]
-    var xhr = new XMLHttpRequest()
+    let file = event.target.files[0]
+    let xhr = new XMLHttpRequest()
     xhr.open('POST', '/uploadCompanyLogo', true)
     xhr.onload = function (event) {
       window.alert('Upload successful')
@@ -21,8 +19,8 @@ Template.settings.events({
     xhr.send(file)
   },
   'change .plantLogo' (event) {
-    var file = event.target.files[0]
-    var xhr = new XMLHttpRequest()
+    let file = event.target.files[0]
+    let xhr = new XMLHttpRequest()
     xhr.open('POST', '/uploadPlantLogo', true)
     xhr.onload = function (event) {
       window.alert('Upload successful')
@@ -35,15 +33,15 @@ Template.settings.events({
   },
   'click .save_settings' (event) {
     event.preventDefault()
-    var companyName = document.getElementById('companyName').value
-    var plantNumber = document.getElementById('plantNumber').value
-    var Street1 = document.getElementById('profile_street1').value
-    var Street2 = document.getElementById('profile_street2').value
-    var City = document.getElementById('profile_city').value
-    var Province = document.getElementById('profile_province').value
-    var Country = document.getElementById('profile_country').value
-    var Postal = document.getElementById('profile_postal').value
-    var Prefix = document.getElementById('profile_prefix').value
+    let companyName = document.getElementById('companyName').value
+    let plantNumber = document.getElementById('plantNumber').value
+    let Street1 = document.getElementById('profile_street1').value
+    let Street2 = document.getElementById('profile_street2').value
+    let City = document.getElementById('profile_city').value
+    let Province = document.getElementById('profile_province').value
+    let Country = document.getElementById('profile_country').value
+    let Postal = document.getElementById('profile_postal').value
+    let Prefix = document.getElementById('profile_prefix').value
     Meteor.call('upsertSettings', companyName, plantNumber, Street1, Street2, City, Province, Country, Postal, Prefix, function (error) {
       if (error) {
         window.alert(error)
@@ -53,13 +51,13 @@ Template.settings.events({
 })
 
 Template.settings.helpers({
-  settings() {
+  settings () {
     return Company.findOne({settings: 'company'})
   },
-  companylogo() {
+  companylogo () {
     return 'http://localhost:8083/files/companylogo.jpg'
   },
-  plantlogo() {
+  plantlogo () {
     return 'http://localhost:8084/files/plantlogo.jpg'
   }
 })

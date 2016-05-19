@@ -1,5 +1,3 @@
-import { Template } from 'meteor/templating'
-import { ReactiveDict } from 'meteor/reactive-dict'
 import { Ingredients } from '/imports/collections'
 
 Template.ingredientMaster.onCreated(function () {
@@ -15,8 +13,8 @@ Template.ingredientMaster.events({
   },
   'click #addIngredient' (event) {
     event.preventDefault()
-    var ingredients_code = document.getElementById('ingredients_code').value
-    var ingredients_list = document.getElementById('ingredients_list').value
+    let ingredients_code = document.getElementById('ingredients_code').value
+    let ingredients_list = document.getElementById('ingredients_list').value
     Meteor.call('insertIngredients', ingredients_code, ingredients_list, (error) => {
       if (error) {
         window.alert(error)
@@ -25,8 +23,8 @@ Template.ingredientMaster.events({
   },
   'click #editIngredient' (event) {
     event.preventDefault()
-    var ingredients_code = document.getElementById('ingredients_code_edit').value
-    var ingredients_list = document.getElementById('ingredients_list_edit').value
+    let ingredients_code = document.getElementById('ingredients_code_edit').value
+    let ingredients_list = document.getElementById('ingredients_list_edit').value
     Meteor.call('updateIngredients', ingredients_code, ingredients_list, (error) => {
       if (error) {
         window.alert(error)
@@ -36,11 +34,11 @@ Template.ingredientMaster.events({
 })
 
 Template.ingredientMaster.helpers({
-  ingredients() {
+  ingredients () {
     return Ingredients.find({})
   },
-  ingredient() {
-    var ingredient = Template.instance().templateDict.get('ingredient')
+  ingredient () {
+    let ingredient = Template.instance().templateDict.get('ingredient')
     if (ingredient != null) {
       return Ingredients.findOne(ingredient)
     }

@@ -1,8 +1,3 @@
-import { Meteor } from 'meteor/meteor'
-import { Template } from 'meteor/templating'
-import { Accounts } from 'meteor/accounts-base'
-import { ReactiveDict } from 'meteor/reactive-dict'
-
 Template.body.onCreated(function () {
   this.layoutDict = new ReactiveDict()
   this.layoutDict.set('activePage', 'weigh')
@@ -17,8 +12,8 @@ Template.body.events({
     })
   },
   'click .signIn' () {
-    var user = document.getElementById('user').value
-    var password = document.getElementById('password').value
+    let user = document.getElementById('user').value
+    let password = document.getElementById('password').value
     Meteor.loginWithPassword(user, password, function (error) {
       if (error) {
         window.alert(error)
@@ -29,9 +24,9 @@ Template.body.events({
     }
   },
   'click .signUp' () {
-    var email = document.getElementById('user_signup').value
-    var password = document.getElementById('password_signup').value
-    var userObject = {
+    let email = document.getElementById('user_signup').value
+    let password = document.getElementById('password_signup').value
+    let userObject = {
       email: email,
       password: password
     }
@@ -39,7 +34,7 @@ Template.body.events({
       if (error) {
         window.alert(error)
       } else {
-        var user = email
+        let user = email
         Meteor.loginWithPassword(user, password, function (error) {
           if (error) {
             window.alert(error)
@@ -52,14 +47,14 @@ Template.body.events({
     })
   },
   'click .link' (event) {
-    var activePage = event.target.id
+    let activePage = event.target.id
     Template.instance().layoutDict.set('activePage', activePage)
   }
 })
 
 Template.body.helpers({
-  activePage() {
-    var activePage = Template.instance().layoutDict.get('activePage')
+  activePage () {
+    let activePage = Template.instance().layoutDict.get('activePage')
     return activePage
   }
 })

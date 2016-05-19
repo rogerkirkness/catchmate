@@ -1,5 +1,3 @@
-import { Template } from 'meteor/templating'
-import { ReactiveDict } from 'meteor/reactive-dict'
 import { Items } from '/imports/collections'
 import { Ingredients } from '/imports/collections'
 
@@ -18,15 +16,15 @@ Template.itemMaster.events({
   },
   'click #addItem' (event) {
     event.preventDefault()
-    var item_gtin = document.getElementById('item_gtin').value
-    var item_name = document.getElementById('item_name').value
-    var item_unit = document.getElementById('item_unit').value
-    var item_brand = document.getElementById('item_brand').value
-    var item_shelfLife = document.getElementById('item_shelfLife').value
-    var item_stdWeight = document.getElementById('item_stdWeight').value
-    var item_minWeight = document.getElementById('item_minWeight').value
-    var item_maxWeight = document.getElementById('item_maxWeight').value
-    var item_ingredients = document.getElementById('selectIngredients').value
+    let item_gtin = document.getElementById('item_gtin').value
+    let item_name = document.getElementById('item_name').value
+    let item_unit = document.getElementById('item_unit').value
+    let item_brand = document.getElementById('item_brand').value
+    let item_shelfLife = document.getElementById('item_shelfLife').value
+    let item_stdWeight = document.getElementById('item_stdWeight').value
+    let item_minWeight = document.getElementById('item_minWeight').value
+    let item_maxWeight = document.getElementById('item_maxWeight').value
+    let item_ingredients = document.getElementById('selectIngredients').value
     Meteor.call('insertItem', item_gtin, item_name, item_unit, item_brand, item_shelfLife, item_stdWeight, item_minWeight, item_maxWeight, item_ingredients, (error) => {
       if (error) {
         window.alert(error)
@@ -35,15 +33,15 @@ Template.itemMaster.events({
   },
   'click #editItem' (event) {
     event.preventDefault()
-    var item_gtin = document.getElementById('item_gtin_edit').value
-    var item_name = document.getElementById('item_name_edit').value
-    var item_unit = document.getElementById('item_unit_edit').value
-    var item_brand = document.getElementById('item_brand_edit').value
-    var item_shelfLife = document.getElementById('item_shelfLife_edit').value
-    var item_stdWeight = document.getElementById('item_stdWeight_edit').value
-    var item_minWeight = document.getElementById('item_minWeight_edit').value
-    var item_maxWeight = document.getElementById('item_maxWeight_edit').value
-    var item_ingredients = document.getElementById('selectIngredients_edit').value
+    let item_gtin = document.getElementById('item_gtin_edit').value
+    let item_name = document.getElementById('item_name_edit').value
+    let item_unit = document.getElementById('item_unit_edit').value
+    let item_brand = document.getElementById('item_brand_edit').value
+    let item_shelfLife = document.getElementById('item_shelfLife_edit').value
+    let item_stdWeight = document.getElementById('item_stdWeight_edit').value
+    let item_minWeight = document.getElementById('item_minWeight_edit').value
+    let item_maxWeight = document.getElementById('item_maxWeight_edit').value
+    let item_ingredients = document.getElementById('selectIngredients_edit').value
     Meteor.call('updateItem', item_gtin, item_name, item_unit, item_brand, item_shelfLife, item_stdWeight, item_minWeight, item_maxWeight, item_ingredients, (error) => {
       if (error) {
         window.alert(error)
@@ -53,21 +51,21 @@ Template.itemMaster.events({
 })
 
 Template.itemMaster.helpers({
-  items() {
+  items () {
     return Items.find({})
   },
-  item() {
-    var item = Template.instance().templateDict.get('item')
+  item () {
+    let item = Template.instance().templateDict.get('item')
     if (item != null) {
       return Items.findOne(item)
     }
   },
-  ingredients() {
+  ingredients () {
     return Ingredients.find({})
   },
-  selectedIngredient() {
-    var item = Template.instance().templateDict.get('item')
-    var ingredient = Items.findOne(item).item_ingredients
+  selectedIngredient () {
+    let item = Template.instance().templateDict.get('item')
+    let ingredient = Items.findOne(item).item_ingredients
     if (this.ingredients_code === ingredient) {
       return 'selected'
     }

@@ -1,6 +1,3 @@
-import { Mongo } from 'meteor/mongo'
-import { SimpleSchema } from 'meteor/aldeed:simple-schema'
-
 const Customers = new Mongo.Collection('customers')
 const Batches = new Mongo.Collection('batches')
 const Items = new Mongo.Collection('items')
@@ -62,7 +59,7 @@ BatchesSchema = new SimpleSchema({
     type: Number
   },
   num_units: {
-    type: Number,
+    type: Number
   },
   createdAt: {
     type: Date
@@ -80,17 +77,17 @@ ItemsSchema = new SimpleSchema({
     unique: true
   },
   item_name: {
-    type: String,
+    type: String
   },
   item_unit: {
-    type: String,
+    type: String
   },
   item_brand: {
     type: String,
     optional: true
   },
   item_shelfLife: {
-    type: Number,
+    type: Number
   },
   item_stdWeight: {
     type: Number,

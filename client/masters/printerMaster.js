@@ -1,5 +1,3 @@
-import { Template } from 'meteor/templating'
-import { ReactiveDict } from 'meteor/reactive-dict'
 import { Printers } from '/imports/collections'
 
 Template.printerMaster.onCreated(function () {
@@ -15,10 +13,10 @@ Template.printerMaster.events({
   },
   'click #addPrinter' (event) {
     event.preventDefault()
-    var printer_code = document.getElementById('printer_code').value
-    var printer_name = document.getElementById('printer_name').value
-    var printer_port = document.getElementById('printer_port').value
-    var printer_host = document.getElementById('printer_host').value
+    let printer_code = document.getElementById('printer_code').value
+    let printer_name = document.getElementById('printer_name').value
+    let printer_port = document.getElementById('printer_port').value
+    let printer_host = document.getElementById('printer_host').value
     Meteor.call('insertPrinter', printer_code, printer_name, printer_port, printer_host, (error) => {
       if (error) {
         window.alert(error)
@@ -27,10 +25,10 @@ Template.printerMaster.events({
   },
   'click #editPrinter' (event) {
     event.preventDefault()
-    var printer_code = document.getElementById('printer_code_edit').value
-    var printer_name = document.getElementById('printer_name_edit').value
-    var printer_port = document.getElementById('printer_port_edit').value
-    var printer_host = document.getElementById('printer_host_edit').value
+    let printer_code = document.getElementById('printer_code_edit').value
+    let printer_name = document.getElementById('printer_name_edit').value
+    let printer_port = document.getElementById('printer_port_edit').value
+    let printer_host = document.getElementById('printer_host_edit').value
     Meteor.call('updatePrinter', printer_code, printer_name, printer_port, printer_host, (error) => {
       if (error) {
         window.alert(error)
@@ -40,11 +38,11 @@ Template.printerMaster.events({
 })
 
 Template.printerMaster.helpers({
-  printers() {
+  printers () {
     return Printers.find({})
   },
-  printer() {
-    var printer = Template.instance().templateDict.get('printer')
+  printer () {
+    let printer = Template.instance().templateDict.get('printer')
     if (printer != null) {
       return Printers.findOne(printer)
     }

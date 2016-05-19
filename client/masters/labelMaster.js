@@ -1,5 +1,3 @@
-import { Template } from 'meteor/templating'
-import { ReactiveDict } from 'meteor/reactive-dict'
 import { Labels } from '/imports/collections'
 
 Template.labelMaster.onCreated(function () {
@@ -15,8 +13,8 @@ Template.labelMaster.events({
   },
   'click #addLabel' (event) {
     event.preventDefault()
-    var label_code = document.getElementById('label_code').value
-    var label_layout = document.getElementById('label_layout').value
+    let label_code = document.getElementById('label_code').value
+    let label_layout = document.getElementById('label_layout').value
     Meteor.call('insertLabel', label_code, label_layout, (error) => {
       if (error) {
         window.alert(error)
@@ -25,8 +23,8 @@ Template.labelMaster.events({
   },
   'click #editLabel' (event) {
     event.preventDefault()
-    var label_code = document.getElementById('label_code_edit').value
-    var label_layout = document.getElementById('label_layout_edit').value
+    let label_code = document.getElementById('label_code_edit').value
+    let label_layout = document.getElementById('label_layout_edit').value
     Meteor.call('updateLabel', label_code, label_layout, (error) => {
       if (error) {
         window.alert(error)
@@ -36,11 +34,11 @@ Template.labelMaster.events({
 })
 
 Template.labelMaster.helpers({
-  labels() {
+  labels () {
     return Labels.find({})
   },
-  label() {
-    var label = Template.instance().templateDict.get('label')
+  label () {
+    let label = Template.instance().templateDict.get('label')
     if (label != null) {
       return Labels.findOne(label)
     }
