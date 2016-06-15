@@ -13,6 +13,7 @@ ecmascript
 ddp
 templating
 blaze
-spacebars
 meteor
 webapp
+http
+rocketchat:streamer

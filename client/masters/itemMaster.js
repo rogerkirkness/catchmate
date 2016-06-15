@@ -65,9 +65,11 @@ Template.itemMaster.helpers({
   },
   selectedIngredient () {
     let item = Template.instance().templateDict.get('item')
-    let ingredient = Items.findOne(item).item_ingredients
-    if (this.ingredients_code === ingredient) {
-      return 'selected'
+    if (item != null) {
+      let ingredient = Items.findOne(item).item_ingredients
+      if (this.ingredients_code === ingredient) {
+        return 'selected'
+      }
     }
   }
 })

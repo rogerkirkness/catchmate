@@ -13,15 +13,11 @@ const pad = (n, width, z) => {
   n = n + ''
   return n.length >= width ? n : new Array(width - n.length + 1).join(z) + n
 }
-
+const streamer = new Meteor.Streamer('scale')
 const indicatorVar = new ReactiveDict('indicator', null)
-const Scale = new Meteor.Collection('scale')
-Scale.find({}).observe({
-  changed (newDoc, oldDoc) {
-    if (newDoc._id === 'weight') {
-      indicatorVar.set('indicator', newDoc.weight)
-    }
-  }
+streamer.on('weight', function(weight) {
+  console.log(weight)
+  indicatorVar.set('indicator', weight)
 })
 
 Template.weigh.onCreated(function () {

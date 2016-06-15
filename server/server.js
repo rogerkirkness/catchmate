@@ -15,6 +15,8 @@ import { Printers } from '/imports/collections'
 import { Company } from '/imports/collections'
 
 const app = express()
+const streamer = new Meteor.Streamer('scale')
+streamer.allowRead('all')
 
 Meteor.methods({
   insertCustomer (customer_code, customer_name, customer_street1, customer_street2, customer_city, customer_province, customer_country, customer_postal) {
@@ -287,7 +289,8 @@ Meteor.publish('update', function () {
     let host = Meteor.users.findOne(this.userId).profile.scalehost
     this.added('scale', 'weight', {weight: 0})
     if (port === '9999') {
-      this.changed('scale', 'weight', {weight: 500})
+      let weight = 500
+      streamer.emit('weight', weight)
     } else if (port != null) {
       let socket = new net.Socket()
       socket.connect(port, host, function () {
@@ -301,7 +304,7 @@ Meteor.publish('update', function () {
       socket.on('data', function (data) {
         let rawOutput = data.toString()
         let output = rawOutput.replace(/\D+/g, '')
-        this.changed('scale', 'weight', {weight: output})
+        streamer.emit('weight', output)
       })
       socket.on('error', function (error) {
         window.alert(error)

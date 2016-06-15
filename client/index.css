@@ -123,6 +123,7 @@ body {
 .login-link-text {
   color: #FFF;
 }
+
 nav ul li:hover > ul {
 	display:inherit;
 }
