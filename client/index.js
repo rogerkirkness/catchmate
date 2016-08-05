@@ -47,15 +47,13 @@ Template.body.events({
     })
   },
   'click .link' (event) {
-    let activePage = event.target.id
-    Template.instance().layoutDict.set('activePage', activePage)
+    Template.instance().layoutDict.set('activePage', event.target.id)
   }
 })
 
 Template.body.helpers({
   activePage () {
-    let activePage = Template.instance().layoutDict.get('activePage')
-    return activePage
+    return Template.instance().layoutDict.get('activePage')
   }
 })
 
