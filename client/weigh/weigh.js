@@ -16,7 +16,6 @@ const pad = (n, width, z) => {
 const streamer = new Meteor.Streamer('scale')
 const indicatorVar = new ReactiveDict('indicator', null)
 streamer.on('weight', function(weight) {
-  console.log(weight)
   indicatorVar.set('indicator', weight)
 })
 
