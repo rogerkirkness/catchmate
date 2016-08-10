@@ -307,7 +307,7 @@ Meteor.publish('update', function () {
         streamer.emit('weight', output)
       })
       socket.on('error', function (error) {
-        window.alert(error)
+        console.log(error)
       })
       socket.on('close', function () {})
     }
