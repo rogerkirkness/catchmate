@@ -19,85 +19,68 @@ body {
     border: 0px;
   }
 }
-
 .optionDropdown {
   height:30px;
   line-height:30px;
 }
-
 .barcodeText {
   text-align:center;
   margin-bottom: 0px;
 }
-
 .table-print {
   font-family: Georgia, serif;
   font-size: 12px;
   border: 2px dashed #808080;
   background-color: #FFF;
 }
-
 .table-print > tbody > tr > td {
   padding: 2px;
   margin: 0px;
 }
-
 #statusMessage {
   color:#FFF;
 }
-
 .noMargin {
   margin-bottom: 0px !important;
 }
-
 .barcode {
    height: 10mm;
    width: 120mm;
    padding-left: 5px;
    padding-right: 5px;
 }
-
 .clogo {
   height: 70px;
   width: 120px;
 }
-
 .plogo {
   height: 70px;
   width: 80px;
 }
-
 .zpl {
   visibility: hidden;
 }
-
 .table-white {
   background-color: #FFF;
 }
-
 .table-white > tbody > tr > td {
   border: 0px !important;
 }
-
 .pad-top {
   padding-top: 40px;
 }
-
 .navbar-nav > li > a,
 .navbar-brand {
     padding-top:10px !important;
     padding-bottom:0 !important;
     height: 40px;
 }
-
 .navbar {
   min-height:40px !important;
 }
-
 .navbar-default {
   background-color: #2895f1;
 }
-
 .navbar-default .navbar-brand,
 .navbar-default .navbar-nav > li > a:hover,
 .navbar-default .navbar-nav > li > a:focus,
