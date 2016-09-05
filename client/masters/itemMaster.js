@@ -16,6 +16,7 @@ Template.itemMaster.events({
   },
   'click #addItem' (event) {
     event.preventDefault()
+    let item_code = document.getElementById('item_code').value
     let item_gtin = document.getElementById('item_gtin').value
     let item_name = document.getElementById('item_name').value
     let item_unit = document.getElementById('item_unit').value
@@ -25,7 +26,7 @@ Template.itemMaster.events({
     let item_minWeight = document.getElementById('item_minWeight').value
     let item_maxWeight = document.getElementById('item_maxWeight').value
     let item_ingredients = document.getElementById('selectIngredients').value
-    Meteor.call('insertItem', item_gtin, item_name, item_unit, item_brand, item_shelfLife, item_stdWeight, item_minWeight, item_maxWeight, item_ingredients, (error) => {
+    Meteor.call('insertItem', item_code, item_gtin, item_name, item_unit, item_brand, item_shelfLife, item_stdWeight, item_minWeight, item_maxWeight, item_ingredients, (error) => {
       if (error) {
         window.alert(error)
       }
@@ -33,6 +34,7 @@ Template.itemMaster.events({
   },
   'click #editItem' (event) {
     event.preventDefault()
+    let item_code = document.getElementById('item_code_edit').value
     let item_gtin = document.getElementById('item_gtin_edit').value
     let item_name = document.getElementById('item_name_edit').value
     let item_unit = document.getElementById('item_unit_edit').value
@@ -42,7 +44,7 @@ Template.itemMaster.events({
     let item_minWeight = document.getElementById('item_minWeight_edit').value
     let item_maxWeight = document.getElementById('item_maxWeight_edit').value
     let item_ingredients = document.getElementById('selectIngredients_edit').value
-    Meteor.call('updateItem', item_gtin, item_name, item_unit, item_brand, item_shelfLife, item_stdWeight, item_minWeight, item_maxWeight, item_ingredients, (error) => {
+    Meteor.call('updateItem', item_code, item_gtin, item_name, item_unit, item_brand, item_shelfLife, item_stdWeight, item_minWeight, item_maxWeight, item_ingredients, (error) => {
       if (error) {
         window.alert(error)
       }

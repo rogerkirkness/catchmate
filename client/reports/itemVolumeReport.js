@@ -36,7 +36,7 @@ Template.itemVolumeReport.helpers({
     let results = []
     _.each(items, function (value, key) {
       let displayValue = (value / 1000).toFixed(3)
-      let name = Items.findOne({item_gtin: key}).item_name
+      let name = Items.findOne({item_code: key}).item_name
       results.push({item_code: key, item_name: name, item_weight: displayValue})
     })
     if (results != null) {

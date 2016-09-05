@@ -3,6 +3,10 @@
   <div class="col-sm-6">
     <legend>Add Item</legend>
     <div class="form-group">
+      <label for="item_code" class="control-label">Item Code</label>
+      <input type="text" id="item_code" class="form-control">
+    </div>
+    <div class="form-group">
       <label for="item_gtin" class="control-label">Item GTIN</label>
       <input type="text" id="item_gtin" class="form-control">
     </div>
@@ -47,8 +51,12 @@
   <div class="col-sm-6">
     <legend>Edit Item</legend>
     <div class="form-group">
+      <label for="item_code_edit" class="control-label">Item Code</label>
+      <input type="text" id="item_code_edit" class="form-control" value="{{item.item_code}}" readonly>
+    </div>
+    <div class="form-group">
       <label for="item_gtin_edit" class="control-label">Item GTIN</label>
-      <input type="text" id="item_gtin_edit" class="form-control" value="{{item.item_gtin}}" readonly>
+      <input type="text" id="item_gtin_edit" class="form-control" value="{{item.item_gtin}}">
     </div>
     <div class="form-group">
       <label for="item_name_edit" class="control-label">Item Name</label>
@@ -93,6 +101,7 @@
       <tbody>
         <tr>
           <td><b>Code</b></td>
+          <td><b>GTIN</b></td>
           <td><b>Name</b></td>
           <td><b>Brand</b></td>
           <td><b>Life (Days)</b></td>
@@ -103,6 +112,7 @@
         </tr>
         {{#each items}}
         <tr>
+          <td>{{item_code}}</td>
           <td>{{item_gtin}}</td>
           <td>{{item_name}}</td>
           <td>{{item_brand}}</td>

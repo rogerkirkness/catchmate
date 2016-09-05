@@ -9,7 +9,7 @@ Template.settings.events({
   'change .companyLogo' (event) {
     let file = event.target.files[0]
     let xhr = new XMLHttpRequest()
-    xhr.open('POST', '/uploadCompanyLogo', true)
+    xhr.open('GET', '/uploadCompanyLogo', true)
     xhr.onload = function (event) {
       window.alert('Upload successful')
     }
@@ -21,7 +21,7 @@ Template.settings.events({
   'change .plantLogo' (event) {
     let file = event.target.files[0]
     let xhr = new XMLHttpRequest()
-    xhr.open('POST', '/uploadPlantLogo', true)
+    xhr.open('GET', '/uploadPlantLogo', true)
     xhr.onload = function (event) {
       window.alert('Upload successful')
     }
@@ -58,9 +58,9 @@ Template.settings.helpers({
     return Meteor.users.findOne(Meteor.userId()).companyId
   },
   companylogo() {
-    return window.location.href + '/files/' + Meteor.users.findOne(Meteor.userId()).companyId + 'cl.jpg'
+    return window.location.href + 'files/cl' + Meteor.users.findOne(Meteor.userId()).companyId + '.jpg'
   },
   plantlogo() {
-    return window.location.href + '/files/' + Meteor.users.findOne(Meteor.userId()).companyId + 'pl.jpg'
+    return window.location.href + 'files/pl' + Meteor.users.findOne(Meteor.userId()).companyId + '.jpg'
   }
 })

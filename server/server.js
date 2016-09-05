@@ -6,6 +6,7 @@ import bwipjs from 'bwip-js'
 import express from 'express'
 import { Meteor } from 'meteor/meteor'
 import { Accounts } from 'meteor/accounts-base'
+
 import { Customers } from '/imports/collections'
 import { Batches } from '/imports/collections'
 import { Items } from '/imports/collections'
@@ -47,9 +48,23 @@ http.createServer((request, response) => {
   response.end(plantLogo, 'binary')
 }).listen(8084)
 
+app.get('/files/:name', (request, response) => {
+  let options = {
+    root: '../../../files/'
+  }
+  let file = request.params.name
+  response.sendFile(file, options, function (error) {
+    if (error) {
+      console.log(error)
+    } else {
+      response.end()
+    }
+  })
+})
+
 app.get('/uploadCompanyLogo', (request, response) => {
   mkdirp('../../../files/')
-  let path = '../../../files/' + Meteor.user().companyId + 'cl.jpg'
+  let path = '../../../files/cl' + Meteor.user().companyId + '.jpg'
   let file = fs.createWriteStream(path)
   file.on('error', function (error) {
     console.log(error)
@@ -63,7 +78,7 @@ app.get('/uploadCompanyLogo', (request, response) => {
 
 app.get('/uploadPlantLogo', (request, response) => {
   mkdirp('../../../files/')
-  let path = '../../../files/' + Meteor.user().companyId + 'pl.jpg'
+  let path = '../../../files/pl' + Meteor.user().companyId + '.jpg'
   let file = fs.createWriteStream(path)
   file.on('error', function (error) {
     console.log(error)
@@ -113,13 +128,10 @@ Meteor.methods({
       })
     }
   },
-  
+
   insertBatch(created, item_code, cust_code, item_weight, num_units, batch_code) {
     if (this.userId) {
       let companyId = Meteor.user().companyId
-      if (isNaN(item_weight) === true || isNaN(num_units) === true || isNaN(batch_code) === true) {
-        throw new Meteor.Error("invalid-number", "One of your number entries is not a valid number")
-      }
       Batches.insert({
         'item_code': item_code,
         'cust_code': cust_code,
@@ -137,7 +149,7 @@ Meteor.methods({
       Batches.remove({ $and: [{ createdAt: lastBatch }, { batch_companyId: companyId }] })
     }
   },
-  
+
   insertItem(item_code, item_gtin, item_name, item_unit, item_brand, item_shelfLife, item_stdWeight, item_minWeight, item_maxWeight, item_ingredients) {
     if (this.userId) {
       let companyId = Meteor.user().companyId
@@ -146,8 +158,6 @@ Meteor.methods({
         if (exists.item_code === item_code) {
           throw new Meteor.Error("duplicate-code", "Code: " + exists + " already exists.")
         }
-      } else if (isNaN(item_shelfLife) === true || isNaN(item_stdWeight) === true || isNan(item_winWeight) === true || isNaN(item_maxWeight) === true) {
-        throw new Meteor.Error("invalid-number", "One of your number entries is not a valid number")
       } else {
         Items.insert({
           'item_code': item_code,
@@ -167,26 +177,22 @@ Meteor.methods({
   },
   updateItem(item_code, item_gtin, item_name, item_unit, item_brand, item_shelfLife, item_stdWeight, item_minWeight, item_maxWeight, item_ingredients) {
     if (this.userId) {
-      if (isNaN(item_shelfLife) === true || isNaN(item_stdWeight) === true || isNan(item_winWeight) === true || isNaN(item_maxWeight) === true) {
-        throw new Meteor.Error("invalid-number", "One of your number entries is not a valid number")
-      } else {
-        Items.update({ item_code: item_code }, {
-          $set: {
-            'item_gtin': item_gtin,
-            'item_name': item_name,
-            'item_unit': item_unit,
-            'item_brand': item_brand,
-            'item_shelfLife': item_shelfLife,
-            'item_stdWeight': item_stdWeight,
-            'item_minWeight': item_minWeight,
-            'item_maxWeight': item_maxWeight,
-            'item_ingredients': item_ingredients
-          }
-        })
-      }
+      Items.update({ item_code: item_code }, {
+        $set: {
+          'item_gtin': item_gtin,
+          'item_name': item_name,
+          'item_unit': item_unit,
+          'item_brand': item_brand,
+          'item_shelfLife': item_shelfLife,
+          'item_stdWeight': item_stdWeight,
+          'item_minWeight': item_minWeight,
+          'item_maxWeight': item_maxWeight,
+          'item_ingredients': item_ingredients
+        }
+      })
     }
   },
-  
+
   insertIngredients(ingredients_code, ingredients_list) {
     if (this.userId) {
       let companyId = Meteor.user().companyId
@@ -213,7 +219,7 @@ Meteor.methods({
       })
     }
   },
-  
+
   insertLabel(label_code, label_layout) {
     if (this.userId) {
       let companyId = Meteor.user().companyId

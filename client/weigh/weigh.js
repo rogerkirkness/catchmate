@@ -20,7 +20,7 @@ streamer.on('weight', function(weight) {
   indicatorVar.set('indicator', weight)
 })
 
-Template.weigh.onCreated(function () {
+Template.weigh.onCreated(function() {
   this.templateDict = new ReactiveDict()
   this.templateDict.set('item', null)
   this.templateDict.set('batch', null)
@@ -40,7 +40,7 @@ Template.weigh.onCreated(function () {
   this.subscribe('labels')
   this.subscribe('users')
   
-  this.autorun(function () {
+  this.autorun(function() {
     Meteor.subscribe('update')
   })
 })
@@ -53,8 +53,8 @@ Template.weigh.events({
   'click .weigh' (event) {
     let indicator = indicatorVar.get('indicator')
     let item = Template.instance().templateDict.get('validItem')
-    let minWeight = Items.findOne({item_gtin: item}).item_minWeight
-    let maxWeight = Items.findOne({item_gtin: item}).item_maxWeight
+    let minWeight = Items.findOne({item_code: item}).item_minWeight
+    let maxWeight = Items.findOne({item_code: item}).item_maxWeight
 
     if (maxWeight > indicator && minWeight < indicator) {
       event.preventDefault()
@@ -181,13 +181,13 @@ Template.weigh.events({
 })
 
 Template.weigh.helpers({
-  indicator () {
+  indicator() {
     let indicator = indicatorVar.get('indicator')
     if (indicator != null) {
       let item = Template.instance().templateDict.get('validItem')
       if (item != null) {
-        let stdWeight = Items.findOne({item_gtin: item}).item_stdWeight
-        if (stdWeight != null) {
+        let stdWeight = Items.findOne({item_code: item}).item_stdWeight
+        if (stdWeight != null && stdWeight != 0) {
           return stdWeight
         } else {
           return indicator
@@ -195,13 +195,13 @@ Template.weigh.helpers({
       }
     }
   },
-  displayIndicator () {
+  displayIndicator() {
     let indicator = indicatorVar.get('indicator')
     if (indicator != null) {
       let item = Template.instance().templateDict.get('validItem')
       if (item != null) {
-        let stdWeight = Items.findOne({item_gtin: item}).item_stdWeight
-        if (stdWeight != null) {
+        let stdWeight = Items.findOne({item_code: item}).item_stdWeight
+        if (stdWeight != null && stdWeight != 0) {
           return (stdWeight / 1000).toFixed(3) + ' kg'
         } else {
           return (indicator / 1000).toFixed(3) + ' kg'
@@ -211,14 +211,14 @@ Template.weigh.helpers({
       }
     }
   },
-  getStatus () {
+  getStatus() {
     let indicator = indicatorVar.get('indicator')
     let item = Template.instance().templateDict.get('validItem')
     if (item != null && indicator != null) {
-      let stdWeight = Items.findOne({item_gtin: item}).item_stdWeight
-      let maxWeight = Items.findOne({item_gtin: item}).item_maxWeight
-      let minWeight = Items.findOne({item_gtin: item}).item_minWeight
-      if (stdWeight != null) {
+      let stdWeight = Items.findOne({item_code: item}).item_stdWeight
+      let maxWeight = Items.findOne({item_code: item}).item_maxWeight
+      let minWeight = Items.findOne({item_code: item}).item_minWeight
+      if (stdWeight != null && stdWeight != 0) {
         return 'green'
       } else {
         if (maxWeight < indicator) {
@@ -231,14 +231,14 @@ Template.weigh.helpers({
       }
     }
   },
-  statusMessage () {
+  statusMessage() {
     let indicator = indicatorVar.get('indicator')
     let item = Template.instance().templateDict.get('validItem')
     if (item != null && indicator != null) {
-      let stdWeight = Items.findOne({item_gtin: item}).item_stdWeight
-      let maxWeight = Items.findOne({item_gtin: item}).item_maxWeight
-      let minWeight = Items.findOne({item_gtin: item}).item_minWeight
-      if (stdWeight != null) {
+      let stdWeight = Items.findOne({item_code: item}).item_stdWeight
+      let maxWeight = Items.findOne({item_code: item}).item_maxWeight
+      let minWeight = Items.findOne({item_code: item}).item_minWeight
+      if (stdWeight != null && stdWeight != 0) {
         return 'Std Weight'
       } else {
         if (maxWeight < indicator) {
@@ -251,24 +251,24 @@ Template.weigh.helpers({
       }
     }
   },
-  hideLabel () {
+  hideLabel() {
     return Template.instance().templateDict.get('ready')
   },
   batches (createdAt) {
     return Batches.find({}, {sort: {createdAt: -1}, limit: 1})
   },
-  settings () {
+  settings() {
     let companyId = Meteor.users.findOne(Meteor.userId()).companyId
     return Company.findOne({settings: companyId})
   },
   companylogo() {
-    return window.location.href + '/files/' + Meteor.users.findOne(Meteor.userId()).companyId + 'cl.jpg'
+    return window.location.href + '/' + Meteor.users.findOne(Meteor.userId()).companyId + 'cl.jpg'
   },
   plantlogo() {
-    return window.location.href + '/files/' + Meteor.users.findOne(Meteor.userId()).companyId + 'pl.jpg'
+    return window.location.href + '/' + Meteor.users.findOne(Meteor.userId()).companyId + 'pl.jpg'
   },
   itemName() {
-    let itemName = Items.findOne({item_gtin: Template.instance().templateDict.get('item')}).item_name
+    let itemName = Items.findOne({item_code: Template.instance().templateDict.get('item')}).item_name
     if (itemName != null) {
       return itemName
     }
@@ -280,7 +280,7 @@ Template.weigh.helpers({
     }
   },
   shelfLife(createdAt) {
-    let shelfLife = Items.findOne({item_gtin: Template.instance().templateDict.get('item')}).item_shelfLife
+    let shelfLife = Items.findOne({item_code: Template.instance().templateDict.get('item')}).item_shelfLife
     return moment(createdAt).add(shelfLife, 'days').format('DD/MM/YYYY')
   },
   showWeight(item_weight) {
@@ -304,7 +304,7 @@ Template.weigh.helpers({
   ingredients() {
     let itemCode = Template.instance().templateDict.get('item')
     if (itemCode != null) {
-      let ingredientCode = Items.findOne({item_gtin: itemCode}).item_ingredients
+      let ingredientCode = Items.findOne({item_code: itemCode}).item_ingredients
       if (ingredientCode != null) {
         return Ingredients.findOne({ingredients_code: ingredientCode}).ingredients_list
       }
@@ -380,13 +380,13 @@ Template.weigh.helpers({
       rules: [{
         token: '',
         collection: Items,
-        field: 'item_gtin',
+        field: 'item_code',
         sort: true,
         template: Template.itemDropdown
       }]
     }
   },
-  custSettings () {
+  custSettings() {
     return {
       position: 'bottom',
       limit: 5,
@@ -403,15 +403,15 @@ Template.weigh.helpers({
     let companyId = Meteor.users.findOne(Meteor.userId()).companyId
     let settingsPrefix = Company.findOne({settings: companyId}).prefix
     let itemCode = document.getElementById('item_code').value
-    let bcProdDate = function () {
+    let bcProdDate = function() {
       let date = Batches.findOne({}).createdAt
       return moment(date).format('YYMMDD')
     }
-    let bcLotNumber = function () {
+    let bcLotNumber = function() {
       let date = Batches.findOne({}).createdAt
       return moment(date).format('YYYYMMDDHHmmss')
     }
-    let bcItemWeight = function () {
+    let bcItemWeight = function() {
       let itemWeight = document.getElementById('item_weight').value
       let formatWeight = pad(itemWeight, 6)
       return formatWeight
@@ -437,47 +437,47 @@ Template.weigh.helpers({
     let settingsPostal = Company.findOne({settings: companyId}).postal
     let settingsPlantNumber = Company.findOne({settings: companyId}).plant_number
     let settingsPrefix = Company.findOne({settings: companyId}).prefix
-    let productionDate = function () {
+    let productionDate = function() {
       let date = Batches.findOne({}).createdAt
       return moment(date).format('DD/MM/YYYY')
     }
-    let lotNumber = function () {
+    let lotNumber = function() {
       let date = Batches.findOne({}).createdAt
       return moment(date).format('YYYYMMDDHHmmss')
     }
-    let shelfLife = function () {
+    let shelfLife = function() {
       let date = Batches.findOne({}).createdAt
-      let shelfLife = Items.findOne({item_gtin: Template.instance().templateDict.get('item')}).item_shelfLife
+      let shelfLife = Items.findOne({item_code: Template.instance().templateDict.get('item')}).item_shelfLife
       return moment(date).add(shelfLife, 'days').format('DD/MM/YYYY')
     }
-    let bcProdDate = function () {
+    let bcProdDate = function() {
       let date = Batches.findOne({}).createdAt
       return moment(date).format('YYMMDD')
     }
-    let bcLotNumber = function () {
+    let bcLotNumber = function() {
       let date = Batches.findOne({}).createdAt
       return moment(date).format('YYYYMMDDHHmmss')
     }
-    let grossWeight = function () {
+    let grossWeight = function() {
       let item_weight = document.getElementById('item_weight').value
       return (item_weight / 1000).toFixed(3) + ' kg'
     }
-    let netWeight = function () {
+    let netWeight = function() {
       let item_weight = document.getElementById('item_weight').value
       let tare = Meteor.user().profile.tare
       return (item_weight / 1000 - tare).toFixed(3) + ' kg'
     }
-    let bcItemWeight = function () {
+    let bcItemWeight = function() {
       let item_weight = document.getElementById('item_weight').value
       let formatWeight = pad(item_weight, 6)
       return formatWeight
     }
-    let itemName = Items.findOne({item_gtin: Template.instance().templateDict.get('item')}).item_name
+    let itemName = Items.findOne({item_code: Template.instance().templateDict.get('item')}).item_name
     let itemCode = document.getElementById('item_code').value
     let custName = Customers.findOne({customer_code: Template.instance().templateDict.get('cust')}).customer_name
     let custCode = document.getElementById('cust_code').value
-    let ingredientsList = function () {
-      let ingredientCode = Items.findOne({item_gtin: Template.instance().templateDict.get('item')}).item_ingredients
+    let ingredientsList = function() {
+      let ingredientCode = Items.findOne({item_code: Template.instance().templateDict.get('item')}).item_ingredients
       return Ingredients.findOne({ingredients_code: ingredientCode}).ingredients_list
     }
     let layout = Labels.findOne({label_code: Meteor.user().profile.label}).label_layout

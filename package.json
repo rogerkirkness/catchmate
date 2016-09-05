@@ -12,7 +12,6 @@
     "mkdirp": "0.5.1",
     "moment": "2.14.1",
     "net": "1.0.2",
-    "simpl-schema": "0.0.3",
     "underscore": "1.8.3"
   }
 }
