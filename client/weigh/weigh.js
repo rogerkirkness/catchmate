@@ -13,6 +13,7 @@ const pad = (n, width, z) => {
   n = n + ''
   return n.length >= width ? n : new Array(width - n.length + 1).join(z) + n
 }
+
 const streamer = new Meteor.Streamer('scale')
 const indicatorVar = new ReactiveDict('indicator', null)
 streamer.on('weight', function(weight) {
@@ -28,6 +29,7 @@ Template.weigh.onCreated(function () {
   this.templateDict.set('validItem', null)
   this.templateDict.set('ready', true)
   this.templateDict.set('batchCode', null)
+  
   this.subscribe('batch')
   this.subscribe('items')
   this.subscribe('customers')
@@ -36,6 +38,8 @@ Template.weigh.onCreated(function () {
   this.subscribe('company')
   this.subscribe('printers')
   this.subscribe('labels')
+  this.subscribe('users')
+  
   this.autorun(function () {
     Meteor.subscribe('update')
   })
@@ -51,28 +55,34 @@ Template.weigh.events({
     let item = Template.instance().templateDict.get('validItem')
     let minWeight = Items.findOne({item_gtin: item}).item_minWeight
     let maxWeight = Items.findOne({item_gtin: item}).item_maxWeight
+
     if (maxWeight > indicator && minWeight < indicator) {
       event.preventDefault()
+
       Template.instance().templateDict.set('ready', false)
+      
       let item_code = document.getElementById('item_code').value
       let cust_code = document.getElementById('cust_code').value
+      let item_weight = document.getElementById('item_weight').value
       let created = moment().toDate()
       Template.instance().templateDict.set('item', item_code)
       Template.instance().templateDict.set('cust', cust_code)
       Template.instance().templateDict.set('batch', created)
-      let item_weight = document.getElementById('item_weight').value
+
       let num_units = document.getElementById('num_units').value
       Template.instance().templateDict.set('numUnits', num_units)
       if (!num_units) {
         num_units = 1
         Template.instance().templateDict.set('numUnits', num_units)
       }
+      
       let batch_code = document.getElementById('batch_code').value
       Template.instance().templateDict.set('batchCode', batch_code)
       if (!batch_code) {
         batch_code = moment(created).format('YYYYMMDDHHmmss')
         Template.instance().templateDict.set('batchCode', batch_code)
       }
+
       Meteor.call('insertBatch', created, item_code, cust_code, item_weight, num_units, batch_code, function (error) {
         if (error) {
           window.alert(error)
@@ -248,38 +258,42 @@ Template.weigh.helpers({
     return Batches.find({}, {sort: {createdAt: -1}, limit: 1})
   },
   settings () {
-    return Company.findOne({settings: 'company'})
+    let companyId = Meteor.users.findOne(Meteor.userId()).companyId
+    return Company.findOne({settings: companyId})
   },
-  companylogo () {
-    return 'http://localhost:8083/files/companylogo.jpg'
+  companylogo() {
+    return window.location.href + '/files/' + Meteor.users.findOne(Meteor.userId()).companyId + 'cl.jpg'
   },
-  plantlogo () {
-    return 'http://localhost:8084/files/plantlogo.jpg'
+  plantlogo() {
+    return window.location.href + '/files/' + Meteor.users.findOne(Meteor.userId()).companyId + 'pl.jpg'
   },
-  itemName () {
-    return Items.findOne({item_gtin: Template.instance().templateDict.get('item')}).item_name
+  itemName() {
+    let itemName = Items.findOne({item_gtin: Template.instance().templateDict.get('item')}).item_name
+    if (itemName != null) {
+      return itemName
+    }
   },
-  custName () {
+  custName() {
     let custName = Customers.findOne({customer_code: Template.instance().templateDict.get('cust')}).customer_name
     if (custName != null) {
       return custName
     }
   },
-  shelfLife (createdAt) {
+  shelfLife(createdAt) {
     let shelfLife = Items.findOne({item_gtin: Template.instance().templateDict.get('item')}).item_shelfLife
     return moment(createdAt).add(shelfLife, 'days').format('DD/MM/YYYY')
   },
-  showWeight (item_weight) {
+  showWeight(item_weight) {
     return (item_weight / 1000).toFixed(3) + ' kg'
   },
-  netWeight (item_weight) {
+  netWeight(item_weight) {
     let tare = Meteor.user().profile.tare
     return (item_weight / 1000 - tare).toFixed(3) + ' kg'
   },
-  dateFull (createdAt) {
+  dateFull(createdAt) {
     return moment(createdAt).format('DD/MM/YYYY')
   },
-  lotNumber1 (createdAt) {
+  lotNumber1(createdAt) {
     let batchCode = Template.instance().templateDict.get('batchCode')
     if (!batchCode) {
       return moment(createdAt).format('YYYYMMDDHHmmss')
@@ -287,7 +301,7 @@ Template.weigh.helpers({
       return batchCode
     }
   },
-  ingredients () {
+  ingredients() {
     let itemCode = Template.instance().templateDict.get('item')
     if (itemCode != null) {
       let ingredientCode = Items.findOne({item_gtin: itemCode}).item_ingredients
@@ -296,65 +310,70 @@ Template.weigh.helpers({
       }
     }
   },
-  codeDate (createdAt) {
+  codeDate(createdAt) {
     return moment(createdAt).format('YYMMDD')
   },
-  codeWeight (item_weight) {
+  codeWeight(item_weight) {
     let formatWeight = pad(item_weight, 6)
     return formatWeight
   },
-  codeLot (createdAt) {
+  codeLot(createdAt) {
     return moment(createdAt).format('YYYYMMDDHHmmss')
   },
-  scales () {
+  scales() {
     return Scales.find({})
   },
-  printers () {
+  printers() {
     return Printers.find({})
   },
-  printerSelected () {
+  printerSelected() {
     if (this.printer_name === Meteor.user().profile.printer) {
       return 'selected'
     }
   },
-  scaleSelected () {
+  scaleSelected() {
+    let scale = function() {
+      if (typeof Meteor.user().profile.scale != undefined) {
+        return Meteor.user().profile.scale
+      }
+    }
     if (this.scale_name === Meteor.user().profile.scale) {
       return 'selected'
     }
   },
-  labelSelected () {
+  labelSelected() {
     if (this.label_code === Meteor.user().profile.label) {
       return 'selected'
     }
   },
-  nuChecked () {
+  nuChecked() {
     let status = Meteor.user().profile.numUnitsChecked
     if (status === true) {
       return 'checked'
     }
   },
-  bcChecked () {
+  bcChecked() {
     let status = Meteor.user().profile.batchCodeChecked
     if (status === true) {
       return 'checked'
     }
   },
-  nuShowTrue () {
+  nuShowTrue() {
     let status = Meteor.user().profile.numUnitsChecked
     if (status === true) {
       return 'true'
     }
   },
-  bcShowTrue () {
+  bcShowTrue() {
     let status = Meteor.user().profile.batchCodeChecked
     if (status === true) {
       return 'true'
     }
   },
-  labels () {
+  labels() {
     return Labels.find({})
   },
-  itemSettings () {
+  itemSettings() {
     return {
       position: 'bottom',
       limit: 5,
@@ -380,8 +399,9 @@ Template.weigh.helpers({
       }]
     }
   },
-  url () {
-    let settingsPrefix = Company.findOne({settings: 'company'}).prefix
+  url() {
+    let companyId = Meteor.users.findOne(Meteor.userId()).companyId
+    let settingsPrefix = Company.findOne({settings: companyId}).prefix
     let itemCode = document.getElementById('item_code').value
     let bcProdDate = function () {
       let date = Batches.findOne({}).createdAt
@@ -406,16 +426,17 @@ Template.weigh.helpers({
       return localUrl
     }
   },
-  zpl () {
-    let settingsCompanyName = Company.findOne({settings: 'company'}).company_name
-    let settingsStreetOne = Company.findOne({settings: 'company'}).street1
-    let settingsStreetTwo = Company.findOne({settings: 'company'}).street2
-    let settingsCity = Company.findOne({settings: 'company'}).city
-    let settingsProvince = Company.findOne({settings: 'company'}).province
-    let settingsCountry = Company.findOne({settings: 'company'}).country
-    let settingsPostal = Company.findOne({settings: 'company'}).postal
-    let settingsPlantNumber = Company.findOne({settings: 'company'}).plant_number
-    let settingsPrefix = Company.findOne({settings: 'company'}).prefix
+  zpl() {
+    let companyId = Meteor.users.findOne(Meteor.userId()).companyId
+    let settingsCompanyName = Company.findOne({settings: companyId}).company_name
+    let settingsStreetOne = Company.findOne({settings: companyId}).street1
+    let settingsStreetTwo = Company.findOne({settings: companyId}).street2
+    let settingsCity = Company.findOne({settings: companyId}).city
+    let settingsProvince = Company.findOne({settings: companyId}).province
+    let settingsCountry = Company.findOne({settings: companyId}).country
+    let settingsPostal = Company.findOne({settings: companyId}).postal
+    let settingsPlantNumber = Company.findOne({settings: companyId}).plant_number
+    let settingsPrefix = Company.findOne({settings: companyId}).prefix
     let productionDate = function () {
       let date = Batches.findOne({}).createdAt
       return moment(date).format('DD/MM/YYYY')

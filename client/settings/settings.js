@@ -2,6 +2,7 @@ import { Company } from '/imports/collections'
 
 Template.settings.onCreated(function () {
   this.subscribe('company')
+  this.subscribe('users')
 })
 
 Template.settings.events({
@@ -11,7 +12,6 @@ Template.settings.events({
     xhr.open('POST', '/uploadCompanyLogo', true)
     xhr.onload = function (event) {
       window.alert('Upload successful')
-      window.location.reload()
     }
     xhr.onerror = function (error) {
       window.alert(error)
@@ -24,7 +24,6 @@ Template.settings.events({
     xhr.open('POST', '/uploadPlantLogo', true)
     xhr.onload = function (event) {
       window.alert('Upload successful')
-      window.location.reload()
     }
     xhr.onerror = function (error) {
       window.alert(error)
@@ -51,13 +50,17 @@ Template.settings.events({
 })
 
 Template.settings.helpers({
-  settings () {
-    return Company.findOne({settings: 'company'})
+  settings() {
+    let companyId = Meteor.users.findOne(Meteor.userId()).companyId
+    return Company.findOne({settings: companyId})
   },
-  companylogo () {
-    return 'http://localhost:8083/files/companylogo.jpg'
+  companyId() {
+    return Meteor.users.findOne(Meteor.userId()).companyId
   },
-  plantlogo () {
-    return 'http://localhost:8084/files/plantlogo.jpg'
+  companylogo() {
+    return window.location.href + '/files/' + Meteor.users.findOne(Meteor.userId()).companyId + 'cl.jpg'
+  },
+  plantlogo() {
+    return window.location.href + '/files/' + Meteor.users.findOne(Meteor.userId()).companyId + 'pl.jpg'
   }
 })
