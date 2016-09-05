@@ -9,7 +9,8 @@ Template.settings.events({
   'change .companyLogo' (event) {
     let file = event.target.files[0]
     let xhr = new XMLHttpRequest()
-    xhr.open('GET', '/uploadCompanyLogo', true)
+    let companyId = Meteor.users.findOne(Meteor.userId()).companyId
+    xhr.open('POST', '/?companyId=' + companyId + '&request=uploadCompanyLogo', true)
     xhr.onload = function (event) {
       window.alert('Upload successful')
     }
@@ -21,7 +22,8 @@ Template.settings.events({
   'change .plantLogo' (event) {
     let file = event.target.files[0]
     let xhr = new XMLHttpRequest()
-    xhr.open('GET', '/uploadPlantLogo', true)
+    let companyId = Meteor.users.findOne(Meteor.userId()).companyId
+    xhr.open('POST', '/files?companyId=' + companyId + '&request=uploadPlantLogo', true)
     xhr.onload = function (event) {
       window.alert('Upload successful')
     }
@@ -58,9 +60,11 @@ Template.settings.helpers({
     return Meteor.users.findOne(Meteor.userId()).companyId
   },
   companylogo() {
-    return window.location.href + 'files/cl' + Meteor.users.findOne(Meteor.userId()).companyId + '.jpg'
+    let companyId = Meteor.users.findOne(Meteor.userId()).companyId
+    return window.location.href + 'files/cl' + companyId + '.jpg?request=clogo&companyId=' + companyId 
   },
   plantlogo() {
-    return window.location.href + 'files/pl' + Meteor.users.findOne(Meteor.userId()).companyId + '.jpg'
+    let companyId = Meteor.users.findOne(Meteor.userId()).companyId
+    return window.location.href + 'files/pl' + companyId + '.jpg?request=plogo&companyId=' + companyId
   }
 })

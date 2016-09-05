@@ -1,10 +1,10 @@
 import fs from 'fs'
 import net from 'net'
-import http from 'http'
 import mkdirp from 'mkdirp'
 import bwipjs from 'bwip-js'
-import express from 'express'
+
 import { Meteor } from 'meteor/meteor'
+import { WebApp } from 'meteor/webapp'
 import { Accounts } from 'meteor/accounts-base'
 
 import { Customers } from '/imports/collections'
@@ -16,7 +16,6 @@ import { Labels } from '/imports/collections'
 import { Printers } from '/imports/collections'
 import { Company } from '/imports/collections'
 
-const app = express()
 const streamer = new Meteor.Streamer('scale')
 streamer.allowRead('all')
 
@@ -25,69 +24,54 @@ Accounts.onCreateUser((options, user) => {
   return user
 })
 
-http.createServer((request, response) => {
+WebApp.connectHandlers.use('/files', function (request, response) {
+  mkdirp('../../../files/')
+  if (request.query.request == 'uploadCompanyLogo') {
+    let companyId = request.query.companyId
+    let path = '../../../files/cl' + companyId + '.jpg'
+    let file = fs.createWriteStream(path)
+    file.on('error', function (error) {
+      console.log(error)
+    })
+    file.on('finish', function () {
+      response.writeHead(200, { 'content-type': 'text/plain' })
+      response.end()
+    })
+    request.pipe(file)
+  } else if (request.query.request == 'uploadPlantLogo') {
+    let companyId = request.query.companyId
+    let path = '../../../files/pl' + companyId + '.jpg'
+    let file = fs.createWriteStream(path)
+    file.on('error', function (error) {
+      console.log(error)
+    })
+    file.on('finish', function () {
+      response.writeHead(200, { 'content-type': 'text/plain' })
+      response.end()
+    })
+    request.pipe(file)
+  } else if (request.query.request == 'clogo') {
+    let path = '../../../files/cl' + request.query.companyId + '.jpg'
+    let companyLogo = fs.readFileSync(path)
+    response.writeHead(200, { 'Content-Type': 'image/jpeg' })
+    response.end(companyLogo, 'binary')
+  } else if (request.query.request == 'plogo') {
+    let path = '../../../files/pl' + request.query.companyId + '.jpg'
+    let plantLogo = fs.readFileSync(path)
+    response.writeHead(200, { 'Content-Type': 'image/jpeg' })
+    response.end(plantLogo, 'binary')
+  } else {
+    // Do nothing
+  }
+})
+
+WebApp.connectHandlers.use('/bc', function (request, response) {
   if (request.url.indexOf('/?bcid=') !== 0) {
     response.writeHead(404, { 'Content-Type': 'text/plain' })
     response.end('BWIP-JS: Unknown request format.', 'utf8')
   } else {
     bwipjs(request, response)
   }
-}).listen(8082)
-
-http.createServer((request, response) => {
-  let path = '../../../files/' + Meteor.user().companyId + 'cl.jpg'
-  let companyLogo = fs.readFileSync(path)
-  response.writeHead(200, { 'Content-Type': 'image/jpeg' })
-  response.end(companyLogo, 'binary')
-}).listen(8083)
-
-http.createServer((request, response) => {
-  let path = '../../../files/' + Meteor.user().companyId + 'pl.jpg'
-  let plantLogo = fs.readFileSync(path)
-  response.writeHead(200, { 'Content-Type': 'image/jpeg' })
-  response.end(plantLogo, 'binary')
-}).listen(8084)
-
-app.get('/files/:name', (request, response) => {
-  let options = {
-    root: '../../../files/'
-  }
-  let file = request.params.name
-  response.sendFile(file, options, function (error) {
-    if (error) {
-      console.log(error)
-    } else {
-      response.end()
-    }
-  })
-})
-
-app.get('/uploadCompanyLogo', (request, response) => {
-  mkdirp('../../../files/')
-  let path = '../../../files/cl' + Meteor.user().companyId + '.jpg'
-  let file = fs.createWriteStream(path)
-  file.on('error', function (error) {
-    console.log(error)
-  })
-  file.on('finish', function () {
-    response.writeHead(200, { 'content-type': 'text/plain' })
-    response.end()
-  })
-  request.pipe(file)
-})
-
-app.get('/uploadPlantLogo', (request, response) => {
-  mkdirp('../../../files/')
-  let path = '../../../files/pl' + Meteor.user().companyId + '.jpg'
-  let file = fs.createWriteStream(path)
-  file.on('error', function (error) {
-    console.log(error)
-  })
-  file.on('finish', function () {
-    response.writeHead(200, { 'content-type': 'text/plain' })
-    response.end()
-  })
-  request.pipe(file)
 })
 
 Meteor.methods({
