@@ -33,6 +33,7 @@ jquery@1.11.9
 localstorage@1.0.11
 logging@1.1.15
 meteor@1.2.17
+minifier-css@1.1.13
 minifier-js@1.2.14
 minimongo@1.0.17
 mizzao:autocomplete@0.5.1
@@ -58,6 +59,9 @@ shell-server@0.2.1
 spacebars@1.0.12
 spacebars-compiler@1.0.12
 srp@1.0.9
+standard-minifier-css@1.0.8
+standard-minifier-js@1.0.8
+standard-minifiers@1.0.6
 templating@1.2.14
 templating-tools@1.0.4
 tracker@1.1.0

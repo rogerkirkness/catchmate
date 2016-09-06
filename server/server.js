@@ -60,8 +60,6 @@ WebApp.connectHandlers.use('/files', function (request, response) {
     let plantLogo = fs.readFileSync(path)
     response.writeHead(200, { 'Content-Type': 'image/jpeg' })
     response.end(plantLogo, 'binary')
-  } else {
-    // Do nothing
   }
 })
 
@@ -81,7 +79,7 @@ Meteor.methods({
       let exists = Customers.findOne({ $and: [{ customer_code: customer_code }, { customer_companyId: companyId }] })
       if (exists != null) {
         if (exists.customer_code === customer_code) {
-          throw new Meteor.Error("duplicate-code", "Code: " + exists + " already exists.")
+          throw new Meteor.Error("duplicate-code", "Code: " + exists.customer_code + " already exists.")
         }
       }
       Customers.insert({
@@ -140,7 +138,7 @@ Meteor.methods({
       let exists = Items.findOne({ $and: [{ item_code: item_code }, { item_companyId: companyId }] })
       if (exists != null) {
         if (exists.item_code === item_code) {
-          throw new Meteor.Error("duplicate-code", "Code: " + exists + " already exists.")
+          throw new Meteor.Error("duplicate-code", "Code: " + exists.item_code + " already exists.")
         }
       } else {
         Items.insert({
@@ -183,7 +181,7 @@ Meteor.methods({
       let exists = Ingredients.findOne({ $and: [{ ingredients_code: ingredients_code }, { ingredients_companyId: companyId }] })
       if (exists != null) {
         if (exists.ingredients_code === ingredients_code) {
-          throw new Meteor.Error("duplicate-code", "Code: " + exists + " already exists.")
+          throw new Meteor.Error("duplicate-code", "Code: " + exists.ingredients_code + " already exists.")
         }
       } else {
         Ingredients.insert({
@@ -210,13 +208,13 @@ Meteor.methods({
       let exists = Labels.findOne({ $and: [{ label_code: label_code }, { label_companyId: companyId }] })
       if (exists != null) {
         if (exists.label_code === label_code) {
-          throw new Meteor.Error("duplicate-code", "Code: " + exists + " already exists.")
+          throw new Meteor.Error("duplicate-code", "Code: " + exists.label_code + " already exists.")
         }
       } else {
         Labels.insert({
           'label_code': label_code,
           'label_layout': label_layout,
-          'ingredients_companyId': companyId
+          'label_companyId': companyId
         })
       }
     }
@@ -237,7 +235,7 @@ Meteor.methods({
       let exists = Scales.findOne({ $and: [{ scale_code: scale_code }, { scale_companyId: companyId }] })
       if (exists != null) {
         if (exists.scale_code === scale_code) {
-          throw new Meteor.Error("duplicate-code", "Code: " + exists + " already exists.")
+          throw new Meteor.Error("duplicate-code", "Code: " + exists.scale_code + " already exists.")
         }
       } else {
         Scales.insert({
@@ -268,7 +266,7 @@ Meteor.methods({
       let exists = Printers.findOne({ $and: [{ printer_code: printer_code }, { printer_companyId: companyId }] })
       if (exists != null) {
         if (exists.printer_code === printer_code) {
-          throw new Meteor.Error("duplicate-code", "Code: " + exists + " already exists.")
+          throw new Meteor.Error("duplicate-code", "Code: " + exists.printer_code + " already exists.")
         }
       } else {
         Printers.insert({
@@ -292,7 +290,7 @@ Meteor.methods({
       })
     }
   },
-  
+
   upsertSettings(companyName, plantNumber, Street1, Street2, City, Province, Country, Postal, Prefix) {
     if (this.userId) {
       let companyId = Meteor.user().companyId
@@ -311,7 +309,7 @@ Meteor.methods({
       })
     }
   },
-  
+
   updateTareProfile(Tare) {
     if (this.userId) {
       Meteor.users.update(this.userId, {
@@ -370,7 +368,7 @@ Meteor.methods({
       })
     }
   },
-  
+
   insertUser(email, password, companyId) {
     let userObject = {
       'email': email,

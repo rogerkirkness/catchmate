@@ -8,21 +8,22 @@ Template.traceReport.onCreated(function () {
 })
 
 Template.traceReport.events({
-  'click .updateReport' (event) {
+  'click .updateReport'(event) {
     let batchCode = document.getElementById('batchCode').value
     Template.instance().templateDict.set('batchCode', batchCode)
   }
 })
 
 Template.traceReport.helpers({
-  traceBatch () {
+  traceBatch() {
     let batchCode = Number(Template.instance().templateDict.get('batchCode'))
     if (batchCode != null) {
       let input = []
-      let searchResults = Batches.find({batch_code: batchCode})
+      let searchResults = Batches.find({ batch_code: batchCode })
       _.forEach(searchResults.fetch(), function (r) {
         if (input[r.cust_code] == null) {
           input[r.cust_code] = 0
+          console.log(r.cust_code)
         }
         input[r.cust_code] += r.item_weight * r.num_units
       })
@@ -31,7 +32,7 @@ Template.traceReport.helpers({
         let amountSold = (key / 1000).toFixed(3)
         let batchCode = Number(Template.instance().templateDict.get('batchCode'))
         let custCode = value
-        output.push({batch_code: batchCode, cust_code: custCode, amount_sold: amountSold})
+        output.push({ batch_code: batchCode, cust_code: custCode, amount_sold: amountSold })
       })
       if (output != null) {
         return output

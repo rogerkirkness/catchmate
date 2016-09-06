@@ -34,7 +34,7 @@ Template.itemVolumeReport.helpers({
       items[e.item_code] += e.item_weight * e.num_units
     })
     let results = []
-    _.each(items, function (value, key) {
+    _.forEach(items, function (value, key) {
       let displayValue = (value / 1000).toFixed(3)
       let name = Items.findOne({item_code: key}).item_name
       results.push({item_code: key, item_name: name, item_weight: displayValue})
