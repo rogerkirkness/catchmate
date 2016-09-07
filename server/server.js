@@ -22,20 +22,6 @@ Accounts.onCreateUser((options, user) => {
   return user
 })
 
-WebApp.connectHandlers.use('/img', function (request, response) {
-  if (request.query.request == 'clogo') {
-    let file_name = 'cl' + request.query.companyId + '.jpg'
-    // Get clogo from MongoDB and serve base64
-    response.writeHead(200, { 'Content-Type': 'image/jpeg' })
-    response.end(companyLogo, 'binary')
-  } else if (request.query.request == 'plogo') {
-    let file_name = 'pl' + request.query.companyId + '.jpg'
-    // Get plogo from MongoDB and serve base64
-    response.writeHead(200, { 'Content-Type': 'image/jpeg' })
-    response.end(plantLogo, 'binary')
-  }
-})
-
 WebApp.connectHandlers.use('/bc', function (request, response) {
   if (request.url.indexOf('/?bcid=') !== 0) {
     response.writeHead(404, { 'Content-Type': 'text/plain' })
