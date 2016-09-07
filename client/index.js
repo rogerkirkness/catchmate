@@ -23,6 +23,27 @@ Template.body.events({
       Template.instance().layoutDict.set('activePage', 'weigh')
     }
   },
+  'click .signUp' () {
+    let userObject = {
+      email: document.getElementById('user_signup').value,
+      password: document.getElementById('password_signup').value,
+      companyId: document.getElementById('companyId').value
+    }
+    Accounts.createUser(userObject, function (error) {
+      if (error) {
+        window.alert(error)
+      } else {
+        Meteor.loginWithPassword(email, password, function (error) {
+          if (error) {
+            window.alert(error)
+          }
+        })
+        if (Meteor.user() != null) {
+          Template.instance().layoutDict.set('activePage', 'weigh')
+        }
+      }
+    })
+  },
   'click .link' (event) {
     Template.instance().layoutDict.set('activePage', event.target.id)
   }
