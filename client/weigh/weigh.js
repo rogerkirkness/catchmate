@@ -263,11 +263,11 @@ Template.weigh.helpers({
   },
   companylogo() {
     let companyId = Meteor.users.findOne(Meteor.userId()).companyId
-    return window.location.href + 'files/cl' + companyId + '.jpg?request=clogo&companyId=' + companyId
+    return Company.findOne({settings: companyId}).clogo
   },
   plantlogo() {
     let companyId = Meteor.users.findOne(Meteor.userId()).companyId
-    return window.location.href + 'files/pl' + companyId + '.jpg?request=plogo&companyId=' + companyId
+    return Company.findOne({settings: companyId}).plogo
   },
   itemName() {
     let itemName = Items.findOne({ item_code: Template.instance().templateDict.get('item') }).item_name

@@ -1,6 +1,4 @@
-import fs from 'fs'
 import net from 'net'
-import mkdirp from 'mkdirp'
 import bwipjs from 'bwip-js'
 
 import { Meteor } from 'meteor/meteor'
@@ -24,40 +22,15 @@ Accounts.onCreateUser((options, user) => {
   return user
 })
 
-WebApp.connectHandlers.use('/files', function (request, response) {
-  mkdirp('../../../files/')
-  if (request.query.request == 'uploadCompanyLogo') {
-    let companyId = request.query.companyId
-    let path = '../../../files/cl' + companyId + '.jpg'
-    let file = fs.createWriteStream(path)
-    file.on('error', function (error) {
-      console.log(error)
-    })
-    file.on('finish', function () {
-      response.writeHead(200, { 'content-type': 'text/plain' })
-      response.end()
-    })
-    request.pipe(file)
-  } else if (request.query.request == 'uploadPlantLogo') {
-    let companyId = request.query.companyId
-    let path = '../../../files/pl' + companyId + '.jpg'
-    let file = fs.createWriteStream(path)
-    file.on('error', function (error) {
-      console.log(error)
-    })
-    file.on('finish', function () {
-      response.writeHead(200, { 'content-type': 'text/plain' })
-      response.end()
-    })
-    request.pipe(file)
-  } else if (request.query.request == 'clogo') {
-    let path = '../../../files/cl' + request.query.companyId + '.jpg'
-    let companyLogo = fs.readFileSync(path)
+WebApp.connectHandlers.use('/img', function (request, response) {
+  if (request.query.request == 'clogo') {
+    let file_name = 'cl' + request.query.companyId + '.jpg'
+    // Get clogo from MongoDB and serve base64
     response.writeHead(200, { 'Content-Type': 'image/jpeg' })
     response.end(companyLogo, 'binary')
   } else if (request.query.request == 'plogo') {
-    let path = '../../../files/pl' + request.query.companyId + '.jpg'
-    let plantLogo = fs.readFileSync(path)
+    let file_name = 'pl' + request.query.companyId + '.jpg'
+    // Get plogo from MongoDB and serve base64
     response.writeHead(200, { 'Content-Type': 'image/jpeg' })
     response.end(plantLogo, 'binary')
   }
@@ -291,7 +264,7 @@ Meteor.methods({
     }
   },
 
-  upsertSettings(companyName, plantNumber, Street1, Street2, City, Province, Country, Postal, Prefix) {
+  upsertSettings(companyName, plantNumber, Street1, Street2, City, Province, Country, Postal, Prefix, Clogo, Plogo) {
     if (this.userId) {
       let companyId = Meteor.user().companyId
       Company.upsert({ settings: companyId }, {
@@ -305,6 +278,26 @@ Meteor.methods({
           'country': Country,
           'postal': Postal,
           'prefix': Prefix
+        }
+      })
+    }
+  },
+  upsertClogo(clogo) {
+    if (this.userId) {
+      let companyId = Meteor.user().companyId
+      Company.upsert({ settings: companyId }, {
+        $set: {
+          'clogo': clogo
+        }
+      })
+    }
+  },
+  upsertPlogo(plogo) {
+    if (this.userId) {
+      let companyId = Meteor.user().companyId
+      Company.upsert({ settings: companyId }, {
+        $set: {
+          'plogo': plogo
         }
       })
     }
