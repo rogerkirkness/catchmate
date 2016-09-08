@@ -404,23 +404,34 @@ Template.weigh.helpers({
   url() {
     let companyId = Meteor.users.findOne(Meteor.userId()).companyId
     let settingsPrefix = Company.findOne({ settings: companyId }).prefix
+    
     let itemCode = document.getElementById('item_code').value
-    let bcProdDate = function () {
-      let date = Batches.findOne({}).createdAt
-      return moment(date).format('YYMMDD')
-    }
-    let bcLotNumber = function () {
-      let date = Batches.findOne({}).createdAt
-      return moment(date).format('YYYYMMDDHHmmss')
-    }
-    let bcItemWeight = function () {
-      let itemWeight = document.getElementById('item_weight').value
-      let formatWeight = pad(itemWeight, 6)
-      return formatWeight
-    }
-    let urlhttp = window.location.href + 'bc/?bcid=gs1-128&text=(01){{settings.prefix}}{{item_code}}(11){{codeDate createdAt}}(3102){{codeWeight item_weight}}(21){{codeLot createdAt}}&parsefnc'
-    let localUrl = urlhttp.replace('{{settings.prefix}}', settingsPrefix).replace('{{item_code}}', itemCode).replace('{{codeDate createdAt}}', bcProdDate).replace('{{codeWeight item_weight}}', bcItemWeight).replace('{{codeLot createdAt}}', bcLotNumber).replace(/ /g, '')
-    return localUrl
+    let itemGTIN = Items.findOne({item_code: itemCode }).item_gtin
+    
+    let date = Batches.findOne({}).createdAt
+    let bcProdDate = moment(date).format('YYMMDD')
+    let bcLotNumber = moment(date).format('YYYYMMDDHHmmss')
+
+    let itemWeight = document.getElementById('item_weight').value
+    let bcItemWeight = pad(itemWeight, 6)
+
+    return window.location.href + 'bc/?bcid=gs1-128&text=(01)' + settingsPrefix + itemGTIN + '(11)' + bcProdDate + '(3102)' + bcItemWeight + '(21)' + bcLotNumber + '&parsefnc'
+  },
+  bcText() {
+    let companyId = Meteor.users.findOne(Meteor.userId()).companyId
+    let settingsPrefix = Company.findOne({ settings: companyId }).prefix
+    
+    let itemCode = document.getElementById('item_code').value
+    let itemGTIN = Items.findOne({item_code: itemCode }).item_gtin
+    
+    let date = Batches.findOne({}).createdAt
+    let bcProdDate = moment(date).format('YYMMDD')
+    let bcLotNumber = moment(date).format('YYYYMMDDHHmmss')
+
+    let itemWeight = document.getElementById('item_weight').value
+    let bcItemWeight = pad(itemWeight, 6)
+    
+    return '(01)' + settingsPrefix + itemGTIN + '(11)' + bcProdDate + '(3102)' + bcItemWeight + '(21)' + bcLotNumber
   },
   zpl() {
     let companyId = Meteor.users.findOne(Meteor.userId()).companyId

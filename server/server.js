@@ -250,7 +250,7 @@ Meteor.methods({
     }
   },
 
-  upsertSettings(companyName, plantNumber, Street1, Street2, City, Province, Country, Postal, Prefix, Clogo, Plogo) {
+  upsertSettings(companyName, plantNumber, Street1, Street2, City, Province, Country, Postal, Prefix) {
     if (this.userId) {
       let companyId = Meteor.user().companyId
       Company.upsert({ settings: companyId }, {
