@@ -13,10 +13,10 @@ Template.customerVolumeReport.onCreated(function () {
 
 Template.customerVolumeReport.events({
   'click .updateReport' (event) {
-    let fromDateRaw = document.getElementById('fromDate').value
-    let toDateRaw = document.getElementById('toDate').value
-    let from = moment(fromDateRaw, 'YYYY-MM-DD').toDate()
-    let to = moment(toDateRaw, 'YYYY-MM-DD').endOf('day').toDate()
+    var fromDateRaw = document.getElementById('fromDate').value
+    var toDateRaw = document.getElementById('toDate').value
+    var from = moment(fromDateRaw, 'YYYY-MM-DD').toDate()
+    var to = moment(toDateRaw, 'YYYY-MM-DD').endOf('day').toDate()
     Template.instance().templateDict.set('fromDate', from)
     Template.instance().templateDict.set('toDate', to)
   }
@@ -24,19 +24,19 @@ Template.customerVolumeReport.events({
 
 Template.customerVolumeReport.helpers({
   custBatches () {
-    let items = {}
-    let fDate = Template.instance().templateDict.get('fromDate')
-    let tDate = Template.instance().templateDict.get('toDate')
+    var items = {}
+    var fDate = Template.instance().templateDict.get('fromDate')
+    var tDate = Template.instance().templateDict.get('toDate')
     Batches.find({ $and: [ { createdAt: { $gte: fDate } }, { createdAt: { $lte: tDate } } ] }).forEach(function (e) {
       if (items[e.cust_code] == null) {
         items[e.cust_code] = 0
       }
       items[e.cust_code] += e.item_weight * e.num_units
     })
-    let results = []
+    var results = []
     _.forEach(items, function (value, key) {
-      let displayValue = (value / 1000).toFixed(3)
-      let name = Customers.findOne({customer_code: key}).customer_name
+      var displayValue = (value / 1000).toFixed(3)
+      var name = Customers.findOne({customer_code: key}).customer_name
       results.push({cust_code: key, customer_name: name, item_weight: displayValue})
     })
     if (results != null) {

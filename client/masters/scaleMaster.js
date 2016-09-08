@@ -13,10 +13,10 @@ Template.scaleMaster.events({
   },
   'click #addScale' (event) {
     event.preventDefault()
-    let scale_code = document.getElementById('scale_code').value
-    let scale_name = document.getElementById('scale_name').value
-    let scale_port = document.getElementById('scale_port').value
-    let scale_host = document.getElementById('scale_host').value
+    var scale_code = document.getElementById('scale_code').value
+    var scale_name = document.getElementById('scale_name').value
+    var scale_port = document.getElementById('scale_port').value
+    var scale_host = document.getElementById('scale_host').value
     Meteor.call('insertScale', scale_code, scale_name, scale_port, scale_host, (error) => {
       if (error) {
         window.alert(error)
@@ -25,10 +25,10 @@ Template.scaleMaster.events({
   },
   'click #editScale' (event) {
     event.preventDefault()
-    let scale_code = document.getElementById('scale_code_edit').value
-    let scale_name = document.getElementById('scale_name_edit').value
-    let scale_port = document.getElementById('scale_port_edit').value
-    let scale_host = document.getElementById('scale_host_edit').value
+    var scale_code = document.getElementById('scale_code_edit').value
+    var scale_name = document.getElementById('scale_name_edit').value
+    var scale_port = document.getElementById('scale_port_edit').value
+    var scale_host = document.getElementById('scale_host_edit').value
     Meteor.call('updateScale', scale_code, scale_name, scale_port, scale_host, (error) => {
       if (error) {
         window.alert(error)
@@ -42,7 +42,7 @@ Template.scaleMaster.helpers({
     return Scales.find({})
   },
   scale () {
-    let scale = Template.instance().templateDict.get('scale')
+    var scale = Template.instance().templateDict.get('scale')
     if (scale != null) {
       return Scales.findOne(scale)
     }

@@ -12,8 +12,8 @@ Template.body.events({
     })
   },
   'click .signIn' () {
-    let user = document.getElementById('user').value
-    let password = document.getElementById('password').value
+    var user = document.getElementById('user').value
+    var password = document.getElementById('password').value
     Meteor.loginWithPassword(user, password, function (error) {
       if (error) {
         window.alert(error)
@@ -24,7 +24,7 @@ Template.body.events({
     }
   },
   'click .signUp' () {
-    let userObject = {
+    var userObject = {
       email: document.getElementById('user_signup').value,
       password: document.getElementById('password_signup').value,
       companyId: document.getElementById('companyId').value

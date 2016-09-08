@@ -13,8 +13,8 @@ Template.labelMaster.events({
   },
   'click #addLabel' (event) {
     event.preventDefault()
-    let label_code = document.getElementById('label_code').value
-    let label_layout = document.getElementById('label_layout').value
+    var label_code = document.getElementById('label_code').value
+    var label_layout = document.getElementById('label_layout').value
     Meteor.call('insertLabel', label_code, label_layout, (error) => {
       if (error) {
         window.alert(error)
@@ -23,8 +23,8 @@ Template.labelMaster.events({
   },
   'click #editLabel' (event) {
     event.preventDefault()
-    let label_code = document.getElementById('label_code_edit').value
-    let label_layout = document.getElementById('label_layout_edit').value
+    var label_code = document.getElementById('label_code_edit').value
+    var label_layout = document.getElementById('label_layout_edit').value
     Meteor.call('updateLabel', label_code, label_layout, (error) => {
       if (error) {
         window.alert(error)
@@ -38,7 +38,7 @@ Template.labelMaster.helpers({
     return Labels.find({})
   },
   label () {
-    let label = Template.instance().templateDict.get('label')
+    var label = Template.instance().templateDict.get('label')
     if (label != null) {
       return Labels.findOne(label)
     }
