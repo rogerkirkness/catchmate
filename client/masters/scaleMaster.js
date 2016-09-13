@@ -17,7 +17,7 @@ Template.scaleMaster.events({
     var scale_name = document.getElementById('scale_name').value
     var scale_port = document.getElementById('scale_port').value
     var scale_host = document.getElementById('scale_host').value
-    Meteor.call('insertScale', scale_code, scale_name, scale_port, scale_host, (error) => {
+    Meteor.call('insertScale', scale_code, scale_name, scale_port, scale_host, function(error) {
       if (error) {
         window.alert(error)
       }
@@ -29,7 +29,7 @@ Template.scaleMaster.events({
     var scale_name = document.getElementById('scale_name_edit').value
     var scale_port = document.getElementById('scale_port_edit').value
     var scale_host = document.getElementById('scale_host_edit').value
-    Meteor.call('updateScale', scale_code, scale_name, scale_port, scale_host, (error) => {
+    Meteor.call('updateScale', scale_code, scale_name, scale_port, scale_host, function(error) {
       if (error) {
         window.alert(error)
       }

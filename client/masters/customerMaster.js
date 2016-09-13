@@ -21,7 +21,7 @@ Template.customerMaster.events({
     var customer_province = document.getElementById('customer_province').value
     var customer_country = document.getElementById('customer_country').value
     var customer_postal = document.getElementById('customer_postal').value
-    Meteor.call('insertCustomer', customer_code, customer_name, customer_street1, customer_street2, customer_city, customer_province, customer_country, customer_postal, (error) => {
+    Meteor.call('insertCustomer', customer_code, customer_name, customer_street1, customer_street2, customer_city, customer_province, customer_country, customer_postal, function(error) {
       if (error) {
         window.alert(error)
       }
@@ -37,7 +37,7 @@ Template.customerMaster.events({
     var customer_province = document.getElementById('customer_province_edit').value
     var customer_country = document.getElementById('customer_country_edit').value
     var customer_postal = document.getElementById('customer_postal_edit').value
-    Meteor.call('updateCustomer', customer_code, customer_name, customer_street1, customer_street2, customer_city, customer_province, customer_country, customer_postal, (error) => {
+    Meteor.call('updateCustomer', customer_code, customer_name, customer_street1, customer_street2, customer_city, customer_province, customer_country, customer_postal, function(error) {
       if (error) {
         window.alert(error)
       }
@@ -46,10 +46,10 @@ Template.customerMaster.events({
 })
 
 Template.customerMaster.helpers({
-  customers () {
+  customers() {
     return Customers.find({})
   },
-  customer () {
+  customer() {
     var customer = Template.instance().templateDict.get('customer')
     if (customer != null) {
       return Customers.findOne(customer)

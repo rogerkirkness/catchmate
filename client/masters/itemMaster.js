@@ -26,7 +26,7 @@ Template.itemMaster.events({
     var item_minWeight = document.getElementById('item_minWeight').value
     var item_maxWeight = document.getElementById('item_maxWeight').value
     var item_ingredients = document.getElementById('selectIngredients').value
-    Meteor.call('insertItem', item_code, item_gtin, item_name, item_unit, item_brand, item_shelfLife, item_stdWeight, item_minWeight, item_maxWeight, item_ingredients, (error) => {
+    Meteor.call('insertItem', item_code, item_gtin, item_name, item_unit, item_brand, item_shelfLife, item_stdWeight, item_minWeight, item_maxWeight, item_ingredients, function(error) {
       if (error) {
         window.alert(error)
       }
@@ -44,7 +44,7 @@ Template.itemMaster.events({
     var item_minWeight = document.getElementById('item_minWeight_edit').value
     var item_maxWeight = document.getElementById('item_maxWeight_edit').value
     var item_ingredients = document.getElementById('selectIngredients_edit').value
-    Meteor.call('updateItem', item_code, item_gtin, item_name, item_unit, item_brand, item_shelfLife, item_stdWeight, item_minWeight, item_maxWeight, item_ingredients, (error) => {
+    Meteor.call('updateItem', item_code, item_gtin, item_name, item_unit, item_brand, item_shelfLife, item_stdWeight, item_minWeight, item_maxWeight, item_ingredients, function(error) {
       if (error) {
         window.alert(error)
       }

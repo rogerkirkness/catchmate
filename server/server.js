@@ -14,10 +14,10 @@ import { Labels } from '/imports/collections'
 import { Printers } from '/imports/collections'
 import { Company } from '/imports/collections'
 
-const streamer = new Meteor.Streamer('scale')
+var streamer = new Meteor.Streamer('scale')
 streamer.allowRead('all')
 
-Accounts.onCreateUser((options, user) => {
+Accounts.onCreateUser(function(options, user) {
   user.companyId = options.companyId;
   return user
 })
@@ -355,6 +355,24 @@ Meteor.methods({
       'companyId': companyId
     }
     Accounts.createUser(userObject)
+  },
+
+  generateBarcode() {
+    // Bring all relevant barcode variables in from client
+    bwipjs.toBuffer({
+        bcid:        'code128',       // Barcode type
+        text:        '0123456789',    // Text to encode
+        scale:       3,               // 3x scaling factor
+        height:      10,              // Bar height, in millimeters
+        includetext: false            // Font size, in points
+    }, function (err, bc) {
+        if (err) {
+            throw new Meteor.Error("Barcode error", "Error creating barcode")
+        } else {
+            // Save to "Barcode" temporary collection
+        }
+    })
+
   }
 })
 

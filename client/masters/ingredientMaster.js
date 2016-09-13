@@ -15,7 +15,7 @@ Template.ingredientMaster.events({
     event.preventDefault()
     var ingredients_code = document.getElementById('ingredients_code').value
     var ingredients_list = document.getElementById('ingredients_list').value
-    Meteor.call('insertIngredients', ingredients_code, ingredients_list, (error) => {
+    Meteor.call('insertIngredients', ingredients_code, ingredients_list, function(error) {
       if (error) {
         window.alert(error)
       }
@@ -25,7 +25,7 @@ Template.ingredientMaster.events({
     event.preventDefault()
     var ingredients_code = document.getElementById('ingredients_code_edit').value
     var ingredients_list = document.getElementById('ingredients_list_edit').value
-    Meteor.call('updateIngredients', ingredients_code, ingredients_list, (error) => {
+    Meteor.call('updateIngredients', ingredients_code, ingredients_list, function(error) {
       if (error) {
         window.alert(error)
       }

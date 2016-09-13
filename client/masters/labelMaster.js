@@ -15,7 +15,7 @@ Template.labelMaster.events({
     event.preventDefault()
     var label_code = document.getElementById('label_code').value
     var label_layout = document.getElementById('label_layout').value
-    Meteor.call('insertLabel', label_code, label_layout, (error) => {
+    Meteor.call('insertLabel', label_code, label_layout, function(error) {
       if (error) {
         window.alert(error)
       }
@@ -25,7 +25,7 @@ Template.labelMaster.events({
     event.preventDefault()
     var label_code = document.getElementById('label_code_edit').value
     var label_layout = document.getElementById('label_layout_edit').value
-    Meteor.call('updateLabel', label_code, label_layout, (error) => {
+    Meteor.call('updateLabel', label_code, label_layout, function(error) {
       if (error) {
         window.alert(error)
       }

@@ -17,7 +17,7 @@ Template.printerMaster.events({
     var printer_name = document.getElementById('printer_name').value
     var printer_port = document.getElementById('printer_port').value
     var printer_host = document.getElementById('printer_host').value
-    Meteor.call('insertPrinter', printer_code, printer_name, printer_port, printer_host, (error) => {
+    Meteor.call('insertPrinter', printer_code, printer_name, printer_port, printer_host, function(error) {
       if (error) {
         window.alert(error)
       }
@@ -29,7 +29,7 @@ Template.printerMaster.events({
     var printer_name = document.getElementById('printer_name_edit').value
     var printer_port = document.getElementById('printer_port_edit').value
     var printer_host = document.getElementById('printer_host_edit').value
-    Meteor.call('updatePrinter', printer_code, printer_name, printer_port, printer_host, (error) => {
+    Meteor.call('updatePrinter', printer_code, printer_name, printer_port, printer_host, function(error) {
       if (error) {
         window.alert(error)
       }

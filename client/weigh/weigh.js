@@ -8,14 +8,14 @@ import { Scales } from '/imports/collections'
 import { Company } from '/imports/collections'
 import { Labels } from '/imports/collections'
 
-const pad = (n, width, z) => {
+var pad = function(n, width, z) {
   z = z || '0'
   n = n + ''
   return n.length >= width ? n : new Array(width - n.length + 1).join(z) + n
 }
 
-const streamer = new Meteor.Streamer('scale')
-const indicatorVar = new ReactiveDict('indicator', null)
+var streamer = new Meteor.Streamer('scale')
+var indicatorVar = new ReactiveDict('indicator', null)
 streamer.on('weight', function (weight) {
   indicatorVar.set('indicator', weight)
 })
