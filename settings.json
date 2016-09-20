@@ -1,7 +1,7 @@
 {
   "galaxy.meteor.com": {
     "env": {
-      "MONGO_URL": "mongodb://cmadmin:GanIacbennu5@ds019866.mlab.com:19866/catchmate_production"
+      "MONGO_URL": "mongodb://cmadmin:GanIacbennu5@ds037366-a0.mlab.com:37366,ds037366-a1.mlab.com:37366/cm-live?replicaSet=rs-ds037366"
     }
   }
 }
