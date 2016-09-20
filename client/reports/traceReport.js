@@ -16,21 +16,20 @@ Template.traceReport.events({
 
 Template.traceReport.helpers({
   traceBatch() {
-    var batchCode = Number(Template.instance().templateDict.get('batchCode'))
+    var batchCode = Template.instance().templateDict.get('batchCode')
     if (batchCode != null) {
-      var input = []
+      var input = {}
       var searchResults = Batches.find({ batch_code: batchCode })
-      _.forEach(searchResults.fetch(), function (r) {
-        if (input[r.cust_code] == null) {
-          input[r.cust_code] = 0
-          console.log(r.cust_code)
+      _.forEach(searchResults.fetch(), function (result) {
+        if (input[result.cust_code] == null) {
+          input[result.cust_code] = 0
         }
-        input[r.cust_code] += r.item_weight * r.num_units
+        input[result.cust_code] += result.item_weight * result.num_units
       })
       var output = []
-      input.forEach(function (key, value) {
+      _.forEach(input, function (key, value) {
         var amountSold = (key / 1000).toFixed(3)
-        var batchCode = Number(Template.instance().templateDict.get('batchCode'))
+        var batchCode = Template.instance().templateDict.get('batchCode')
         var custCode = value
         output.push({ batch_code: batchCode, cust_code: custCode, amount_sold: amountSold })
       })
