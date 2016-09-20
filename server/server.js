@@ -268,6 +268,7 @@ Meteor.methods({
       })
     }
   },
+
   upsertClogo(clogo) {
     if (this.userId) {
       var companyId = Meteor.user().companyId
@@ -285,6 +286,22 @@ Meteor.methods({
         $set: {
           'plogo': plogo
         }
+      })
+    }
+  },
+  deleteClogo() {
+    if (this.userId) {
+      var companyId = Meteor.user().companyId
+      Company.update({ settings: companyId }, {
+        $unset: { 'clogo': "" }
+      })
+    }
+  },
+  deletePlogo() {
+    if (this.userId) {
+      var companyId = Meteor.user().companyId
+      Company.update({ settings: companyId }, {
+        $unset: { 'plogo': "" }
       })
     }
   },

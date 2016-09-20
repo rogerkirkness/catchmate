@@ -39,6 +39,22 @@ Template.settings.events({
         window.alert(error)
       }
     })
+  },
+  'click .delete_clogo' (event) {
+    event.preventDefault()
+    Meteor.call('deleteClogo', function(error) {
+      if (error) {
+        window.alert(error)
+      }
+    })
+  },
+  'click .delete_plogo' (event) {
+    event.preventDefault()
+    Meteor.call('deletePlogo', function(error) {
+      if (error) {
+        window.alert(error)
+      }
+    })
   }
 })
 
