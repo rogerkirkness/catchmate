@@ -21,7 +21,9 @@ streamer.on('weight', function (weight) {
 })
 
 Template.weigh.onCreated(function () {
+
   this.templateDict = new ReactiveDict()
+
   this.templateDict.set('item', null)
   this.templateDict.set('batch', null)
   this.templateDict.set('numUnits', null)
@@ -43,6 +45,7 @@ Template.weigh.onCreated(function () {
   this.autorun(function () {
     Meteor.subscribe('update')
   })
+
 })
 
 Template.weigh.events({
@@ -59,14 +62,16 @@ Template.weigh.events({
     if (maxWeight > indicator && minWeight < indicator) {
       event.preventDefault()
 
+      var item_weight = document.getElementById('item_weight').value
       Template.instance().templateDict.set('ready', false)
 
       var item_code = document.getElementById('item_code').value
-      var cust_code = document.getElementById('cust_code').value
-      var item_weight = document.getElementById('item_weight').value
-      var created = moment().toDate()
       Template.instance().templateDict.set('item', item_code)
+
+      var cust_code = document.getElementById('cust_code').value
       Template.instance().templateDict.set('cust', cust_code)
+
+      var created = moment().toDate()
       Template.instance().templateDict.set('batch', created)
 
       var num_units = document.getElementById('num_units').value

@@ -372,24 +372,6 @@ Meteor.methods({
       'companyId': companyId
     }
     Accounts.createUser(userObject)
-  },
-
-  generateBarcode() {
-    // Bring all relevant barcode variables in from client
-    bwipjs.toBuffer({
-        bcid:        'code128',       // Barcode type
-        text:        '0123456789',    // Text to encode
-        scale:       3,               // 3x scaling factor
-        height:      10,              // Bar height, in millimeters
-        includetext: false            // Font size, in points
-    }, function (err, bc) {
-        if (err) {
-            throw new Meteor.Error("Barcode error", "Error creating barcode")
-        } else {
-            // Save to "Barcode" temporary collection
-        }
-    })
-
   }
 })
 
@@ -492,3 +474,23 @@ Meteor.publish('update', function () {
     }
   }
 })
+
+/*
+Meteor.publish('barcode', function() {
+  if (this.userId) {
+    var barcode = Meteor.users.findOne(this.userId).profile.barcode
+    bwipjs.toBuffer({
+        bcid:        'gs1-128',
+        text:        barcode,
+        scale:       2,
+        height:      10
+    }, function (err, bc) {
+        if (err) {
+            throw new Meteor.Error("Barcode error", "Error creating barcode")
+        } else {
+            return bc
+        }
+    })
+  }
+})
+*/
