@@ -3,19 +3,16 @@ body {
 }
 
 @media print {
-  body * {
+  * {
     visibility: hidden;
   }
   #section-to-print, #section-to-print * {
     visibility: visible;
   }
   #section-to-print {
-    transform: translate(50%, -100%) rotate(90deg);
+    transform: translate(0%, -100%) rotate(90deg);
     transform-origin: bottom left;
-    display: block;
     font-size: 8pt;
-    margin: 0px;
-    margin-top: 5px;
     border: 0px;
   }
 }
