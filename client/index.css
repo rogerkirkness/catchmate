@@ -3,8 +3,13 @@ body {
 }
 
 @media print {
-  * {
+  body * {
     visibility: hidden;
+  }
+  .container {
+    margin: 0;
+	  padding: 0;
+	  border: 0;
   }
   #section-to-print, #section-to-print * {
     visibility: visible;
@@ -83,10 +88,6 @@ body {
 .navbar-default .navbar-nav > li > a:focus,
 .navbar-default .navbar-nav > li > a {
     color: #FFF;
-}
-
-.contentBlock {
-  padding-bottom: 200px;
 }
 
 .loginBlock {
