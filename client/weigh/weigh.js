@@ -8,6 +8,9 @@ import { Scales } from '/imports/collections'
 import { Company } from '/imports/collections'
 import { Labels } from '/imports/collections'
 
+BarcodeData = new Mongo.Collection("barcodedata")
+WeightData = new Mongo.Collection("weightdata")
+
 var pad = function(n, width, z) {
   z = z || '0'
   n = n + ''
@@ -31,6 +34,7 @@ Template.weigh.onCreated(function () {
   this.templateDict.set('validItem', null)
   this.templateDict.set('ready', true)
   this.templateDict.set('batchCode', null)
+  this.templateDict.set('barcode', null)
 
   this.subscribe('batch')
   this.subscribe('items')
@@ -41,6 +45,10 @@ Template.weigh.onCreated(function () {
   this.subscribe('printers')
   this.subscribe('labels')
   this.subscribe('users')
+
+  this.autorun(function() {
+    Meteor.subscribe('barcode', Template.instance().templateDict.get('barcode'))
+  })
 
   this.autorun(function () {
     Meteor.subscribe('update')
@@ -58,20 +66,25 @@ Template.weigh.events({
     var item = Template.instance().templateDict.get('validItem')
     var minWeight = Items.findOne({ item_code: item }).item_minWeight
     var maxWeight = Items.findOne({ item_code: item }).item_maxWeight
-
     if (maxWeight > indicator && minWeight < indicator) {
       event.preventDefault()
-
-      var item_weight = document.getElementById('item_weight').value
-      Template.instance().templateDict.set('ready', false)
-
-      var item_code = document.getElementById('item_code').value
-      Template.instance().templateDict.set('item', item_code)
-
       var cust_code = document.getElementById('cust_code').value
-      Template.instance().templateDict.set('cust', cust_code)
-
+      var companyId = Meteor.users.findOne(Meteor.userId()).companyId
+      var settingsPrefix = Company.findOne({ settings: companyId }).prefix
+      var item_code = document.getElementById('item_code').value
+      var itemGTIN = Items.findOne({item_code: item_code }).item_gtin
       var created = moment().toDate()
+      var bcProdDate = moment(created).format('YYMMDD')
+      var bcLotNumber = moment(created).format('YYYYMMDDHHmmss')
+      var item_weight = document.getElementById('item_weight').value
+      var bcItemWeight = pad(item_weight, 6)
+      var barcode = '(01)' + settingsPrefix + itemGTIN + '(11)' + bcProdDate + '(3102)' + bcItemWeight + '(21)' + bcLotNumber
+      
+      Template.instance().templateDict.set('barcode', barcode)
+      Template.instance().templateDict.set('item', item_code)
+      Template.instance().templateDict.set('ready', false)
+      Template.instance().templateDict.set('item', item_code)
+      Template.instance().templateDict.set('cust', cust_code)
       Template.instance().templateDict.set('batch', created)
 
       var num_units = document.getElementById('num_units').value
@@ -407,36 +420,10 @@ Template.weigh.helpers({
     }
   },
   url() {
-    var companyId = Meteor.users.findOne(Meteor.userId()).companyId
-    var settingsPrefix = Company.findOne({ settings: companyId }).prefix
-    
-    var itemCode = document.getElementById('item_code').value
-    var itemGTIN = Items.findOne({item_code: itemCode }).item_gtin
-    
-    var date = Batches.findOne({}).createdAt
-    var bcProdDate = moment(date).format('YYMMDD')
-    var bcLotNumber = moment(date).format('YYYYMMDDHHmmss')
-
-    var itemWeight = document.getElementById('item_weight').value
-    var bcItemWeight = pad(itemWeight, 6)
-
-    return window.location.href + 'bc/?bcid=gs1-128&text=(01)' + settingsPrefix + itemGTIN + '(11)' + bcProdDate + '(3102)' + bcItemWeight + '(21)' + bcLotNumber + '&parsefnc'
+    return BarcodeData.findOne("bcID").data
   },
   bcText() {
-    var companyId = Meteor.users.findOne(Meteor.userId()).companyId
-    var settingsPrefix = Company.findOne({ settings: companyId }).prefix
-    
-    var itemCode = document.getElementById('item_code').value
-    var itemGTIN = Items.findOne({item_code: itemCode }).item_gtin
-    
-    var date = Batches.findOne({}).createdAt
-    var bcProdDate = moment(date).format('YYMMDD')
-    var bcLotNumber = moment(date).format('YYYYMMDDHHmmss')
-
-    var itemWeight = document.getElementById('item_weight').value
-    var bcItemWeight = pad(itemWeight, 6)
-    
-    return '(01)' + settingsPrefix + itemGTIN + '(11)' + bcProdDate + '(3102)' + bcItemWeight + '(21)' + bcLotNumber
+    return Template.instance().templateDict.get('barcode')
   },
   zpl() {
     var companyId = Meteor.users.findOne(Meteor.userId()).companyId

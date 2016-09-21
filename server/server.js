@@ -1,10 +1,7 @@
 import net from 'net'
 import bwipjs from 'bwip-js'
-
 import { Meteor } from 'meteor/meteor'
-import { WebApp } from 'meteor/webapp'
 import { Accounts } from 'meteor/accounts-base'
-
 import { Customers } from '/imports/collections'
 import { Batches } from '/imports/collections'
 import { Items } from '/imports/collections'
@@ -20,15 +17,6 @@ streamer.allowRead('all')
 Accounts.onCreateUser(function(options, user) {
   user.companyId = options.companyId;
   return user
-})
-
-WebApp.connectHandlers.use('/bc', function (request, response) {
-  if (request.url.indexOf('/?bcid=') !== 0) {
-    response.writeHead(404, { 'Content-Type': 'text/plain' })
-    response.end('BWIP-JS: Unknown request format.', 'utf8')
-  } else {
-    bwipjs(request, response)
-  }
 })
 
 Meteor.methods({
@@ -470,27 +458,32 @@ Meteor.publish('update', function () {
       socket.on('error', function (error) {
         console.log(error)
       })
-      socket.on('close', function () { })
+      socket.on('close', function () {
+        // Goodbye
+      })
     }
   }
 })
 
-/*
-Meteor.publish('barcode', function() {
+Meteor.publish('barcode', function(barcode) {
+  var self = this
   if (this.userId) {
-    var barcode = Meteor.users.findOne(this.userId).profile.barcode
     bwipjs.toBuffer({
-        bcid:        'gs1-128',
-        text:        barcode,
-        scale:       2,
-        height:      10
+        bcid:         'gs1-128',
+        text:         barcode,
+        scale:        2,
+        height:       20,
+        width:        5,
+        includetext:  false,
+        parsefnc:     true
     }, function (err, bc) {
         if (err) {
             throw new Meteor.Error("Barcode error", "Error creating barcode")
         } else {
-            return bc
+            var barcode = bc.toString('base64')
+            self.added("barcodedata", "bcID", {data: barcode})
+            self.ready()
         }
     })
   }
 })
-*/
