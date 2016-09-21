@@ -11,9 +11,6 @@ import { Labels } from '/imports/collections'
 import { Printers } from '/imports/collections'
 import { Company } from '/imports/collections'
 
-var streamer = new Meteor.Streamer('scale')
-streamer.allowRead('all')
-
 Accounts.onCreateUser(function(options, user) {
   user.companyId = options.companyId;
   return user
@@ -434,12 +431,14 @@ Meteor.publish('users', function () {
 
 Meteor.publish('update', function () {
   if (this.userId) {
+    var self = this
     var port = Meteor.users.findOne(this.userId).profile.scaleport
     var host = Meteor.users.findOne(this.userId).profile.scalehost
-    this.added('scale', 'weight', { weight: 0 })
+    self.added("weightdata", "weight", { data: 0 })
     if (port === '9999') {
       var weight = 500
-      streamer.emit('weight', weight)
+      self.changed("weightdata", "weight", { data: weight })
+      self.ready()
     } else if (port != null) {
       var socket = new net.Socket()
       socket.connect(port, host, function () {
@@ -453,21 +452,20 @@ Meteor.publish('update', function () {
       socket.on('data', function (data) {
         var rawOutput = data.toString()
         var output = rawOutput.replace(/\D+/g, '')
-        streamer.emit('weight', output)
+        self.changed("weightdata", "weight", { data: weight })
+        self.ready()
       })
       socket.on('error', function (error) {
         console.log(error)
       })
-      socket.on('close', function () {
-        // Goodbye
-      })
+      socket.on('close', function () {} )
     }
   }
 })
 
 Meteor.publish('barcode', function(barcode) {
-  var self = this
   if (this.userId) {
+    var self = this
     bwipjs.toBuffer({
         bcid:         'gs1-128',
         text:         barcode,

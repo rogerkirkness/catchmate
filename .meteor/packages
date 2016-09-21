@@ -11,6 +11,5 @@ ddp@1.2.5
 templating@1.2.14
 blaze@2.1.8
 meteor@1.2.17
-rocketchat:streamer
 accounts-password@1.3.0
 ecmascript

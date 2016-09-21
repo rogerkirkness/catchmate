@@ -17,12 +17,6 @@ var pad = function(n, width, z) {
   return n.length >= width ? n : new Array(width - n.length + 1).join(z) + n
 }
 
-var streamer = new Meteor.Streamer('scale')
-var indicatorVar = new ReactiveDict('indicator', null)
-streamer.on('weight', function (weight) {
-  indicatorVar.set('indicator', weight)
-})
-
 Template.weigh.onCreated(function () {
 
   this.templateDict = new ReactiveDict()
@@ -62,7 +56,7 @@ Template.weigh.events({
     Template.instance().templateDict.set('validItem', item)
   },
   'click .weigh'(event) {
-    var indicator = indicatorVar.get('indicator')
+    var indicator = WeightData.findOne("weight").data
     var item = Template.instance().templateDict.get('validItem')
     var minWeight = Items.findOne({ item_code: item }).item_minWeight
     var maxWeight = Items.findOne({ item_code: item }).item_maxWeight
@@ -200,7 +194,7 @@ Template.weigh.events({
 
 Template.weigh.helpers({
   indicator() {
-    var indicator = indicatorVar.get('indicator')
+    var indicator = WeightData.findOne("weight").data
     if (indicator != null) {
       var item = Template.instance().templateDict.get('validItem')
       if (item != null) {
@@ -214,7 +208,7 @@ Template.weigh.helpers({
     }
   },
   displayIndicator() {
-    var indicator = indicatorVar.get('indicator')
+    var indicator = WeightData.findOne("weight").data
     if (indicator != null) {
       var item = Template.instance().templateDict.get('validItem')
       if (item != null) {
@@ -230,7 +224,7 @@ Template.weigh.helpers({
     }
   },
   getStatus() {
-    var indicator = indicatorVar.get('indicator')
+    var indicator = WeightData.findOne("weight").data
     var item = Template.instance().templateDict.get('validItem')
     if (item != null && indicator != null) {
       var stdWeight = Items.findOne({ item_code: item }).item_stdWeight
@@ -250,7 +244,7 @@ Template.weigh.helpers({
     }
   },
   statusMessage() {
-    var indicator = indicatorVar.get('indicator')
+    var indicator = WeightData.findOne("weight").data
     var item = Template.instance().templateDict.get('validItem')
     if (item != null && indicator != null) {
       var stdWeight = Items.findOne({ item_code: item }).item_stdWeight
