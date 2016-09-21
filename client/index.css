@@ -70,6 +70,7 @@ body {
 }
 .pad-top {
   padding-top: 40px;
+  padding-bottom: 200px;
 }
 .navbar-nav > li > a,
 .navbar-brand {
@@ -99,6 +100,10 @@ body {
 .signInBlock {
   padding-top: 10px;
   padding-bottom: 50px;
+}
+
+.signUpBlock {
+  padding-bottom: 200px;
 }
 
 .login-link-text {
