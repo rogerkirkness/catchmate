@@ -18,9 +18,7 @@ var pad = function(n, width, z) {
 }
 
 Template.weigh.onCreated(function () {
-
   this.templateDict = new ReactiveDict()
-
   this.templateDict.set('item', null)
   this.templateDict.set('batch', null)
   this.templateDict.set('numUnits', null)
@@ -39,15 +37,12 @@ Template.weigh.onCreated(function () {
   this.subscribe('printers')
   this.subscribe('labels')
   this.subscribe('users')
-
   this.autorun(function() {
     Meteor.subscribe('barcode', Template.instance().templateDict.get('barcode'))
   })
-
   this.autorun(function () {
     Meteor.subscribe('update')
   })
-
 })
 
 Template.weigh.events({
