@@ -1,12 +1,12 @@
-import moment from 'moment'
+var moment = require('moment')
 import { Customers } from '/imports/collections'
 import { Batches } from '/imports/collections'
 import { Items } from '/imports/collections'
 import { Ingredients } from '/imports/collections'
-import { Printers } from '/imports/collections'
 import { Scales } from '/imports/collections'
-import { Company } from '/imports/collections'
 import { Labels } from '/imports/collections'
+import { Printers } from '/imports/collections'
+import { Company } from '/imports/collections'
 
 BarcodeData = new Mongo.Collection("barcodedata")
 WeightData = new Mongo.Collection("weightdata")
@@ -64,10 +64,11 @@ Template.weigh.events({
       var itemGTIN = Items.findOne({item_code: item_code }).item_gtin
       var created = moment().toDate()
       var bcProdDate = moment(created).format('YYMMDD')
-      var bcLotNumber = moment(created).format('YYYYMMDDHHmmss')
+      var bcLotNumber = moment(created).format('YYMMDDHHmmss')
       var item_weight = document.getElementById('item_weight').value
       var bcItemWeight = pad(item_weight, 6)
       var barcode = '(01)' + settingsPrefix + itemGTIN + '(11)' + bcProdDate + '(3102)' + bcItemWeight + '(21)' + bcLotNumber
+
       
       Template.instance().templateDict.set('barcode', barcode)
       Template.instance().templateDict.set('item', item_code)
@@ -86,7 +87,7 @@ Template.weigh.events({
       var batch_code = document.getElementById('batch_code').value
       Template.instance().templateDict.set('batchCode', batch_code)
       if (!batch_code) {
-        batch_code = moment(created).format('YYYYMMDDHHmmss')
+        batch_code = moment(created).format('YYMMDDHHmmss')
         Template.instance().templateDict.set('batchCode', batch_code)
       }
 
@@ -246,12 +247,12 @@ Template.weigh.helpers({
       var maxWeight = Items.findOne({ item_code: item }).item_maxWeight
       var minWeight = Items.findOne({ item_code: item }).item_minWeight
       if (stdWeight != null && stdWeight != 0) {
-        return 'Std Weight'
+        return 'Standard Weight'
       } else {
         if (maxWeight < indicator) {
-          return 'Overweight'
+          return 'Over Max Weight'
         } else if (minWeight > indicator) {
-          return 'Underweight'
+          return 'Under Min Weight'
         } else {
           return 'In Range'
         }
@@ -305,7 +306,7 @@ Template.weigh.helpers({
   lotNumber1(createdAt) {
     var batchCode = Template.instance().templateDict.get('batchCode')
     if (!batchCode) {
-      return moment(createdAt).format('YYYYMMDDHHmmss')
+      return moment(createdAt).format('YYMMDDHHmmss')
     } else {
       return batchCode
     }
@@ -327,7 +328,7 @@ Template.weigh.helpers({
     return formatWeight
   },
   codeLot(createdAt) {
-    return moment(createdAt).format('YYYYMMDDHHmmss')
+    return moment(createdAt).format('YYMMDDHHmmss')
   },
   scales() {
     return Scales.find({})
@@ -411,9 +412,6 @@ Template.weigh.helpers({
   url() {
     return BarcodeData.findOne("bcID").data
   },
-  bcText() {
-    return Template.instance().templateDict.get('barcode')
-  },
   zpl() {
     var companyId = Meteor.users.findOne(Meteor.userId()).companyId
     var settingsCompanyName = Company.findOne({ settings: companyId }).company_name
@@ -431,7 +429,7 @@ Template.weigh.helpers({
     }
     var lotNumber = function () {
       var date = Batches.findOne({}).createdAt
-      return moment(date).format('YYYYMMDDHHmmss')
+      return moment(date).format('YYMMDDHHmmss')
     }
     var shelfLife = function () {
       var date = Batches.findOne({}).createdAt
@@ -444,7 +442,7 @@ Template.weigh.helpers({
     }
     var bcLotNumber = function () {
       var date = Batches.findOne({}).createdAt
-      return moment(date).format('YYYYMMDDHHmmss')
+      return moment(date).format('YYMMDDHHmmss')
     }
     var grossWeight = function () {
       var item_weight = document.getElementById('item_weight').value

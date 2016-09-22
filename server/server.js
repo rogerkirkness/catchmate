@@ -1,7 +1,5 @@
-import net from 'net'
-import bwipjs from 'bwip-js'
-import { Meteor } from 'meteor/meteor'
-import { Accounts } from 'meteor/accounts-base'
+var net     = require('net')
+var bwipjs  = require('bwip-js')
 import { Customers } from '/imports/collections'
 import { Batches } from '/imports/collections'
 import { Items } from '/imports/collections'
@@ -467,19 +465,16 @@ Meteor.publish('barcode', function(barcode) {
   if (this.userId) {
     var self = this
     bwipjs.toBuffer({
-        bcid:         'gs1-128',
-        text:         barcode,
-        scale:        1,
-        height:       20,
-        width:        6,
-        includetext:  false,
-        parsefnc:     true
-    }, function (err, bc) {
-        if (err) {
+        bcid:           'gs1-128',
+        text:           barcode,
+        includetext:    true,
+        textsize:       9
+    }, function (error, barcode) {
+        if (error) {
             throw new Meteor.Error("Barcode error", "Error creating barcode")
         } else {
-            var barcode = bc.toString('base64')
-            self.added("barcodedata", "bcID", {data: barcode})
+            var rawBarcode = barcode.toString('base64')
+            self.added("barcodedata", "bcID", {data: rawBarcode})
             self.ready()
         }
     })

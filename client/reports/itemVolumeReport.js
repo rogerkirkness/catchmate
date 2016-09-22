@@ -1,5 +1,5 @@
-import _ from 'underscore'
-import moment from 'moment'
+var _ = require('underscore')
+var moment = require('moment')
 import { Items } from '/imports/collections'
 import { Batches } from '/imports/collections'
 
