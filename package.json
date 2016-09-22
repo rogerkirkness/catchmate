@@ -4,10 +4,8 @@
   "dependencies": {
     "bcrypt": "0.8.7",
     "bwip-js": "1.1.0",
-    "fs": "0.0.1-security",
     "index.js": "0.0.3",
     "meteor-node-stubs": "0.2.3",
-    "mkdirp": "0.5.1",
     "moment": "2.14.1",
     "net": "1.0.2",
     "underscore": "1.8.3"
