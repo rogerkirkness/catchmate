@@ -469,9 +469,9 @@ Meteor.publish('barcode', function(barcode) {
     bwipjs.toBuffer({
         bcid:         'gs1-128',
         text:         barcode,
-        scale:        2,
+        scale:        1,
         height:       20,
-        width:        5,
+        width:        6,
         includetext:  false,
         parsefnc:     true
     }, function (err, bc) {
