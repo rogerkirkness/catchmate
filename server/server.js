@@ -12,7 +12,7 @@ import { Printers } from '/imports/collections'
 import { Company } from '/imports/collections'
 
 Accounts.onCreateUser(function(options, user) {
-  user.companyId = options.companyId;
+  user.companyId = options.companyId
   return user
 })
 
