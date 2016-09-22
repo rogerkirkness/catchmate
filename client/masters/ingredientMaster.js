@@ -1,5 +1,3 @@
-import { Ingredients } from '/imports/collections'
-
 Template.ingredientMaster.onCreated(function () {
   this.templateDict = new ReactiveDict()
   this.templateDict.set('ingredient', null)

@@ -1,5 +1,4 @@
 import _ from 'underscore'
-import { Batches } from '/imports/collections'
 
 Template.traceReport.onCreated(function () {
   this.templateDict = new ReactiveDict()

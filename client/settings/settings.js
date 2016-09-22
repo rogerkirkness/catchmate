@@ -1,5 +1,3 @@
-import { Company } from '/imports/collections'
-
 Template.settings.onCreated(function () {
   this.subscribe('company')
   this.subscribe('users')

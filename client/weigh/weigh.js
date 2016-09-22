@@ -1,21 +1,12 @@
-var moment = require('moment')
-import { Customers } from '/imports/collections'
-import { Batches } from '/imports/collections'
-import { Items } from '/imports/collections'
-import { Ingredients } from '/imports/collections'
-import { Scales } from '/imports/collections'
-import { Labels } from '/imports/collections'
-import { Printers } from '/imports/collections'
-import { Company } from '/imports/collections'
-
-BarcodeData = new Mongo.Collection("barcodedata")
-WeightData = new Mongo.Collection("weightdata")
-
+import moment from 'moment'
 var pad = function(n, width, z) {
   z = z || '0'
   n = n + ''
   return n.length >= width ? n : new Array(width - n.length + 1).join(z) + n
 }
+
+BarcodeData = new Mongo.Collection('barcodedata')
+WeightData = new Mongo.Collection('weightdata')
 
 Template.weigh.onCreated(function () {
   this.templateDict = new ReactiveDict()

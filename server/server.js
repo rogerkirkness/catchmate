@@ -1,13 +1,5 @@
-var net     = require('net')
-var bwipjs  = require('bwip-js')
-import { Customers } from '/imports/collections'
-import { Batches } from '/imports/collections'
-import { Items } from '/imports/collections'
-import { Ingredients } from '/imports/collections'
-import { Scales } from '/imports/collections'
-import { Labels } from '/imports/collections'
-import { Printers } from '/imports/collections'
-import { Company } from '/imports/collections'
+import net from 'net'
+import bwipjs from 'bwip-js'
 
 Accounts.onCreateUser(function(options, user) {
   user.companyId = options.companyId

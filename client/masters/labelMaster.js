@@ -1,5 +1,3 @@
-import { Labels } from '/imports/collections'
-
 Template.labelMaster.onCreated(function () {
   this.templateDict = new ReactiveDict()
   this.templateDict.set('label', null)

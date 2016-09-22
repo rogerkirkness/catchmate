@@ -1,5 +1,3 @@
-import { Printers } from '/imports/collections'
-
 Template.printerMaster.onCreated(function () {
   this.templateDict = new ReactiveDict()
   this.templateDict.set('printer', null)

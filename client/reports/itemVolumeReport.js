@@ -1,7 +1,5 @@
-var _ = require('underscore')
-var moment = require('moment')
-import { Items } from '/imports/collections'
-import { Batches } from '/imports/collections'
+import _ from 'underscore'
+import moment from 'moment'
 
 Template.itemVolumeReport.onCreated(function () {
   this.templateDict = new ReactiveDict()

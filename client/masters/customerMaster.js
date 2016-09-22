@@ -1,5 +1,3 @@
-import { Customers } from '/imports/collections'
-
 Template.customerMaster.onCreated(function () {
   this.templateDict = new ReactiveDict()
   this.templateDict.set('customer', null)

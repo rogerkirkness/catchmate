@@ -1,5 +1,3 @@
-import { Scales } from '/imports/collections'
-
 Template.scaleMaster.onCreated(function () {
   this.templateDict = new ReactiveDict()
   this.templateDict.set('scale', null)
