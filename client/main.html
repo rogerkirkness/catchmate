@@ -21,7 +21,7 @@
           <ul class="nav navbar-nav navbar-right">
             <li><a class="link" id="weigh">Weigh</a></li>
             <li class="dropdown">
-              <a class="dropdown-toggle" data-toggle="dropdown">Master Files <span class="caret"></span></a>
+              <a class="dropdown-toggle" data-toggle="dropdown">Data Setup <span class="caret"></span></a>
               <ul class="dropdown-menu" role="menu">
                 <li><a class="link" id="customerMaster">Customer Master</a></li>
                 <li><a class="link" id="ingredientMaster">Ingredient Master</a></li>
@@ -39,8 +39,14 @@
                 <li><a class="link" id="traceReport">Trace Batch</a></li>
               </ul>
             </li>
-            <li><a class="link" id="settings">Settings</a></li>
-            <li><a class="signOut">Sign Out</a></li>
+            <li class="dropdown">
+              <a class="dropdown-toggle" data-toggle="dropdown">Admin <span class="caret"></span></a>
+              <ul class="dropdown-menu" role="menu">
+                <li><a class="link" id="settings">Settings</a></li>
+                <li><a href="mailto:support@catchmate.ca?subject=Support">Email Support</a></li>
+                <li><a class="signOut">Sign Out</a></li>
+              </ul>
+            </li>
           </ul>
           {{/if}}
         </div>
