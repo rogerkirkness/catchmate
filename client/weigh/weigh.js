@@ -1,5 +1,5 @@
 import moment from 'moment'
-var pad = function(n, width, z) {
+var pad = function (n, width, z) {
   z = z || '0'
   n = n + ''
   return n.length >= width ? n : new Array(width - n.length + 1).join(z) + n
@@ -28,12 +28,15 @@ Template.weigh.onCreated(function () {
   this.subscribe('printers')
   this.subscribe('labels')
   this.subscribe('users')
-  this.autorun(function() {
+
+  this.autorun(function () {
     Meteor.subscribe('barcode', Template.instance().templateDict.get('barcode'))
   })
+
   this.autorun(function () {
     Meteor.subscribe('update')
   })
+
 })
 
 Template.weigh.events({
@@ -52,7 +55,7 @@ Template.weigh.events({
       var companyId = Meteor.users.findOne(Meteor.userId()).companyId
       var settingsPrefix = Company.findOne({ settings: companyId }).prefix
       var item_code = document.getElementById('item_code').value
-      var itemGTIN = Items.findOne({item_code: item_code }).item_gtin
+      var itemGTIN = Items.findOne({ item_code: item_code }).item_gtin
       var created = moment().toDate()
       var bcProdDate = moment(created).format('YYMMDD')
       var bcLotNumber = moment(created).format('YYMMDDHHmmss')
@@ -60,7 +63,7 @@ Template.weigh.events({
       var bcItemWeight = pad(item_weight, 6)
       var barcode = '(01)' + settingsPrefix + itemGTIN + '(11)' + bcProdDate + '(3102)' + bcItemWeight + '(21)' + bcLotNumber
 
-      
+
       Template.instance().templateDict.set('barcode', barcode)
       Template.instance().templateDict.set('item', item_code)
       Template.instance().templateDict.set('ready', false)
@@ -181,71 +184,79 @@ Template.weigh.events({
 
 Template.weigh.helpers({
   indicator() {
-    var indicator = WeightData.findOne("weight").data
-    if (indicator != null) {
-      var item = Template.instance().templateDict.get('validItem')
-      if (item != null) {
-        var stdWeight = Items.findOne({ item_code: item }).item_stdWeight
-        if (stdWeight != null && stdWeight != 0) {
-          return stdWeight
-        } else {
-          return indicator
+    if (typeof WeightData.findOne("weight") != 'undefined') {
+      var indicator = WeightData.findOne("weight").data
+      if (indicator != null) {
+        var item = Template.instance().templateDict.get('validItem')
+        if (item != null) {
+          var stdWeight = Items.findOne({ item_code: item }).item_stdWeight
+          if (stdWeight != null && stdWeight != 0) {
+            return stdWeight
+          } else {
+            return indicator
+          }
         }
       }
     }
   },
   displayIndicator() {
-    var indicator = WeightData.findOne("weight").data
-    if (indicator != null) {
-      var item = Template.instance().templateDict.get('validItem')
-      if (item != null) {
-        var stdWeight = Items.findOne({ item_code: item }).item_stdWeight
-        if (stdWeight != null && stdWeight != 0) {
-          return (stdWeight / 1000).toFixed(3) + ' kg'
+    if (typeof WeightData.findOne("weight") != 'undefined') {
+      var indicator = WeightData.findOne("weight").data
+      if (indicator != null) {
+        var item = Template.instance().templateDict.get('validItem')
+        if (item != null) {
+          var stdWeight = Items.findOne({ item_code: item }).item_stdWeight
+          if (stdWeight != null && stdWeight != 0) {
+            return (stdWeight / 1000).toFixed(3) + ' kg'
+          } else {
+            return (indicator / 1000).toFixed(3) + ' kg'
+          }
         } else {
           return (indicator / 1000).toFixed(3) + ' kg'
         }
-      } else {
-        return (indicator / 1000).toFixed(3) + ' kg'
       }
     }
   },
   getStatus() {
-    var indicator = WeightData.findOne("weight").data
-    var item = Template.instance().templateDict.get('validItem')
-    if (item != null && indicator != null) {
-      var stdWeight = Items.findOne({ item_code: item }).item_stdWeight
-      var maxWeight = Items.findOne({ item_code: item }).item_maxWeight
-      var minWeight = Items.findOne({ item_code: item }).item_minWeight
-      if (stdWeight != null && stdWeight != 0) {
-        return 'green'
-      } else {
-        if (maxWeight < indicator) {
-          return 'blue'
-        } else if (minWeight > indicator) {
-          return 'red'
-        } else {
+    if (typeof WeightData.findOne("weight") != 'undefined') {
+      var indicator = WeightData.findOne("weight").data
+      var item = Template.instance().templateDict.get('validItem')
+      if (item != null && indicator != null) {
+        var stdWeight = Items.findOne({ item_code: item }).item_stdWeight
+        var maxWeight = Items.findOne({ item_code: item }).item_maxWeight
+        var minWeight = Items.findOne({ item_code: item }).item_minWeight
+        if (stdWeight != null && stdWeight != 0) {
           return 'green'
+        } else {
+          if (maxWeight < indicator) {
+            return 'blue'
+          } else if (minWeight > indicator) {
+            return 'red'
+          } else {
+            return 'green'
+          }
         }
       }
     }
   },
   statusMessage() {
-    var indicator = WeightData.findOne("weight").data
-    var item = Template.instance().templateDict.get('validItem')
-    if (item != null && indicator != null) {
-      var stdWeight = Items.findOne({ item_code: item }).item_stdWeight
-      var maxWeight = Items.findOne({ item_code: item }).item_maxWeight
-      var minWeight = Items.findOne({ item_code: item }).item_minWeight
-      if (stdWeight != null && stdWeight != 0) {
-        return 'Standard Weight'
-      } else {
-        if (maxWeight < indicator) {
-          return 'Over Max Weight'
-        } else if (minWeight > indicator) {
-          return 'Under Min Weight'
+    if (typeof WeightData.findOne("weight") != 'undefined') {
+      var indicator = WeightData.findOne("weight").data
+      var item = Template.instance().templateDict.get('validItem')
+      if (item != null && indicator != null) {
+        var stdWeight = Items.findOne({ item_code: item }).item_stdWeight
+        var maxWeight = Items.findOne({ item_code: item }).item_maxWeight
+        var minWeight = Items.findOne({ item_code: item }).item_minWeight
+        if (stdWeight != null && stdWeight != 0) {
+          return 'Standard Weight'
         } else {
-          return 'In Range'
+          if (maxWeight < indicator) {
+            return 'Over Max Weight'
+          } else if (minWeight > indicator) {
+            return 'Under Min Weight'
+          } else {
+            return 'In Range'
+          }
         }
       }
     }
@@ -262,11 +273,11 @@ Template.weigh.helpers({
   },
   companylogo() {
     var companyId = Meteor.users.findOne(Meteor.userId()).companyId
-    return Company.findOne({settings: companyId}).clogo
+    return Company.findOne({ settings: companyId }).clogo
   },
   plantlogo() {
     var companyId = Meteor.users.findOne(Meteor.userId()).companyId
-    return Company.findOne({settings: companyId}).plogo
+    return Company.findOne({ settings: companyId }).plogo
   },
   itemName() {
     var itemName = Items.findOne({ item_code: Template.instance().templateDict.get('item') }).item_name
@@ -401,7 +412,9 @@ Template.weigh.helpers({
     }
   },
   url() {
-    return BarcodeData.findOne("bcID").data
+    if (typeof BarcodeData.findOne("bcID") != 'undefined') {
+      return "data:image/png;base64," + BarcodeData.findOne("bcID").data
+    }
   },
   zpl() {
     var companyId = Meteor.users.findOne(Meteor.userId()).companyId

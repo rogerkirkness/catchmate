@@ -598,8 +598,7 @@ Meteor.publish('update', function () {
     var host = Meteor.users.findOne(this.userId).profile.scalehost
     self.added("weightdata", "weight", { data: 0 })
     if (port === '9999') {
-      var weight = 500
-      self.changed("weightdata", "weight", { data: weight })
+      self.changed("weightdata", "weight", { data: 500 })
       self.ready()
     } else if (port != null) {
       var socket = new net.Socket()
@@ -621,6 +620,9 @@ Meteor.publish('update', function () {
         console.log(error)
       })
       socket.on('close', function () {} )
+    } else {
+      self.added("weightdata", "weight", { data: 250 })
+      self.ready()
     }
   }
 })
