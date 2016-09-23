@@ -1,5 +1,5 @@
 @media print {
-  body * {
+  * {
     visibility: hidden;
   }
 
@@ -17,7 +17,10 @@
     transform: translate(0%, -100%) rotate(90deg);
     transform-origin: bottom left;
     font-size: 8pt;
+    line-height: 1.2;
+    display: block;
     border: 0px;
+    min-width: 3.5in;
   }
 }
 

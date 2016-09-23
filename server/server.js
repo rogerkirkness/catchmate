@@ -634,7 +634,7 @@ Meteor.publish('barcode', function(barcode) {
         bcid:           'gs1-128',
         text:           barcode,
         includetext:    true,
-        textsize:       9
+        textsize:       8
     }, function (error, barcode) {
         if (error) {
             throw new Meteor.Error("Barcode error", "Error creating barcode")
