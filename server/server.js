@@ -1,7 +1,7 @@
 var net = require('net')
 var bwipjs = require('bwip-js')
 
-Accounts.onCreateUser(function(options, user) {
+Accounts.onCreateUser(function (options, user) {
   user.companyId = options.companyId
   return user
 })
@@ -26,7 +26,7 @@ Meteor.methods({
         'customer_country': customer_country,
         'customer_postal': customer_postal,
         'customer_companyId': companyId
-      }, function(error, id) {
+      }, function (error, id) {
         if (error != null) {
           throw new Meteor.Error("insert-error", "Insert operation failed, contact support")
         } else {
@@ -38,23 +38,30 @@ Meteor.methods({
 
   updateCustomer(customer_code, customer_name, customer_street1, customer_street2, customer_city, customer_province, customer_country, customer_postal) {
     if (this.userId) {
-      Customers.update({ customer_code: customer_code }, {
-        $set: {
-          'customer_name': customer_name,
-          'customer_street1': customer_street1,
-          'customer_street2': customer_street2,
-          'customer_city': customer_city,
-          'customer_province': customer_province,
-          'customer_country': customer_country,
-          'customer_postal': customer_postal
-        }
-      }, function(error, number) {
-        if (error != null) {
-          throw new Meteor.Error("update-error", "Update operation failed, contact support")
-        } else {
-          console.log("Successfully updated " + number + " document(s).")
-        }
-      })
+      var companyId = Meteor.user().companyId
+      Customers.update({
+        $and: [
+          { customer_code: customer_code },
+          { customer_companyId: companyId }
+        ]
+      },
+        {
+          $set: {
+            'customer_name': customer_name,
+            'customer_street1': customer_street1,
+            'customer_street2': customer_street2,
+            'customer_city': customer_city,
+            'customer_province': customer_province,
+            'customer_country': customer_country,
+            'customer_postal': customer_postal
+          }
+        }, function (error, number) {
+          if (error != null) {
+            throw new Meteor.Error("update-error", "Update operation failed, contact support")
+          } else {
+            console.log("Successfully updated " + number + " document(s).")
+          }
+        })
     }
   },
 
@@ -69,7 +76,7 @@ Meteor.methods({
         'createdAt': created,
         'batch_code': batch_code,
         'batch_companyId': companyId
-      }, function(error, id) {
+      }, function (error, id) {
         if (error != null) {
           throw new Meteor.Error("insert-error", "Insert operation failed, contact support")
         } else {
@@ -82,13 +89,13 @@ Meteor.methods({
   deleteBatch(lastBatch) {
     if (this.userId) {
       var companyId = Meteor.user().companyId
-      Batches.remove({ 
-        $and: [{ 
-          createdAt: lastBatch 
-        }, { 
-          batch_companyId: companyId
-        }] 
-      }, function(error) {
+      Batches.remove({
+        $and: [{
+          createdAt: lastBatch
+        }, {
+            batch_companyId: companyId
+          }]
+      }, function (error) {
         if (error != null) {
           throw new Meteor.Error("insert-error", "Insert operation failed, contact support")
         } else {
@@ -119,7 +126,7 @@ Meteor.methods({
           'item_maxWeight': item_maxWeight,
           'item_ingredients': item_ingredients,
           'item_companyId': companyId
-        }, function(error, id) {
+        }, function (error, id) {
           if (error != null) {
             throw new Meteor.Error("insert-error", "Insert operation failed, contact support")
           } else {
@@ -132,7 +139,13 @@ Meteor.methods({
 
   updateItem(item_code, item_gtin, item_name, item_unit, item_brand, item_shelfLife, item_stdWeight, item_minWeight, item_maxWeight, item_ingredients) {
     if (this.userId) {
-      Items.update({ item_code: item_code }, {
+      var companyId = Meteor.user().companyId
+      Items.update({
+        $and: [
+          { item_code: item_code },
+          { customer_companyId: companyId }
+        ]
+      }, {
         $set: {
           'item_gtin': item_gtin,
           'item_name': item_name,
@@ -144,7 +157,7 @@ Meteor.methods({
           'item_maxWeight': item_maxWeight,
           'item_ingredients': item_ingredients
         }
-      }, function(error, number) {
+      }, function (error, number) {
         if (error != null) {
           throw new Meteor.Error("update-error", "Update operation failed, contact support")
         } else {
@@ -167,7 +180,7 @@ Meteor.methods({
           'ingredients_code': ingredients_code,
           'ingredients_list': ingredients_list,
           'ingredients_companyId': companyId
-        }, function(error, id) {
+        }, function (error, id) {
           if (error != null) {
             throw new Meteor.Error("insert-error", "Insert operation failed, contact support")
           } else {
@@ -180,11 +193,17 @@ Meteor.methods({
 
   updateIngredients(ingredients_code, ingredients_list) {
     if (this.userId) {
-      Ingredients.update({ ingredients_code: ingredients_code }, {
+      var companyId = Meteor.user().companyId
+      Ingredients.update({
+        $and: [
+          { ingredients_code: ingredients_code },
+          { customer_companyId: companyId }
+        ]
+      }, {
         $set: {
           'ingredients_list': ingredients_list
         }
-      }, function(error, number) {
+      }, function (error, number) {
         if (error != null) {
           throw new Meteor.Error("update-error", "Update operation failed, contact support")
         } else {
@@ -207,7 +226,7 @@ Meteor.methods({
           'label_code': label_code,
           'label_layout': label_layout,
           'label_companyId': companyId
-        }, function(error, id) {
+        }, function (error, id) {
           if (error != null) {
             throw new Meteor.Error("insert-error", "Insert operation failed, contact support")
           } else {
@@ -220,11 +239,17 @@ Meteor.methods({
 
   updateLabel(label_code, label_layout) {
     if (this.userId) {
-      Labels.update({ label_code: label_code }, {
+      var companyId = Meteor.user().companyId
+      Labels.update({
+        $and: [
+          { label_code: label_code },
+          { customer_companyId: companyId }
+        ]
+      }, {
         $set: {
           'label_layout': label_layout
         }
-      }, function(error, number) {
+      }, function (error, number) {
         if (error != null) {
           throw new Meteor.Error("update-error", "Update operation failed, contact support")
         } else {
@@ -249,7 +274,7 @@ Meteor.methods({
           'scale_port': scale_port,
           'scale_host': scale_host,
           'scale_companyId': companyId
-        }, function(error, id) {
+        }, function (error, id) {
           if (error != null) {
             throw new Meteor.Error("insert-error", "Insert operation failed, contact support")
           } else {
@@ -262,13 +287,19 @@ Meteor.methods({
 
   updateScale(scale_code, scale_name, scale_port, scale_host) {
     if (this.userId) {
-      Scales.update({ scale_code: scale_code }, {
+      var companyId = Meteor.user().companyId
+      Scales.update({
+        $and: [
+          { scale_code: scale_code },
+          { customer_companyId: companyId }
+        ]
+      }, {
         $set: {
           'scale_name': scale_name,
           'scale_port': scale_port,
           'scale_host': scale_host
         }
-      }, function(error, number) {
+      }, function (error, number) {
         if (error != null) {
           throw new Meteor.Error("update-error", "Update operation failed, contact support")
         } else {
@@ -293,7 +324,7 @@ Meteor.methods({
           'printer_port': printer_port,
           'printer_host': printer_host,
           'printer_companyId': companyId
-        }, function(error, id) {
+        }, function (error, id) {
           if (error != null) {
             throw new Meteor.Error("insert-error", "Insert operation failed, contact support")
           } else {
@@ -306,13 +337,19 @@ Meteor.methods({
 
   updatePrinter(printer_code, printer_name, printer_port, printer_host) {
     if (this.userId) {
-      Printers.update({ printer_code: printer_code }, {
+      var companyId = Meteor.user().companyId
+      Printers.update({
+        $and: [
+          { printer_code: printer_code },
+          { customer_companyId: companyId }
+        ]
+      }, {
         $set: {
           'printer_name': printer_name,
           'printer_port': printer_port,
           'printer_host': printer_host
         }
-      }, function(error, number) {
+      }, function (error, number) {
         if (error != null) {
           throw new Meteor.Error("update-error", "Update operation failed, contact support")
         } else {
@@ -337,7 +374,7 @@ Meteor.methods({
           'postal': Postal,
           'prefix': Prefix
         }
-      }, function(error, number) {
+      }, function (error, number) {
         if (error != null) {
           throw new Meteor.Error("update-error", "Update operation failed, contact support")
         } else {
@@ -354,7 +391,7 @@ Meteor.methods({
         $set: {
           'clogo': clogo
         }
-      }, function(error, number) {
+      }, function (error, number) {
         if (error != null) {
           throw new Meteor.Error("update-error", "Update operation failed, contact support")
         } else {
@@ -371,7 +408,7 @@ Meteor.methods({
         $set: {
           'plogo': plogo
         }
-      }, function(error, number) {
+      }, function (error, number) {
         if (error != null) {
           throw new Meteor.Error("update-error", "Update operation failed, contact support")
         } else {
@@ -386,7 +423,7 @@ Meteor.methods({
       var companyId = Meteor.user().companyId
       Company.update({ settings: companyId }, {
         $unset: { 'clogo': "" }
-      }, function(error, number) {
+      }, function (error, number) {
         if (error != null) {
           throw new Meteor.Error("update-error", "Update operation failed, contact support")
         } else {
@@ -401,7 +438,7 @@ Meteor.methods({
       var companyId = Meteor.user().companyId
       Company.update({ settings: companyId }, {
         $unset: { 'plogo': "" }
-      }, function(error, number) {
+      }, function (error, number) {
         if (error != null) {
           throw new Meteor.Error("update-error", "Update operation failed, contact support")
         } else {
@@ -417,7 +454,7 @@ Meteor.methods({
         $set: {
           'profile.tare': Tare
         }
-      }, function(error, number) {
+      }, function (error, number) {
         if (error != null) {
           throw new Meteor.Error("update-error", "Update operation failed, contact support")
         } else {
@@ -435,7 +472,7 @@ Meteor.methods({
           'profile.printerport': port,
           'profile.printerhost': host
         }
-      }, function(error, number) {
+      }, function (error, number) {
         if (error != null) {
           throw new Meteor.Error("update-error", "Update operation failed, contact support")
         } else {
@@ -453,7 +490,7 @@ Meteor.methods({
           'profile.scaleport': port,
           'profile.scalehost': host
         }
-      }, function(error, number) {
+      }, function (error, number) {
         if (error != null) {
           throw new Meteor.Error("update-error", "Update operation failed, contact support")
         } else {
@@ -469,7 +506,7 @@ Meteor.methods({
         $set: {
           'profile.label': label
         }
-      }, function(error, number) {
+      }, function (error, number) {
         if (error != null) {
           throw new Meteor.Error("update-error", "Update operation failed, contact support")
         } else {
@@ -485,7 +522,7 @@ Meteor.methods({
         $set: {
           'profile.numUnitsChecked': status
         }
-      }, function(error, number) {
+      }, function (error, number) {
         if (error != null) {
           throw new Meteor.Error("update-error", "Update operation failed, contact support")
         } else {
@@ -501,7 +538,7 @@ Meteor.methods({
         $set: {
           'profile.batchCodeChecked': status
         }
-      }, function(error, number) {
+      }, function (error, number) {
         if (error != null) {
           throw new Meteor.Error("update-error", "Update operation failed, contact support")
         } else {
@@ -619,7 +656,7 @@ Meteor.publish('update', function () {
       socket.on('error', function (error) {
         console.log(error)
       })
-      socket.on('close', function () {} )
+      socket.on('close', function () { })
     } else {
       self.added("weightdata", "weight", { data: 250 })
       self.ready()
@@ -627,22 +664,22 @@ Meteor.publish('update', function () {
   }
 })
 
-Meteor.publish('barcode', function(barcode) {
+Meteor.publish('barcode', function (barcode) {
   if (this.userId) {
     var self = this
     bwipjs.toBuffer({
-        bcid:           'gs1-128',
-        text:           barcode,
-        includetext:    true,
-        textsize:       8
+      bcid: 'gs1-128',
+      text: barcode,
+      includetext: true,
+      textsize: 8
     }, function (error, barcode) {
-        if (error) {
-            throw new Meteor.Error("Barcode error", "Error creating barcode")
-        } else {
-            var rawBarcode = barcode.toString('base64')
-            self.added("barcodedata", "bcID", {data: rawBarcode})
-            self.ready()
-        }
+      if (error) {
+        throw new Meteor.Error("Barcode error", "Error creating barcode")
+      } else {
+        var rawBarcode = barcode.toString('base64')
+        self.added("barcodedata", "bcID", { data: rawBarcode })
+        self.ready()
+      }
     })
   }
 })
