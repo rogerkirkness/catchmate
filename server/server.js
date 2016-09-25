@@ -3,6 +3,16 @@ var bwipjs = require('bwip-js')
 
 Accounts.onCreateUser(function (options, user) {
   user.companyId = options.companyId
+  user.scale = null
+  user.scaleport = null
+  user.scalehost = null
+  user.printer = null
+  user.printerport = null
+  user.printerhost = null
+  user.tare = 0
+  user.label = null
+  user.numUnitsChecked = false
+  user.batchCodeChecked = false
   return user
 })
 
@@ -143,27 +153,27 @@ Meteor.methods({
       Items.update({
         $and: [
           { item_code: item_code },
-          { customer_companyId: companyId }
+          { item_companyId: companyId }
         ]
       }, {
-        $set: {
-          'item_gtin': item_gtin,
-          'item_name': item_name,
-          'item_unit': item_unit,
-          'item_brand': item_brand,
-          'item_shelfLife': item_shelfLife,
-          'item_stdWeight': item_stdWeight,
-          'item_minWeight': item_minWeight,
-          'item_maxWeight': item_maxWeight,
-          'item_ingredients': item_ingredients
-        }
-      }, function (error, number) {
-        if (error != null) {
-          throw new Meteor.Error("update-error", "Update operation failed, contact support")
-        } else {
-          console.log("Successfully updated " + number + " document(s).")
-        }
-      })
+          $set: {
+            'item_gtin': item_gtin,
+            'item_name': item_name,
+            'item_unit': item_unit,
+            'item_brand': item_brand,
+            'item_shelfLife': item_shelfLife,
+            'item_stdWeight': item_stdWeight,
+            'item_minWeight': item_minWeight,
+            'item_maxWeight': item_maxWeight,
+            'item_ingredients': item_ingredients
+          }
+        }, function (error, number) {
+          if (error != null) {
+            throw new Meteor.Error("update-error", "Update operation failed, contact support")
+          } else {
+            console.log("Successfully updated " + number + " document(s).")
+          }
+        })
     }
   },
 
@@ -197,19 +207,19 @@ Meteor.methods({
       Ingredients.update({
         $and: [
           { ingredients_code: ingredients_code },
-          { customer_companyId: companyId }
+          { ingredients_companyId: companyId }
         ]
       }, {
-        $set: {
-          'ingredients_list': ingredients_list
-        }
-      }, function (error, number) {
-        if (error != null) {
-          throw new Meteor.Error("update-error", "Update operation failed, contact support")
-        } else {
-          console.log("Successfully updated " + number + " document(s).")
-        }
-      })
+          $set: {
+            'ingredients_list': ingredients_list
+          }
+        }, function (error, number) {
+          if (error != null) {
+            throw new Meteor.Error("update-error", "Update operation failed, contact support")
+          } else {
+            console.log("Successfully updated " + number + " document(s).")
+          }
+        })
     }
   },
 
@@ -243,19 +253,19 @@ Meteor.methods({
       Labels.update({
         $and: [
           { label_code: label_code },
-          { customer_companyId: companyId }
+          { label_companyId: companyId }
         ]
       }, {
-        $set: {
-          'label_layout': label_layout
-        }
-      }, function (error, number) {
-        if (error != null) {
-          throw new Meteor.Error("update-error", "Update operation failed, contact support")
-        } else {
-          console.log("Successfully updated " + number + " document(s).")
-        }
-      })
+          $set: {
+            'label_layout': label_layout
+          }
+        }, function (error, number) {
+          if (error != null) {
+            throw new Meteor.Error("update-error", "Update operation failed, contact support")
+          } else {
+            console.log("Successfully updated " + number + " document(s).")
+          }
+        })
     }
   },
 
@@ -291,21 +301,21 @@ Meteor.methods({
       Scales.update({
         $and: [
           { scale_code: scale_code },
-          { customer_companyId: companyId }
+          { scale_companyId: companyId }
         ]
       }, {
-        $set: {
-          'scale_name': scale_name,
-          'scale_port': scale_port,
-          'scale_host': scale_host
-        }
-      }, function (error, number) {
-        if (error != null) {
-          throw new Meteor.Error("update-error", "Update operation failed, contact support")
-        } else {
-          console.log("Successfully updated " + number + " document(s).")
-        }
-      })
+          $set: {
+            'scale_name': scale_name,
+            'scale_port': scale_port,
+            'scale_host': scale_host
+          }
+        }, function (error, number) {
+          if (error != null) {
+            throw new Meteor.Error("update-error", "Update operation failed, contact support")
+          } else {
+            console.log("Successfully updated " + number + " document(s).")
+          }
+        })
     }
   },
 
@@ -341,21 +351,21 @@ Meteor.methods({
       Printers.update({
         $and: [
           { printer_code: printer_code },
-          { customer_companyId: companyId }
+          { printer_companyId: companyId }
         ]
       }, {
-        $set: {
-          'printer_name': printer_name,
-          'printer_port': printer_port,
-          'printer_host': printer_host
-        }
-      }, function (error, number) {
-        if (error != null) {
-          throw new Meteor.Error("update-error", "Update operation failed, contact support")
-        } else {
-          console.log("Successfully updated " + number + " document(s).")
-        }
-      })
+          $set: {
+            'printer_name': printer_name,
+            'printer_port': printer_port,
+            'printer_host': printer_host
+          }
+        }, function (error, number) {
+          if (error != null) {
+            throw new Meteor.Error("update-error", "Update operation failed, contact support")
+          } else {
+            console.log("Successfully updated " + number + " document(s).")
+          }
+        })
     }
   },
 
@@ -452,7 +462,7 @@ Meteor.methods({
     if (this.userId) {
       Meteor.users.update(this.userId, {
         $set: {
-          'profile.tare': Tare
+          'tare': Tare
         }
       }, function (error, number) {
         if (error != null) {
@@ -468,9 +478,9 @@ Meteor.methods({
     if (this.userId) {
       Meteor.users.update(this.userId, {
         $set: {
-          'profile.printer': Printer,
-          'profile.printerport': port,
-          'profile.printerhost': host
+          'printer': Printer,
+          'printerport': port,
+          'printerhost': host
         }
       }, function (error, number) {
         if (error != null) {
@@ -486,9 +496,9 @@ Meteor.methods({
     if (this.userId) {
       Meteor.users.update(this.userId, {
         $set: {
-          'profile.scale': Scale,
-          'profile.scaleport': port,
-          'profile.scalehost': host
+          'scale': Scale,
+          'scaleport': port,
+          'scalehost': host
         }
       }, function (error, number) {
         if (error != null) {
@@ -504,7 +514,7 @@ Meteor.methods({
     if (this.userId) {
       Meteor.users.update(this.userId, {
         $set: {
-          'profile.label': label
+          'label': label
         }
       }, function (error, number) {
         if (error != null) {
@@ -520,7 +530,7 @@ Meteor.methods({
     if (this.userId) {
       Meteor.users.update(this.userId, {
         $set: {
-          'profile.numUnitsChecked': status
+          'numUnitsChecked': status
         }
       }, function (error, number) {
         if (error != null) {
@@ -536,7 +546,7 @@ Meteor.methods({
     if (this.userId) {
       Meteor.users.update(this.userId, {
         $set: {
-          'profile.batchCodeChecked': status
+          'batchCodeChecked': status
         }
       }, function (error, number) {
         if (error != null) {
@@ -624,41 +634,60 @@ Meteor.publish('company', function () {
 
 Meteor.publish('users', function () {
   if (this.userId) {
-    return Meteor.users.find({ _id: this.userId }, { fields: { 'companyId': 1 } })
+    return Meteor.users.find({ _id: this.userId }, {
+      fields: {
+        'companyId': 1,
+        'tare': 1,
+        'printer': 1,
+        'printerport': 1,
+        'printerhost': 1,
+        'scale': 1,
+        'scaleport': 1,
+        'scalehost': 1,
+        'label': 1,
+        'numUnitsChecked': 1,
+        'batchCodeChecked': 1
+      }
+    })
   }
 })
 
 Meteor.publish('update', function () {
   if (this.userId) {
     var self = this
-    var port = Meteor.users.findOne(this.userId).profile.scaleport
-    var host = Meteor.users.findOne(this.userId).profile.scalehost
     self.added("weightdata", "weight", { data: 0 })
-    if (port === '9999') {
-      self.changed("weightdata", "weight", { data: 500 })
-      self.ready()
-    } else if (port != null) {
-      var socket = new net.Socket()
-      socket.connect(port, host, function () {
-        function writeSocket() {
-          if (socket.writable) {
-            socket.write('P')
-          }
-        }
-        setInterval(writeSocket, 250)
-      })
-      socket.on('data', function (data) {
-        var rawOutput = data.toString()
-        var output = rawOutput.replace(/\D+/g, '')
-        self.changed("weightdata", "weight", { data: weight })
+    if (typeof Meteor.users.findOne(this.userId).scaleport != 'null' && typeof Meteor.users.findOne(this.userId).scalehost != 'null') {
+      var port = Meteor.users.findOne(this.userId).scaleport
+      var host = Meteor.users.findOne(this.userId).scalehost
+      if (port === '9999') {
+        self.changed("weightdata", "weight", { data: 500 })
         self.ready()
-      })
-      socket.on('error', function (error) {
-        console.log(error)
-      })
-      socket.on('close', function () { })
+      } else if (port != null) {
+        var socket = new net.Socket()
+        socket.connect(port, host, function () {
+          function writeSocket() {
+            if (socket.writable) {
+              socket.write('P')
+            }
+          }
+          setInterval(writeSocket, 250)
+        })
+        socket.on('data', function (data) {
+          var rawOutput = data.toString()
+          var output = rawOutput.replace(/\D+/g, '')
+          self.changed("weightdata", "weight", { data: weight })
+          self.ready()
+        })
+        socket.on('error', function (error) {
+          console.log(error)
+        })
+        socket.on('close', function () { })
+      } else {
+        self.added("weightdata", "weight", { data: 250 })
+        self.ready()
+      }
     } else {
-      self.added("weightdata", "weight", { data: 250 })
+      self.added("weightdata", "weight", { data: 999 })
       self.ready()
     }
   }

@@ -95,8 +95,8 @@ Template.weigh.events({
   'click .print'(event) {
     event.preventDefault()
     var copies = Template.instance().templateDict.get('numUnits')
-    var port = Meteor.user().profile.printerport
-    var host = Meteor.user().profile.printerhost
+    var port = Meteor.user().printerport
+    var host = Meteor.user().printerhost
     if (port != null && host != null) {
       var zpl = document.getElementById('zpl').value
       var ip_address = host + ':' + port
@@ -299,7 +299,7 @@ Template.weigh.helpers({
     return (item_weight / 1000).toFixed(3) + ' kg'
   },
   netWeight(item_weight) {
-    var tare = Meteor.user().profile.tare
+    var tare = Meteor.user().tare
     return (item_weight / 1000 - tare).toFixed(3) + ' kg'
   },
   dateFull(createdAt) {
@@ -339,45 +339,48 @@ Template.weigh.helpers({
     return Printers.find({})
   },
   printerSelected() {
-    if (this.printer_name === Meteor.user().profile.printer) {
+    if (this.printer_name === Meteor.user().printer) {
       return 'selected'
     }
   },
   scaleSelected() {
     var scale = function () {
-      if (typeof Meteor.user().profile.scale != undefined) {
-        return Meteor.user().profile.scale
+      if (typeof Meteor.user().scale != undefined) {
+        return Meteor.user().scale
       }
     }
-    if (this.scale_name === Meteor.user().profile.scale) {
+    if (this.scale_name === Meteor.user().scale) {
       return 'selected'
     }
   },
   labelSelected() {
-    if (this.label_code === Meteor.user().profile.label) {
+    if (this.label_code === Meteor.user().label) {
       return 'selected'
     }
   },
   nuChecked() {
-    var status = Meteor.user().profile.numUnitsChecked
+    var status = Meteor.user().numUnitsChecked
     if (status === true) {
       return 'checked'
     }
   },
   bcChecked() {
-    var status = Meteor.user().profile.batchCodeChecked
+    var status = Meteor.user().batchCodeChecked
     if (status === true) {
       return 'checked'
     }
   },
+  tare() {
+    return Meteor.user().tare
+  },
   nuShowTrue() {
-    var status = Meteor.user().profile.numUnitsChecked
+    var status = Meteor.user().numUnitsChecked
     if (status === true) {
       return 'true'
     }
   },
   bcShowTrue() {
-    var status = Meteor.user().profile.batchCodeChecked
+    var status = Meteor.user().batchCodeChecked
     if (status === true) {
       return 'true'
     }
@@ -454,7 +457,7 @@ Template.weigh.helpers({
     }
     var netWeight = function () {
       var item_weight = document.getElementById('item_weight').value
-      var tare = Meteor.user().profile.tare
+      var tare = Meteor.user().tare
       return (item_weight / 1000 - tare).toFixed(3) + ' kg'
     }
     var bcItemWeight = function () {
@@ -470,7 +473,7 @@ Template.weigh.helpers({
       var ingredientCode = Items.findOne({ item_code: Template.instance().templateDict.get('item') }).item_ingredients
       return Ingredients.findOne({ ingredients_code: ingredientCode }).ingredients_list
     }
-    var layout = Labels.findOne({ label_code: Meteor.user().profile.label }).label_layout
+    var layout = Labels.findOne({ label_code: Meteor.user().label }).label_layout
     var zpl = layout.replace('{{settings.company_name}}', settingsCompanyName).replace('{{settings.street1}}', settingsStreetOne).replace('{{settings.street2}}', settingsStreetTwo).replace('{{settings.city}}', settingsCity).replace('{{settings.province}}', settingsProvince).replace('{{settings.country}}', settingsCountry).replace('{{settings.postal}}', settingsPostal).replace('{{settings.plant_number}}', settingsPlantNumber).replace('{{settings.prefix}}', settingsPrefix).replace('{{dateFull createdAt}}', productionDate).replace('{{showWeight item_weight}}', grossWeight).replace('{{netWeight item_weight}}', netWeight).replace('{{itemName}}', itemName).replace('{{item_code}}', itemCode).replace('{{lotNumber1 createdAt}}', lotNumber).replace('{{custName}}', custName).replace('{{cust_code}}', custCode).replace('{{shelfLife createdAt}}', shelfLife).replace('{{ingredients}}', ingredientsList).replace('{{item_code}}', itemCode).replace('{{codeDate createdAt}}', bcProdDate).replace('{{codeWeight item_weight}}', bcItemWeight).replace('{{codeLot createdAt}}', bcLotNumber).replace(/ {2}/g, '')
     return zpl
   }
