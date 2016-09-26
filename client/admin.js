@@ -2,7 +2,7 @@
 // Body 
 //
 
-emplate.body.onCreated(function () {
+Template.body.onCreated(function () {
   this.layoutDict = new ReactiveDict()
   this.layoutDict.set('activePage', 'weigh')
 })
@@ -59,9 +59,6 @@ Template.body.helpers({
   }
 })
 
-window.addEventListener('error', function (e) {
-  console.log(e.error)
-})
 
 //
 // Settings 
