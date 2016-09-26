@@ -1,3 +1,7 @@
+/*
+  Bootstrap
+  */
+
 html {
   font-family: sans-serif;
   -webkit-text-size-adjust: 100%;
@@ -4312,4 +4316,140 @@ button.close {
   .hidden-print {
     display: none !important;
   }
+}
+
+/*
+  Custom Styles
+  */
+
+@media print {
+  * {
+    visibility: hidden;
+  }
+
+  .container {
+    margin: 0;
+	  padding: 0;
+	  border: 0;
+  }
+
+  #section-to-print, #section-to-print * {
+    visibility: visible;
+  }
+
+  #section-to-print {
+    transform: translate(0%, -100%) rotate(90deg);
+    transform-origin: bottom left;
+    font-size: 8pt;
+    line-height: 1.2;
+    display: block;
+    border: 0px;
+    min-width: 3.5in;
+  }
+}
+
+body {
+  background-color: #F0F0F0;
+}
+
+.optionDropdown {
+  height:30px;
+  line-height:30px;
+}
+
+.table-print {
+  font-family: Georgia, serif;
+  font-size: 12px;
+  border: 2px dashed #808080;
+  background-color: #FFF;
+}
+
+.table-print > tbody > tr > td {
+  padding: 2px;
+  margin: 0px;
+}
+
+#statusMessage {
+  color:#FFF;
+}
+
+.noMargin {
+  margin-bottom: 0px !important;
+}
+
+.clogo {
+  height: 60px;
+  width: 120px;
+}
+.plogo {
+  height: 60px;
+  width: 80px;
+}
+
+.zpl {
+  visibility: hidden;
+}
+
+.table-white {
+  background-color: #FFF;
+}
+
+.table-white > tbody > tr > td {
+  border: 0px !important;
+}
+
+.pad-top {
+  padding-top: 40px;
+  padding-bottom: 200px;
+}
+
+.navbar-nav > li > a,
+.navbar-brand {
+    padding-top:10px !important;
+    padding-bottom:0 !important;
+    height: 40px;
+}
+
+.navbar {
+  min-height:40px !important;
+}
+
+.navbar-default {
+  background-color: #2895f1;
+}
+
+.navbar-default .navbar-brand,
+.navbar-default .navbar-nav > li > a:hover,
+.navbar-default .navbar-nav > li > a:focus,
+.navbar-default .navbar-nav > li > a {
+    color: #FFF;
+}
+
+.loginBlock {
+  width: 300px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.signInBlock {
+  padding-top: 10px;
+  padding-bottom: 50px;
+}
+
+.signUpBlock {
+  padding-bottom: 200px;
+}
+
+.login-link-text {
+  color: #FFF;
+}
+
+nav ul li:hover > ul {
+	display:inherit;
+}
+
+nav ul ul li {
+	float:none;
+	display:list-item;
+	position: relative;
 }

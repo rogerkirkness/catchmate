@@ -1,0 +1,511 @@
+<!--
+  Customer Master
+  -->
+
+<template name="customerMaster">
+  <h3>Customer Master</h3>
+  <div class="col-sm-6">
+    <legend>Add Customer</legend>
+    <div class="form-group">
+      <label for="customer_code" class="control-label">Customer Code: </label>
+      <input type="text" id="customer_code" class="form-control">
+    </div>
+    <div class="form-group">
+      <label for="customer_name" class="control-label">Customer Name: </label>
+      <input type="text" id="customer_name" class="form-control">
+    </div>
+    <div class="form-group">
+      <label for="customer_street1" class="control-label">Address: </label>
+      <input type="text" id="customer_street1" class="form-control">
+    </div>
+    <div class="form-group">
+      <label for="customer_street2" class="control-label">Address Two: </label>
+      <input type="text" id="customer_street2" class="form-control">
+    </div>
+    <div class="form-group">
+      <label for="customer_city" class="control-label">City: </label>
+      <input type="text" id="customer_city" class="form-control">
+    </div>
+    <div class="form-group">
+      <label for="customer_province" class="control-label">Province / State: </label>
+      <input type="text" id="customer_province" class="form-control">
+    </div>
+    <div class="form-group">
+      <label for="customer_country" class="control-label">Country: </label>
+      <input type="text" id="customer_country" class="form-control">
+    </div>
+    <div class="form-group">
+      <label for="customer_postal" class="control-label">Postal / Zip: </label>
+      <input type="text" id="customer_postal" class="form-control">
+    </div>
+    <button type="submit" id="addCustomer" class="btn btn-default btn-block">Add Customer</button>
+  </div>
+  <div class="col-sm-6">
+    <legend>Edit Customer</legend>
+    <div class="form-group">
+      <label for="customer_code_edit" class="control-label">Customer Code: </label>
+      <input type="text" id="customer_code_edit" class="form-control" value="{{customer.customer_code}}" readonly>
+    </div>
+    <div class="form-group">
+      <label for="customer_name_edit" class="control-label">Customer Name: </label>
+      <input type="text" id="customer_name_edit" class="form-control" value="{{customer.customer_name}}">
+    </div>
+    <div class="form-group">
+      <label for="customer_street1_edit" class="control-label">Address: </label>
+      <input type="text" id="customer_street1_edit" class="form-control" value="{{customer.customer_street1}}">
+    </div>
+    <div class="form-group">
+      <label for="customer_street2_edit" class="control-label">Address Two: </label>
+      <input type="text" id="customer_street2_edit" class="form-control" value="{{customer.customer_street2}}">
+    </div>
+    <div class="form-group">
+      <label for="customer_city_edit" class="control-label">City: </label>
+      <input type="text" id="customer_city_edit" class="form-control" value="{{customer.customer_city}}">
+    </div>
+    <div class="form-group">
+      <label for="customer_province_edit" class="control-label">Province / State: </label>
+      <input type="text" id="customer_province_edit" class="form-control" value="{{customer.customer_province}}">
+    </div>
+    <div class="form-group">
+      <label for="customer_country_edit" class="control-label">Country: </label>
+      <input type="text" id="customer_country_edit" class="form-control" value="{{customer.customer_country}}">
+    </div>
+    <div class="form-group">
+      <label for="customer_postal_edit" class="control-label">Postal / Zip: </label>
+      <input type="text" id="customer_postal_edit" class="form-control" value="{{customer.customer_postal}}">
+    </div>
+    <button type="submit" id="editCustomer" class="btn btn-default btn-block">Edit Customer</button>
+  </div>
+  <div class="col-sm-12 pad-top">
+    <table class="table table-condensed table-striped table-bordered table-white">
+      <tbody>
+        <tr>
+          <td><b>Code</b></td>
+          <td><b>Name</b></td>
+          <td><b>Address</b></td>
+          <td><b>Address 2</b></td>
+          <td><b>City</b></td>
+          <td><b>Prov / State</b></td>
+          <td><b>Country</b></td>
+          <td><b>Postal / Zip</b></td>
+          <td><b>Edit</b></td>
+        </tr>
+        {{#each customers}}
+          <tr>
+            <td>{{customer_code}}</td>
+            <td>{{customer_name}}</td>
+            <td>{{customer_street1}}</td>
+            <td>{{customer_street2}}</td>
+            <td>{{customer_city}}</td>
+            <td>{{customer_province}}</td>
+            <td>{{customer_country}}</td>
+            <td>{{customer_postal}}</td>
+            <td><button id="edit" class="btn btn-sm btn-default"><span class="caret"></span></button></td>
+          </tr>
+        {{/each}}
+      </tbody>
+    </table>
+  </div>
+</template>
+
+<!--
+  Ingredient Master
+  -->
+
+<template name="ingredientMaster">
+  <h3>Ingredient Master</h3>
+  <div class="col-sm-6">
+    <legend>Add Ingredient List</legend>
+    <div class="form-group">
+      <label for="ingredients_code" class="control-label">Ingredients Code</label>
+      <input type="text" id="ingredients_code" class="form-control">
+    </div>
+    <div class="form-group">
+      <label for="ingredients_list" class="control-label">Ingredients List</label>
+      <textarea id="ingredients_list" class="form-control" rows="5"></textarea>
+    </div>
+    <button type="submit" id="addIngredient" class="btn btn-default btn-block">Add Ingredient List</button>
+  </div>
+  <div class="col-sm-6">
+    <legend>Edit Ingredient List</legend>
+    <div class="form-group">
+      <label for="ingredients_code" class="control-label">Ingredients Code</label>
+      <input type="text" id="ingredients_code_edit" class="form-control" value="{{ingredient.ingredients_code}}" readonly>
+    </div>
+    <div class="form-group">
+      <label for="ingredients_code" class="control-label">Ingredients List</label>
+      <textarea id="ingredients_list_edit" class="form-control" rows="5" value="{{ingredient.ingredients_list}}"></textarea>
+    </div>
+    <button type="submit" id="editIngredient" class="btn btn-default btn-block">Edit Ingredient List</button>
+  </div>
+  <div class="col-sm-12 pad-top">
+    <table class="table table-condensed table-striped table-bordered table-white">
+      <tbody>
+        <tr>
+          <td><b>Code</b></td>
+          <td><b>List</b></td>
+          <td><b>Edit</b></td>
+        </tr>
+        {{#each ingredients}}
+          <tr>
+            <td>{{ingredients_code}}</td>
+            <td>{{ingredients_list}}</td>
+            <td><button id="edit" class="btn btn-sm btn-default"><span class="caret"></span></button></td>
+          </tr>
+        {{/each}}
+      </tbody>
+    </table>
+  </div>
+</template>
+
+<!--
+  Item Master
+  -->
+
+<template name="itemMaster">
+  <h3>Item Master</h3>
+  <div class="col-sm-6">
+    <legend>Add Item</legend>
+    <div class="form-group">
+      <label for="item_code" class="control-label">Item Code</label>
+      <input type="text" id="item_code" class="form-control">
+    </div>
+    <div class="form-group">
+      <label for="item_gtin" class="control-label">Item GTIN</label>
+      <input type="text" id="item_gtin" class="form-control">
+    </div>
+    <div class="form-group">
+      <label for="item_name" class="control-label">Item Name</label>
+      <input type="text" id="item_name" class="form-control">
+    </div>
+    <div class="form-group">
+      <label for="item_unit" class="control-label">Units of Measure</label>
+      <input type="text" id="item_unit" class="form-control">
+    </div>
+    <div class="form-group">
+      <label for="item_brand" class="control-label">Brand Name</label>
+      <input type="text" id="item_brand" class="form-control">
+    </div>
+    <div class="form-group">
+      <label for="item_shelfLife" class="control-label">Shelf Life (Days)</label>
+      <input type="text" id="item_shelfLife" class="form-control">
+    </div>
+    <div class="form-group">
+      <label for="item_stdWeight" class="control-label">Standard Weight (g)</label>
+      <input type="text" id="item_stdWeight" class="form-control">
+    </div>
+    <div class="form-group">
+      <label for="item_minWeight" class="control-label">Min Weight (g)</label>
+      <input type="text" id="item_minWeight" class="form-control">
+    </div>
+    <div class="form-group">
+      <label for="item_maxWeight" class="control-label">Max Weight (g)</label>
+      <input type="text" id="item_maxWeight" class="form-control">
+    </div>
+    <div class="form-group">
+      <label for="selectIngredients" class="control-label">Ingredient List</label>
+      <select class="form-control" id="selectIngredients">
+        {{#each ingredients}}
+        <option class="dropdown optionDropdown">{{ingredients_code}}</option>
+        {{/each}}
+      </select>
+    </div>
+    <button type="submit" id="addItem" class="btn btn-default btn-block">Add Item</button>
+  </div>
+  <div class="col-sm-6">
+    <legend>Edit Item</legend>
+    <div class="form-group">
+      <label for="item_code_edit" class="control-label">Item Code</label>
+      <input type="text" id="item_code_edit" class="form-control" value="{{item.item_code}}" readonly>
+    </div>
+    <div class="form-group">
+      <label for="item_gtin_edit" class="control-label">Item GTIN</label>
+      <input type="text" id="item_gtin_edit" class="form-control" value="{{item.item_gtin}}">
+    </div>
+    <div class="form-group">
+      <label for="item_name_edit" class="control-label">Item Name</label>
+      <input type="text" id="item_name_edit" class="form-control" value="{{item.item_name}}">
+    </div>
+    <div class="form-group">
+      <label for="item_unit_edit" class="control-label">Units of Measure</label>
+      <input type="text" id="item_unit_edit" class="form-control" value="{{item.item_unit}}">
+    </div>
+    <div class="form-group">
+      <label for="item_brand_edit" class="control-label">Brand Name</label>
+      <input type="text" id="item_brand_edit" class="form-control" value="{{item.item_brand}}">
+    </div>
+    <div class="form-group">
+      <label for="item_shelfLife_edit" class="control-label">Shelf Life (Days)</label>
+      <input type="text" id="item_shelfLife_edit" class="form-control" value="{{item.item_shelfLife}}">
+    </div>
+    <div class="form-group">
+      <label for="item_stdWeight_edit" class="control-label">Standard Weight (g)</label>
+      <input type="text" id="item_stdWeight_edit" class="form-control" value="{{item.item_stdWeight}}">
+    </div>
+    <div class="form-group">
+      <label for="item_minWeight_edit" class="control-label">Min Weight (g)</label>
+      <input type="text" id="item_minWeight_edit" class="form-control" value="{{item.item_minWeight}}">
+    </div>
+    <div class="form-group">
+      <label for="item_maxWeight_edit" class="control-label">Max Weight (g)</label>
+      <input type="text" id="item_maxWeight_edit" class="form-control" value="{{item.item_maxWeight}}">
+    </div>
+    <div class="form-group">
+      <label for="selectIngredients" class="control-label">Ingredient List</label>
+      <select class="form-control" id="selectIngredients_edit">
+        {{#each ingredients}}
+        <option class="dropdown optionDropdown" {{selectedIngredient}}>{{ingredients_code}}</option>
+        {{/each}}
+      </select>
+    </div>
+    <button type="submit" id="editItem" class="btn btn-default btn-block">Edit Item</button>
+  </div>
+  <div class="col-sm-12 pad-top">
+    <table class="table table-condensed table-striped table-bordered table-white">
+      <tbody>
+        <tr>
+          <td><b>Code</b></td>
+          <td><b>GTIN</b></td>
+          <td><b>Name</b></td>
+          <td><b>Brand</b></td>
+          <td><b>Life (Days)</b></td>
+          <td><b>Weight (g)</b></td>
+          <td><b>Min (g)</b></td>
+          <td><b>Max (g)</b></td>
+          <td><b>Edit</b></td>
+        </tr>
+        {{#each items}}
+          <tr>
+            <td>{{item_code}}</td>
+            <td>{{item_gtin}}</td>
+            <td>{{item_name}}</td>
+            <td>{{item_brand}}</td>
+            <td>{{item_shelfLife}}</td>
+            <td>{{item_stdWeight}}</td>
+            <td>{{item_minWeight}}</td>
+            <td>{{item_maxWeight}}</td>
+            <td><button id="edit" class="btn btn-sm btn-default"><span class="caret"></span></button></td>
+          </tr>
+        {{/each}}
+      </tbody>
+    </table>
+  </div>
+</template>
+
+<!--
+  Label Master
+  -->
+
+<template name="labelMaster">
+  <h3>Label Master</h3>
+  <div class="col-sm-4">
+    <legend>Add Label</legend>
+    <div class="form-group">
+      <label for="label_code" class="control-label">Label Code</label>
+      <input type="text" id="label_code" class="form-control">
+    </div>
+    <div class="form-group">
+      <label for="label_layout" class="control-label">Label Layout</label>
+      <textarea id="label_layout" class="form-control" rows="60"></textarea>
+    </div>
+    <button type="submit" id="addLabel" class="btn btn-default btn-block">Add Label</button>
+  </div>
+  <div class="col-sm-4">
+    <legend>Edit Label</legend>
+    <div class="form-group">
+      <label for="label_code_edit" class="control-label">Label Code</label>
+      <input type="text" id="label_code_edit" class="form-control" value="{{label.label_code}}" readonly>
+    </div>
+    <div class="form-group">
+      <label for="label_layout_edit" class="control-label">Label Layout</label>
+      <textarea id="label_layout_edit" class="form-control" rows="60" value="{{label.label_layout}}"></textarea>
+    </div>
+    <button type="submit" id="editLabel" class="btn btn-default btn-block">Edit Label</button>
+  </div>
+  <div class="col-sm-4">
+    <h3>Label Elements</h3>
+    <p>
+      <i>Copy/paste bold label element into ZPL code to include that field in the label print out on Zebra printers</i><br><br>
+      <b>{{|settings.company_name}}</b><br> Contains company name<br><br>
+      <b>{{|settings.street1}}</b><br> Contains street address one<br><br>
+      <b>{{|settings.street2}}</b><br> Contains street address two<br><br>
+      <b>{{|settings.city}}</b><br> Contains city<br><br>
+      <b>{{|settings.province}}</b><br> Contains province<br><br>
+      <b>{{|settings.country}}</b><br> Contains country<br><br>
+      <b>{{|settings.postal}}</b><br> Contains postal code / zip<br><br>
+      <b>{{|settings.plant_number}}</b><br> Contains facility plant number<br><br>
+      <b>{{|settings.prefix}}</b><br> Contains GS1-128 barcode prefix<br><br>
+      <b>{{|dateFull createdAt}}</b><br> Contains human readable production date<br><br>
+      <b>{{|showWeight item_weight}}</b><br> Contains human readable gross weight<br><br>
+      <b>{{|netWeight item_weight}}</b><br> Contains human readable net weight<br><br>
+      <b>{{|itemName}}</b><br> Contains item name<br><br>
+      <b>{{|item_code}}</b><br> Contains item code<br><br>
+      <b>{{|lotNumber1 createdAt}}</b><br> Contains lot number<br><br>
+      <b>{{|custName}}</b><br> Contains customer name<br><br>
+      <b>{{|cust_code}}</b><br> Contains customer code<br><br>
+      <b>{{|shelfLife createdAt}}</b><br> Contains item shelf life<br><br>
+      <b>{{|ingredients}}</b><br> Contains item ingredients list<br><br>
+      <b>{{|codeDate createdAt}}</b><br> Contains barcode friendly production date<br><br>
+      <b>{{|codeWeight item_weight}}</b><br> Contains barcode friendly gross weight<br><br>
+      <b>{{|codeLot createdAt}}</b><br> Contains barcode friendly lot number<br><br>
+    </p>
+  </div>
+  <div class="col-sm-12 pad-top">
+    <table class="table table-condensed table-striped table-bordered table-white">
+      <tbody>
+        <tr>
+          <td><b>Code</b></td>
+          <td><b>Layout</b></td>
+          <td><b>Edit</b></td>
+        </tr>
+        {{#each labels}}
+          <tr>
+            <td>{{label_code}}</td>
+            <td>{{label_layout}}</td>
+            <td><button id="edit" class="btn btn-sm btn-default"><span class="caret"></span></button></td>
+          </tr>
+        {{/each}}
+      </tbody>
+    </table>
+  </div>
+</template>
+
+<!--
+  Printer Master
+  -->
+
+  <template name="printerMaster">
+  <h3>Printer Master</h3>
+  <div class="col-sm-6">
+    <legend>Add Printer</legend>
+    <div class="form-group">
+      <label for="printer_code" class="control-label">Printer Code</label>
+      <input type="text" id="printer_code" class="form-control">
+    </div>
+    <div class="form-group">
+      <label for="printer_name" class="control-label">Printer Name</label>
+      <input type="text" id="printer_name" class="form-control">
+    </div>
+    <div class="form-group">
+      <label for="printer_port" class="control-label">Printer Port</label>
+      <input type="text" id="printer_port" class="form-control">
+    </div>
+    <div class="form-group">
+      <label for="printer_host" class="control-label">Printer Host</label>
+      <input type="text" id="printer_host" class="form-control">
+    </div>
+    <button type="submit" id="addPrinter" class="btn btn-default btn-block">Add Printer</button>
+  </div>
+  <div class="col-sm-6">
+    <legend>Edit Printer</legend>
+    <div class="form-group">
+      <label for="printer_code_edit" class="control-label">Printer Code</label>
+      <input type="text" id="printer_code_edit" class="form-control" value="{{printer.printer_code}}" readonly>
+    </div>
+    <div class="form-group">
+      <label for="printer_name_edit" class="control-label">Printer Name</label>
+      <input type="text" id="printer_name_edit" class="form-control" value="{{printer.printer_name}}">
+    </div>
+    <div class="form-group">
+      <label for="printer_port_edit" class="control-label">Printer Port</label>
+      <input type="text" id="printer_port_edit" class="form-control" value="{{printer.printer_port}}">
+    </div>
+    <div class="form-group">
+      <label for="printer_host_edit" class="control-label">Printer Host</label>
+      <input type="text" id="printer_host_edit" class="form-control" value="{{printer.printer_host}}">
+    </div>
+    <button type="submit" id="editPrinter" class="btn btn-default btn-block">Edit Printer</button>
+  </div>
+  <div class="col-sm-12 pad-top">
+    <table class="table table-condensed table-striped table-bordered table-white">
+      <tbody>
+        <tr>
+          <td><b>Code</b></td>
+          <td><b>Name</b></td>
+          <td><b>Port</b></td>
+          <td><b>Host</b></td>
+          <td><b>Edit</b></td>
+        </tr>
+        {{#each printers}}
+        <tr>
+          <td>{{printer_code}}</td>
+          <td>{{printer_name}}</td>
+          <td>{{printer_port}}</td>
+          <td>{{printer_host}}</td>
+          <td><button id="edit" class="btn btn-sm btn-default"><span class="caret"></span></button></td>
+        </tr>
+        {{/each}}
+      </tbody>
+    </table>
+  </div>
+</template>
+
+<!--
+  Scale Master
+  -->
+
+  <template name="scaleMaster">
+  <h3>Scale Master</h3>
+  <div class="col-sm-6">
+    <legend>Add Scale</legend>
+    <div class="form-group">
+      <label for="scale_code" class="control-label">Scale Code</label>
+      <input type="text" id="scale_code" class="form-control">
+    </div>
+    <div class="form-group">
+      <label for="scale_name" class="control-label">Scale Name</label>
+      <input type="text" id="scale_name" class="form-control">
+    </div>
+    <div class="form-group">
+      <label for="scale_port" class="control-label">Scale Port</label>
+      <input type="text" id="scale_port" class="form-control">
+    </div>
+    <div class="form-group">
+      <label for="scale_host" class="control-label">Scale Host</label>
+      <input type="text" id="scale_host" class="form-control">
+    </div>
+    <button type="submit" id="addScale" class="btn btn-default btn-block">Add Scale</button>
+  </div>
+  <div class="col-sm-6">
+    <legend>Edit Scale</legend>
+    <div class="form-group">
+      <label for="scale_code_edit" class="control-label">Scale Code</label>
+      <input type="text" id="scale_code_edit" class="form-control" value="{{scale.scale_code}}" readonly>
+    </div>
+    <div class="form-group">
+      <label for="scale_name_edit" class="control-label">Scale Name</label>
+      <input type="text" id="scale_name_edit" class="form-control" value="{{scale.scale_name}}">
+    </div>
+    <div class="form-group">
+      <label for="scale_port_edit" class="control-label">Scale Port</label>
+      <input type="text" id="scale_port_edit" class="form-control" value="{{scale.scale_port}}">
+    </div>
+    <div class="form-group">
+      <label for="scale_host_edit" class="control-label">Scale Host</label>
+      <input type="text" id="scale_host_edit" class="form-control" value="{{scale.scale_host}}">
+    </div>
+    <button type="submit" id="editScale" class="btn btn-default btn-block">Edit Scale</button>
+  </div>
+  <div class="col-sm-12 pad-top">
+    <table class="table table-condensed table-striped table-bordered table-white">
+      <tbody>
+        <tr>
+          <td><b>Code</b></td>
+          <td><b>Name</b></td>
+          <td><b>Port</b></td>
+          <td><b>Host</b></td>
+          <td><b>Edit</b></td>
+        </tr>
+        {{#each scales}}
+        <tr>
+          <td>{{scale_code}}</td>
+          <td>{{scale_name}}</td>
+          <td>{{scale_port}}</td>
+          <td>{{scale_host}}</td>
+          <td><button id="edit" class="btn btn-sm btn-default"><span class="caret"></span></button></td>
+        </tr>
+        {{/each}}
+      </tbody>
+    </table>
+  </div>
+</template>
