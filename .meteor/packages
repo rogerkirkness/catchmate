@@ -13,3 +13,4 @@ blaze@2.1.8
 meteor@1.2.17
 accounts-password@1.3.0
 ecmascript
+twbs:bootstrap

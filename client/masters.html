@@ -4,7 +4,7 @@
 
 <template name="customerMaster">
   <h3>Customer Master</h3>
-  <div class="col-sm-6">
+  <div class="col-sm-4">
     <legend>Add Customer</legend>
     <div class="form-group">
       <label for="customer_code" class="control-label">Customer Code: </label>
@@ -40,7 +40,7 @@
     </div>
     <button type="submit" id="addCustomer" class="btn btn-default btn-block">Add Customer</button>
   </div>
-  <div class="col-sm-6">
+  <div class="col-sm-4">
     <legend>Edit Customer</legend>
     <div class="form-group">
       <label for="customer_code_edit" class="control-label">Customer Code: </label>
@@ -114,7 +114,7 @@
 
 <template name="ingredientMaster">
   <h3>Ingredient Master</h3>
-  <div class="col-sm-6">
+  <div class="col-sm-4">
     <legend>Add Ingredient List</legend>
     <div class="form-group">
       <label for="ingredients_code" class="control-label">Ingredients Code</label>
@@ -126,7 +126,7 @@
     </div>
     <button type="submit" id="addIngredient" class="btn btn-default btn-block">Add Ingredient List</button>
   </div>
-  <div class="col-sm-6">
+  <div class="col-sm-4">
     <legend>Edit Ingredient List</legend>
     <div class="form-group">
       <label for="ingredients_code" class="control-label">Ingredients Code</label>
@@ -164,7 +164,7 @@
 
 <template name="itemMaster">
   <h3>Item Master</h3>
-  <div class="col-sm-6">
+  <div class="col-sm-4">
     <legend>Add Item</legend>
     <div class="form-group">
       <label for="item_code" class="control-label">Item Code</label>
@@ -212,7 +212,7 @@
     </div>
     <button type="submit" id="addItem" class="btn btn-default btn-block">Add Item</button>
   </div>
-  <div class="col-sm-6">
+  <div class="col-sm-4">
     <legend>Edit Item</legend>
     <div class="form-group">
       <label for="item_code_edit" class="control-label">Item Code</label>
@@ -306,7 +306,7 @@
     </div>
     <div class="form-group">
       <label for="label_layout" class="control-label">Label Layout</label>
-      <textarea id="label_layout" class="form-control" rows="60"></textarea>
+      <textarea id="label_layout" class="form-control" rows="20"></textarea>
     </div>
     <button type="submit" id="addLabel" class="btn btn-default btn-block">Add Label</button>
   </div>
@@ -318,12 +318,12 @@
     </div>
     <div class="form-group">
       <label for="label_layout_edit" class="control-label">Label Layout</label>
-      <textarea id="label_layout_edit" class="form-control" rows="60" value="{{label.label_layout}}"></textarea>
+      <textarea id="label_layout_edit" class="form-control" rows="20" value="{{label.label_layout}}"></textarea>
     </div>
     <button type="submit" id="editLabel" class="btn btn-default btn-block">Edit Label</button>
   </div>
   <div class="col-sm-4">
-    <h3>Label Elements</h3>
+    <h4>Label Elements</h4>
     <p>
       <i>Copy/paste bold label element into ZPL code to include that field in the label print out on Zebra printers</i><br><br>
       <b>{{|settings.company_name}}</b><br> Contains company name<br><br>
@@ -376,7 +376,7 @@
 
   <template name="printerMaster">
   <h3>Printer Master</h3>
-  <div class="col-sm-6">
+  <div class="col-sm-4">
     <legend>Add Printer</legend>
     <div class="form-group">
       <label for="printer_code" class="control-label">Printer Code</label>
@@ -396,7 +396,7 @@
     </div>
     <button type="submit" id="addPrinter" class="btn btn-default btn-block">Add Printer</button>
   </div>
-  <div class="col-sm-6">
+  <div class="col-sm-4">
     <legend>Edit Printer</legend>
     <div class="form-group">
       <label for="printer_code_edit" class="control-label">Printer Code</label>
@@ -446,7 +446,7 @@
 
   <template name="scaleMaster">
   <h3>Scale Master</h3>
-  <div class="col-sm-6">
+  <div class="col-sm-4">
     <legend>Add Scale</legend>
     <div class="form-group">
       <label for="scale_code" class="control-label">Scale Code</label>
@@ -466,7 +466,7 @@
     </div>
     <button type="submit" id="addScale" class="btn btn-default btn-block">Add Scale</button>
   </div>
-  <div class="col-sm-6">
+  <div class="col-sm-4">
     <legend>Edit Scale</legend>
     <div class="form-group">
       <label for="scale_code_edit" class="control-label">Scale Code</label>
