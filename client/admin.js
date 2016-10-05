@@ -87,7 +87,7 @@ Template.settings.events({
     }
     reader.readAsDataURL(plogo)
   },
-  'click .save_settings' (event) {
+  'input .form-control' (event) {
     event.preventDefault()
     var companyName = document.getElementById('companyName').value
     var plantNumber = document.getElementById('plantNumber').value

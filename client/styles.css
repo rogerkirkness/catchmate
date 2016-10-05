@@ -57,9 +57,17 @@ body {
   height: 60px;
   width: 120px;
 }
+
 .plogo {
   height: 60px;
   width: 80px;
+}
+
+.barcode {
+  height:100%;
+  width:100%;
+  padding-right:5px;
+  padding-left:5px;
 }
 
 .zpl {
