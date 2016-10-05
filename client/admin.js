@@ -8,13 +8,6 @@ Template.body.onCreated(function () {
 })
 
 Template.body.events({
-  'click .signOut' () {
-    Meteor.logout(function (error) {
-      if (error) {
-        window.alert(error)
-      }
-    })
-  },
   'click .signIn' () {
     var user = document.getElementById('user').value
     var password = document.getElementById('password').value
@@ -115,6 +108,13 @@ Template.settings.events({
   'click .delete_plogo' (event) {
     event.preventDefault()
     Meteor.call('deletePlogo', function(error) {
+      if (error) {
+        window.alert(error)
+      }
+    })
+  },
+  'click .signOut' () {
+    Meteor.logout(function (error) {
       if (error) {
         window.alert(error)
       }

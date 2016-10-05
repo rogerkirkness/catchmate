@@ -12,10 +12,16 @@
       <label for="item_code" class="control-label">Item Code</label>
       {{> inputAutocomplete settings=itemSettings id="item_code" class="item_code form-control input-lg" type="text" }}
     </div>
+    {{#if cuShowTrue}}
     <div class="form-group">
       <label for="cust_code" class="control-label">Customer Code</label>
       {{> inputAutocomplete settings=custSettings id="cust_code" class="cust_code form-control input-lg" type="text" }}
     </div>
+    {{else}}
+    <div class="form-group">
+      <input type="hidden" id="cust_code" class="cust_code form-control">
+    </div>
+    {{/if}}
     {{#if nuShowTrue}}
     <div class="form-group">
       <label for="num_units" class="control-label">Number of Units</label>
@@ -23,7 +29,7 @@
     </div>
     {{else}}
     <div class="form-group">
-      <input type="hidden" id="num_units" class="form-control input-lg">
+      <input type="hidden" id="num_units" class="form-control">
     </div>
     {{/if}}
     {{#if bcShowTrue}}
@@ -33,7 +39,7 @@
     </div>
     {{else}}
     <div class="form-group">
-      <input type="hidden" id="batch_code" class="form-control input-lg">
+      <input type="hidden" id="batch_code" class="form-control">
     </div>
     {{/if}}
     <div class="form-group">
@@ -120,6 +126,11 @@
           {{/each}}
         </select>
       </div>
+    </div>
+    <div class="checkbox">
+      <label>
+        <input type="checkbox" id="custCodeCheckbox" {{cuChecked}}> Show customer code field?
+      </label>
     </div>
     <div class="checkbox">
       <label>

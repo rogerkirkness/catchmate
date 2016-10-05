@@ -13,6 +13,7 @@ Accounts.onCreateUser(function (options, user) {
   user.label = null
   user.numUnitsChecked = false
   user.batchCodeChecked = false
+  user.customerChecked = true
   return user
 })
 
@@ -526,9 +527,25 @@ Meteor.methods({
     }
   },
 
+  updateCustomerField(status) {
+    if (this.userId) {
+      Meteor.users.upsert(this.userId, {
+        $set: {
+          'customerChecked': status
+        }
+      }, function (error, number) {
+        if (error != null) {
+          throw new Meteor.Error("update-error", "Update operation failed, contact support")
+        } else {
+          console.log("Successfully updated " + number + " document(s).")
+        }
+      })
+    }
+  },
+
   updateNumUnitsField(status) {
     if (this.userId) {
-      Meteor.users.update(this.userId, {
+      Meteor.users.upsert(this.userId, {
         $set: {
           'numUnitsChecked': status
         }
@@ -544,7 +561,7 @@ Meteor.methods({
 
   updateBatchCodeField(status) {
     if (this.userId) {
-      Meteor.users.update(this.userId, {
+      Meteor.users.upsert(this.userId, {
         $set: {
           'batchCodeChecked': status
         }
@@ -646,7 +663,8 @@ Meteor.publish('users', function () {
         'scalehost': 1,
         'label': 1,
         'numUnitsChecked': 1,
-        'batchCodeChecked': 1
+        'batchCodeChecked': 1,
+        'customerChecked': 1
       }
     })
   }

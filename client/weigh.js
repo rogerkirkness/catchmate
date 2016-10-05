@@ -41,10 +41,12 @@ Template.weigh.onCreated(function () {
 })
 
 Template.weigh.events({
+
   'blur .item_code'(event) {
     var item = event.target.value
     Template.instance().templateDict.set('validItem', item)
   },
+
   'click .weigh'(event) {
     var indicator = WeightData.findOne("weight").data
     var item = Template.instance().templateDict.get('validItem')
@@ -93,6 +95,7 @@ Template.weigh.events({
       })
     }
   },
+
   'click .print'(event) {
     event.preventDefault()
     var copies = Template.instance().templateDict.get('numUnits')
@@ -113,6 +116,7 @@ Template.weigh.events({
       }
     }
   },
+
   'click .undo'(event) {
     event.preventDefault()
     window.confirm('Are you sure you want to undo that label?')
@@ -123,6 +127,7 @@ Template.weigh.events({
       }
     })
   },
+
   'input .profileTare'(event) {
     event.preventDefault()
     var Tare = event.target.value
@@ -132,6 +137,7 @@ Template.weigh.events({
       }
     })
   },
+
   'change #selectscale'(event) {
     event.preventDefault()
     var Scale = event.target.value
@@ -143,6 +149,7 @@ Template.weigh.events({
       }
     })
   },
+
   'change #selectprinter'(event) {
     event.preventDefault()
     var Printer = event.target.value
@@ -154,6 +161,7 @@ Template.weigh.events({
       }
     })
   },
+
   'change #selectlabel'(event) {
     event.preventDefault()
     var label = event.target.value
@@ -163,7 +171,18 @@ Template.weigh.events({
       }
     })
   },
-  'change #numUnitsCheckbox'(event) {
+
+  'change #custCodeCheckbox' (event) {
+    event.preventDefault()
+    var status = event.target.checked
+    Meteor.call('updateCustomerField', status, function (error) {
+      if (error) {
+        window.alert(error)
+      }
+    })
+  },
+
+  'change #numUnitsCheckbox' (event) {
     event.preventDefault()
     var status = event.target.checked
     Meteor.call('updateNumUnitsField', status, function (error) {
@@ -172,7 +191,8 @@ Template.weigh.events({
       }
     })
   },
-  'change #batchCodeCheckbox'(event) {
+
+  'change #batchCodeCheckbox' (event) {
     event.preventDefault()
     var status = event.target.checked
     Meteor.call('updateBatchCodeField', status, function (error) {
@@ -181,6 +201,7 @@ Template.weigh.events({
       }
     })
   }
+
 })
 
 Template.weigh.helpers({
@@ -359,6 +380,12 @@ Template.weigh.helpers({
       return 'selected'
     }
   },
+  cuChecked() {
+    var status = Meteor.user().customerChecked
+    if (status === true) {
+      return 'checked'
+    }
+  },
   nuChecked() {
     var status = Meteor.user().numUnitsChecked
     if (status === true) {
@@ -373,6 +400,12 @@ Template.weigh.helpers({
   },
   tare() {
     return Meteor.user().tare
+  },
+  cuShowTrue() {
+    var status = Meteor.user().customerChecked
+    if (status === true) {
+      return 'true'
+    }
   },
   nuShowTrue() {
     var status = Meteor.user().numUnitsChecked
