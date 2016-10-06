@@ -51,11 +51,11 @@
       <input type="text" id="customer_name_edit" class="form-control" value="{{customer.customer_name}}">
     </div>
     <div class="form-group">
-      <label for="customer_street1_edit" class="control-label">Address: </label>
+      <label for="customer_street1_edit" class="control-label">Address Line 1: </label>
       <input type="text" id="customer_street1_edit" class="form-control" value="{{customer.customer_street1}}">
     </div>
     <div class="form-group">
-      <label for="customer_street2_edit" class="control-label">Address Two: </label>
+      <label for="customer_street2_edit" class="control-label">Address Line 2: </label>
       <input type="text" id="customer_street2_edit" class="form-control" value="{{customer.customer_street2}}">
     </div>
     <div class="form-group">
@@ -75,6 +75,20 @@
       <input type="text" id="customer_postal_edit" class="form-control" value="{{customer.customer_postal}}">
     </div>
     <button type="submit" id="editCustomer" class="btn btn-default btn-block">Edit Customer</button>
+  </div>
+  <div class="col-sm-4">
+    <h4>Customer Elements</h4>
+    <p>
+      <i>Customer information can be shown on various places on your labels. </i><br><br>
+      <b>Customer Code</b><br>Choose a number for the customer record. <br><br>
+      <b>Customer Name</b><br>No length limit. <br><br>
+      <b>Address Line 1</b><br>No length limit. <br><br>
+      <b>Address Line 2</b><br>No length limit. <br><br>
+      <b>City</b><br>No length limit. <br><br>
+      <b>State / Prov</b><br>No length limit. <br><br>
+      <b>Country</b><br>No length limit. <br><br>
+      <b>Zip / Postal</b><br>No length limit. <br><br>
+    </p>
   </div>
   <div class="col-sm-12 pad-top">
     <table class="table table-condensed table-striped table-bordered table-white">
@@ -137,6 +151,14 @@
       <textarea id="ingredients_list_edit" class="form-control" rows="5" value="{{ingredient.ingredients_list}}"></textarea>
     </div>
     <button type="submit" id="editIngredient" class="btn btn-default btn-block">Edit Ingredient List</button>
+  </div>
+  <div class="col-sm-4">
+    <h4>Ingredient Elements</h4>
+    <p>
+      <i>Ingredients list is shown on the label. </i><br><br>
+      <b>Ingredients Code</b><br>Choose a number for the ingredients record. Used to attach ingredients list to item records. <br><br>
+      <b>Ingredients List</b><br>List of ingredients eg. "Beef, nitrates, bread crumbs, ketchup, spices CONTAINS: wheat". <br><br>
+    </p>
   </div>
   <div class="col-sm-12 pad-top">
     <table class="table table-condensed table-striped table-bordered table-white">
@@ -259,6 +281,20 @@
       </select>
     </div>
     <button type="submit" id="editItem" class="btn btn-default btn-block">Edit Item</button>
+  </div>
+  <div class="col-sm-4">
+    <h4>Item Elements</h4>
+    <p>
+      <i>Item record drives most of the information on the label. </i><br><br>
+      <b>Item Code</b><br>Choose a number for the item record. This is the code you will enter to make labels. <br><br>
+      <b>Item GTIN</b><br>Code from GS1 for this particular pack size of products, usually 6 numbers eg. "111111". <br><br>
+      <b>Name</b><br>The name of the item that optionally can be used on labels to customers. No length limit. <br><br>
+      <b>Brand</b><br>The brand associated with this product if co-packing. No length limit. <br><br>
+      <b>Shelf Life</b><br>The typical shelf life of the product in days eg. "90". <br><br>
+      <b>Standard Weight (Optional)</b><br>The standard weight of the item in grams. <br><br>
+      <b>Minimum Weight (Optional)</b><br>The minimum weight for this pack size in grams. <br><br>
+      <b>Maximum Weight (Optional)</b><br>The maximum weight for this pack size in grams. <br><br>
+    </p>
   </div>
   <div class="col-sm-12 pad-top">
     <table class="table table-condensed table-striped table-bordered table-white">
@@ -416,6 +452,16 @@
     </div>
     <button type="submit" id="editPrinter" class="btn btn-default btn-block">Edit Printer</button>
   </div>
+  <div class="col-sm-4">
+    <h4>Printer Elements</h4>
+    <p>
+      <i>Printer setup allows you to print directly to TCP/IP printers. </i><br><br>
+      <b>Printer Code</b><br>Choose a number for the printer code. <br><br>
+      <b>Name</b><br>This is the name of the printer. It is an easier way to tell which one you are using eg. "cutting room". <br><br>
+      <b>Port</b><br>This is the TCP/IP port for the printer, usually 4-5 numbers. <br><br>
+      <b>Host</b><br>This is the TCP/IP host for the printer, usually looks like "192.168.0.1" or similar. <br><br>
+    </p>
+  </div>
   <div class="col-sm-12 pad-top">
     <table class="table table-condensed table-striped table-bordered table-white">
       <tbody>
@@ -485,6 +531,16 @@
       <input type="text" id="scale_host_edit" class="form-control" value="{{scale.scale_host}}">
     </div>
     <button type="submit" id="editScale" class="btn btn-default btn-block">Edit Scale</button>
+  </div>
+  <div class="col-sm-4">
+    <h4>Scale Elements</h4>
+    <p>
+      <i>Scale setup allows you to get weight data from TCP/IP scales. </i><br><br>
+      <b>Scale Code</b><br>Choose a number for the scale code. <br><br>
+      <b>Name</b><br>This is the name of the scale. It is an easier way to tell which station you are using eg. "cutting room". <br><br>
+      <b>Port</b><br>This is the TCP/IP port for the scale, usually 4-5 numbers. <br><br>
+      <b>Host</b><br>This is the TCP/IP host for the scale, usually looks like "192.168.0.1" or similar. <br><br>
+    </p>
   </div>
   <div class="col-sm-12 pad-top">
     <table class="table table-condensed table-striped table-bordered table-white">
