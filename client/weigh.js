@@ -305,16 +305,16 @@ Template.weigh.helpers({
     var companyId = Meteor.users.findOne(Meteor.userId()).companyId
     return Company.findOne({ settings: companyId }).plogo
   },
-  itemName() {
-    var itemName = Items.findOne({ item_code: Template.instance().templateDict.get('item') }).item_name
-    if (itemName != null) {
-      return itemName
+  item() {
+    var item = Items.findOne({ item_code: Template.instance().templateDict.get('item') })
+    if (item != null) {
+      return item
     }
   },
-  custName() {
-    var custName = Customers.findOne({ customer_code: Template.instance().templateDict.get('cust') }).customer_name
-    if (custName != null) {
-      return custName
+  customer() {
+    var customer = Customers.findOne({ customer_code: Template.instance().templateDict.get('cust') })
+    if (customer != null) {
+      return customer
     }
   },
   shelfLife(createdAt) {
@@ -363,6 +363,9 @@ Template.weigh.helpers({
   },
   printers() {
     return Printers.find({})
+  },
+  labels() {
+    return Labels.find({})
   },
   printerSelected() {
     if (this.printer_name === Meteor.user().printer) {
@@ -422,9 +425,6 @@ Template.weigh.helpers({
     if (status === true) {
       return 'true'
     }
-  },
-  labels() {
-    return Labels.find({})
   },
   itemSettings() {
     return {
