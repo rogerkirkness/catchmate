@@ -3,9 +3,9 @@
   -->
 
 <template name="customerMaster">
-  <h3>Customer Master</h3>
   <div class="col-sm-4">
-    <legend>Add Customer</legend>
+    <h4>Add Customer</h4>
+    <hr class="horizontalRule">
     <div class="form-group">
       <label for="customer_code" class="control-label">Customer Code: </label>
       <input type="text" id="customer_code" class="form-control">
@@ -41,7 +41,8 @@
     <button type="submit" id="addCustomer" class="btn btn-default btn-block">Add Customer</button>
   </div>
   <div class="col-sm-4">
-    <legend>Edit Customer</legend>
+    <h4>Edit Customer</h4>
+    <hr class="horizontalRule">
     <div class="form-group">
       <label for="customer_code_edit" class="control-label">Customer Code: </label>
       <input type="text" id="customer_code_edit" class="form-control" value="{{customer.customer_code}}" readonly>
@@ -78,6 +79,7 @@
   </div>
   <div class="col-sm-4">
     <h4>Customer Elements</h4>
+    <hr class="horizontalRule">
     <p>
       <i>Customer information can be shown on various places on your labels. </i><br><br>
       <b>Customer Code</b><br>Choose a number for the customer record. <br><br>
@@ -91,6 +93,8 @@
     </p>
   </div>
   <div class="col-sm-12 pad-top">
+    <h4>Customer Master</h4>
+    <hr class="horizontalRule">
     <table class="table table-condensed table-striped table-bordered table-white">
       <tbody>
         <tr>
@@ -127,9 +131,9 @@
   -->
 
 <template name="ingredientMaster">
-  <h3>Ingredient Master</h3>
   <div class="col-sm-4">
-    <legend>Add Ingredient List</legend>
+    <h4>Add Ingredient List</h4>
+    <hr class="horizontalRule">
     <div class="form-group">
       <label for="ingredients_code" class="control-label">Ingredients Code</label>
       <input type="text" id="ingredients_code" class="form-control">
@@ -141,7 +145,8 @@
     <button type="submit" id="addIngredient" class="btn btn-default btn-block">Add Ingredient List</button>
   </div>
   <div class="col-sm-4">
-    <legend>Edit Ingredient List</legend>
+    <h4>Edit Ingredient List</h4>
+    <hr class="horizontalRule">
     <div class="form-group">
       <label for="ingredients_code" class="control-label">Ingredients Code</label>
       <input type="text" id="ingredients_code_edit" class="form-control" value="{{ingredient.ingredients_code}}" readonly>
@@ -154,13 +159,18 @@
   </div>
   <div class="col-sm-4">
     <h4>Ingredient Elements</h4>
+    <hr class="horizontalRule">
     <p>
       <i>Ingredients list is shown on the label. </i><br><br>
-      <b>Ingredients Code</b><br>Choose a number for the ingredients record. Used to attach ingredients list to item records. <br><br>
-      <b>Ingredients List</b><br>List of ingredients eg. "Beef, nitrates, bread crumbs, ketchup, spices CONTAINS: wheat". <br><br>
+      <b>Ingredients Code</b><br>Choose a number for the ingredients record. Used to attach ingredients list to item records.
+      <br><br>
+      <b>Ingredients List</b><br>List of ingredients eg. "Beef, nitrates, bread crumbs, ketchup, spices CONTAINS: wheat".
+      <br><br>
     </p>
   </div>
   <div class="col-sm-12 pad-top">
+    <h4>Ingredient Master</h4>
+    <hr class="horizontalRule">
     <table class="table table-condensed table-striped table-bordered table-white">
       <tbody>
         <tr>
@@ -185,9 +195,9 @@
   -->
 
 <template name="itemMaster">
-  <h3>Item Master</h3>
   <div class="col-sm-4">
-    <legend>Add Item</legend>
+    <h4>Add Item</h4>
+    <hr class="horizontalRule">
     <div class="form-group">
       <label for="item_code" class="control-label">Item Code</label>
       <input type="text" id="item_code" class="form-control">
@@ -235,7 +245,8 @@
     <button type="submit" id="addItem" class="btn btn-default btn-block">Add Item</button>
   </div>
   <div class="col-sm-4">
-    <legend>Edit Item</legend>
+    <h4>Edit Item</h4>
+    <hr class="horizontalRule">
     <div class="form-group">
       <label for="item_code_edit" class="control-label">Item Code</label>
       <input type="text" id="item_code_edit" class="form-control" value="{{item.item_code}}" readonly>
@@ -284,6 +295,7 @@
   </div>
   <div class="col-sm-4">
     <h4>Item Elements</h4>
+    <hr class="horizontalRule">
     <p>
       <i>Item record drives most of the information on the label. </i><br><br>
       <b>Item Code</b><br>Choose a number for the item record. This is the code you will enter to make labels. <br><br>
@@ -297,6 +309,8 @@
     </p>
   </div>
   <div class="col-sm-12 pad-top">
+    <h4>Item Master</h4>
+    <hr class="horizontalRule">
     <table class="table table-condensed table-striped table-bordered table-white">
       <tbody>
         <tr>
@@ -333,9 +347,9 @@
   -->
 
 <template name="labelMaster">
-  <h3>Label Master</h3>
   <div class="col-sm-4">
-    <legend>Add Label</legend>
+    <h4>Add Label</h4>
+    <hr class="horizontalRule">
     <div class="form-group">
       <label for="label_code" class="control-label">Label Code</label>
       <input type="text" id="label_code" class="form-control">
@@ -347,7 +361,8 @@
     <button type="submit" id="addLabel" class="btn btn-default btn-block">Add Label</button>
   </div>
   <div class="col-sm-4">
-    <legend>Edit Label</legend>
+    <h4>Edit Label</h4>
+    <hr class="horizontalRule">
     <div class="form-group">
       <label for="label_code_edit" class="control-label">Label Code</label>
       <input type="text" id="label_code_edit" class="form-control" value="{{label.label_code}}" readonly>
@@ -360,6 +375,7 @@
   </div>
   <div class="col-sm-4">
     <h4>Label Elements</h4>
+    <hr class="horizontalRule">
     <p>
       <i>Copy/paste bold label element into ZPL code to include that field in the label print out on Zebra printers</i><br><br>
       <b>{{|settings.company_name}}</b><br> Contains company name<br><br>
@@ -387,6 +403,8 @@
     </p>
   </div>
   <div class="col-sm-12 pad-top">
+    <h4>Label Master</h4>
+    <hr class="horizontalRule">
     <table class="table table-condensed table-striped table-bordered table-white">
       <tbody>
         <tr>
@@ -410,10 +428,10 @@
   Printer Master
   -->
 
-  <template name="printerMaster">
-  <h3>Printer Master</h3>
+<template name="printerMaster">
   <div class="col-sm-4">
-    <legend>Add Printer</legend>
+    <h4>Add Printer</h4>
+    <hr class="horizontalRule">
     <div class="form-group">
       <label for="printer_code" class="control-label">Printer Code</label>
       <input type="text" id="printer_code" class="form-control">
@@ -433,7 +451,8 @@
     <button type="submit" id="addPrinter" class="btn btn-default btn-block">Add Printer</button>
   </div>
   <div class="col-sm-4">
-    <legend>Edit Printer</legend>
+    <h4>Edit Printer</h4>
+    <hr class="horizontalRule">
     <div class="form-group">
       <label for="printer_code_edit" class="control-label">Printer Code</label>
       <input type="text" id="printer_code_edit" class="form-control" value="{{printer.printer_code}}" readonly>
@@ -454,15 +473,19 @@
   </div>
   <div class="col-sm-4">
     <h4>Printer Elements</h4>
+    <hr class="horizontalRule">
     <p>
       <i>Printer setup allows you to print directly to TCP/IP printers. </i><br><br>
       <b>Printer Code</b><br>Choose a number for the printer code. <br><br>
-      <b>Name</b><br>This is the name of the printer. It is an easier way to tell which one you are using eg. "cutting room". <br><br>
+      <b>Name</b><br>This is the name of the printer. It is an easier way to tell which one you are using eg. "cutting room".
+      <br><br>
       <b>Port</b><br>This is the TCP/IP port for the printer, usually 4-5 numbers. <br><br>
       <b>Host</b><br>This is the TCP/IP host for the printer, usually looks like "192.168.0.1" or similar. <br><br>
     </p>
   </div>
   <div class="col-sm-12 pad-top">
+    <h4>Printer Master</h4>
+    <hr class="horizontalRule">
     <table class="table table-condensed table-striped table-bordered table-white">
       <tbody>
         <tr>
@@ -473,13 +496,13 @@
           <td><b>Edit</b></td>
         </tr>
         {{#each printers}}
-        <tr>
-          <td>{{printer_code}}</td>
-          <td>{{printer_name}}</td>
-          <td>{{printer_port}}</td>
-          <td>{{printer_host}}</td>
-          <td><button id="edit" class="btn btn-sm btn-default"><span class="caret"></span></button></td>
-        </tr>
+          <tr>
+            <td>{{printer_code}}</td>
+            <td>{{printer_name}}</td>
+            <td>{{printer_port}}</td>
+            <td>{{printer_host}}</td>
+            <td><button id="edit" class="btn btn-sm btn-default"><span class="caret"></span></button></td>
+          </tr>
         {{/each}}
       </tbody>
     </table>
@@ -490,10 +513,10 @@
   Scale Master
   -->
 
-  <template name="scaleMaster">
-  <h3>Scale Master</h3>
+<template name="scaleMaster">
   <div class="col-sm-4">
-    <legend>Add Scale</legend>
+    <h4>Add Scale</h4>
+    <hr class="horizontalRule">
     <div class="form-group">
       <label for="scale_code" class="control-label">Scale Code</label>
       <input type="text" id="scale_code" class="form-control">
@@ -513,7 +536,8 @@
     <button type="submit" id="addScale" class="btn btn-default btn-block">Add Scale</button>
   </div>
   <div class="col-sm-4">
-    <legend>Edit Scale</legend>
+    <h4>Edit Scale</h4>
+    <hr class="horizontalRule">
     <div class="form-group">
       <label for="scale_code_edit" class="control-label">Scale Code</label>
       <input type="text" id="scale_code_edit" class="form-control" value="{{scale.scale_code}}" readonly>
@@ -534,15 +558,19 @@
   </div>
   <div class="col-sm-4">
     <h4>Scale Elements</h4>
+    <hr class="horizontalRule">
     <p>
       <i>Scale setup allows you to get weight data from TCP/IP scales. </i><br><br>
       <b>Scale Code</b><br>Choose a number for the scale code. <br><br>
-      <b>Name</b><br>This is the name of the scale. It is an easier way to tell which station you are using eg. "cutting room". <br><br>
+      <b>Name</b><br>This is the name of the scale. It is an easier way to tell which station you are using eg. "cutting
+      room". <br><br>
       <b>Port</b><br>This is the TCP/IP port for the scale, usually 4-5 numbers. <br><br>
       <b>Host</b><br>This is the TCP/IP host for the scale, usually looks like "192.168.0.1" or similar. <br><br>
     </p>
   </div>
   <div class="col-sm-12 pad-top">
+    <h4>Scale Master</h4>
+    <hr class="horizontalRule">
     <table class="table table-condensed table-striped table-bordered table-white">
       <tbody>
         <tr>
@@ -553,15 +581,35 @@
           <td><b>Edit</b></td>
         </tr>
         {{#each scales}}
-        <tr>
-          <td>{{scale_code}}</td>
-          <td>{{scale_name}}</td>
-          <td>{{scale_port}}</td>
-          <td>{{scale_host}}</td>
-          <td><button id="edit" class="btn btn-sm btn-default"><span class="caret"></span></button></td>
-        </tr>
+          <tr>
+            <td>{{scale_code}}</td>
+            <td>{{scale_name}}</td>
+            <td>{{scale_port}}</td>
+            <td>{{scale_host}}</td>
+            <td><button id="edit" class="btn btn-sm btn-default"><span class="caret"></span></button></td>
+          </tr>
         {{/each}}
       </tbody>
     </table>
   </div>
+</template>
+
+<!--
+  Price List Master
+  -->
+
+<template name="priceListMaster">
+  <p>Coming soon...</p>
+  <h4>Price List Master</h4>
+  <hr class="horizontalRule">
+</template>
+
+<!-- 
+  Nutrition Facts Master
+  -->
+
+<template name="nutritionFactsMaster">
+  <p>Coming soon...</p>
+  <h4>Nutrition Facts Master</h4>
+  <hr class="horizontalRule">
 </template>

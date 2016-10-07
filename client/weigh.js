@@ -1,3 +1,7 @@
+//
+// Weigh Template
+//
+
 import moment from 'moment'
 
 var pad = function (n, width, z) {

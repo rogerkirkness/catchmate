@@ -341,3 +341,35 @@ Template.scaleMaster.helpers({
     }
   }
 })
+
+//
+// Price List Master
+//
+
+Template.priceListMaster.onCreated(function() {
+
+})
+
+Template.priceListMaster.events({
+
+})
+
+Template.priceListMaster.helpers({
+
+})
+
+//
+// Nutrition Facts Master
+//
+
+Template.nutritionFactsMaster.onCreated(function() {
+
+})
+
+Template.nutritionFactsMaster.events({
+
+})
+
+Template.nutritionFactsMaster.helpers({
+  
+})
