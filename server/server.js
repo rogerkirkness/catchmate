@@ -14,14 +14,20 @@ Accounts.onCreateUser(function (options, user) {
   user.numUnitsChecked = false
   user.batchCodeChecked = false
   user.customerChecked = true
+  user.priceList = null
   return user
 })
 
 Meteor.methods({
-  insertCustomer(customer_code, customer_name, customer_street1, customer_street2, customer_city, customer_province, customer_country, customer_postal) {
-    if (this.userId) {
+  insertCustomer(customer_code, customer_name, customer_street1, customer_street2, customer_city, customer_province, customer_country, customer_postal, customer_priceList) {
+   if (this.userId) {
       var companyId = Meteor.user().companyId
-      var exists = Customers.findOne({ $and: [{ customer_code: customer_code }, { customer_companyId: companyId }] })
+      var exists = Customers.findOne({
+        $and: [
+          { customer_code: customer_code },
+          { customer_companyId: companyId }
+        ]
+      })
       if (exists != null) {
         if (exists.customer_code === customer_code) {
           throw new Meteor.Error("duplicate-code", "Code: " + exists.customer_code + " already exists.")
@@ -36,6 +42,7 @@ Meteor.methods({
         'customer_province': customer_province,
         'customer_country': customer_country,
         'customer_postal': customer_postal,
+        'customer_priceList': customer_priceList,
         'customer_companyId': companyId
       }, function (error, id) {
         if (error != null) {
@@ -47,7 +54,7 @@ Meteor.methods({
     }
   },
 
-  updateCustomer(customer_code, customer_name, customer_street1, customer_street2, customer_city, customer_province, customer_country, customer_postal) {
+  updateCustomer(customer_code, customer_name, customer_street1, customer_street2, customer_city, customer_province, customer_country, customer_postal, customer_priceList) {
     if (this.userId) {
       var companyId = Meteor.user().companyId
       Customers.update({
@@ -64,7 +71,8 @@ Meteor.methods({
             'customer_city': customer_city,
             'customer_province': customer_province,
             'customer_country': customer_country,
-            'customer_postal': customer_postal
+            'customer_postal': customer_postal,
+            'customer_priceList': customer_priceList
           }
         }, function (error, number) {
           if (error != null) {
@@ -101,11 +109,10 @@ Meteor.methods({
     if (this.userId) {
       var companyId = Meteor.user().companyId
       Batches.remove({
-        $and: [{
-          createdAt: lastBatch
-        }, {
-            batch_companyId: companyId
-          }]
+        $and: [
+          { createdAt: lastBatch },
+          { batch_companyId: companyId }
+        ]
       }, function (error) {
         if (error != null) {
           throw new Meteor.Error("insert-error", "Insert operation failed, contact support")
@@ -119,7 +126,12 @@ Meteor.methods({
   insertItem(item_code, item_gtin, item_name, item_unit, item_brand, item_shelfLife, item_stdWeight, item_minWeight, item_maxWeight, item_ingredients) {
     if (this.userId) {
       var companyId = Meteor.user().companyId
-      var exists = Items.findOne({ $and: [{ item_code: item_code }, { item_companyId: companyId }] })
+      var exists = Items.findOne({
+        $and: [
+          { item_code: item_code },
+          { item_companyId: companyId }
+        ]
+      })
       if (exists != null) {
         if (exists.item_code === item_code) {
           throw new Meteor.Error("duplicate-code", "Code: " + exists.item_code + " already exists.")
@@ -181,7 +193,12 @@ Meteor.methods({
   insertIngredients(ingredients_code, ingredients_list) {
     if (this.userId) {
       var companyId = Meteor.user().companyId
-      var exists = Ingredients.findOne({ $and: [{ ingredients_code: ingredients_code }, { ingredients_companyId: companyId }] })
+      var exists = Ingredients.findOne({
+        $and: [
+          { ingredients_code: ingredients_code },
+          { ingredients_companyId: companyId }
+        ]
+      })
       if (exists != null) {
         if (exists.ingredients_code === ingredients_code) {
           throw new Meteor.Error("duplicate-code", "Code: " + exists.ingredients_code + " already exists.")
@@ -227,7 +244,12 @@ Meteor.methods({
   insertLabel(label_code, label_layout) {
     if (this.userId) {
       var companyId = Meteor.user().companyId
-      var exists = Labels.findOne({ $and: [{ label_code: label_code }, { label_companyId: companyId }] })
+      var exists = Labels.findOne({
+        $and: [
+          { label_code: label_code },
+          { label_companyId: companyId }
+        ]
+      })
       if (exists != null) {
         if (exists.label_code === label_code) {
           throw new Meteor.Error("duplicate-code", "Code: " + exists.label_code + " already exists.")
@@ -273,7 +295,12 @@ Meteor.methods({
   insertScale(scale_code, scale_name, scale_port, scale_host) {
     if (this.userId) {
       var companyId = Meteor.user().companyId
-      var exists = Scales.findOne({ $and: [{ scale_code: scale_code }, { scale_companyId: companyId }] })
+      var exists = Scales.findOne({
+        $and: [
+          { scale_code: scale_code },
+          { scale_companyId: companyId }
+        ]
+      })
       if (exists != null) {
         if (exists.scale_code === scale_code) {
           throw new Meteor.Error("duplicate-code", "Code: " + exists.scale_code + " already exists.")
@@ -323,7 +350,12 @@ Meteor.methods({
   insertPrinter(printer_code, printer_name, printer_port, printer_host) {
     if (this.userId) {
       var companyId = Meteor.user().companyId
-      var exists = Printers.findOne({ $and: [{ printer_code: printer_code }, { printer_companyId: companyId }] })
+      var exists = Printers.findOne({
+        $and: [
+          { printer_code: printer_code },
+          { printer_companyId: companyId }
+        ]
+      })
       if (exists != null) {
         if (exists.printer_code === printer_code) {
           throw new Meteor.Error("duplicate-code", "Code: " + exists.printer_code + " already exists.")
@@ -370,92 +402,156 @@ Meteor.methods({
     }
   },
 
-  upsertSettings(companyName, plantNumber, Street1, Street2, City, Province, Country, Postal, Prefix) {
+  insertPrice(price_code, price_name, price_list) {
     if (this.userId) {
       var companyId = Meteor.user().companyId
-      Company.upsert({ settings: companyId }, {
-        $set: {
-          'company_name': companyName,
-          'plant_number': plantNumber,
-          'street1': Street1,
-          'street2': Street2,
-          'city': City,
-          'province': Province,
-          'country': Country,
-          'postal': Postal,
-          'prefix': Prefix
-        }
-      }, function (error, number) {
-        if (error != null) {
-          throw new Meteor.Error("update-error", "Update operation failed, contact support")
-        } else {
-          console.log("Successfully updated " + number + " document(s).")
-        }
+      var exists = Prices.findOne({
+        $and: [
+          { price_code: price_code },
+          { price_companyId: companyId }
+        ]
       })
+      if (exists != null) {
+        if (exists.price_code === price_code) {
+          throw new Meteor.Error("duplicate-code", "Code: " + exists.price_code + " already exists.")
+        }
+      } else {
+        Prices.insert({
+          'price_code': price_code,
+          'price_name': price_name,
+          'price_list': price_list,
+          'price_companyId': companyId
+        }, function (error, id) {
+          if (error != null) {
+            throw new Meteor.Error("insert-error", "Insert operation failed, contact support")
+          } else {
+            console.log("Successfully inserted document: " + id)
+          }
+        })
+      }
+    }
+  },
+
+  updatePrice(price_code, price_name, price_list) {
+    if (this.userId) {
+      var companyId = Meteor.user().companyId
+      Prices.update({
+        $and: [
+          { price_code: price_code },
+          { price_companyId: companyId }
+        ]
+      }, {
+          $set: {
+            'price_name': price_name,
+            'price_list': price_list
+          }
+        }, function (error, number) {
+          if (error != null) {
+            throw new Meteor.Error("update-error", "Update operation failed, contact support")
+          } else {
+            console.log("Successfully updated " + number + " document(s).")
+          }
+        }
+      )
+    }
+  },
+
+  upsertSettings(companyName, plantNumber, Street1, Street2, City, Province, Country, Postal, Prefix, priceList) {
+    if (this.userId) {
+      var companyId = Meteor.user().companyId
+      Company.upsert(
+        { settings: companyId }, {
+          $set: {
+            'company_name': companyName,
+            'plant_number': plantNumber,
+            'street1': Street1,
+            'street2': Street2,
+            'city': City,
+            'province': Province,
+            'country': Country,
+            'postal': Postal,
+            'prefix': Prefix,
+            'priceList': priceList
+          }
+        }, function (error, number) {
+          if (error != null) {
+            throw new Meteor.Error("update-error", "Update operation failed, contact support")
+          } else {
+            console.log("Successfully updated " + number + " document(s).")
+          }
+        })
     }
   },
 
   upsertClogo(clogo) {
     if (this.userId) {
       var companyId = Meteor.user().companyId
-      Company.upsert({ settings: companyId }, {
-        $set: {
-          'clogo': clogo
-        }
-      }, function (error, number) {
-        if (error != null) {
-          throw new Meteor.Error("update-error", "Update operation failed, contact support")
-        } else {
-          console.log("Successfully updated " + number + " document(s).")
-        }
-      })
+      Company.upsert(
+        { settings: companyId }, {
+          $set: {
+            'clogo': clogo
+          }
+        }, function (error, number) {
+          if (error != null) {
+            throw new Meteor.Error("update-error", "Update operation failed, contact support")
+          } else {
+            console.log("Successfully updated " + number + " document(s).")
+          }
+        })
     }
   },
 
   upsertPlogo(plogo) {
     if (this.userId) {
       var companyId = Meteor.user().companyId
-      Company.upsert({ settings: companyId }, {
-        $set: {
-          'plogo': plogo
-        }
-      }, function (error, number) {
-        if (error != null) {
-          throw new Meteor.Error("update-error", "Update operation failed, contact support")
-        } else {
-          console.log("Successfully updated " + number + " document(s).")
-        }
-      })
+      Company.upsert(
+        { settings: companyId }, {
+          $set: {
+            'plogo': plogo
+          }
+        }, function (error, number) {
+          if (error != null) {
+            throw new Meteor.Error("update-error", "Update operation failed, contact support")
+          } else {
+            console.log("Successfully updated " + number + " document(s).")
+          }
+        })
     }
   },
 
   deleteClogo() {
     if (this.userId) {
       var companyId = Meteor.user().companyId
-      Company.update({ settings: companyId }, {
-        $unset: { 'clogo': "" }
-      }, function (error, number) {
-        if (error != null) {
-          throw new Meteor.Error("update-error", "Update operation failed, contact support")
-        } else {
-          console.log("Successfully updated " + number + " document(s).")
-        }
-      })
+      Company.update(
+        { settings: companyId }, {
+          $unset: {
+            'clogo': ""
+          }
+        }, function (error, number) {
+          if (error != null) {
+            throw new Meteor.Error("update-error", "Update operation failed, contact support")
+          } else {
+            console.log("Successfully updated " + number + " document(s).")
+          }
+        })
     }
   },
 
   deletePlogo() {
     if (this.userId) {
       var companyId = Meteor.user().companyId
-      Company.update({ settings: companyId }, {
-        $unset: { 'plogo': "" }
-      }, function (error, number) {
-        if (error != null) {
-          throw new Meteor.Error("update-error", "Update operation failed, contact support")
-        } else {
-          console.log("Successfully updated " + number + " document(s).")
-        }
-      })
+      Company.update(
+        { settings: companyId }, {
+          $unset: {
+            'plogo': ""
+          }
+        }, function (error, number) {
+          if (error != null) {
+            throw new Meteor.Error("update-error", "Update operation failed, contact support")
+          } else {
+            console.log("Successfully updated " + number + " document(s).")
+          }
+        })
     }
   },
 
@@ -589,84 +685,119 @@ Meteor.methods({
 Meteor.publish('batch', function () {
   if (this.userId) {
     var companyId = Meteor.users.findOne(this.userId).companyId
-    return Batches.find({ 'batch_companyId': companyId }, { sort: { createdAt: -1 }, limit: 1 })
+    return Batches.find({
+      'batch_companyId': companyId
+    }, {
+        sort: {
+          createdAt: -1
+        },
+        limit: 1
+      }
+    )
   }
 })
 
 Meteor.publish('customers', function () {
   if (this.userId) {
     var companyId = Meteor.users.findOne(this.userId).companyId
-    return Customers.find({ 'customer_companyId': companyId })
+    return Customers.find({
+      'customer_companyId': companyId
+    })
   }
 })
 
 Meteor.publish('items', function () {
   if (this.userId) {
     var companyId = Meteor.users.findOne(this.userId).companyId
-    return Items.find({ 'item_companyId': companyId })
+    return Items.find({
+      'item_companyId': companyId
+    })
   }
 })
 
 Meteor.publish('ingredients', function () {
   if (this.userId) {
     var companyId = Meteor.users.findOne(this.userId).companyId
-    return Ingredients.find({ 'ingredients_companyId': companyId })
+    return Ingredients.find({
+      'ingredients_companyId': companyId
+    })
   }
 })
 
 Meteor.publish('labels', function () {
   if (this.userId) {
     var companyId = Meteor.users.findOne(this.userId).companyId
-    return Labels.find({ 'label_companyId': companyId })
+    return Labels.find({
+      'label_companyId': companyId
+    })
   }
 })
 
 Meteor.publish('scales', function () {
   if (this.userId) {
     var companyId = Meteor.users.findOne(this.userId).companyId
-    return Scales.find({ 'scale_companyId': companyId })
+    return Scales.find({
+      'scale_companyId': companyId
+    })
   }
 })
 
 Meteor.publish('printers', function () {
   if (this.userId) {
     var companyId = Meteor.users.findOne(this.userId).companyId
-    return Printers.find({ 'printer_companyId': companyId })
+    return Printers.find({
+      'printer_companyId': companyId
+    })
+  }
+})
+
+Meteor.publish('prices', function () {
+  if (this.userId) {
+    var companyId = Meteor.users.findOne(this.userId).companyId
+    return Prices.find({
+      'price_companyId': companyId
+    })
   }
 })
 
 Meteor.publish('batches', function () {
   if (this.userId) {
     var companyId = Meteor.users.findOne(this.userId).companyId
-    return Batches.find({ 'batch_companyId': companyId })
+    return Batches.find({
+      'batch_companyId': companyId
+    })
   }
 })
 
 Meteor.publish('company', function () {
   if (this.userId) {
     var companyId = Meteor.users.findOne(this.userId).companyId
-    return Company.find({ 'settings': companyId })
+    return Company.find({
+      'settings': companyId
+    })
   }
 })
 
 Meteor.publish('users', function () {
   if (this.userId) {
-    return Meteor.users.find({ _id: this.userId }, {
-      fields: {
-        'companyId': 1,
-        'tare': 1,
-        'printer': 1,
-        'printerport': 1,
-        'printerhost': 1,
-        'scale': 1,
-        'scaleport': 1,
-        'scalehost': 1,
-        'label': 1,
-        'numUnitsChecked': 1,
-        'batchCodeChecked': 1,
-        'customerChecked': 1
-      }
-    })
+    return Meteor.users.find({
+      _id: this.userId
+    }, {
+        fields: {
+          'companyId': 1,
+          'tare': 1,
+          'printer': 1,
+          'printerport': 1,
+          'printerhost': 1,
+          'scale': 1,
+          'scaleport': 1,
+          'scalehost': 1,
+          'label': 1,
+          'numUnitsChecked': 1,
+          'batchCodeChecked': 1,
+          'customerChecked': 1
+        }
+      })
   }
 })
 

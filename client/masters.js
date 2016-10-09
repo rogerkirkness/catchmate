@@ -1,3 +1,5 @@
+import _ from 'underscore'
+
 //
 // Customer Master
 //
@@ -6,14 +8,16 @@ Template.customerMaster.onCreated(function () {
   this.templateDict = new ReactiveDict()
   this.templateDict.set('customer', null)
   this.subscribe('customers')
+  this.subscribe('prices')
+  window.Prices = Prices
 })
 
 Template.customerMaster.events({
-  'click #edit' (event) {
+  'click #edit'(event) {
     event.preventDefault()
     Template.instance().templateDict.set('customer', this._id)
   },
-  'click #addCustomer' (event) {
+  'click #addCustomer'(event) {
     event.preventDefault()
     var customer_code = document.getElementById('customer_code').value
     var customer_name = document.getElementById('customer_name').value
@@ -23,13 +27,14 @@ Template.customerMaster.events({
     var customer_province = document.getElementById('customer_province').value
     var customer_country = document.getElementById('customer_country').value
     var customer_postal = document.getElementById('customer_postal').value
-    Meteor.call('insertCustomer', customer_code, customer_name, customer_street1, customer_street2, customer_city, customer_province, customer_country, customer_postal, function(error) {
+    var customer_priceList = document.getElementById('selectPriceList').value
+    Meteor.call('insertCustomer', customer_code, customer_name, customer_street1, customer_street2, customer_city, customer_province, customer_country, customer_postal, customer_priceList, function (error) {
       if (error) {
         window.alert(error)
       }
     })
   },
-  'click #editCustomer' (event) {
+  'click #editCustomer'(event) {
     event.preventDefault()
     var customer_code = document.getElementById('customer_code_edit').value
     var customer_name = document.getElementById('customer_name_edit').value
@@ -39,7 +44,8 @@ Template.customerMaster.events({
     var customer_province = document.getElementById('customer_province_edit').value
     var customer_country = document.getElementById('customer_country_edit').value
     var customer_postal = document.getElementById('customer_postal_edit').value
-    Meteor.call('updateCustomer', customer_code, customer_name, customer_street1, customer_street2, customer_city, customer_province, customer_country, customer_postal, function(error) {
+    var customer_priceList = document.getElementById('selectPriceList_edit').value
+    Meteor.call('updateCustomer', customer_code, customer_name, customer_street1, customer_street2, customer_city, customer_province, customer_country, customer_postal, customer_priceList, function (error) {
       if (error) {
         window.alert(error)
       }
@@ -56,6 +62,18 @@ Template.customerMaster.helpers({
     if (customer != null) {
       return Customers.findOne(customer)
     }
+  },
+  priceList() {
+    return Prices.find({})
+  },
+  selectedPriceList() {
+    var customer = Template.instance().templateDict.get('customer')
+    if (customer != null) {
+      var priceList = Customers.findOne(customer).customer_priceList
+      if (this.price_code === priceList) {
+        return 'selected'
+      }
+    }
   }
 })
 
@@ -70,25 +88,25 @@ Template.ingredientMaster.onCreated(function () {
 })
 
 Template.ingredientMaster.events({
-  'click #edit' (event) {
+  'click #edit'(event) {
     event.preventDefault()
     Template.instance().templateDict.set('ingredient', this._id)
   },
-  'click #addIngredient' (event) {
+  'click #addIngredient'(event) {
     event.preventDefault()
     var ingredients_code = document.getElementById('ingredients_code').value
     var ingredients_list = document.getElementById('ingredients_list').value
-    Meteor.call('insertIngredients', ingredients_code, ingredients_list, function(error) {
+    Meteor.call('insertIngredients', ingredients_code, ingredients_list, function (error) {
       if (error) {
         window.alert(error)
       }
     })
   },
-  'click #editIngredient' (event) {
+  'click #editIngredient'(event) {
     event.preventDefault()
     var ingredients_code = document.getElementById('ingredients_code_edit').value
     var ingredients_list = document.getElementById('ingredients_list_edit').value
-    Meteor.call('updateIngredients', ingredients_code, ingredients_list, function(error) {
+    Meteor.call('updateIngredients', ingredients_code, ingredients_list, function (error) {
       if (error) {
         window.alert(error)
       }
@@ -97,10 +115,10 @@ Template.ingredientMaster.events({
 })
 
 Template.ingredientMaster.helpers({
-  ingredients () {
+  ingredients() {
     return Ingredients.find({})
   },
-  ingredient () {
+  ingredient() {
     var ingredient = Template.instance().templateDict.get('ingredient')
     if (ingredient != null) {
       return Ingredients.findOne(ingredient)
@@ -121,11 +139,11 @@ Template.itemMaster.onCreated(function () {
 })
 
 Template.itemMaster.events({
-  'click #edit' (event) {
+  'click #edit'(event) {
     event.preventDefault()
     Template.instance().templateDict.set('item', this._id)
   },
-  'click #addItem' (event) {
+  'click #addItem'(event) {
     event.preventDefault()
     var item_code = document.getElementById('item_code').value
     var item_gtin = document.getElementById('item_gtin').value
@@ -137,13 +155,13 @@ Template.itemMaster.events({
     var item_minWeight = document.getElementById('item_minWeight').value
     var item_maxWeight = document.getElementById('item_maxWeight').value
     var item_ingredients = document.getElementById('selectIngredients').value
-    Meteor.call('insertItem', item_code, item_gtin, item_name, item_unit, item_brand, item_shelfLife, item_stdWeight, item_minWeight, item_maxWeight, item_ingredients, function(error) {
+    Meteor.call('insertItem', item_code, item_gtin, item_name, item_unit, item_brand, item_shelfLife, item_stdWeight, item_minWeight, item_maxWeight, item_ingredients, function (error) {
       if (error) {
         window.alert(error)
       }
     })
   },
-  'click #editItem' (event) {
+  'click #editItem'(event) {
     event.preventDefault()
     var item_code = document.getElementById('item_code_edit').value
     var item_gtin = document.getElementById('item_gtin_edit').value
@@ -155,7 +173,7 @@ Template.itemMaster.events({
     var item_minWeight = document.getElementById('item_minWeight_edit').value
     var item_maxWeight = document.getElementById('item_maxWeight_edit').value
     var item_ingredients = document.getElementById('selectIngredients_edit').value
-    Meteor.call('updateItem', item_code, item_gtin, item_name, item_unit, item_brand, item_shelfLife, item_stdWeight, item_minWeight, item_maxWeight, item_ingredients, function(error) {
+    Meteor.call('updateItem', item_code, item_gtin, item_name, item_unit, item_brand, item_shelfLife, item_stdWeight, item_minWeight, item_maxWeight, item_ingredients, function (error) {
       if (error) {
         window.alert(error)
       }
@@ -164,19 +182,19 @@ Template.itemMaster.events({
 })
 
 Template.itemMaster.helpers({
-  items () {
+  items() {
     return Items.find({})
   },
-  item () {
+  item() {
     var item = Template.instance().templateDict.get('item')
     if (item != null) {
       return Items.findOne(item)
     }
   },
-  ingredients () {
+  ingredients() {
     return Ingredients.find({})
   },
-  selectedIngredient () {
+  selectedIngredient() {
     var item = Template.instance().templateDict.get('item')
     if (item != null) {
       var ingredient = Items.findOne(item).item_ingredients
@@ -198,25 +216,25 @@ Template.labelMaster.onCreated(function () {
 })
 
 Template.labelMaster.events({
-  'click #edit' (event) {
+  'click #edit'(event) {
     event.preventDefault()
     Template.instance().templateDict.set('label', this._id)
   },
-  'click #addLabel' (event) {
+  'click #addLabel'(event) {
     event.preventDefault()
     var label_code = document.getElementById('label_code').value
     var label_layout = document.getElementById('label_layout').value
-    Meteor.call('insertLabel', label_code, label_layout, function(error) {
+    Meteor.call('insertLabel', label_code, label_layout, function (error) {
       if (error) {
         window.alert(error)
       }
     })
   },
-  'click #editLabel' (event) {
+  'click #editLabel'(event) {
     event.preventDefault()
     var label_code = document.getElementById('label_code_edit').value
     var label_layout = document.getElementById('label_layout_edit').value
-    Meteor.call('updateLabel', label_code, label_layout, function(error) {
+    Meteor.call('updateLabel', label_code, label_layout, function (error) {
       if (error) {
         window.alert(error)
       }
@@ -225,10 +243,10 @@ Template.labelMaster.events({
 })
 
 Template.labelMaster.helpers({
-  labels () {
+  labels() {
     return Labels.find({})
   },
-  label () {
+  label() {
     var label = Template.instance().templateDict.get('label')
     if (label != null) {
       return Labels.findOne(label)
@@ -247,29 +265,29 @@ Template.printerMaster.onCreated(function () {
 })
 
 Template.printerMaster.events({
-  'click #edit' (event) {
+  'click #edit'(event) {
     event.preventDefault()
     Template.instance().templateDict.set('printer', this._id)
   },
-  'click #addPrinter' (event) {
+  'click #addPrinter'(event) {
     event.preventDefault()
     var printer_code = document.getElementById('printer_code').value
     var printer_name = document.getElementById('printer_name').value
     var printer_port = document.getElementById('printer_port').value
     var printer_host = document.getElementById('printer_host').value
-    Meteor.call('insertPrinter', printer_code, printer_name, printer_port, printer_host, function(error) {
+    Meteor.call('insertPrinter', printer_code, printer_name, printer_port, printer_host, function (error) {
       if (error) {
         window.alert(error)
       }
     })
   },
-  'click #editPrinter' (event) {
+  'click #editPrinter'(event) {
     event.preventDefault()
     var printer_code = document.getElementById('printer_code_edit').value
     var printer_name = document.getElementById('printer_name_edit').value
     var printer_port = document.getElementById('printer_port_edit').value
     var printer_host = document.getElementById('printer_host_edit').value
-    Meteor.call('updatePrinter', printer_code, printer_name, printer_port, printer_host, function(error) {
+    Meteor.call('updatePrinter', printer_code, printer_name, printer_port, printer_host, function (error) {
       if (error) {
         window.alert(error)
       }
@@ -278,10 +296,10 @@ Template.printerMaster.events({
 })
 
 Template.printerMaster.helpers({
-  printers () {
+  printers() {
     return Printers.find({})
   },
-  printer () {
+  printer() {
     var printer = Template.instance().templateDict.get('printer')
     if (printer != null) {
       return Printers.findOne(printer)
@@ -300,29 +318,29 @@ Template.scaleMaster.onCreated(function () {
 })
 
 Template.scaleMaster.events({
-  'click #edit' (event) {
+  'click #edit'(event) {
     event.preventDefault()
     Template.instance().templateDict.set('scale', this._id)
   },
-  'click #addScale' (event) {
+  'click #addScale'(event) {
     event.preventDefault()
     var scale_code = document.getElementById('scale_code').value
     var scale_name = document.getElementById('scale_name').value
     var scale_port = document.getElementById('scale_port').value
     var scale_host = document.getElementById('scale_host').value
-    Meteor.call('insertScale', scale_code, scale_name, scale_port, scale_host, function(error) {
+    Meteor.call('insertScale', scale_code, scale_name, scale_port, scale_host, function (error) {
       if (error) {
         window.alert(error)
       }
     })
   },
-  'click #editScale' (event) {
+  'click #editScale'(event) {
     event.preventDefault()
     var scale_code = document.getElementById('scale_code_edit').value
     var scale_name = document.getElementById('scale_name_edit').value
     var scale_port = document.getElementById('scale_port_edit').value
     var scale_host = document.getElementById('scale_host_edit').value
-    Meteor.call('updateScale', scale_code, scale_name, scale_port, scale_host, function(error) {
+    Meteor.call('updateScale', scale_code, scale_name, scale_port, scale_host, function (error) {
       if (error) {
         window.alert(error)
       }
@@ -331,10 +349,10 @@ Template.scaleMaster.events({
 })
 
 Template.scaleMaster.helpers({
-  scales () {
+  scales() {
     return Scales.find({})
   },
-  scale () {
+  scale() {
     var scale = Template.instance().templateDict.get('scale')
     if (scale != null) {
       return Scales.findOne(scale)
@@ -346,23 +364,76 @@ Template.scaleMaster.helpers({
 // Price List Master
 //
 
-Template.priceListMaster.onCreated(function() {
-
+Template.priceListMaster.onCreated(function () {
+  this.templateDict = new ReactiveDict()
+  this.templateDict.set('price', null)
+  this.subscribe('prices')
+  this.subscribe('items')
 })
 
 Template.priceListMaster.events({
-
+  'click #edit'(event) {
+    event.preventDefault()
+    Template.instance().templateDict.set('price', this._id)
+  },
+  'click #addPrice'(event) {
+    event.preventDefault()
+    var price_code = document.getElementById('price_code').value
+    var price_name = document.getElementById('price_name').value
+    var prices = document.getElementsByClassName('prices')
+    var price_list = []
+    _.forEach(prices, function (result) {
+      var sub_list = {}
+      sub_list['price_item'] = result.id
+      sub_list['price_value'] = result.value
+      price_list.push(sub_list)
+    })
+    Meteor.call('insertPrice', price_code, price_name, price_list, function (error) {
+      if (error) {
+        window.alert(error)
+      }
+    })
+  },
+  'click #editPrice'(event) {
+    event.preventDefault()
+    var price_code = document.getElementById('price_code_edit').value
+    var price_name = document.getElementById('price_name_edit').value
+    var prices = document.getElementsByClassName('prices_edit')
+    var price_list = []
+    _.forEach(prices, function (result) {
+      var sub_list = {}
+      sub_list['price_item'] = result.id
+      sub_list['price_value'] = result.value
+      price_list.push(sub_list)
+    })
+    Meteor.call('updatePrice', price_code, price_name, price_list, function (error) {
+      if (error) {
+        window.alert(error)
+      }
+    })
+  }
 })
 
 Template.priceListMaster.helpers({
-
+  items() {
+    return Items.find({})
+  },
+  prices() {
+    return Prices.find({})
+  },
+  price() {
+    var price = Template.instance().templateDict.get('price')
+    if (price != null) {
+      return Prices.findOne(price)
+    }
+  }
 })
 
 //
 // Nutrition Facts Master
 //
 
-Template.nutritionFactsMaster.onCreated(function() {
+Template.nutritionFactsMaster.onCreated(function () {
 
 })
 
@@ -371,5 +442,5 @@ Template.nutritionFactsMaster.events({
 })
 
 Template.nutritionFactsMaster.helpers({
-  
+
 })

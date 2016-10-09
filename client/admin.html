@@ -120,10 +120,19 @@
     <div class="form-group">
       <label for="companyId" class="control-label">Company ID: </label>
       <input type="text" id="companyId" class="form-control" value="{{companyId}}" disabled>
+    </div>
+    <div class="form-group">
+      <label for="selectPriceList" class="control-label">Default Price List</label>
+      <select class="form-control" id="selectPriceList">
+        {{#each priceLists}}
+        <option class="dropdown optionDropdown" {{selectedPriceList}}>{{price_code}}</option>
+        {{/each}}
+      </select>
     </div><br>
-    <h4>Billing Information</h4>
+    <h4>Account</h4>
     <hr class="horizontalRule">
-    <p>Coming soon...</p>
+    <a class="emailSupport" href="mailto:support@catchmate.ca?subject={{companyId}}"><button>Email Support</button></a>
+    <button class="signOut">Sign Out</button>
   </div>
   <div class="col-sm-4">
     <h4>Plant Address</h4>
@@ -152,10 +161,6 @@
       <label for="profile_postal" class="control-label">Zip / Postal Code: </label>
       <input type="text" id="profile_postal" class="form-control" value="{{settings.postal}}">
     </div>
-    <h4>Account</h4>
-    <hr class="horizontalRule">
-    <a class="emailSupport" href="mailto:support@catchmate.ca?subject={{companyId}}"><button>Email Support</button></a>
-    <button class="signOut">Sign Out</button>
   </div>
   <div class="col-sm-4 signUpBlock">
     <h4>Logos</h4>

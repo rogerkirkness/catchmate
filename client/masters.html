@@ -38,6 +38,14 @@
       <label for="customer_postal" class="control-label">Zip / Postal: </label>
       <input type="text" id="customer_postal" class="form-control">
     </div>
+    <div class="form-group">
+      <label for="selectPriceList" class="control-label">Price List</label>
+      <select class="form-control" id="selectPriceList">
+        {{#each priceList}}
+        <option class="dropdown optionDropdown">{{price_code}}</option>
+        {{/each}}
+      </select>
+    </div>
     <button type="submit" id="addCustomer" class="btn btn-default btn-block">Add Customer</button>
   </div>
   <div class="col-sm-4">
@@ -75,6 +83,14 @@
       <label for="customer_postal_edit" class="control-label">Zip / Postal: </label>
       <input type="text" id="customer_postal_edit" class="form-control" value="{{customer.customer_postal}}">
     </div>
+    <div class="form-group">
+      <label for="selectPriceList_edit" class="control-label">Price List</label>
+      <select class="form-control" id="selectPriceList_edit">
+        {{#each priceList}}
+        <option class="dropdown optionDropdown" {{selectedPriceList}}>{{price_code}}</option>
+        {{/each}}
+      </select>
+    </div>
     <button type="submit" id="editCustomer" class="btn btn-default btn-block">Edit Customer</button>
   </div>
   <div class="col-sm-4">
@@ -90,6 +106,7 @@
       <b>State / Prov</b><br>No length limit. <br><br>
       <b>Country</b><br>No length limit. <br><br>
       <b>Zip / Postal</b><br>Max 7 characters. <br><br>
+      <b>Price List</b><br>Choose price list to use with this customer. <br><br>
     </p>
   </div>
   <div class="col-sm-12 pad-top">
@@ -599,9 +616,82 @@
   -->
 
 <template name="priceListMaster">
-  <p>Coming soon...</p>
-  <h4>Price List Master</h4>
-  <hr class="horizontalRule">
+  <div class="col-sm-4">
+    <h4>Add Price List</h4>
+    <hr class="horizontalRule">
+    <div class="form-group">
+      <label for="price_code" class="control-label">Price List Code</label>
+      <input type="text" id="price_code" class="form-control">
+    </div>
+    <div class="form-group">
+      <label for="price_name" class="control-label">Price List Name</label>
+      <input type="text" id="price_name" class="form-control">
+    </div>
+    <table class="table table-condensed table-striped table-bordered table-white">
+      <tbody>
+        <tr>
+          <td><b>Item</b></td>
+          <td><b>Price/Unit</b></td>
+        </tr>
+        {{#each items}}
+          <tr>
+            <td>{{item_code}}</td>
+            <td><input type="text" id= {{item_code}} class="prices" value="0"></td>
+          </tr>
+        {{/each}}
+      </tbody>
+    </table>
+    <button type="submit" id="addPrice" class="btn btn-default btn-block">Add Price List</button>
+  </div>
+  <div class="col-sm-4">
+    <h4>Edit Price List</h4>
+    <hr class="horizontalRule">
+    <div class="form-group">
+      <label for="price_code_edit" class="control-label">Price List Code</label>
+      <input type="text" id="price_code_edit" class="form-control" value="{{price.price_code}}" readonly>
+    </div>
+    <div class="form-group">
+      <label for="price_name_edit" class="control-label">Price List Name</label>
+      <input type="text" id="price_name_edit" class="form-control" value="{{price.price_name}}">
+    </div>
+    <table class="table table-condensed table-striped table-bordered table-white">
+      <tbody>
+        <tr>
+          <td><b>Item</b></td>
+          <td><b>Price/Unit</b></td>
+        </tr>
+        {{#with price}}
+          {{#each price_list}}
+            <tr>
+              <td>{{price_item}}</td>
+              <td><input type="text" id="{{price_item}}" class="prices_edit" value="{{price_value}}"></td>
+            </tr>
+          {{/each}}
+        {{/with}}
+      </tbody>
+    </table>
+    <button type="submit" id="editPrice" class="btn btn-default btn-block">Edit Price List</button>
+  </div>
+  <div class="col-sm-4">
+    <h4>Price List Master</h4>
+    <hr class="horizontalRule">
+    <table class="table table-condensed table-striped table-bordered table-white">
+      <tbody>
+        <tr>
+          <td><b>Code</b></td>
+          <td><b>Name</b></td>
+          <td><b>Edit</b></td>
+        </tr>
+        {{#each prices}}
+          <tr>
+            <td>{{price_code}}</td>
+            <td>{{price_name}}</td>
+            <td><button id="edit" class="btn btn-sm btn-default"><span class="caret"></span></button></td>
+          </tr>
+        {{/each}}
+      </tbody>
+    </table>
+  </div>
 </template>
 
 <!-- 

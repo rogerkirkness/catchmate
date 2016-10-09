@@ -33,6 +33,7 @@ Template.weigh.onCreated(function () {
   this.subscribe('printers')
   this.subscribe('labels')
   this.subscribe('users')
+  this.subscribe('prices')
 
   this.autorun(function () {
     Meteor.subscribe('barcode', Template.instance().templateDict.get('barcode'))
@@ -70,13 +71,13 @@ Template.weigh.events({
       var bcItemWeight = pad(item_weight, 6)
       var barcode = '(01)' + settingsPrefix + itemGTIN + '(11)' + bcProdDate + '(3102)' + bcItemWeight + '(21)' + bcLotNumber
 
-
       Template.instance().templateDict.set('barcode', barcode)
       Template.instance().templateDict.set('item', item_code)
       Template.instance().templateDict.set('ready', false)
       Template.instance().templateDict.set('item', item_code)
       Template.instance().templateDict.set('cust', cust_code)
       Template.instance().templateDict.set('batch', created)
+      Template.instance().templateDict.set('weight', item_weight)
 
       var num_units = document.getElementById('num_units').value
       Template.instance().templateDict.set('numUnits', num_units)
@@ -176,7 +177,7 @@ Template.weigh.events({
     })
   },
 
-  'change #custCodeCheckbox' (event) {
+  'change #custCodeCheckbox'(event) {
     event.preventDefault()
     var status = event.target.checked
     Meteor.call('updateCustomerField', status, function (error) {
@@ -186,7 +187,7 @@ Template.weigh.events({
     })
   },
 
-  'change #numUnitsCheckbox' (event) {
+  'change #numUnitsCheckbox'(event) {
     event.preventDefault()
     var status = event.target.checked
     Meteor.call('updateNumUnitsField', status, function (error) {
@@ -196,7 +197,7 @@ Template.weigh.events({
     })
   },
 
-  'change #batchCodeCheckbox' (event) {
+  'change #batchCodeCheckbox'(event) {
     event.preventDefault()
     var status = event.target.checked
     Meteor.call('updateBatchCodeField', status, function (error) {
@@ -348,6 +349,34 @@ Template.weigh.helpers({
       }
     }
   },
+  price() {
+    var item = Template.instance().templateDict.get('item')
+    var customer = Template.instance().templateDict.get('cust')
+    var weight = Template.instance().templateDict.get('weight')
+    var tare = Meteor.user().tare
+    if (item != null && customer != '') {
+      var priceList = Customers.findOne({ 'customer_code': customer }).customer_priceList
+      if (priceList != null) {
+        var prices = Prices.findOne({ 'price_code': priceList }).price_list
+        var lookup = {};
+        for (var i = 0, len = prices.length; i < len; i++) {
+          lookup[prices[i].price_item] = prices[i];
+        }
+        return "$" + (lookup[item].price_value * (weight / 1000 - tare)).toFixed(2)
+      }
+    } else {
+      var companyId = Meteor.users.findOne(Meteor.userId()).companyId
+      var priceList = Company.findOne({ settings: companyId }).priceList
+      if (priceList != null) {
+        var prices = Prices.findOne({ 'price_code': priceList }).price_list
+        var lookup = {};
+        for (var i = 0, len = prices.length; i < len; i++) {
+          lookup[prices[i].price_item] = prices[i];
+        }
+        return "$" + (lookup[item].price_value * (weight / 1000 - tare)).toFixed(2)
+      }
+    }
+  },
   codeDate(createdAt) {
     return moment(createdAt).format('YYMMDD')
   },
@@ -357,6 +386,9 @@ Template.weigh.helpers({
   },
   codeLot(createdAt) {
     return moment(createdAt).format('YYMMDDHHmmss')
+  },
+  tare() {
+    return Meteor.user().tare
   },
   scales() {
     return Scales.find({})
@@ -404,9 +436,6 @@ Template.weigh.helpers({
     if (status === true) {
       return 'checked'
     }
-  },
-  tare() {
-    return Meteor.user().tare
   },
   cuShowTrue() {
     var status = Meteor.user().customerChecked

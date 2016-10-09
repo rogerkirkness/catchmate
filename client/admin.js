@@ -61,6 +61,7 @@ Template.settings.onCreated(function () {
   this.subscribe('company')
   this.subscribe('users')
   this.subscribe('images')
+  this.subscribe('prices')
 })
 
 Template.settings.events({
@@ -91,7 +92,8 @@ Template.settings.events({
     var Country = document.getElementById('profile_country').value
     var Postal = document.getElementById('profile_postal').value
     var Prefix = document.getElementById('profile_prefix').value
-    Meteor.call('upsertSettings', companyName, plantNumber, Street1, Street2, City, Province, Country, Postal, Prefix, function (error) {
+    var priceList = document.getElementById('selectPriceList').value
+    Meteor.call('upsertSettings', companyName, plantNumber, Street1, Street2, City, Province, Country, Postal, Prefix, priceList, function (error) {
       if (error) {
         window.alert(error)
       }
@@ -137,5 +139,15 @@ Template.settings.helpers({
   plantlogo() {
     var companyId = Meteor.users.findOne(Meteor.userId()).companyId
     return Company.findOne({settings: companyId}).plogo
+  },
+  priceLists() {
+    return Prices.find({})
+  },
+  selectedPriceList() {
+    var companyId = Meteor.users.findOne(Meteor.userId()).companyId
+    var priceList = Company.findOne({settings: companyId}).priceList
+    if (this.price_code === priceList) {
+      return 'selected'
+    }
   }
 })
