@@ -135,6 +135,7 @@ Template.itemMaster.onCreated(function () {
   this.templateDict.set('item', null)
   this.subscribe('items')
   this.subscribe('ingredients')
+  this.subscribe('nutrition')
   window.Ingredients = Ingredients
 })
 
@@ -155,7 +156,8 @@ Template.itemMaster.events({
     var item_minWeight = document.getElementById('item_minWeight').value
     var item_maxWeight = document.getElementById('item_maxWeight').value
     var item_ingredients = document.getElementById('selectIngredients').value
-    Meteor.call('insertItem', item_code, item_gtin, item_name, item_unit, item_brand, item_shelfLife, item_stdWeight, item_minWeight, item_maxWeight, item_ingredients, function (error) {
+    var item_nutrition = document.getElementById('selectNutrition').value
+    Meteor.call('insertItem', item_code, item_gtin, item_name, item_unit, item_brand, item_shelfLife, item_stdWeight, item_minWeight, item_maxWeight, item_ingredients, item_nutrition, function (error) {
       if (error) {
         window.alert(error)
       }
@@ -173,7 +175,8 @@ Template.itemMaster.events({
     var item_minWeight = document.getElementById('item_minWeight_edit').value
     var item_maxWeight = document.getElementById('item_maxWeight_edit').value
     var item_ingredients = document.getElementById('selectIngredients_edit').value
-    Meteor.call('updateItem', item_code, item_gtin, item_name, item_unit, item_brand, item_shelfLife, item_stdWeight, item_minWeight, item_maxWeight, item_ingredients, function (error) {
+    var item_nutrition = document.getElementById('selectNutrition_edit').value
+    Meteor.call('updateItem', item_code, item_gtin, item_name, item_unit, item_brand, item_shelfLife, item_stdWeight, item_minWeight, item_maxWeight, item_ingredients, item_nutrition, function (error) {
       if (error) {
         window.alert(error)
       }
@@ -202,6 +205,18 @@ Template.itemMaster.helpers({
         return 'selected'
       }
     }
+  },
+  nutritions() {
+    return Nutrition.find({})
+  },
+  selectedNutrition() {
+    var item = Template.instance().templateDict.get('item')
+    if (item != null) {
+      var nutrition = Items.findOne(item).item_nutrition
+      if (this.nutrition_code === nutrition) {
+        return 'selected'
+      }
+    }
   }
 })
 
@@ -223,8 +238,9 @@ Template.labelMaster.events({
   'click #addLabel'(event) {
     event.preventDefault()
     var label_code = document.getElementById('label_code').value
+    var label_name = document.getElementById('label_name').value
     var label_layout = document.getElementById('label_layout').value
-    Meteor.call('insertLabel', label_code, label_layout, function (error) {
+    Meteor.call('insertLabel', label_code, label_name, label_layout, function (error) {
       if (error) {
         window.alert(error)
       }
@@ -233,8 +249,9 @@ Template.labelMaster.events({
   'click #editLabel'(event) {
     event.preventDefault()
     var label_code = document.getElementById('label_code_edit').value
+    var label_name = document.getElementById('label_name_edit').value
     var label_layout = document.getElementById('label_layout_edit').value
-    Meteor.call('updateLabel', label_code, label_layout, function (error) {
+    Meteor.call('updateLabel', label_code, label_name, label_layout, function (error) {
       if (error) {
         window.alert(error)
       }
@@ -434,13 +451,84 @@ Template.priceListMaster.helpers({
 //
 
 Template.nutritionFactsMaster.onCreated(function () {
-
+  this.templateDict = new ReactiveDict()
+  this.templateDict.set('nutrition', null)
+  this.subscribe('nutrition')
 })
 
 Template.nutritionFactsMaster.events({
-
+  'click #edit'(event) {
+    event.preventDefault()
+    Template.instance().templateDict.set('nutrition', this._id)
+  },
+  'click #addNutrition'(event) {
+    event.preventDefault()
+    var nutrition_code = document.getElementById('nutrition_code').value
+    var nutrition_name = document.getElementById('nutrition_name').value
+    var nutrition_servingsPerContainer = document.getElementById('nutrition_servingsPerContainer').value
+    var nutrition_servingSize = document.getElementById('nutrition_servingSize').value
+    var nutrition_calories = document.getElementById('nutrition_calories').value
+    var nutrition_totalFat = document.getElementById('nutrition_totalFat').value
+    var nutrition_saturatedFat = document.getElementById('nutrition_saturatedFat').value
+    var nutrition_transFat = document.getElementById('nutrition_transFat').value
+    var nutrition_cholesterol = document.getElementById('nutrition_cholesterol').value
+    var nutrition_sodium = document.getElementById('nutrition_sodium').value
+    var nutrition_carbohydrates = document.getElementById('nutrition_carbohydrates').value
+    var nutrition_fiber = document.getElementById('nutrition_fiber').value
+    var nutrition_sugar = document.getElementById('nutrition_sugar').value
+    var nutrition_addedSugar = document.getElementById('nutrition_addedSugar').value
+    var nutrition_protein = document.getElementById('nutrition_protein').value
+    var nutrition_vitaminA = document.getElementById('nutrition_vitaminA').value
+    var nutrition_vitaminC = document.getElementById('nutrition_vitaminC').value
+    var nutrition_vitaminD = document.getElementById('nutrition_vitaminD').value
+    var nutrition_calcium = document.getElementById('nutrition_calcium').value
+    var nutrition_iron = document.getElementById('nutrition_iron').value
+    var nutrition_potassium = document.getElementById('nutrition_potassium').value
+    Meteor.call('insertNutrition', nutrition_code, nutrition_name, nutrition_servingsPerContainer, nutrition_servingSize, nutrition_calories, nutrition_totalFat, nutrition_saturatedFat, nutrition_transFat, nutrition_cholesterol, nutrition_sodium, nutrition_carbohydrates, nutrition_fiber, nutrition_sugar, nutrition_addedSugar, nutrition_protein, nutrition_vitaminA, nutrition_vitaminC, nutrition_vitaminD, nutrition_calcium, nutrition_iron, nutrition_potassium, function (error) {
+      if (error) {
+        window.alert(error)
+      }
+    })
+  },
+  'click #editNutrition'(event) {
+    event.preventDefault()
+    var nutrition_code = document.getElementById('nutrition_code_edit').value
+    var nutrition_name = document.getElementById('nutrition_name_edit').value
+    var nutrition_servingsPerContainer = document.getElementById('nutrition_servingsPerContainer_edit').value
+    var nutrition_servingSize = document.getElementById('nutrition_servingSize_edit').value
+    var nutrition_calories = document.getElementById('nutrition_calories_edit').value
+    var nutrition_totalFat = document.getElementById('nutrition_totalFat_edit').value
+    var nutrition_saturatedFat = document.getElementById('nutrition_saturatedFat_edit').value
+    var nutrition_transFat = document.getElementById('nutrition_transFat_edit').value
+    var nutrition_cholesterol = document.getElementById('nutrition_cholesterol_edit').value
+    var nutrition_sodium = document.getElementById('nutrition_sodium_edit').value
+    var nutrition_carbohydrates = document.getElementById('nutrition_carbohydrates_edit').value
+    var nutrition_fiber = document.getElementById('nutrition_fiber_edit').value
+    var nutrition_sugar = document.getElementById('nutrition_sugar_edit').value
+    var nutrition_addedSugar = document.getElementById('nutrition_addedSugar_edit').value
+    var nutrition_protein = document.getElementById('nutrition_protein_edit').value
+    var nutrition_vitaminA = document.getElementById('nutrition_vitaminA_edit').value
+    var nutrition_vitaminC = document.getElementById('nutrition_vitaminC_edit').value
+    var nutrition_vitaminD = document.getElementById('nutrition_vitaminD_edit').value
+    var nutrition_calcium = document.getElementById('nutrition_calcium_edit').value
+    var nutrition_iron = document.getElementById('nutrition_iron_edit').value
+    var nutrition_potassium = document.getElementById('nutrition_potassium_edit').value
+    Meteor.call('updateNutrition', nutrition_code, nutrition_name, nutrition_servingsPerContainer, nutrition_servingSize, nutrition_calories, nutrition_totalFat, nutrition_saturatedFat, nutrition_transFat, nutrition_cholesterol, nutrition_sodium, nutrition_carbohydrates, nutrition_fiber, nutrition_sugar, nutrition_addedSugar, nutrition_protein, nutrition_vitaminA, nutrition_vitaminC, nutrition_vitaminD, nutrition_calcium, nutrition_iron, nutrition_potassium, function (error) {
+      if (error) {
+        window.alert(error)
+      }
+    })
+  }
 })
 
 Template.nutritionFactsMaster.helpers({
-
+  nutritions() {
+    return Nutrition.find({})
+  },
+  nutrition() {
+    var nutrition = Template.instance().templateDict.get('nutrition')
+    if (nutrition != null) {
+      return Nutrition.findOne(nutrition)
+    }
+  }
 })

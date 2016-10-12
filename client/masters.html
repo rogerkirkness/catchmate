@@ -3,144 +3,144 @@
   -->
 
 <template name="customerMaster">
-  <div class="col-sm-4">
-    <h4>Add Customer</h4>
-    <hr class="horizontalRule">
-    <div class="form-group">
-      <label for="customer_code" class="control-label">Customer Code: </label>
-      <input type="text" id="customer_code" class="form-control">
-    </div>
-    <div class="form-group">
-      <label for="customer_name" class="control-label">Customer Name: </label>
-      <input type="text" id="customer_name" class="form-control">
-    </div>
-    <div class="form-group">
-      <label for="customer_street1" class="control-label">Address: </label>
-      <input type="text" id="customer_street1" class="form-control">
-    </div>
-    <div class="form-group">
-      <label for="customer_street2" class="control-label">Address Two: </label>
-      <input type="text" id="customer_street2" class="form-control">
-    </div>
-    <div class="form-group">
-      <label for="customer_city" class="control-label">City: </label>
-      <input type="text" id="customer_city" class="form-control">
-    </div>
-    <div class="form-group">
-      <label for="customer_province" class="control-label">State / Province: </label>
-      <input type="text" id="customer_province" class="form-control">
-    </div>
-    <div class="form-group">
-      <label for="customer_country" class="control-label">Country: </label>
-      <input type="text" id="customer_country" class="form-control">
-    </div>
-    <div class="form-group">
-      <label for="customer_postal" class="control-label">Zip / Postal: </label>
-      <input type="text" id="customer_postal" class="form-control">
-    </div>
-    <div class="form-group">
-      <label for="selectPriceList" class="control-label">Price List</label>
-      <select class="form-control" id="selectPriceList">
+	<div class="col-sm-4">
+		<h4>Add Customer</h4>
+		<hr class="horizontalRule">
+		<div class="form-group">
+			<label for="customer_code" class="control-label">Customer Code: </label>
+			<input type="text" id="customer_code" class="form-control">
+		</div>
+		<div class="form-group">
+			<label for="customer_name" class="control-label">Customer Name: </label>
+			<input type="text" id="customer_name" class="form-control">
+		</div>
+		<div class="form-group">
+			<label for="customer_street1" class="control-label">Address: </label>
+			<input type="text" id="customer_street1" class="form-control">
+		</div>
+		<div class="form-group">
+			<label for="customer_street2" class="control-label">Address Two: </label>
+			<input type="text" id="customer_street2" class="form-control">
+		</div>
+		<div class="form-group">
+			<label for="customer_city" class="control-label">City: </label>
+			<input type="text" id="customer_city" class="form-control">
+		</div>
+		<div class="form-group">
+			<label for="customer_province" class="control-label">State / Province: </label>
+			<input type="text" id="customer_province" class="form-control">
+		</div>
+		<div class="form-group">
+			<label for="customer_country" class="control-label">Country: </label>
+			<input type="text" id="customer_country" class="form-control">
+		</div>
+		<div class="form-group">
+			<label for="customer_postal" class="control-label">Zip / Postal: </label>
+			<input type="text" id="customer_postal" class="form-control">
+		</div>
+		<div class="form-group">
+			<label for="selectPriceList" class="control-label">Price List</label>
+			<select class="form-control" id="selectPriceList">
         {{#each priceList}}
         <option class="dropdown optionDropdown">{{price_code}}</option>
         {{/each}}
       </select>
-    </div>
-    <button type="submit" id="addCustomer" class="btn btn-default btn-block">Add Customer</button>
-  </div>
-  <div class="col-sm-4">
-    <h4>Edit Customer</h4>
-    <hr class="horizontalRule">
-    <div class="form-group">
-      <label for="customer_code_edit" class="control-label">Customer Code: </label>
-      <input type="text" id="customer_code_edit" class="form-control" value="{{customer.customer_code}}" readonly>
-    </div>
-    <div class="form-group">
-      <label for="customer_name_edit" class="control-label">Customer Name: </label>
-      <input type="text" id="customer_name_edit" class="form-control" value="{{customer.customer_name}}">
-    </div>
-    <div class="form-group">
-      <label for="customer_street1_edit" class="control-label">Address Line 1: </label>
-      <input type="text" id="customer_street1_edit" class="form-control" value="{{customer.customer_street1}}">
-    </div>
-    <div class="form-group">
-      <label for="customer_street2_edit" class="control-label">Address Line 2: </label>
-      <input type="text" id="customer_street2_edit" class="form-control" value="{{customer.customer_street2}}">
-    </div>
-    <div class="form-group">
-      <label for="customer_city_edit" class="control-label">City: </label>
-      <input type="text" id="customer_city_edit" class="form-control" value="{{customer.customer_city}}">
-    </div>
-    <div class="form-group">
-      <label for="customer_province_edit" class="control-label">State / Province: </label>
-      <input type="text" id="customer_province_edit" class="form-control" value="{{customer.customer_province}}">
-    </div>
-    <div class="form-group">
-      <label for="customer_country_edit" class="control-label">Country: </label>
-      <input type="text" id="customer_country_edit" class="form-control" value="{{customer.customer_country}}">
-    </div>
-    <div class="form-group">
-      <label for="customer_postal_edit" class="control-label">Zip / Postal: </label>
-      <input type="text" id="customer_postal_edit" class="form-control" value="{{customer.customer_postal}}">
-    </div>
-    <div class="form-group">
-      <label for="selectPriceList_edit" class="control-label">Price List</label>
-      <select class="form-control" id="selectPriceList_edit">
+		</div>
+		<button type="submit" id="addCustomer" class="btn btn-default btn-block">Add Customer</button>
+	</div>
+	<div class="col-sm-4">
+		<h4>Edit Customer</h4>
+		<hr class="horizontalRule">
+		<div class="form-group">
+			<label for="customer_code_edit" class="control-label">Customer Code: </label>
+			<input type="text" id="customer_code_edit" class="form-control" value="{{customer.customer_code}}" readonly>
+		</div>
+		<div class="form-group">
+			<label for="customer_name_edit" class="control-label">Customer Name: </label>
+			<input type="text" id="customer_name_edit" class="form-control" value="{{customer.customer_name}}">
+		</div>
+		<div class="form-group">
+			<label for="customer_street1_edit" class="control-label">Address Line 1: </label>
+			<input type="text" id="customer_street1_edit" class="form-control" value="{{customer.customer_street1}}">
+		</div>
+		<div class="form-group">
+			<label for="customer_street2_edit" class="control-label">Address Line 2: </label>
+			<input type="text" id="customer_street2_edit" class="form-control" value="{{customer.customer_street2}}">
+		</div>
+		<div class="form-group">
+			<label for="customer_city_edit" class="control-label">City: </label>
+			<input type="text" id="customer_city_edit" class="form-control" value="{{customer.customer_city}}">
+		</div>
+		<div class="form-group">
+			<label for="customer_province_edit" class="control-label">State / Province: </label>
+			<input type="text" id="customer_province_edit" class="form-control" value="{{customer.customer_province}}">
+		</div>
+		<div class="form-group">
+			<label for="customer_country_edit" class="control-label">Country: </label>
+			<input type="text" id="customer_country_edit" class="form-control" value="{{customer.customer_country}}">
+		</div>
+		<div class="form-group">
+			<label for="customer_postal_edit" class="control-label">Zip / Postal: </label>
+			<input type="text" id="customer_postal_edit" class="form-control" value="{{customer.customer_postal}}">
+		</div>
+		<div class="form-group">
+			<label for="selectPriceList_edit" class="control-label">Price List</label>
+			<select class="form-control" id="selectPriceList_edit">
         {{#each priceList}}
         <option class="dropdown optionDropdown" {{selectedPriceList}}>{{price_code}}</option>
         {{/each}}
       </select>
-    </div>
-    <button type="submit" id="editCustomer" class="btn btn-default btn-block">Edit Customer</button>
-  </div>
-  <div class="col-sm-4">
-    <h4>Customer Elements</h4>
-    <hr class="horizontalRule">
-    <p>
-      <i>Customer information can be shown on various places on your labels. </i><br><br>
-      <b>Customer Code</b><br>Choose a number for the customer record. <br><br>
-      <b>Customer Name</b><br>No length limit. <br><br>
-      <b>Address Line 1</b><br>No length limit. <br><br>
-      <b>Address Line 2</b><br>No length limit. <br><br>
-      <b>City</b><br>No length limit. <br><br>
-      <b>State / Prov</b><br>No length limit. <br><br>
-      <b>Country</b><br>No length limit. <br><br>
-      <b>Zip / Postal</b><br>Max 7 characters. <br><br>
-      <b>Price List</b><br>Choose price list to use with this customer. <br><br>
-    </p>
-  </div>
-  <div class="col-sm-12 pad-top">
-    <h4>Customer Master</h4>
-    <hr class="horizontalRule">
-    <table class="table table-condensed table-striped table-bordered table-white">
-      <tbody>
-        <tr>
-          <td><b>Code</b></td>
-          <td><b>Name</b></td>
-          <td><b>Address</b></td>
-          <td><b>Address 2</b></td>
-          <td><b>City</b></td>
-          <td><b>Prov / State</b></td>
-          <td><b>Country</b></td>
-          <td><b>Postal / Zip</b></td>
-          <td><b>Edit</b></td>
-        </tr>
-        {{#each customers}}
-          <tr>
-            <td>{{customer_code}}</td>
-            <td>{{customer_name}}</td>
-            <td>{{customer_street1}}</td>
-            <td>{{customer_street2}}</td>
-            <td>{{customer_city}}</td>
-            <td>{{customer_province}}</td>
-            <td>{{customer_country}}</td>
-            <td>{{customer_postal}}</td>
-            <td><button id="edit" class="btn btn-sm btn-default"><span class="caret"></span></button></td>
-          </tr>
-        {{/each}}
-      </tbody>
-    </table>
-  </div>
+		</div>
+		<button type="submit" id="editCustomer" class="btn btn-default btn-block">Edit Customer</button>
+	</div>
+	<div class="col-sm-4">
+		<h4>Customer Elements</h4>
+		<hr class="horizontalRule">
+		<p>
+			<i>Customer information can be shown on various places on your labels. </i><br><br>
+			<b>Customer Code</b><br>Choose a number for the customer record. <br><br>
+			<b>Customer Name</b><br>No length limit. <br><br>
+			<b>Address Line 1</b><br>No length limit. <br><br>
+			<b>Address Line 2</b><br>No length limit. <br><br>
+			<b>City</b><br>No length limit. <br><br>
+			<b>State / Prov</b><br>No length limit. <br><br>
+			<b>Country</b><br>No length limit. <br><br>
+			<b>Zip / Postal</b><br>Max 7 characters. <br><br>
+			<b>Price List</b><br>Choose price list to use with this customer. <br><br>
+		</p>
+	</div>
+	<div class="col-sm-12 pad-top">
+		<h4>Customer Master</h4>
+		<hr class="horizontalRule">
+		<table class="table table-condensed table-striped table-bordered table-white">
+			<tbody>
+				<tr>
+					<td><b>Code</b></td>
+					<td><b>Name</b></td>
+					<td><b>Address</b></td>
+					<td><b>Address 2</b></td>
+					<td><b>City</b></td>
+					<td><b>Prov / State</b></td>
+					<td><b>Country</b></td>
+					<td><b>Postal / Zip</b></td>
+					<td><b>Edit</b></td>
+				</tr>
+				{{#each customers}}
+					<tr>
+						<td>{{customer_code}}</td>
+						<td>{{customer_name}}</td>
+						<td>{{customer_street1}}</td>
+						<td>{{customer_street2}}</td>
+						<td>{{customer_city}}</td>
+						<td>{{customer_province}}</td>
+						<td>{{customer_country}}</td>
+						<td>{{customer_postal}}</td>
+						<td><button id="edit" class="btn btn-sm btn-default"><span class="caret"></span></button></td>
+					</tr>
+				{{/each}}
+			</tbody>
+		</table>
+	</div>
 </template>
 
 <!--
@@ -148,63 +148,63 @@
   -->
 
 <template name="ingredientMaster">
-  <div class="col-sm-4">
-    <h4>Add Ingredient List</h4>
-    <hr class="horizontalRule">
-    <div class="form-group">
-      <label for="ingredients_code" class="control-label">Ingredients Code</label>
-      <input type="text" id="ingredients_code" class="form-control">
-    </div>
-    <div class="form-group">
-      <label for="ingredients_list" class="control-label">Ingredients List</label>
-      <textarea id="ingredients_list" class="form-control" rows="5"></textarea>
-    </div>
-    <button type="submit" id="addIngredient" class="btn btn-default btn-block">Add Ingredient List</button>
-  </div>
-  <div class="col-sm-4">
-    <h4>Edit Ingredient List</h4>
-    <hr class="horizontalRule">
-    <div class="form-group">
-      <label for="ingredients_code" class="control-label">Ingredients Code</label>
-      <input type="text" id="ingredients_code_edit" class="form-control" value="{{ingredient.ingredients_code}}" readonly>
-    </div>
-    <div class="form-group">
-      <label for="ingredients_code" class="control-label">Ingredients List</label>
-      <textarea id="ingredients_list_edit" class="form-control" rows="5" value="{{ingredient.ingredients_list}}"></textarea>
-    </div>
-    <button type="submit" id="editIngredient" class="btn btn-default btn-block">Edit Ingredient List</button>
-  </div>
-  <div class="col-sm-4">
-    <h4>Ingredient Elements</h4>
-    <hr class="horizontalRule">
-    <p>
-      <i>Ingredients list is shown on the label. </i><br><br>
-      <b>Ingredients Code</b><br>Choose a number for the ingredients record. Used to attach ingredients list to item records.
-      <br><br>
-      <b>Ingredients List</b><br>List of ingredients eg. "Beef, nitrates, bread crumbs, ketchup, spices CONTAINS: wheat".
-      <br><br>
-    </p>
-  </div>
-  <div class="col-sm-12 pad-top">
-    <h4>Ingredient Master</h4>
-    <hr class="horizontalRule">
-    <table class="table table-condensed table-striped table-bordered table-white">
-      <tbody>
-        <tr>
-          <td><b>Code</b></td>
-          <td><b>List</b></td>
-          <td><b>Edit</b></td>
-        </tr>
-        {{#each ingredients}}
-          <tr>
-            <td>{{ingredients_code}}</td>
-            <td>{{ingredients_list}}</td>
-            <td><button id="edit" class="btn btn-sm btn-default"><span class="caret"></span></button></td>
-          </tr>
-        {{/each}}
-      </tbody>
-    </table>
-  </div>
+	<div class="col-sm-4">
+		<h4>Add Ingredient List</h4>
+		<hr class="horizontalRule">
+		<div class="form-group">
+			<label for="ingredients_code" class="control-label">Ingredients Code</label>
+			<input type="text" id="ingredients_code" class="form-control">
+		</div>
+		<div class="form-group">
+			<label for="ingredients_list" class="control-label">Ingredients List</label>
+			<textarea id="ingredients_list" class="form-control" rows="5"></textarea>
+		</div>
+		<button type="submit" id="addIngredient" class="btn btn-default btn-block">Add Ingredient List</button>
+	</div>
+	<div class="col-sm-4">
+		<h4>Edit Ingredient List</h4>
+		<hr class="horizontalRule">
+		<div class="form-group">
+			<label for="ingredients_code" class="control-label">Ingredients Code</label>
+			<input type="text" id="ingredients_code_edit" class="form-control" value="{{ingredient.ingredients_code}}" readonly>
+		</div>
+		<div class="form-group">
+			<label for="ingredients_code" class="control-label">Ingredients List</label>
+			<textarea id="ingredients_list_edit" class="form-control" rows="5" value="{{ingredient.ingredients_list}}"></textarea>
+		</div>
+		<button type="submit" id="editIngredient" class="btn btn-default btn-block">Edit Ingredient List</button>
+	</div>
+	<div class="col-sm-4">
+		<h4>Ingredient Elements</h4>
+		<hr class="horizontalRule">
+		<p>
+			<i>Ingredients list is shown on the label. </i><br><br>
+			<b>Ingredients Code</b><br>Choose a number for the ingredients record. Used to attach ingredients list to item records.
+			<br><br>
+			<b>Ingredients List</b><br>List of ingredients eg. "Beef, nitrates, bread crumbs, ketchup, spices CONTAINS: wheat".
+			<br><br>
+		</p>
+	</div>
+	<div class="col-sm-12 pad-top">
+		<h4>Ingredient Master</h4>
+		<hr class="horizontalRule">
+		<table class="table table-condensed table-striped table-bordered table-white">
+			<tbody>
+				<tr>
+					<td><b>Code</b></td>
+					<td><b>List</b></td>
+					<td><b>Edit</b></td>
+				</tr>
+				{{#each ingredients}}
+					<tr>
+						<td>{{ingredients_code}}</td>
+						<td>{{ingredients_list}}</td>
+						<td><button id="edit" class="btn btn-sm btn-default"><span class="caret"></span></button></td>
+					</tr>
+				{{/each}}
+			</tbody>
+		</table>
+	</div>
 </template>
 
 <!--
@@ -212,151 +212,167 @@
   -->
 
 <template name="itemMaster">
-  <div class="col-sm-4">
-    <h4>Add Item</h4>
-    <hr class="horizontalRule">
-    <div class="form-group">
-      <label for="item_code" class="control-label">Item Code</label>
-      <input type="text" id="item_code" class="form-control">
-    </div>
-    <div class="form-group">
-      <label for="item_gtin" class="control-label">Item GTIN</label>
-      <input type="text" id="item_gtin" class="form-control">
-    </div>
-    <div class="form-group">
-      <label for="item_name" class="control-label">Item Name</label>
-      <input type="text" id="item_name" class="form-control">
-    </div>
-    <div class="form-group">
-      <label for="item_unit" class="control-label">Units of Measure</label>
-      <input type="text" id="item_unit" class="form-control">
-    </div>
-    <div class="form-group">
-      <label for="item_brand" class="control-label">Brand Name</label>
-      <input type="text" id="item_brand" class="form-control">
-    </div>
-    <div class="form-group">
-      <label for="item_shelfLife" class="control-label">Shelf Life (Days)</label>
-      <input type="text" id="item_shelfLife" class="form-control">
-    </div>
-    <div class="form-group">
-      <label for="item_stdWeight" class="control-label">Standard Weight (g)</label>
-      <input type="text" id="item_stdWeight" class="form-control">
-    </div>
-    <div class="form-group">
-      <label for="item_minWeight" class="control-label">Min Weight (g)</label>
-      <input type="text" id="item_minWeight" class="form-control">
-    </div>
-    <div class="form-group">
-      <label for="item_maxWeight" class="control-label">Max Weight (g)</label>
-      <input type="text" id="item_maxWeight" class="form-control">
-    </div>
-    <div class="form-group">
-      <label for="selectIngredients" class="control-label">Ingredient List</label>
-      <select class="form-control" id="selectIngredients">
+	<div class="col-sm-4">
+		<h4>Add Item</h4>
+		<hr class="horizontalRule">
+		<div class="form-group">
+			<label for="item_code" class="control-label">Item Code</label>
+			<input type="text" id="item_code" class="form-control">
+		</div>
+		<div class="form-group">
+			<label for="item_gtin" class="control-label">Item GTIN</label>
+			<input type="text" id="item_gtin" class="form-control">
+		</div>
+		<div class="form-group">
+			<label for="item_name" class="control-label">Item Name</label>
+			<input type="text" id="item_name" class="form-control">
+		</div>
+		<div class="form-group">
+			<label for="item_unit" class="control-label">Units of Measure</label>
+			<input type="text" id="item_unit" class="form-control">
+		</div>
+		<div class="form-group">
+			<label for="item_brand" class="control-label">Brand Name</label>
+			<input type="text" id="item_brand" class="form-control">
+		</div>
+		<div class="form-group">
+			<label for="item_shelfLife" class="control-label">Shelf Life (Days)</label>
+			<input type="text" id="item_shelfLife" class="form-control">
+		</div>
+		<div class="form-group">
+			<label for="item_stdWeight" class="control-label">Standard Weight (g)</label>
+			<input type="text" id="item_stdWeight" class="form-control">
+		</div>
+		<div class="form-group">
+			<label for="item_minWeight" class="control-label">Min Weight (g)</label>
+			<input type="text" id="item_minWeight" class="form-control">
+		</div>
+		<div class="form-group">
+			<label for="item_maxWeight" class="control-label">Max Weight (g)</label>
+			<input type="text" id="item_maxWeight" class="form-control">
+		</div>
+		<div class="form-group">
+			<label for="selectIngredients" class="control-label">Ingredient List</label>
+			<select class="form-control" id="selectIngredients">
         {{#each ingredients}}
         <option class="dropdown optionDropdown">{{ingredients_code}}</option>
         {{/each}}
       </select>
-    </div>
-    <button type="submit" id="addItem" class="btn btn-default btn-block">Add Item</button>
-  </div>
-  <div class="col-sm-4">
-    <h4>Edit Item</h4>
-    <hr class="horizontalRule">
-    <div class="form-group">
-      <label for="item_code_edit" class="control-label">Item Code</label>
-      <input type="text" id="item_code_edit" class="form-control" value="{{item.item_code}}" readonly>
-    </div>
-    <div class="form-group">
-      <label for="item_gtin_edit" class="control-label">Item GTIN</label>
-      <input type="text" id="item_gtin_edit" class="form-control" value="{{item.item_gtin}}">
-    </div>
-    <div class="form-group">
-      <label for="item_name_edit" class="control-label">Item Name</label>
-      <input type="text" id="item_name_edit" class="form-control" value="{{item.item_name}}">
-    </div>
-    <div class="form-group">
-      <label for="item_unit_edit" class="control-label">Units of Measure</label>
-      <input type="text" id="item_unit_edit" class="form-control" value="{{item.item_unit}}">
-    </div>
-    <div class="form-group">
-      <label for="item_brand_edit" class="control-label">Brand Name</label>
-      <input type="text" id="item_brand_edit" class="form-control" value="{{item.item_brand}}">
-    </div>
-    <div class="form-group">
-      <label for="item_shelfLife_edit" class="control-label">Shelf Life (Days)</label>
-      <input type="text" id="item_shelfLife_edit" class="form-control" value="{{item.item_shelfLife}}">
-    </div>
-    <div class="form-group">
-      <label for="item_stdWeight_edit" class="control-label">Standard Weight (g)</label>
-      <input type="text" id="item_stdWeight_edit" class="form-control" value="{{item.item_stdWeight}}">
-    </div>
-    <div class="form-group">
-      <label for="item_minWeight_edit" class="control-label">Min Weight (g)</label>
-      <input type="text" id="item_minWeight_edit" class="form-control" value="{{item.item_minWeight}}">
-    </div>
-    <div class="form-group">
-      <label for="item_maxWeight_edit" class="control-label">Max Weight (g)</label>
-      <input type="text" id="item_maxWeight_edit" class="form-control" value="{{item.item_maxWeight}}">
-    </div>
-    <div class="form-group">
-      <label for="selectIngredients" class="control-label">Ingredient List</label>
-      <select class="form-control" id="selectIngredients_edit">
+		</div>
+		<div class="form-group">
+			<label for="selectNutrition" class="control-label">Nutrition Facts</label>
+			<select class="form-control" id="selectNutrition">
+        {{#each nutritions}}
+        <option class="dropdown optionDropdown">{{nutrition_code}}</option>
+        {{/each}}
+      </select>
+		</div>
+		<button type="submit" id="addItem" class="btn btn-default btn-block">Add Item</button>
+	</div>
+	<div class="col-sm-4">
+		<h4>Edit Item</h4>
+		<hr class="horizontalRule">
+		<div class="form-group">
+			<label for="item_code_edit" class="control-label">Item Code</label>
+			<input type="text" id="item_code_edit" class="form-control" value="{{item.item_code}}" readonly>
+		</div>
+		<div class="form-group">
+			<label for="item_gtin_edit" class="control-label">Item GTIN</label>
+			<input type="text" id="item_gtin_edit" class="form-control" value="{{item.item_gtin}}">
+		</div>
+		<div class="form-group">
+			<label for="item_name_edit" class="control-label">Item Name</label>
+			<input type="text" id="item_name_edit" class="form-control" value="{{item.item_name}}">
+		</div>
+		<div class="form-group">
+			<label for="item_unit_edit" class="control-label">Units of Measure</label>
+			<input type="text" id="item_unit_edit" class="form-control" value="{{item.item_unit}}">
+		</div>
+		<div class="form-group">
+			<label for="item_brand_edit" class="control-label">Brand Name</label>
+			<input type="text" id="item_brand_edit" class="form-control" value="{{item.item_brand}}">
+		</div>
+		<div class="form-group">
+			<label for="item_shelfLife_edit" class="control-label">Shelf Life (Days)</label>
+			<input type="text" id="item_shelfLife_edit" class="form-control" value="{{item.item_shelfLife}}">
+		</div>
+		<div class="form-group">
+			<label for="item_stdWeight_edit" class="control-label">Standard Weight (g)</label>
+			<input type="text" id="item_stdWeight_edit" class="form-control" value="{{item.item_stdWeight}}">
+		</div>
+		<div class="form-group">
+			<label for="item_minWeight_edit" class="control-label">Min Weight (g)</label>
+			<input type="text" id="item_minWeight_edit" class="form-control" value="{{item.item_minWeight}}">
+		</div>
+		<div class="form-group">
+			<label for="item_maxWeight_edit" class="control-label">Max Weight (g)</label>
+			<input type="text" id="item_maxWeight_edit" class="form-control" value="{{item.item_maxWeight}}">
+		</div>
+		<div class="form-group">
+			<label for="selectIngredients_edit" class="control-label">Ingredient List</label>
+			<select class="form-control" id="selectIngredients_edit">
         {{#each ingredients}}
         <option class="dropdown optionDropdown" {{selectedIngredient}}>{{ingredients_code}}</option>
         {{/each}}
       </select>
-    </div>
-    <button type="submit" id="editItem" class="btn btn-default btn-block">Edit Item</button>
-  </div>
-  <div class="col-sm-4">
-    <h4>Item Elements</h4>
-    <hr class="horizontalRule">
-    <p>
-      <i>Item record drives most of the information on the label. </i><br><br>
-      <b>Item Code</b><br>Choose a number for the item record. This is the code you will enter to make labels. <br><br>
-      <b>Item GTIN</b><br>Code from GS1 for this particular pack size of products, usually 6 numbers eg. "111111". <br><br>
-      <b>Name</b><br>The name of the item that optionally can be used on labels to customers. No length limit. <br><br>
-      <b>Brand</b><br>The brand associated with this product if co-packing. No length limit. <br><br>
-      <b>Shelf Life</b><br>The typical shelf life of the product in days eg. "90". <br><br>
-      <b>Standard Weight (Optional)</b><br>The standard weight of the item in grams. <br><br>
-      <b>Minimum Weight (Optional)</b><br>The minimum weight for this pack size in grams. <br><br>
-      <b>Maximum Weight (Optional)</b><br>The maximum weight for this pack size in grams. <br><br>
-    </p>
-  </div>
-  <div class="col-sm-12 pad-top">
-    <h4>Item Master</h4>
-    <hr class="horizontalRule">
-    <table class="table table-condensed table-striped table-bordered table-white">
-      <tbody>
-        <tr>
-          <td><b>Code</b></td>
-          <td><b>GTIN</b></td>
-          <td><b>Name</b></td>
-          <td><b>Brand</b></td>
-          <td><b>Life (Days)</b></td>
-          <td><b>Weight (g)</b></td>
-          <td><b>Min (g)</b></td>
-          <td><b>Max (g)</b></td>
-          <td><b>Edit</b></td>
-        </tr>
-        {{#each items}}
-          <tr>
-            <td>{{item_code}}</td>
-            <td>{{item_gtin}}</td>
-            <td>{{item_name}}</td>
-            <td>{{item_brand}}</td>
-            <td>{{item_shelfLife}}</td>
-            <td>{{item_stdWeight}}</td>
-            <td>{{item_minWeight}}</td>
-            <td>{{item_maxWeight}}</td>
-            <td><button id="edit" class="btn btn-sm btn-default"><span class="caret"></span></button></td>
-          </tr>
+		</div>
+		<div class="form-group">
+			<label for="selectNutrition_edit" class="control-label">Nutrition Facts</label>
+			<select class="form-control" id="selectNutrition_edit">
+        {{#each nutritions}}
+        <option class="dropdown optionDropdown" {{selectedNutrition}}>{{nutrition_code}}</option>
         {{/each}}
-      </tbody>
-    </table>
-  </div>
+      </select>
+		</div>
+		<button type="submit" id="editItem" class="btn btn-default btn-block">Edit Item</button>
+	</div>
+	<div class="col-sm-4">
+		<h4>Item Elements</h4>
+		<hr class="horizontalRule">
+		<p>
+			<i>Item record drives most of the information on the label. </i><br><br>
+			<b>Item Code</b><br>Choose a number for the item record. This is the code you will enter to make labels. <br><br>
+			<b>Item GTIN</b><br>Code from GS1 for this particular pack size of products, usually 6 numbers eg. "111111". <br><br>
+			<b>Name</b><br>The name of the item that optionally can be used on labels to customers. No length limit. <br><br>
+			<b>Brand</b><br>The brand associated with this product if co-packing. No length limit. <br><br>
+			<b>Shelf Life</b><br>The typical shelf life of the product in days eg. "90". <br><br>
+			<b>Standard Weight (Optional)</b><br>The standard weight of the item in grams. <br><br>
+			<b>Minimum Weight (Optional)</b><br>The minimum weight for this pack size in grams. <br><br>
+			<b>Maximum Weight (Optional)</b><br>The maximum weight for this pack size in grams. <br><br>
+		</p>
+	</div>
+	<div class="col-sm-12 pad-top">
+		<h4>Item Master</h4>
+		<hr class="horizontalRule">
+		<table class="table table-condensed table-striped table-bordered table-white">
+			<tbody>
+				<tr>
+					<td><b>Code</b></td>
+					<td><b>GTIN</b></td>
+					<td><b>Name</b></td>
+					<td><b>Brand</b></td>
+					<td><b>Life (Days)</b></td>
+					<td><b>Weight (g)</b></td>
+					<td><b>Min (g)</b></td>
+					<td><b>Max (g)</b></td>
+					<td><b>Edit</b></td>
+				</tr>
+				{{#each items}}
+					<tr>
+						<td>{{item_code}}</td>
+						<td>{{item_gtin}}</td>
+						<td>{{item_name}}</td>
+						<td>{{item_brand}}</td>
+						<td>{{item_shelfLife}}</td>
+						<td>{{item_stdWeight}}</td>
+						<td>{{item_minWeight}}</td>
+						<td>{{item_maxWeight}}</td>
+						<td><button id="edit" class="btn btn-sm btn-default"><span class="caret"></span></button></td>
+					</tr>
+				{{/each}}
+			</tbody>
+		</table>
+	</div>
 </template>
 
 <!--
@@ -364,81 +380,91 @@
   -->
 
 <template name="labelMaster">
-  <div class="col-sm-4">
-    <h4>Add Label</h4>
-    <hr class="horizontalRule">
-    <div class="form-group">
-      <label for="label_code" class="control-label">Label Code</label>
-      <input type="text" id="label_code" class="form-control">
-    </div>
-    <div class="form-group">
-      <label for="label_layout" class="control-label">Label Layout</label>
-      <textarea id="label_layout" class="form-control" rows="20"></textarea>
-    </div>
-    <button type="submit" id="addLabel" class="btn btn-default btn-block">Add Label</button>
-  </div>
-  <div class="col-sm-4">
-    <h4>Edit Label</h4>
-    <hr class="horizontalRule">
-    <div class="form-group">
-      <label for="label_code_edit" class="control-label">Label Code</label>
-      <input type="text" id="label_code_edit" class="form-control" value="{{label.label_code}}" readonly>
-    </div>
-    <div class="form-group">
-      <label for="label_layout_edit" class="control-label">Label Layout</label>
-      <textarea id="label_layout_edit" class="form-control" rows="20" value="{{label.label_layout}}"></textarea>
-    </div>
-    <button type="submit" id="editLabel" class="btn btn-default btn-block">Edit Label</button>
-  </div>
-  <div class="col-sm-4">
-    <h4>Label Elements</h4>
-    <hr class="horizontalRule">
-    <p>
-      <i>Copy/paste bold label element into ZPL code to include that field in the label print out on Zebra printers</i><br><br>
-      <b>{{|settings.company_name}}</b><br> Contains company name<br><br>
-      <b>{{|settings.street1}}</b><br> Contains street address one<br><br>
-      <b>{{|settings.street2}}</b><br> Contains street address two<br><br>
-      <b>{{|settings.city}}</b><br> Contains city<br><br>
-      <b>{{|settings.province}}</b><br> Contains province<br><br>
-      <b>{{|settings.country}}</b><br> Contains country<br><br>
-      <b>{{|settings.postal}}</b><br> Contains postal code / zip<br><br>
-      <b>{{|settings.plant_number}}</b><br> Contains facility plant number<br><br>
-      <b>{{|settings.prefix}}</b><br> Contains GS1-128 barcode prefix<br><br>
-      <b>{{|dateFull createdAt}}</b><br> Contains human readable production date<br><br>
-      <b>{{|showWeight item_weight}}</b><br> Contains human readable gross weight<br><br>
-      <b>{{|netWeight item_weight}}</b><br> Contains human readable net weight<br><br>
-      <b>{{|itemName}}</b><br> Contains item name<br><br>
-      <b>{{|item_code}}</b><br> Contains item code<br><br>
-      <b>{{|lotNumber1 createdAt}}</b><br> Contains lot number<br><br>
-      <b>{{|custName}}</b><br> Contains customer name<br><br>
-      <b>{{|cust_code}}</b><br> Contains customer code<br><br>
-      <b>{{|shelfLife createdAt}}</b><br> Contains item shelf life<br><br>
-      <b>{{|ingredients}}</b><br> Contains item ingredients list<br><br>
-      <b>{{|codeDate createdAt}}</b><br> Contains barcode friendly production date<br><br>
-      <b>{{|codeWeight item_weight}}</b><br> Contains barcode friendly gross weight<br><br>
-      <b>{{|codeLot createdAt}}</b><br> Contains barcode friendly lot number<br><br>
-    </p>
-  </div>
-  <div class="col-sm-12 pad-top">
-    <h4>Label Master</h4>
-    <hr class="horizontalRule">
-    <table class="table table-condensed table-striped table-bordered table-white">
-      <tbody>
-        <tr>
-          <td><b>Code</b></td>
-          <td><b>Layout</b></td>
-          <td><b>Edit</b></td>
-        </tr>
-        {{#each labels}}
-          <tr>
-            <td>{{label_code}}</td>
-            <td>{{label_layout}}</td>
-            <td><button id="edit" class="btn btn-sm btn-default"><span class="caret"></span></button></td>
-          </tr>
-        {{/each}}
-      </tbody>
-    </table>
-  </div>
+	<div class="col-sm-4">
+		<h4>Add Label</h4>
+		<hr class="horizontalRule">
+		<div class="form-group">
+			<label for="label_code" class="control-label">Label Code</label>
+			<input type="text" id="label_code" class="form-control">
+		</div>
+		<div class="form-group">
+			<label for="label_name" class="control-label">Label Name</label>
+			<input type="text" id="label_name" class="form-control">
+		</div>
+		<div class="form-group">
+			<label for="label_layout" class="control-label">Label Layout</label>
+			<textarea id="label_layout" class="form-control" rows="20"></textarea>
+		</div>
+		<button type="submit" id="addLabel" class="btn btn-default btn-block">Add Label</button>
+	</div>
+	<div class="col-sm-4">
+		<h4>Edit Label</h4>
+		<hr class="horizontalRule">
+		<div class="form-group">
+			<label for="label_code_edit" class="control-label">Label Code</label>
+			<input type="text" id="label_code_edit" class="form-control" value="{{label.label_code}}" readonly>
+		</div>
+		<div class="form-group">
+			<label for="label_name_edit" class="control-label">Label Name</label>
+			<input type="text" id="label_name_edit" class="form-control" value="{{label.label_name}}">
+		</div>
+		<div class="form-group">
+			<label for="label_layout_edit" class="control-label">Label Layout</label>
+			<textarea id="label_layout_edit" class="form-control" rows="20" value="{{label.label_layout}}"></textarea>
+		</div>
+		<button type="submit" id="editLabel" class="btn btn-default btn-block">Edit Label</button>
+	</div>
+	<div class="col-sm-4">
+		<h4>Label Elements</h4>
+		<hr class="horizontalRule">
+		<p>
+			<i>Copy/paste bold label element into ZPL code to include that field in the label print out on Zebra printers</i><br><br>
+			<b>{{|settings.company_name}}</b><br> Contains company name<br><br>
+			<b>{{|settings.street1}}</b><br> Contains street address one<br><br>
+			<b>{{|settings.street2}}</b><br> Contains street address two<br><br>
+			<b>{{|settings.city}}</b><br> Contains city<br><br>
+			<b>{{|settings.province}}</b><br> Contains province<br><br>
+			<b>{{|settings.country}}</b><br> Contains country<br><br>
+			<b>{{|settings.postal}}</b><br> Contains postal code / zip<br><br>
+			<b>{{|settings.plant_number}}</b><br> Contains facility plant number<br><br>
+			<b>{{|settings.prefix}}</b><br> Contains GS1-128 barcode prefix<br><br>
+			<b>{{|dateFull createdAt}}</b><br> Contains human readable production date<br><br>
+			<b>{{|showWeight item_weight}}</b><br> Contains human readable gross weight<br><br>
+			<b>{{|netWeight item_weight}}</b><br> Contains human readable net weight<br><br>
+			<b>{{|itemName}}</b><br> Contains item name<br><br>
+			<b>{{|item_code}}</b><br> Contains item code<br><br>
+			<b>{{|lotNumber1 createdAt}}</b><br> Contains lot number<br><br>
+			<b>{{|custName}}</b><br> Contains customer name<br><br>
+			<b>{{|cust_code}}</b><br> Contains customer code<br><br>
+			<b>{{|shelfLife createdAt}}</b><br> Contains item shelf life<br><br>
+			<b>{{|ingredients}}</b><br> Contains item ingredients list<br><br>
+			<b>{{|codeDate createdAt}}</b><br> Contains barcode friendly production date<br><br>
+			<b>{{|codeWeight item_weight}}</b><br> Contains barcode friendly gross weight<br><br>
+			<b>{{|codeLot createdAt}}</b><br> Contains barcode friendly lot number<br><br>
+		</p>
+	</div>
+	<div class="col-sm-12 pad-top">
+		<h4>Label Master</h4>
+		<hr class="horizontalRule">
+		<table class="table table-condensed table-striped table-bordered table-white">
+			<tbody>
+				<tr>
+					<td><b>Code</b></td>
+					<td><b>Name</b></td>
+					<td><b>Layout</b></td>
+					<td><b>Edit</b></td>
+				</tr>
+				{{#each labels}}
+					<tr>
+						<td>{{label_code}}</td>
+						<td>{{label_name}}</td>
+						<td>{{label_layout}}</td>
+						<td><button id="edit" class="btn btn-sm btn-default"><span class="caret"></span></button></td>
+					</tr>
+				{{/each}}
+			</tbody>
+		</table>
+	</div>
 </template>
 
 <!--
@@ -446,84 +472,84 @@
   -->
 
 <template name="printerMaster">
-  <div class="col-sm-4">
-    <h4>Add Printer</h4>
-    <hr class="horizontalRule">
-    <div class="form-group">
-      <label for="printer_code" class="control-label">Printer Code</label>
-      <input type="text" id="printer_code" class="form-control">
-    </div>
-    <div class="form-group">
-      <label for="printer_name" class="control-label">Printer Name</label>
-      <input type="text" id="printer_name" class="form-control">
-    </div>
-    <div class="form-group">
-      <label for="printer_port" class="control-label">Printer Port</label>
-      <input type="text" id="printer_port" class="form-control">
-    </div>
-    <div class="form-group">
-      <label for="printer_host" class="control-label">Printer Host</label>
-      <input type="text" id="printer_host" class="form-control">
-    </div>
-    <button type="submit" id="addPrinter" class="btn btn-default btn-block">Add Printer</button>
-  </div>
-  <div class="col-sm-4">
-    <h4>Edit Printer</h4>
-    <hr class="horizontalRule">
-    <div class="form-group">
-      <label for="printer_code_edit" class="control-label">Printer Code</label>
-      <input type="text" id="printer_code_edit" class="form-control" value="{{printer.printer_code}}" readonly>
-    </div>
-    <div class="form-group">
-      <label for="printer_name_edit" class="control-label">Printer Name</label>
-      <input type="text" id="printer_name_edit" class="form-control" value="{{printer.printer_name}}">
-    </div>
-    <div class="form-group">
-      <label for="printer_port_edit" class="control-label">Printer Port</label>
-      <input type="text" id="printer_port_edit" class="form-control" value="{{printer.printer_port}}">
-    </div>
-    <div class="form-group">
-      <label for="printer_host_edit" class="control-label">Printer Host</label>
-      <input type="text" id="printer_host_edit" class="form-control" value="{{printer.printer_host}}">
-    </div>
-    <button type="submit" id="editPrinter" class="btn btn-default btn-block">Edit Printer</button>
-  </div>
-  <div class="col-sm-4">
-    <h4>Printer Elements</h4>
-    <hr class="horizontalRule">
-    <p>
-      <i>Printer setup allows you to print directly to TCP/IP printers. </i><br><br>
-      <b>Printer Code</b><br>Choose a number for the printer code. <br><br>
-      <b>Name</b><br>This is the name of the printer. It is an easier way to tell which one you are using eg. "cutting room".
-      <br><br>
-      <b>Port</b><br>This is the TCP/IP port for the printer, usually 4-5 numbers. <br><br>
-      <b>Host</b><br>This is the TCP/IP host for the printer, usually looks like "192.168.0.1" or similar. <br><br>
-    </p>
-  </div>
-  <div class="col-sm-12 pad-top">
-    <h4>Printer Master</h4>
-    <hr class="horizontalRule">
-    <table class="table table-condensed table-striped table-bordered table-white">
-      <tbody>
-        <tr>
-          <td><b>Code</b></td>
-          <td><b>Name</b></td>
-          <td><b>Port</b></td>
-          <td><b>Host</b></td>
-          <td><b>Edit</b></td>
-        </tr>
-        {{#each printers}}
-          <tr>
-            <td>{{printer_code}}</td>
-            <td>{{printer_name}}</td>
-            <td>{{printer_port}}</td>
-            <td>{{printer_host}}</td>
-            <td><button id="edit" class="btn btn-sm btn-default"><span class="caret"></span></button></td>
-          </tr>
-        {{/each}}
-      </tbody>
-    </table>
-  </div>
+	<div class="col-sm-4">
+		<h4>Add Printer</h4>
+		<hr class="horizontalRule">
+		<div class="form-group">
+			<label for="printer_code" class="control-label">Printer Code</label>
+			<input type="text" id="printer_code" class="form-control">
+		</div>
+		<div class="form-group">
+			<label for="printer_name" class="control-label">Printer Name</label>
+			<input type="text" id="printer_name" class="form-control">
+		</div>
+		<div class="form-group">
+			<label for="printer_port" class="control-label">Printer Port</label>
+			<input type="text" id="printer_port" class="form-control">
+		</div>
+		<div class="form-group">
+			<label for="printer_host" class="control-label">Printer Host</label>
+			<input type="text" id="printer_host" class="form-control">
+		</div>
+		<button type="submit" id="addPrinter" class="btn btn-default btn-block">Add Printer</button>
+	</div>
+	<div class="col-sm-4">
+		<h4>Edit Printer</h4>
+		<hr class="horizontalRule">
+		<div class="form-group">
+			<label for="printer_code_edit" class="control-label">Printer Code</label>
+			<input type="text" id="printer_code_edit" class="form-control" value="{{printer.printer_code}}" readonly>
+		</div>
+		<div class="form-group">
+			<label for="printer_name_edit" class="control-label">Printer Name</label>
+			<input type="text" id="printer_name_edit" class="form-control" value="{{printer.printer_name}}">
+		</div>
+		<div class="form-group">
+			<label for="printer_port_edit" class="control-label">Printer Port</label>
+			<input type="text" id="printer_port_edit" class="form-control" value="{{printer.printer_port}}">
+		</div>
+		<div class="form-group">
+			<label for="printer_host_edit" class="control-label">Printer Host</label>
+			<input type="text" id="printer_host_edit" class="form-control" value="{{printer.printer_host}}">
+		</div>
+		<button type="submit" id="editPrinter" class="btn btn-default btn-block">Edit Printer</button>
+	</div>
+	<div class="col-sm-4">
+		<h4>Printer Elements</h4>
+		<hr class="horizontalRule">
+		<p>
+			<i>Printer setup allows you to print directly to TCP/IP printers. </i><br><br>
+			<b>Printer Code</b><br>Choose a number for the printer code. <br><br>
+			<b>Name</b><br>This is the name of the printer. It is an easier way to tell which one you are using eg. "cutting room".
+			<br><br>
+			<b>Port</b><br>This is the TCP/IP port for the printer, usually 4-5 numbers. <br><br>
+			<b>Host</b><br>This is the TCP/IP host for the printer, usually looks like "192.168.0.1" or similar. <br><br>
+		</p>
+	</div>
+	<div class="col-sm-12 pad-top">
+		<h4>Printer Master</h4>
+		<hr class="horizontalRule">
+		<table class="table table-condensed table-striped table-bordered table-white">
+			<tbody>
+				<tr>
+					<td><b>Code</b></td>
+					<td><b>Name</b></td>
+					<td><b>Port</b></td>
+					<td><b>Host</b></td>
+					<td><b>Edit</b></td>
+				</tr>
+				{{#each printers}}
+					<tr>
+						<td>{{printer_code}}</td>
+						<td>{{printer_name}}</td>
+						<td>{{printer_port}}</td>
+						<td>{{printer_host}}</td>
+						<td><button id="edit" class="btn btn-sm btn-default"><span class="caret"></span></button></td>
+					</tr>
+				{{/each}}
+			</tbody>
+		</table>
+	</div>
 </template>
 
 <!--
@@ -531,84 +557,84 @@
   -->
 
 <template name="scaleMaster">
-  <div class="col-sm-4">
-    <h4>Add Scale</h4>
-    <hr class="horizontalRule">
-    <div class="form-group">
-      <label for="scale_code" class="control-label">Scale Code</label>
-      <input type="text" id="scale_code" class="form-control">
-    </div>
-    <div class="form-group">
-      <label for="scale_name" class="control-label">Scale Name</label>
-      <input type="text" id="scale_name" class="form-control">
-    </div>
-    <div class="form-group">
-      <label for="scale_port" class="control-label">Scale Port</label>
-      <input type="text" id="scale_port" class="form-control">
-    </div>
-    <div class="form-group">
-      <label for="scale_host" class="control-label">Scale Host</label>
-      <input type="text" id="scale_host" class="form-control">
-    </div>
-    <button type="submit" id="addScale" class="btn btn-default btn-block">Add Scale</button>
-  </div>
-  <div class="col-sm-4">
-    <h4>Edit Scale</h4>
-    <hr class="horizontalRule">
-    <div class="form-group">
-      <label for="scale_code_edit" class="control-label">Scale Code</label>
-      <input type="text" id="scale_code_edit" class="form-control" value="{{scale.scale_code}}" readonly>
-    </div>
-    <div class="form-group">
-      <label for="scale_name_edit" class="control-label">Scale Name</label>
-      <input type="text" id="scale_name_edit" class="form-control" value="{{scale.scale_name}}">
-    </div>
-    <div class="form-group">
-      <label for="scale_port_edit" class="control-label">Scale Port</label>
-      <input type="text" id="scale_port_edit" class="form-control" value="{{scale.scale_port}}">
-    </div>
-    <div class="form-group">
-      <label for="scale_host_edit" class="control-label">Scale Host</label>
-      <input type="text" id="scale_host_edit" class="form-control" value="{{scale.scale_host}}">
-    </div>
-    <button type="submit" id="editScale" class="btn btn-default btn-block">Edit Scale</button>
-  </div>
-  <div class="col-sm-4">
-    <h4>Scale Elements</h4>
-    <hr class="horizontalRule">
-    <p>
-      <i>Scale setup allows you to get weight data from TCP/IP scales. </i><br><br>
-      <b>Scale Code</b><br>Choose a number for the scale code. <br><br>
-      <b>Name</b><br>This is the name of the scale. It is an easier way to tell which station you are using eg. "cutting
-      room". <br><br>
-      <b>Port</b><br>This is the TCP/IP port for the scale, usually 4-5 numbers. <br><br>
-      <b>Host</b><br>This is the TCP/IP host for the scale, usually looks like "192.168.0.1" or similar. <br><br>
-    </p>
-  </div>
-  <div class="col-sm-12 pad-top">
-    <h4>Scale Master</h4>
-    <hr class="horizontalRule">
-    <table class="table table-condensed table-striped table-bordered table-white">
-      <tbody>
-        <tr>
-          <td><b>Code</b></td>
-          <td><b>Name</b></td>
-          <td><b>Port</b></td>
-          <td><b>Host</b></td>
-          <td><b>Edit</b></td>
-        </tr>
-        {{#each scales}}
-          <tr>
-            <td>{{scale_code}}</td>
-            <td>{{scale_name}}</td>
-            <td>{{scale_port}}</td>
-            <td>{{scale_host}}</td>
-            <td><button id="edit" class="btn btn-sm btn-default"><span class="caret"></span></button></td>
-          </tr>
-        {{/each}}
-      </tbody>
-    </table>
-  </div>
+	<div class="col-sm-4">
+		<h4>Add Scale</h4>
+		<hr class="horizontalRule">
+		<div class="form-group">
+			<label for="scale_code" class="control-label">Scale Code</label>
+			<input type="text" id="scale_code" class="form-control">
+		</div>
+		<div class="form-group">
+			<label for="scale_name" class="control-label">Scale Name</label>
+			<input type="text" id="scale_name" class="form-control">
+		</div>
+		<div class="form-group">
+			<label for="scale_port" class="control-label">Scale Port</label>
+			<input type="text" id="scale_port" class="form-control">
+		</div>
+		<div class="form-group">
+			<label for="scale_host" class="control-label">Scale Host</label>
+			<input type="text" id="scale_host" class="form-control">
+		</div>
+		<button type="submit" id="addScale" class="btn btn-default btn-block">Add Scale</button>
+	</div>
+	<div class="col-sm-4">
+		<h4>Edit Scale</h4>
+		<hr class="horizontalRule">
+		<div class="form-group">
+			<label for="scale_code_edit" class="control-label">Scale Code</label>
+			<input type="text" id="scale_code_edit" class="form-control" value="{{scale.scale_code}}" readonly>
+		</div>
+		<div class="form-group">
+			<label for="scale_name_edit" class="control-label">Scale Name</label>
+			<input type="text" id="scale_name_edit" class="form-control" value="{{scale.scale_name}}">
+		</div>
+		<div class="form-group">
+			<label for="scale_port_edit" class="control-label">Scale Port</label>
+			<input type="text" id="scale_port_edit" class="form-control" value="{{scale.scale_port}}">
+		</div>
+		<div class="form-group">
+			<label for="scale_host_edit" class="control-label">Scale Host</label>
+			<input type="text" id="scale_host_edit" class="form-control" value="{{scale.scale_host}}">
+		</div>
+		<button type="submit" id="editScale" class="btn btn-default btn-block">Edit Scale</button>
+	</div>
+	<div class="col-sm-4">
+		<h4>Scale Elements</h4>
+		<hr class="horizontalRule">
+		<p>
+			<i>Scale setup allows you to get weight data from TCP/IP scales. </i><br><br>
+			<b>Scale Code</b><br>Choose a number for the scale code. <br><br>
+			<b>Name</b><br>This is the name of the scale. It is an easier way to tell which station you are using eg. "cutting room".
+			<br><br>
+			<b>Port</b><br>This is the TCP/IP port for the scale, usually 4-5 numbers. <br><br>
+			<b>Host</b><br>This is the TCP/IP host for the scale, usually looks like "192.168.0.1" or similar. <br><br>
+		</p>
+	</div>
+	<div class="col-sm-12 pad-top">
+		<h4>Scale Master</h4>
+		<hr class="horizontalRule">
+		<table class="table table-condensed table-striped table-bordered table-white">
+			<tbody>
+				<tr>
+					<td><b>Code</b></td>
+					<td><b>Name</b></td>
+					<td><b>Port</b></td>
+					<td><b>Host</b></td>
+					<td><b>Edit</b></td>
+				</tr>
+				{{#each scales}}
+					<tr>
+						<td>{{scale_code}}</td>
+						<td>{{scale_name}}</td>
+						<td>{{scale_port}}</td>
+						<td>{{scale_host}}</td>
+						<td><button id="edit" class="btn btn-sm btn-default"><span class="caret"></span></button></td>
+					</tr>
+				{{/each}}
+			</tbody>
+		</table>
+	</div>
 </template>
 
 <!--
@@ -616,82 +642,82 @@
   -->
 
 <template name="priceListMaster">
-  <div class="col-sm-4">
-    <h4>Add Price List</h4>
-    <hr class="horizontalRule">
-    <div class="form-group">
-      <label for="price_code" class="control-label">Price List Code</label>
-      <input type="text" id="price_code" class="form-control">
-    </div>
-    <div class="form-group">
-      <label for="price_name" class="control-label">Price List Name</label>
-      <input type="text" id="price_name" class="form-control">
-    </div>
-    <table class="table table-condensed table-striped table-bordered table-white">
-      <tbody>
-        <tr>
-          <td><b>Item</b></td>
-          <td><b>Price/Unit</b></td>
-        </tr>
-        {{#each items}}
-          <tr>
-            <td>{{item_code}}</td>
-            <td><input type="text" id= {{item_code}} class="prices" value="0"></td>
-          </tr>
-        {{/each}}
-      </tbody>
-    </table>
-    <button type="submit" id="addPrice" class="btn btn-default btn-block">Add Price List</button>
-  </div>
-  <div class="col-sm-4">
-    <h4>Edit Price List</h4>
-    <hr class="horizontalRule">
-    <div class="form-group">
-      <label for="price_code_edit" class="control-label">Price List Code</label>
-      <input type="text" id="price_code_edit" class="form-control" value="{{price.price_code}}" readonly>
-    </div>
-    <div class="form-group">
-      <label for="price_name_edit" class="control-label">Price List Name</label>
-      <input type="text" id="price_name_edit" class="form-control" value="{{price.price_name}}">
-    </div>
-    <table class="table table-condensed table-striped table-bordered table-white">
-      <tbody>
-        <tr>
-          <td><b>Item</b></td>
-          <td><b>Price/Unit</b></td>
-        </tr>
-        {{#with price}}
-          {{#each price_list}}
-            <tr>
-              <td>{{price_item}}</td>
-              <td><input type="text" id="{{price_item}}" class="prices_edit" value="{{price_value}}"></td>
-            </tr>
-          {{/each}}
-        {{/with}}
-      </tbody>
-    </table>
-    <button type="submit" id="editPrice" class="btn btn-default btn-block">Edit Price List</button>
-  </div>
-  <div class="col-sm-4">
-    <h4>Price List Master</h4>
-    <hr class="horizontalRule">
-    <table class="table table-condensed table-striped table-bordered table-white">
-      <tbody>
-        <tr>
-          <td><b>Code</b></td>
-          <td><b>Name</b></td>
-          <td><b>Edit</b></td>
-        </tr>
-        {{#each prices}}
-          <tr>
-            <td>{{price_code}}</td>
-            <td>{{price_name}}</td>
-            <td><button id="edit" class="btn btn-sm btn-default"><span class="caret"></span></button></td>
-          </tr>
-        {{/each}}
-      </tbody>
-    </table>
-  </div>
+	<div class="col-sm-4">
+		<h4>Add Price List</h4>
+		<hr class="horizontalRule">
+		<div class="form-group">
+			<label for="price_code" class="control-label">Price List Code</label>
+			<input type="text" id="price_code" class="form-control">
+		</div>
+		<div class="form-group">
+			<label for="price_name" class="control-label">Price List Name</label>
+			<input type="text" id="price_name" class="form-control">
+		</div>
+		<table class="table table-condensed table-striped table-bordered table-white">
+			<tbody>
+				<tr>
+					<td><b>Item</b></td>
+					<td><b>Price/Unit</b></td>
+				</tr>
+				{{#each items}}
+					<tr>
+						<td>{{item_code}}</td>
+						<td><input type="text" id= {{item_code}} class="prices" value="0"></td>
+					</tr>
+				{{/each}}
+			</tbody>
+		</table>
+		<button type="submit" id="addPrice" class="btn btn-default btn-block">Add Price List</button>
+	</div>
+	<div class="col-sm-4">
+		<h4>Edit Price List</h4>
+		<hr class="horizontalRule">
+		<div class="form-group">
+			<label for="price_code_edit" class="control-label">Price List Code</label>
+			<input type="text" id="price_code_edit" class="form-control" value="{{price.price_code}}" readonly>
+		</div>
+		<div class="form-group">
+			<label for="price_name_edit" class="control-label">Price List Name</label>
+			<input type="text" id="price_name_edit" class="form-control" value="{{price.price_name}}">
+		</div>
+		<table class="table table-condensed table-striped table-bordered table-white">
+			<tbody>
+				<tr>
+					<td><b>Item</b></td>
+					<td><b>Price/Unit</b></td>
+				</tr>
+				{{#with price}}
+					{{#each price_list}}
+						<tr>
+							<td>{{price_item}}</td>
+							<td><input type="text" id="{{price_item}}" class="prices_edit" value="{{price_value}}"></td>
+						</tr>
+					{{/each}}
+				{{/with}}
+			</tbody>
+		</table>
+		<button type="submit" id="editPrice" class="btn btn-default btn-block">Edit Price List</button>
+	</div>
+	<div class="col-sm-4">
+		<h4>Price List Master</h4>
+		<hr class="horizontalRule">
+		<table class="table table-condensed table-striped table-bordered table-white">
+			<tbody>
+				<tr>
+					<td><b>Code</b></td>
+					<td><b>Name</b></td>
+					<td><b>Edit</b></td>
+				</tr>
+				{{#each prices}}
+					<tr>
+						<td>{{price_code}}</td>
+						<td>{{price_name}}</td>
+						<td><button id="edit" class="btn btn-sm btn-default"><span class="caret"></span></button></td>
+					</tr>
+				{{/each}}
+			</tbody>
+		</table>
+	</div>
 </template>
 
 <!-- 
@@ -699,7 +725,202 @@
   -->
 
 <template name="nutritionFactsMaster">
-  <p>Coming soon...</p>
-  <h4>Nutrition Facts Master</h4>
-  <hr class="horizontalRule">
+	<div class="col-sm-4 signUpBlock">
+		<h4>Add Nutrition Facts</h4>
+		<hr class="horizontalRule">
+		<div class="form-group">
+			<label for="nutrition_code" class="control-label">Nutrition Code</label>
+			<input type="text" id="nutrition_code" class="form-control">
+		</div>
+		<div class="form-group">
+			<label for="nutrition_name" class="control-label">Nutrition Name</label>
+			<input type="text" id="nutrition_name" class="form-control">
+		</div>
+		<div class="form-group">
+			<label for="nutrition_servingsPerContainer" class="control-label">Servings per Container (US-only)</label>
+			<input type="text" id="nutrition_servingsPerContainer" class="form-control">
+		</div>
+		<div class="form-group">
+			<label for="nutrition_servingSize" class="control-label">Serving size (grams) (All countries)</label>
+			<input type="text" id="nutrition_servingSize" class="form-control">
+		</div>
+		<div class="form-group">
+			<label for="nutrition_calories" class="control-label">Calories (All countries)</label>
+			<input type="text" id="nutrition_calories" class="form-control">
+		</div>
+		<div class="form-group">
+			<label for="nutrition_totalFat" class="control-label">Total fat (grams) (All countries)</label>
+			<input type="text" id="nutrition_totalFat" class="form-control">
+		</div>
+		<div class="form-group">
+			<label for="nutrition_saturatedFat" class="control-label">Saturated fat (grams) (All countries)</label>
+			<input type="text" id="nutrition_saturatedFat" class="form-control">
+		</div>
+		<div class="form-group">
+			<label for="nutrition_transFat" class="control-label">Trans fat (grams) (All countries)</label>
+			<input type="text" id="nutrition_transFat" class="form-control">
+		</div>
+		<div class="form-group">
+			<label for="nutrition_cholesterol" class="control-label">Cholesterol (milligrams) (All countries)</label>
+			<input type="text" id="nutrition_cholesterol" class="form-control">
+		</div>
+		<div class="form-group">
+			<label for="nutrition_sodium" class="control-label">Sodium (milligrams) (All countries)</label>
+			<input type="text" id="nutrition_sodium" class="form-control">
+		</div>
+		<div class="form-group">
+			<label for="nutrition_carbohydrates" class="control-label">Total carbohydrates (grams) (All countries)</label>
+			<input type="text" id="nutrition_carbohydrates" class="form-control">
+		</div>
+		<div class="form-group">
+			<label for="nutrition_fiber" class="control-label">Fiber/fibre (grams) (All countries)</label>
+			<input type="text" id="nutrition_fiber" class="form-control">
+		</div>
+		<div class="form-group">
+			<label for="nutrition_sugar" class="control-label">Sugar (grams) (All countries)</label>
+			<input type="text" id="nutrition_sugar" class="form-control">
+		</div>
+		<div class="form-group">
+			<label for="nutrition_addedSugar" class="control-label">Added sugar (grams) (US-only)</label>
+			<input type="text" id="nutrition_addedSugar" class="form-control">
+		</div>
+		<div class="form-group">
+			<label for="nutrition_protein" class="control-label">Total protein (grams) (All countries)</label>
+			<input type="text" id="nutrition_protein" class="form-control">
+		</div>
+		<div class="form-group">
+			<label for="nutrition_vitaminA" class="control-label">Vitamin A (micrograms) (Canada-only)</label>
+			<input type="text" id="nutrition_vitaminA" class="form-control">
+		</div>
+		<div class="form-group">
+			<label for="nutrition_vitaminC" class="control-label">Vitamin C (milligrams) (Canada-only)</label>
+			<input type="text" id="nutrition_vitaminC" class="form-control">
+		</div>
+		<div class="form-group">
+			<label for="nutrition_vitaminD" class="control-label">Vitamin D (micrograms) (US-only)</label>
+			<input type="text" id="nutrition_vitaminD" class="form-control">
+		</div>
+		<div class="form-group">
+			<label for="nutrition_calcium" class="control-label">Calcium (milligrams) (All countries)</label>
+			<input type="text" id="nutrition_calcium" class="form-control">
+		</div>
+		<div class="form-group">
+			<label for="nutrition_iron" class="control-label">Iron (milligrams) (All countries)</label>
+			<input type="text" id="nutrition_iron" class="form-control">
+		</div>
+		<div class="form-group">
+			<label for="nutrition_potassium" class="control-label">Potassium (milligrams) (US-only)</label>
+			<input type="text" id="nutrition_potassium" class="form-control">
+		</div>
+		<button type="submit" id="addNutrition" class="btn btn-default btn-block">Add Nutrition Facts</button>
+	</div>
+	<div class="col-sm-4">
+		<h4>Edit Nutrition Facts</h4>
+		<hr class="horizontalRule">
+		<div class="form-group">
+			<label for="nutrition_code_edit" class="control-label">Nutrition Code</label>
+			<input type="text" id="nutrition_code_edit" class="form-control" value="{{nutrition.nutrition_code}}" readonly>
+		</div>
+		<div class="form-group">
+			<label for="nutrition_name_edit" class="control-label">Nutrition Name</label>
+			<input type="text" id="nutrition_name_edit" class="form-control" value="{{nutrition.nutrition_name}}">
+		</div>
+		<div class="form-group">
+			<label for="nutrition_servingsPerContainer_edit" class="control-label">Servings per Container (US-only)</label>
+			<input type="text" id="nutrition_servingsPerContainer_edit" class="form-control" value="{{nutrition.nutrition_servingsPerContainer}}">
+		</div>
+		<div class="form-group">
+			<label for="nutrition_servingSize_edit" class="control-label">Serving size (grams) (All countries)</label>
+			<input type="text" id="nutrition_servingSize_edit" class="form-control" value="{{nutrition.nutrition_servingSize}}">
+		</div>
+		<div class="form-group">
+			<label for="nutrition_calories_edit" class="control-label">Calories (All countries)</label>
+			<input type="text" id="nutrition_calories_edit" class="form-control" value="{{nutrition.nutrition_calories}}">
+		</div>
+		<div class="form-group">
+			<label for="nutrition_totalFat_edit" class="control-label">Total fat (grams) (All countries)</label>
+			<input type="text" id="nutrition_totalFat_edit" class="form-control" value="{{nutrition.nutrition_totalFat}}">
+		</div>
+		<div class="form-group">
+			<label for="nutrition_saturatedFat_edit" class="control-label">Saturated fat (grams) (All countries)</label>
+			<input type="text" id="nutrition_saturatedFat_edit" class="form-control" value="{{nutrition.nutrition_saturatedFat}}">
+		</div>
+		<div class="form-group">
+			<label for="nutrition_transFat_edit" class="control-label">Trans fat (grams) (All countries)</label>
+			<input type="text" id="nutrition_transFat_edit" class="form-control" value="{{nutrition.nutrition_transFat}}">
+		</div>
+		<div class="form-group">
+			<label for="nutrition_cholesterol_edit" class="control-label">Cholesterol (milligrams) (All countries)</label>
+			<input type="text" id="nutrition_cholesterol_edit" class="form-control" value="{{nutrition.nutrition_cholesterol}}">
+		</div>
+		<div class="form-group">
+			<label for="nutrition_sodium_edit" class="control-label">Sodium (milligrams) (All countries)</label>
+			<input type="text" id="nutrition_sodium_edit" class="form-control" value="{{nutrition.nutrition_sodium}}">
+		</div>
+		<div class="form-group">
+			<label for="nutrition_carbohydrates_edit" class="control-label">Total carbohydrates (grams) (All countries)</label>
+			<input type="text" id="nutrition_carbohydrates_edit" class="form-control" value="{{nutrition.nutrition_carbohydrates}}">
+		</div>
+		<div class="form-group">
+			<label for="nutrition_fiber_edit" class="control-label">Fiber/fibre (grams) (All countries)</label>
+			<input type="text" id="nutrition_fiber_edit" class="form-control" value="{{nutrition.nutrition_fiber}}">
+		</div>
+		<div class="form-group">
+			<label for="nutrition_sugar_edit" class="control-label">Sugar (grams) (All countries)</label>
+			<input type="text" id="nutrition_sugar_edit" class="form-control" value="{{nutrition.nutrition_sugar}}">
+		</div>
+		<div class="form-group">
+			<label for="nutrition_addedSugar_edit" class="control-label">Added sugar (grams) (US-only)</label>
+			<input type="text" id="nutrition_addedSugar_edit" class="form-control" value="{{nutrition.nutrition_addedSugar}}">
+		</div>
+		<div class="form-group">
+			<label for="nutrition_protein_edit" class="control-label">Total protein (grams) (All countries)</label>
+			<input type="text" id="nutrition_protein_edit" class="form-control" value="{{nutrition.nutrition_protein}}">
+		</div>
+		<div class="form-group">
+			<label for="nutrition_vitaminA_edit" class="control-label">Vitamin A (micrograms) (Canada-only)</label>
+			<input type="text" id="nutrition_vitaminA_edit" class="form-control" value="{{nutrition.nutrition_vitaminA}}">
+		</div>
+		<div class="form-group">
+			<label for="nutrition_vitaminC_edit" class="control-label">Vitamin C (milligrams) (Canada-only)</label>
+			<input type="text" id="nutrition_vitaminC_edit" class="form-control" value="{{nutrition.nutrition_vitaminC}}">
+		</div>
+		<div class="form-group">
+			<label for="nutrition_vitaminD_edit" class="control-label">Vitamin D (micrograms) (US-only)</label>
+			<input type="text" id="nutrition_vitaminD_edit" class="form-control" value="{{nutrition.nutrition_vitaminD}}">
+		</div>
+		<div class="form-group">
+			<label for="nutrition_calcium_edit" class="control-label">Calcium (milligrams) (All countries)</label>
+			<input type="text" id="nutrition_calcium_edit" class="form-control" value="{{nutrition.nutrition_calcium}}">
+		</div>
+		<div class="form-group">
+			<label for="nutrition_iron_edit" class="control-label">Iron (milligrams) (All countries)</label>
+			<input type="text" id="nutrition_iron_edit" class="form-control" value="{{nutrition.nutrition_iron}}">
+		</div>
+		<div class="form-group">
+			<label for="nutrition_potassium_edit" class="control-label">Potassium (milligrams) (US-only)</label>
+			<input type="text" id="nutrition_potassium_edit" class="form-control" value="{{nutrition.nutrition_potassium}}">
+		</div>
+		<button type="submit" id="editNutrition" class="btn btn-default btn-block">Edit Nutrition Facts</button>
+	</div>
+	<div class="col-sm-4">
+		<h4>Nutrition Facts Master</h4>
+		<hr class="horizontalRule">
+		<table class="table table-condensed table-striped table-bordered table-white">
+			<tbody>
+				<tr>
+					<td><b>Code</b></td>
+					<td><b>Name</b></td>
+					<td><b>Edit</b></td>
+				</tr>
+				{{#each nutritions}}
+					<tr>
+						<td>{{nutrition_code}}</td>
+						<td>{{nutrition_name}}</td>
+						<td><button id="edit" class="btn btn-sm btn-default"><span class="caret"></span></button></td>
+					</tr>
+				{{/each}}
+			</tbody>
+		</table>
+	</div>
 </template>

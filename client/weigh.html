@@ -3,159 +3,161 @@
   -->
 
 <template name="weigh">
-  <div class="col-xs-3 hidden-print">
-    <h4 class="hidden-print">Weigh</h4>
-    <hr class="horizontalRule hidden-print">
-    <div class="form-group">
-      <div class="input-group">
-        <input type="hidden" id="item_weight" class="form-control"  value="{{indicator}}">
-        <span class="status form-control">{{displayIndicator}}</span>
-        <span class="input-group-addon" id="statusMessage" style="background-color:{{getStatus}}">{{statusMessage}}</span>
-      </div>
-    </div>
-    <div class="form-group">
-      <label for="item_code" class="control-label">Item Code</label>
-      {{> inputAutocomplete settings=itemSettings id="item_code" class="item_code form-control input-lg" type="text" }}
-    </div>
-    {{#if cuShowTrue}}
-    <div class="form-group">
-      <label for="cust_code" class="control-label">Customer Code</label>
-      {{> inputAutocomplete settings=custSettings id="cust_code" class="cust_code form-control input-lg" type="text" }}
-    </div>
-    {{else}}
-    <div class="form-group">
-      <input type="hidden" id="cust_code" class="cust_code form-control">
-    </div>
-    {{/if}}
-    {{#if nuShowTrue}}
-    <div class="form-group">
-      <label for="num_units" class="control-label">Number of Units</label>
-      <input type="text" id="num_units" class="form-control input-lg">
-    </div>
-    {{else}}
-    <div class="form-group">
-      <input type="hidden" id="num_units" class="form-control">
-    </div>
-    {{/if}}
-    {{#if bcShowTrue}}
-    <div class="form-group">
-      <label for="batch_code" class="control-label">Batch Code</label>
-      <input type="text" id="batch_code" class="form-control input-lg">
-    </div>
-    {{else}}
-    <div class="form-group">
-      <input type="hidden" id="batch_code" class="form-control">
-    </div>
-    {{/if}}
-    <div class="form-group">
-      <button type="submit" class="weigh btn btn-default btn-lg btn-block">Generate Label</button>
-    </div>
-  </div>
-  <div class="col-xs-6">
-    <h4 class="hidden-print">Label</h4>
-    <hr class="horizontalRule hidden-print">
-    {{#if hideLabel}}
-    <p>Create a label...</p>
-    {{else}}
-    {{#if Template.subscriptionsReady}}
-    {{#each batches}}
-    <table class="table-print" id="section-to-print">
-      <tbody>
-        <tr>
-          <td><b>{{settings.company_name}}</b><br>{{settings.street1}} {{settings.street2}}<br>{{settings.city}}, {{settings.province}}, {{settings.country}}<br>{{settings.postal}}</td>
-          <td><img class="clogo" src="{{companylogo}}"></td>
-          <td><img class="plogo" src="{{plantlogo}}"></td>
-        </tr>
-        <tr>
-          <td><b>Date:</b> {{dateFull createdAt}}<br><b>Gr Weight:</b> {{showWeight item_weight}}<br><b>Net Weight:</b> {{netWeight item_weight}}</td>
-          <td><b>Item:</b> {{item.item_name}} <br><b>Code: </b>{{item_code}}<br><b>Lot:</b> {{lotNumber1 createdAt}}</td>
-          <td><b>Cust: </b>{{customer.customer_name}}<br><b>Code: </b>{{cust_code}}<br><b>Best Before:</b> {{shelfLife createdAt}}</td>
-        </tr>
-        <tr>
-          <td colspan="2"><b>Ingredients:</b> {{ingredients}}</td>
-          <td><b>Price: </b>{{price}}</td>
-        </tr>
-        <tr>
-          <td colspan="3">
-            <img class="barcode" src="{{url}}" alt="barcode">
-          </td>
-        </tr>
-      </tbody>
-    </table>
-    <textarea class="zpl hidden-print" id="zpl">
+	<div class="col-xs-3 hidden-print">
+		<h4 class="hidden-print">Weigh</h4>
+		<hr class="horizontalRule hidden-print">
+		<div class="form-group">
+			<div class="input-group">
+				<input type="hidden" id="item_weight" class="form-control" value="{{indicator}}">
+				<span class="status form-control">{{displayIndicator}}</span>
+				<span class="input-group-addon" id="statusMessage" style="background-color:{{getStatus}}">{{statusMessage}}</span>
+			</div>
+		</div>
+		<div class="form-group">
+			<label for="item_code" class="control-label">Item Code</label> {{> inputAutocomplete settings=itemSettings id="item_code"
+			class="item_code form-control input-lg" type="text" }}
+		</div>
+		{{#if cuShowTrue}}
+			<div class="form-group">
+				<label for="cust_code" class="control-label">Customer Code</label> {{> inputAutocomplete settings=custSettings id="cust_code"
+				class="cust_code form-control input-lg" type="text" }}
+			</div>
+		{{else}}
+			<div class="form-group">
+				<input type="hidden" id="cust_code" class="cust_code form-control">
+			</div>
+		{{/if}}
+		{{#if nuShowTrue}}
+			<div class="form-group">
+				<label for="num_units" class="control-label">Number of Units</label>
+				<input type="text" id="num_units" class="form-control input-lg">
+			</div>
+		{{else}}
+			<div class="form-group">
+				<input type="hidden" id="num_units" class="form-control">
+			</div>
+		{{/if}}
+		{{#if bcShowTrue}}
+			<div class="form-group">
+				<label for="batch_code" class="control-label">Batch Code</label>
+				<input type="text" id="batch_code" class="form-control input-lg">
+			</div>
+		{{else}}
+			<div class="form-group">
+				<input type="hidden" id="batch_code" class="form-control">
+			</div>
+		{{/if}}
+		<div class="form-group">
+			<button type="submit" class="weigh btn btn-default btn-lg btn-block">Generate Label</button>
+		</div>
+	</div>
+	<div class="col-xs-6">
+		<h4 class="hidden-print">Label</h4>
+		<hr class="horizontalRule hidden-print">
+		{{#if hideLabel}}
+			<p>Create a label...</p>
+		{{else}}
+			{{#if Template.subscriptionsReady}}
+				{{#each batches}}
+					<table class="table-print" id="section-to-print">
+						<tbody>
+							<tr>
+								<td><b>{{settings.company_name}}</b><br>{{settings.street1}} {{settings.street2}}<br>{{settings.city}}, {{settings.province}},
+									{{settings.country}}
+									<br>{{settings.postal}}</td>
+								<td><img class="clogo" src="{{companylogo}}"></td>
+								<td><img class="plogo" src="{{plantlogo}}"></td>
+							</tr>
+							<tr>
+								<td><b>Date:</b> {{dateFull createdAt}}<br><b>Gr Weight:</b> {{showWeight item_weight}}<br><b>Net Weight:</b> {{netWeight
+									item_weight}}
+								</td>
+								<td><b>Item:</b> {{item.item_name}} <br><b>Code: </b>{{item_code}}<br><b>Lot:</b> {{lotNumber1 createdAt}}</td>
+								<td><b>Cust: </b>{{customer.customer_name}}<br><b>Code: </b>{{cust_code}}<br><b>Best Before:</b> {{shelfLife createdAt}}</td>
+							</tr>
+							<tr>
+								<td colspan="2"><b>Ingredients:</b> {{ingredients}}</td>
+								<td><b>Price: </b>{{price}}</td>
+							</tr>
+							<tr>
+								<td colspan="3">
+									<img class="barcode" src="{{url}}" alt="barcode">
+								</td>
+							</tr>
+						</tbody>
+					</table>
+					<textarea class="zpl hidden-print" id="zpl">
       {{zpl}}
     </textarea>
-    {{/each}}
-    {{else}}
-    <p>Loading...</p>
-    {{/if}}
-    {{/if}}
-  </div>
-  <div class="col-xs-3 hidden-print">
-    <h4 class="hidden-print">Options</h4>
-    <hr class="horizontalRule hidden-print">
-    <button class="print btn btn-default btn-lg btn-block">Print Label</button><br>
-    <button class="undo btn btn-default btn-lg btn-block">Undo Label</button><br>
-    {{#with currentUser}}
-    <div class="form-group">
-      <div class="input-group">
-        <span class="input-group-addon">Tare:</span>
-        <input type="text" class="profileTare form-control input-lg" value="{{tare}}">
-      </div>
-    </div>
-    {{/with}}
-    <div class="form-group">
-      <div class="input-group">
-        <span class="input-group-addon">Scale:</span>
-        <select class="scale_name form-control input-lg" id="selectscale">
+				{{/each}}
+			{{else}}
+				<p>Loading...</p>
+			{{/if}}
+		{{/if}}
+	</div>
+	<div class="col-xs-3 hidden-print">
+		<h4 class="hidden-print">Options</h4>
+		<hr class="horizontalRule hidden-print">
+		<button class="print btn btn-default btn-lg">Print Label</button>
+		<button class="undo btn btn-default btn-lg">Undo Label</button><br><br>
+		<div class="form-group">
+			<div class="input-group">
+				<span class="input-group-addon">Tare:</span>
+				<input type="text" class="profileTare form-control input-lg" value="{{currentUser.tare}}">
+			</div>
+		</div>
+		<div class="form-group">
+			<div class="input-group">
+				<span class="input-group-addon">Scale:</span>
+				<select class="scale_name form-control input-lg" id="selectscale">
           {{#each scales}}
           <option class="dropdown optionDropdown" {{scaleSelected}}>{{scale_name}}</option>
           {{/each}}
         </select>
-      </div>
-    </div>
-    <div class="form-group">
-      <div class="input-group">
-        <span class="input-group-addon">Printer:</span>
-        <select class="printer_name form-control input-lg" id="selectprinter">
+			</div>
+		</div>
+		<div class="form-group">
+			<div class="input-group">
+				<span class="input-group-addon">Printer:</span>
+				<select class="printer_name form-control input-lg" id="selectprinter">
           {{#each printers}}
           <option class="dropdown optionDropdown" {{printerSelected}}>{{printer_name}}</option>
           {{/each}}
         </select>
-      </div>
-    </div>
-    <div class="form-group">
-      <div class="input-group">
-        <span class="input-group-addon">Label:</span>
-        <select class="label_code form-control input-lg" id="selectlabel">
+			</div>
+		</div>
+		<div class="form-group">
+			<div class="input-group">
+				<span class="input-group-addon">Label:</span>
+				<select class="label_code form-control input-lg" id="selectlabel">
           {{#each labels}}
           <option class="dropdown optionDropdown" {{labelSelected}}>{{label_code}}</option>
           {{/each}}
         </select>
-      </div>
-    </div>
-    <div class="checkbox">
-      <label>
+			</div>
+		</div>
+		<div class="checkbox">
+			<label>
         <input type="checkbox" id="custCodeCheckbox" {{cuChecked}}> Show customer code field?
       </label>
-    </div>
-    <div class="checkbox">
-      <label>
+		</div>
+		<div class="checkbox">
+			<label>
         <input type="checkbox" id="numUnitsCheckbox" {{nuChecked}}> Show number of units field?
       </label>
-    </div>
-    <div class="checkbox">
-      <label>
+		</div>
+		<div class="checkbox">
+			<label>
         <input type="checkbox" id="batchCodeCheckbox" {{bcChecked}}> Show manual batch code field?
       </label>
-    </div>
-  </div>
+		</div>
+	</div>
 </template>
 
 <template name="itemDropdown">
-  <div class="dropdown optionDropdown">{{item_code}}: {{item_name}}</div>
+	<div class="dropdown optionDropdown">{{item_code}}: {{item_name}}</div>
 </template>
 
 <template name="custDropdown">
-  <div class="dropdown optionDropdown">{{customer_code}}: {{customer_name}}</div>
+	<div class="dropdown optionDropdown">{{customer_code}}: {{customer_name}}</div>
 </template>

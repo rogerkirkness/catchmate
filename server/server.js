@@ -20,7 +20,7 @@ Accounts.onCreateUser(function (options, user) {
 
 Meteor.methods({
   insertCustomer(customer_code, customer_name, customer_street1, customer_street2, customer_city, customer_province, customer_country, customer_postal, customer_priceList) {
-   if (this.userId) {
+    if (this.userId) {
       var companyId = Meteor.user().companyId
       var exists = Customers.findOne({
         $and: [
@@ -123,7 +123,7 @@ Meteor.methods({
     }
   },
 
-  insertItem(item_code, item_gtin, item_name, item_unit, item_brand, item_shelfLife, item_stdWeight, item_minWeight, item_maxWeight, item_ingredients) {
+  insertItem(item_code, item_gtin, item_name, item_unit, item_brand, item_shelfLife, item_stdWeight, item_minWeight, item_maxWeight, item_ingredients, item_nutrition) {
     if (this.userId) {
       var companyId = Meteor.user().companyId
       var exists = Items.findOne({
@@ -148,6 +148,7 @@ Meteor.methods({
           'item_minWeight': item_minWeight,
           'item_maxWeight': item_maxWeight,
           'item_ingredients': item_ingredients,
+          'item_nutrition': item_nutrition,
           'item_companyId': companyId
         }, function (error, id) {
           if (error != null) {
@@ -160,7 +161,7 @@ Meteor.methods({
     }
   },
 
-  updateItem(item_code, item_gtin, item_name, item_unit, item_brand, item_shelfLife, item_stdWeight, item_minWeight, item_maxWeight, item_ingredients) {
+  updateItem(item_code, item_gtin, item_name, item_unit, item_brand, item_shelfLife, item_stdWeight, item_minWeight, item_maxWeight, item_ingredients, item_nutrition) {
     if (this.userId) {
       var companyId = Meteor.user().companyId
       Items.update({
@@ -178,7 +179,8 @@ Meteor.methods({
             'item_stdWeight': item_stdWeight,
             'item_minWeight': item_minWeight,
             'item_maxWeight': item_maxWeight,
-            'item_ingredients': item_ingredients
+            'item_ingredients': item_ingredients,
+            'item_nutrition': item_nutrition
           }
         }, function (error, number) {
           if (error != null) {
@@ -241,7 +243,7 @@ Meteor.methods({
     }
   },
 
-  insertLabel(label_code, label_layout) {
+  insertLabel(label_code, label_name, label_layout) {
     if (this.userId) {
       var companyId = Meteor.user().companyId
       var exists = Labels.findOne({
@@ -257,6 +259,7 @@ Meteor.methods({
       } else {
         Labels.insert({
           'label_code': label_code,
+          'label_name': label_name,
           'label_layout': label_layout,
           'label_companyId': companyId
         }, function (error, id) {
@@ -270,7 +273,7 @@ Meteor.methods({
     }
   },
 
-  updateLabel(label_code, label_layout) {
+  updateLabel(label_code, label_name, label_layout) {
     if (this.userId) {
       var companyId = Meteor.user().companyId
       Labels.update({
@@ -280,6 +283,7 @@ Meteor.methods({
         ]
       }, {
           $set: {
+            'label_name': label_name,
             'label_layout': label_layout
           }
         }, function (error, number) {
@@ -453,6 +457,96 @@ Meteor.methods({
           }
         }
       )
+    }
+  },
+
+  insertNutrition(nutrition_code, nutrition_name, nutrition_servingsPerContainer, nutrition_servingSize, nutrition_calories, nutrition_totalFat, nutrition_saturatedFat, nutrition_transFat, nutrition_cholesterol, nutrition_sodium, nutrition_carbohydrates, nutrition_fiber, nutrition_sugar, nutrition_addedSugar, nutrition_protein, nutrition_vitaminA, nutrition_vitaminC, nutrition_vitaminD, nutrition_calcium, nutrition_iron, nutrition_potassium) {
+    if (this.userId) {
+      var companyId = Meteor.user().companyId
+      var exists = Nutrition.findOne({
+        $and: [
+          { nutrition_code: nutrition_code },
+          { nutrition_companyId: companyId }
+        ]
+      })
+      if (exists != null) {
+        if (exists.nutrition_code === nutrition_code) {
+          throw new Meteor.Error("duplicate-code", "Code: " + exists.nutrition_code + " already exists.")
+        }
+      } else {
+        Nutrition.insert({
+          'nutrition_code': nutrition_code,
+          'nutrition_name': nutrition_name,
+          'nutrition_servingsPerContainer': nutrition_servingsPerContainer,
+          'nutrition_servingSize': nutrition_servingSize,
+          'nutrition_calories': nutrition_calories,
+          'nutrition_totalFat': nutrition_totalFat,
+          'nutrition_saturatedFat': nutrition_saturatedFat,
+          'nutrition_transFat': nutrition_transFat,
+          'nutrition_cholesterol': nutrition_cholesterol,
+          'nutrition_sodium': nutrition_sodium,
+          'nutrition_carbohydrates': nutrition_carbohydrates,
+          'nutrition_fiber': nutrition_fiber,
+          'nutrition_sugar': nutrition_sugar,
+          'nutrition_addedSugar': nutrition_addedSugar,
+          'nutrition_protein': nutrition_protein,
+          'nutrition_vitaminA': nutrition_vitaminA,
+          'nutrition_vitaminC': nutrition_vitaminC,
+          'nutrition_vitaminD': nutrition_vitaminD,
+          'nutrition_calcium': nutrition_calcium,
+          'nutrition_iron': nutrition_iron,
+          'nutrition_potassium': nutrition_potassium,
+          'nutrition_companyId': companyId
+        }, function (error, id) {
+          if (error != null) {
+            throw new Meteor.Error("insert-error", "Insert operation failed, contact support")
+          } else {
+            console.log("Successfully inserted document: " + id)
+          }
+        })
+      }
+    }
+  },
+
+  updateNutrition(nutrition_code, nutrition_name, nutrition_servingsPerContainer, nutrition_servingSize, nutrition_calories, nutrition_totalFat, nutrition_saturatedFat, nutrition_transFat, nutrition_cholesterol, nutrition_sodium, nutrition_carbohydrates, nutrition_fiber, nutrition_sugar, nutrition_addedSugar, nutrition_protein, nutrition_vitaminA, nutrition_vitaminC, nutrition_vitaminD, nutrition_calcium, nutrition_iron, nutrition_potassium) {
+    if (this.userId) {
+      var companyId = Meteor.user().companyId
+      Nutrition.update({
+        $and: [
+          { nutrition_code: nutrition_code },
+          { nutrition_companyId: companyId }
+        ]
+      }, {
+          $set: {
+            'nutrition_name': nutrition_name,
+            'nutrition_name': nutrition_name,
+            'nutrition_servingsPerContainer': nutrition_servingsPerContainer,
+            'nutrition_servingSize': nutrition_servingSize,
+            'nutrition_calories': nutrition_calories,
+            'nutrition_totalFat': nutrition_totalFat,
+            'nutrition_saturatedFat': nutrition_saturatedFat,
+            'nutrition_transFat': nutrition_transFat,
+            'nutrition_cholesterol': nutrition_cholesterol,
+            'nutrition_sodium': nutrition_sodium,
+            'nutrition_carbohydrates': nutrition_carbohydrates,
+            'nutrition_fiber': nutrition_fiber,
+            'nutrition_sugar': nutrition_sugar,
+            'nutrition_addedSugar': nutrition_addedSugar,
+            'nutrition_protein': nutrition_protein,
+            'nutrition_vitaminA': nutrition_vitaminA,
+            'nutrition_vitaminC': nutrition_vitaminC,
+            'nutrition_vitaminD': nutrition_vitaminD,
+            'nutrition_calcium': nutrition_calcium,
+            'nutrition_iron': nutrition_iron,
+            'nutrition_potassium': nutrition_potassium
+          }
+        }, function (error, number) {
+          if (error != null) {
+            throw new Meteor.Error("update-error", "Update operation failed, contact support")
+          } else {
+            console.log("Successfully updated " + number + " document(s).")
+          }
+        })
     }
   },
 
@@ -756,6 +850,15 @@ Meteor.publish('prices', function () {
     var companyId = Meteor.users.findOne(this.userId).companyId
     return Prices.find({
       'price_companyId': companyId
+    })
+  }
+})
+
+Meteor.publish('nutrition', function () {
+  if (this.userId) {
+    var companyId = Meteor.users.findOne(this.userId).companyId
+    return Nutrition.find({
+      'nutrition_companyId': companyId
     })
   }
 })
