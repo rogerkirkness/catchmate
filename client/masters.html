@@ -725,7 +725,7 @@
   -->
 
 <template name="nutritionFactsMaster">
-	<div class="col-sm-4 signUpBlock">
+	<div class="col-sm-3 signUpBlock">
 		<h4>Add Nutrition Facts</h4>
 		<hr class="horizontalRule">
 		<div class="form-group">
@@ -814,7 +814,7 @@
 		</div>
 		<button type="submit" id="addNutrition" class="btn btn-default btn-block">Add Nutrition Facts</button>
 	</div>
-	<div class="col-sm-4">
+	<div class="col-sm-3">
 		<h4>Edit Nutrition Facts</h4>
 		<hr class="horizontalRule">
 		<div class="form-group">
@@ -903,7 +903,72 @@
 		</div>
 		<button type="submit" id="editNutrition" class="btn btn-default btn-block">Edit Nutrition Facts</button>
 	</div>
-	<div class="col-sm-4">
+	<div class="col-sm-3">
+		<h4>Nutrition Facts Preview (US)</h4>
+		<hr class="horizontalRule">
+		<div class="nutritionLabel">
+			<div class="titleText">Nutrition Facts</div>
+			<div class="line"></div>
+			<div class="servingsPerContainer">{{nutrition.nutrition_servingsPerContainer}} servings per container</div>
+			<div class="servingSize">{{nutrition.nutrition_servingSize}}</div>
+			<div class="servingSizeText">Serving size</div>
+			<div class="bar1"></div>
+			<div class="line amountPerServing"><b>Amount per serving</b></div>
+			<div class="calories">{{nutrition.nutrition_calories}}</div>
+			<div class="caloriesText"><b>Calories</b></div>
+			<div class="bar2"></div>
+			<div class="line dailyValue"><b>% Daily Value *</b></div>
+			<div class="line">
+				<div class="dv">0%</div><b>Total Fat</b> {{nutrition.nutrition_totalFat}}g
+			</div>
+			<div class="line pad">
+				<div class="dv">0%</div>Saturated Fat {{nutrition.nutrition_saturatedFat}}g
+			</div>
+			<div class="line pad">
+				<i>Trans</i> Fat {{nutrition.nutrition_transFat}}g</div>
+			<div class="line">
+				<div class="dv">0%</div><b>Cholesterol</b> {{nutrition.nutrition_cholesterol}}mg
+			</div>
+			<div class="line">
+				<div class="dv">0%</div><b>Sodium</b> {{nutrition.nutrition_sodium}}mg
+			</div>
+			<div class="line">
+				<div class="dv">0%</div><b>Total Carbohydrates</b> {{nutrition.nutrition_carbohydrates}}g
+			</div>
+			<div class="line pad">
+				<div class="dv">0%</div>Dietary Fiber {{nutrition.nutrition_fiber}}g
+			</div>
+			<div class="line pad">Total Sugars {{nutrition.nutrition_sugar}}g
+			</div>
+			<div class="line addedSugar">
+				<div class="dv">0%</div>Includes {{nutrition.nutrition_addedSugar}}g Added Sugars
+			</div>
+			<div class="line"><b>Protein</b> {{nutrition.nutrition_protein}}g
+			</div>
+			<div class="bar1"></div>
+			<div class="line nutrients">
+				<div class="dv">0%</div>Vitamin D {{nutrition.nutrition_vitaminD}}mcg
+			</div>
+			<div class="line nutrients">
+				<div class="dv">0%</div>Calcium {{nutrition.nutrition_calcium}}mg
+			</div>
+			<div class="line nutrients">
+				<div class="dv">0%</div>Iron {{nutrition.nutrition_iron}}mg
+			</div>
+			<div class="line nutrients">
+				<div class="dv">0%</div>Potassium {{nutrition.nutrition_potassium}}mg
+			</div>
+			<div class="bar2"></div>
+			<div class="calorieNote">
+				* The % Daily Value (DV) tells you how much a nutrient in a serving of food contributes to a daily diet. 2,000 calories a
+				day is used for general nutrition advice.
+			</div>
+		</div><br>
+		<h4>Nutrition Facts Preview (CA)</h4>
+		<hr class="horizontalRule">
+		<p>Coming soon...</p>
+	</div>
+	<div class="col-sm-3">
 		<h4>Nutrition Facts Master</h4>
 		<hr class="horizontalRule">
 		<table class="table table-condensed table-striped table-bordered table-white">
