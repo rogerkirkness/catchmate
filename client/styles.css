@@ -279,6 +279,12 @@ Nutrition label CA-version
 	font-size: 10pt;
 }
 
+.nutritionLabelCA .dvFat {
+	float: right;
+	font-size: 10pt;
+	margin-top: 7px;
+}
+
 .nutritionLabelCA .line {
 	border-top: 0.25pt solid #000;
 	padding-top: 1pt;

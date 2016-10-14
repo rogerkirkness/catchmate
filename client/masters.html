@@ -263,7 +263,7 @@
 			<label for="selectNutrition" class="control-label">Nutrition Facts</label>
 			<select class="form-control" id="selectNutrition">
         {{#each nutritions}}
-        <option class="dropdown optionDropdown">{{nutrition_code}}</option>
+        <option class="dropdown optionDropdown">{{nutrition.nutrition_code}}</option>
         {{/each}}
       </select>
 		</div>
@@ -320,7 +320,7 @@
 			<label for="selectNutrition_edit" class="control-label">Nutrition Facts</label>
 			<select class="form-control" id="selectNutrition_edit">
         {{#each nutritions}}
-        <option class="dropdown optionDropdown" {{selectedNutrition}}>{{nutrition_code}}</option>
+        <option class="dropdown optionDropdown" {{selectedNutrition}}>{{nutrition.nutrition_code}}</option>
         {{/each}}
       </select>
 		</div>
@@ -741,8 +741,12 @@
 			<input type="text" id="nutrition_servingsPerContainer" class="form-control">
 		</div>
 		<div class="form-group">
-			<label for="nutrition_servingSize" class="control-label">Serving size (grams) (All countries)</label>
+			<label for="nutrition_servingSize" class="control-label">English serving size (US/CA English)</label>
 			<input type="text" id="nutrition_servingSize" class="form-control">
+		</div>
+		<div class="form-group">
+			<label for="nutrition_servingSizeFR" class="control-label">French serving size (CA French)</label>
+			<input type="text" id="nutrition_servingSizeFR" class="form-control">
 		</div>
 		<div class="form-group">
 			<label for="nutrition_calories" class="control-label">Calories (All countries)</label>
@@ -830,8 +834,12 @@
 			<input type="text" id="nutrition_servingsPerContainer_edit" class="form-control" value="{{nutrition.nutrition_servingsPerContainer}}">
 		</div>
 		<div class="form-group">
-			<label for="nutrition_servingSize_edit" class="control-label">Serving size (grams) (All countries)</label>
+			<label for="nutrition_servingSize_edit" class="control-label">English serving size (US/CA English)</label>
 			<input type="text" id="nutrition_servingSize_edit" class="form-control" value="{{nutrition.nutrition_servingSize}}">
+		</div>
+		<div class="form-group">
+			<label for="nutrition_servingSizeFR_edit" class="control-label">French serving size (CA French)</label>
+			<input type="text" id="nutrition_servingSizeFR_edit" class="form-control" value="{{nutrition.nutrition_servingSizeFR}}">
 		</div>
 		<div class="form-group">
 			<label for="nutrition_calories_edit" class="control-label">Calories (All countries)</label>
@@ -919,58 +927,70 @@
 			<div class="bar2"></div>
 			<div class="line dailyValue"><b>% Daily Value *</b></div>
 			<div class="line">
-				<div class="dv">0%</div><b>Total Fat</b> {{nutrition.nutrition_totalFat}}g
+				<div class="dv">{{dv_totalFat nutrition.nutrition_totalFat}}%</div>
+				<b>Total Fat</b> {{nutrition.nutrition_totalFat}}g
 			</div>
 			<div class="line pad">
-				<div class="dv">0%</div>Saturated Fat {{nutrition.nutrition_saturatedFat}}g
+				<div class="dv">{{dv_saturatedFat nutrition.nutrition_saturatedFat}}%</div>
+				Saturated Fat {{nutrition.nutrition_saturatedFat}}g
 			</div>
 			<div class="line pad">
 				<i>Trans</i> Fat {{nutrition.nutrition_transFat}}g</div>
 			<div class="line">
-				<div class="dv">0%</div><b>Cholesterol</b> {{nutrition.nutrition_cholesterol}}mg
+				<div class="dv">{{dv_cholesterol nutrition.nutrition_cholesterol}}%</div>
+				<b>Cholesterol</b> {{nutrition.nutrition_cholesterol}}mg
 			</div>
 			<div class="line">
-				<div class="dv">0%</div><b>Sodium</b> {{nutrition.nutrition_sodium}}mg
+				<div class="dv">{{dv_sodium nutrition.nutrition_sodium}}%</div>
+				<b>Sodium</b> {{nutrition.nutrition_sodium}}mg
 			</div>
 			<div class="line">
-				<div class="dv">0%</div><b>Total Carbohydrates</b> {{nutrition.nutrition_carbohydrates}}g
+				<div class="dv">{{dv_carbohydrates nutrition.nutrition_carbohydrates}}%</div>
+				<b>Total Carbohydrates</b> {{nutrition.nutrition_carbohydrates}}g
 			</div>
 			<div class="line pad">
-				<div class="dv">0%</div>Dietary Fiber {{nutrition.nutrition_fiber}}g
+				<div class="dv">{{dv_fiber nutrition.nutrition_fiber}}%</div>
+				Dietary Fiber {{nutrition.nutrition_fiber}}g
 			</div>
 			<div class="line pad">Total Sugars {{nutrition.nutrition_sugar}}g
 			</div>
 			<div class="line addedSugar">
-				<div class="dv">0%</div>Includes {{nutrition.nutrition_addedSugar}}g Added Sugars
+				<div class="dv">{{dv_addedSugar nutrition.nutrition_addedSugar}}%</div>
+				Includes {{nutrition.nutrition_addedSugar}}g Added Sugars
 			</div>
 			<div class="line"><b>Protein</b> {{nutrition.nutrition_protein}}g
 			</div>
 			<div class="bar1"></div>
 			<div class="line nutrients">
-				<div class="dv">0%</div>Vitamin D {{nutrition.nutrition_vitaminD}}mcg
+				<div class="dv">{{dv_vitaminD nutrition.nutrition_vitaminD}}%</div>
+				Vitamin D {{nutrition.nutrition_vitaminD}}mcg
 			</div>
 			<div class="line nutrients">
-				<div class="dv">0%</div>Calcium {{nutrition.nutrition_calcium}}mg
+				<div class="dv">{{dv_calcium nutrition.nutrition_calcium}}%</div>
+				Calcium {{nutrition.nutrition_calcium}}mg
 			</div>
 			<div class="line nutrients">
-				<div class="dv">0%</div>Iron {{nutrition.nutrition_iron}}mg
+				<div class="dv">{{dv_iron nutrition.nutrition_iron}}%</div>
+				Iron {{nutrition.nutrition_iron}}mg
 			</div>
 			<div class="line nutrients">
-				<div class="dv">0%</div>Potassium {{nutrition.nutrition_potassium}}mg
+				<div class="dv">{{dv_potassium nutrition.nutrition_potassium}}%</div>
+				Potassium {{nutrition.nutrition_potassium}}mg
 			</div>
 			<div class="bar2"></div>
 			<div class="calorieNote">
 				* The % Daily Value (DV) tells you how much a nutrient in a serving of food contributes to a daily diet. 2,000 calories a
 				day is used for general nutrition advice.
 			</div>
-		</div><br>
+		</div>
+		<br>
 		<h4>Nutrition Facts Preview (CA)</h4>
 		<hr class="horizontalRule">
 		<div class="nutritionLabelCA">
 			<div class="titleText">Nutrition Facts</div>
 			<div class="titleText">Valeur nutritive</div>
 			<div class="servingSizeText">Per {{nutrition.nutrition_servingSize}}</div>
-			<div class="servingSizeText">pour {{nutrition.nutrition_servingSize}}</div>
+			<div class="servingSizeText">pour {{nutrition.nutrition_servingSizeFR}}</div>
 			<div class="bar"></div>
 			<div class="line">
 				<div class="amountPerServing">Amount</div>
@@ -982,28 +1002,28 @@
 				<b>Calories / Calories</b> {{nutrition.nutrition_calories}}
 			</div>
 			<div class="line">
-				<div class="dv">0%</div>
+				<div class="dv">{{dv_totalFatCA nutrition.nutrition_totalFat}}%</div>
 				<b>Fat / Lipides</b> {{nutrition.nutrition_totalFat}}g
 			</div>
 			<div class="line">
-				<div class="dv">0%</div>
+				<div class="dvFat">{{dv_saturatedFatCA nutrition.nutrition_saturatedFat nutrition.nutrition_transFat}}%</div>
 				<div class="padLeft">Saturated / saturés {{nutrition.nutrition_saturatedFat}}g</div>
+				<div class="padLeft">+ Trans / trans {{nutrition.nutrition_transFat}}g</div>
 			</div>
-			<div class="line pad">
-				+ Trans / trans {{nutrition.nutrition_transFat}}g</div>
 			<div class="line">
+				<div class="dv">{{dv_cholesterolCA nutrition.nutrition_cholesterol}}%</div>
 				<b>Cholesterol / Cholestérol </b> {{nutrition.nutrition_cholesterol}}mg
 			</div>
 			<div class="line">
-				<div class="dv">0%</div>
+				<div class="dv">{{dv_sodiumCA nutrition.nutrition_sodium}}%</div>
 				<b>Sodium / Sodium</b> {{nutrition.nutrition_sodium}}mg
 			</div>
 			<div class="line">
-				<div class="dv">0%</div>
+				<div class="dv">{{dv_carbohydratesCA nutrition.nutrition_carbohydrates}}%</div>
 				<b>Carbohydrate / Glucides</b> {{nutrition.nutrition_carbohydrates}}g
 			</div>
 			<div class="line">
-				<div class="dv">0%</div>
+				<div class="dv">{{dv_fiberCA nutrition.nutrition_fiber}}%</div>
 				<div class="padLeft">Fibre / Fibres {{nutrition.nutrition_fiber}}g</div>
 			</div>
 			<div class="line pad">
@@ -1014,16 +1034,16 @@
 			</div>
 			<div class="bar"></div>
 			<div class="line nutrients">
-				<div class="dv">0%</div>Vitamin A / Vitamine A
+				<div class="dv">{{dv_vitaminACA nutrition.nutrition_vitaminA}}%</div>Vitamin A / Vitamine A
 			</div>
 			<div class="line nutrients">
-				<div class="dv">0%</div>Vitamin C / Vitamine C
+				<div class="dv">{{dv_vitaminCCA nutrition.nutrition_vitaminC}}%</div>Vitamin C / Vitamine C
 			</div>
 			<div class="line nutrients">
-				<div class="dv">0%</div>Calcium / Calcium
+				<div class="dv">{{dv_calciumCA nutrition.nutrition_calcium}}%</div>Calcium / Calcium
 			</div>
 			<div class="line nutrients">
-				<div class="dv">0%</div>Iron / Fer
+				<div class="dv">{{dv_ironCA nutrition.nutrition_iron}}%</div>Iron / Fer
 			</div>
 		</div>
 	</div>
@@ -1039,8 +1059,8 @@
 				</tr>
 				{{#each nutritions}}
 					<tr>
-						<td>{{nutrition_code}}</td>
-						<td>{{nutrition_name}}</td>
+						<td>{{nutrition.nutrition_code}}</td>
+						<td>{{nutrition.nutrition_name}}</td>
 						<td><button id="edit" class="btn btn-sm btn-default"><span class="caret"></span></button></td>
 					</tr>
 				{{/each}}

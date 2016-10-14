@@ -467,6 +467,7 @@ Template.nutritionFactsMaster.events({
     var nutrition_name = document.getElementById('nutrition_name').value
     var nutrition_servingsPerContainer = document.getElementById('nutrition_servingsPerContainer').value
     var nutrition_servingSize = document.getElementById('nutrition_servingSize').value
+    var nutrition_servingSizeFR = document.getElementById('nutrition_servingSizeFR').value
     var nutrition_calories = document.getElementById('nutrition_calories').value
     var nutrition_totalFat = document.getElementById('nutrition_totalFat').value
     var nutrition_saturatedFat = document.getElementById('nutrition_saturatedFat').value
@@ -484,7 +485,7 @@ Template.nutritionFactsMaster.events({
     var nutrition_calcium = document.getElementById('nutrition_calcium').value
     var nutrition_iron = document.getElementById('nutrition_iron').value
     var nutrition_potassium = document.getElementById('nutrition_potassium').value
-    Meteor.call('insertNutrition', nutrition_code, nutrition_name, nutrition_servingsPerContainer, nutrition_servingSize, nutrition_calories, nutrition_totalFat, nutrition_saturatedFat, nutrition_transFat, nutrition_cholesterol, nutrition_sodium, nutrition_carbohydrates, nutrition_fiber, nutrition_sugar, nutrition_addedSugar, nutrition_protein, nutrition_vitaminA, nutrition_vitaminC, nutrition_vitaminD, nutrition_calcium, nutrition_iron, nutrition_potassium, function (error) {
+    Meteor.call('insertNutrition', nutrition_code, nutrition_name, nutrition_servingsPerContainer, nutrition_servingSize, nutrition_servingSizeFR, nutrition_calories, nutrition_totalFat, nutrition_saturatedFat, nutrition_transFat, nutrition_cholesterol, nutrition_sodium, nutrition_carbohydrates, nutrition_fiber, nutrition_sugar, nutrition_addedSugar, nutrition_protein, nutrition_vitaminA, nutrition_vitaminC, nutrition_vitaminD, nutrition_calcium, nutrition_iron, nutrition_potassium, function (error) {
       if (error) {
         window.alert(error)
       }
@@ -496,6 +497,7 @@ Template.nutritionFactsMaster.events({
     var nutrition_name = document.getElementById('nutrition_name_edit').value
     var nutrition_servingsPerContainer = document.getElementById('nutrition_servingsPerContainer_edit').value
     var nutrition_servingSize = document.getElementById('nutrition_servingSize_edit').value
+    var nutrition_servingSizeFR = document.getElementById('nutrition_servingSizeFR_edit').value
     var nutrition_calories = document.getElementById('nutrition_calories_edit').value
     var nutrition_totalFat = document.getElementById('nutrition_totalFat_edit').value
     var nutrition_saturatedFat = document.getElementById('nutrition_saturatedFat_edit').value
@@ -513,7 +515,7 @@ Template.nutritionFactsMaster.events({
     var nutrition_calcium = document.getElementById('nutrition_calcium_edit').value
     var nutrition_iron = document.getElementById('nutrition_iron_edit').value
     var nutrition_potassium = document.getElementById('nutrition_potassium_edit').value
-    Meteor.call('updateNutrition', nutrition_code, nutrition_name, nutrition_servingsPerContainer, nutrition_servingSize, nutrition_calories, nutrition_totalFat, nutrition_saturatedFat, nutrition_transFat, nutrition_cholesterol, nutrition_sodium, nutrition_carbohydrates, nutrition_fiber, nutrition_sugar, nutrition_addedSugar, nutrition_protein, nutrition_vitaminA, nutrition_vitaminC, nutrition_vitaminD, nutrition_calcium, nutrition_iron, nutrition_potassium, function (error) {
+    Meteor.call('updateNutrition', nutrition_code, nutrition_name, nutrition_servingsPerContainer, nutrition_servingSize, nutrition_servingSizeFR, nutrition_calories, nutrition_totalFat, nutrition_saturatedFat, nutrition_transFat, nutrition_cholesterol, nutrition_sodium, nutrition_carbohydrates, nutrition_fiber, nutrition_sugar, nutrition_addedSugar, nutrition_protein, nutrition_vitaminA, nutrition_vitaminC, nutrition_vitaminD, nutrition_calcium, nutrition_iron, nutrition_potassium, function (error) {
       if (error) {
         window.alert(error)
       }
@@ -529,6 +531,112 @@ Template.nutritionFactsMaster.helpers({
     var nutrition = Template.instance().templateDict.get('nutrition')
     if (nutrition != null) {
       return Nutrition.findOne(nutrition)
+    }
+  },
+  dv_totalFat(nutrition_totalFat) {
+    if (nutrition_totalFat) {
+      return Math.round((nutrition_totalFat / 80) * 100)
+    }
+  },
+  dv_saturatedFat(nutrition_saturatedFat) {
+    if (nutrition_saturatedFat) {
+      return Math.round((nutrition_saturatedFat / 20) * 100)
+    }
+  },
+  dv_cholesterol(nutrition_cholesterol) {
+    if (nutrition_cholesterol) {
+      return Math.round((nutrition_cholesterol / 300) * 100)
+    }
+  },
+  dv_sodium(nutrition_sodium) {
+    if (nutrition_sodium) {
+      return Math.round((nutrition_sodium / 2400) * 100)
+    }
+  },
+  dv_carbohydrates(nutrition_carbohydrates) {
+    if (nutrition_carbohydrates) {
+      return Math.round((nutrition_carbohydrates / 280) * 100)
+    }
+  },
+  dv_fiber(nutrition_fiber) {
+    if (nutrition_fiber) {
+      return Math.round((nutrition_fiber / 30) * 100)
+    }
+  },
+  dv_addedSugar(nutrition_addedSugar) {
+    if (nutrition_addedSugar) {
+      return Math.round((nutrition_addedSugar / 50) * 100)
+    }
+  },
+  dv_vitaminD(nutrition_vitaminD) {
+    if (nutrition_vitaminD) {
+      return Math.round((nutrition_vitaminD / 20) * 100)
+    }
+  },
+  dv_calcium(nutrition_calcium) {
+    if (nutrition_calcium) {
+      return Math.round((nutrition_calcium / 1300) * 100)
+    }
+  },
+  dv_iron(nutrition_iron) {
+    if (nutrition_iron) {
+      return Math.round((nutrition_iron / 18) * 100)
+    }
+  },
+  dv_potassium(nutrition_potassium) {
+    if (nutrition_potassium) {
+      return Math.round((nutrition_potassium / 3500) * 100)
+    }
+  },
+  dv_totalFatCA(nutrition_totalFat) {
+    if (nutrition_totalFat) {
+      return Math.round((nutrition_totalFat / 65) * 100)
+    }
+  },
+  dv_saturatedFatCA(nutrition_saturatedFat, nutrition_transFat) {
+    if (nutrition_saturatedFat || nutrition_transFat) {
+      var totalSatTrans = Number(nutrition_saturatedFat) + Number(nutrition_transFat)
+      return Math.round((totalSatTrans / 20) * 100)
+    }
+  },
+  dv_cholesterolCA(nutrition_cholesterol) {
+    if (nutrition_cholesterol) {
+      return Math.round((nutrition_cholesterol / 300) * 100)
+    }
+  },
+  dv_sodiumCA(nutrition_sodium) {
+    if (nutrition_sodium) {
+      return Math.round((nutrition_sodium / 2400) * 100)
+    }
+  },
+  dv_carbohydratesCA(nutrition_carbohydrates) {
+    if (nutrition_carbohydrates) {
+      return Math.round((nutrition_carbohydrates / 300) * 100)
+    }
+  },
+  dv_fiberCA(nutrition_fiber) {
+    if (nutrition_fiber) {
+      return Math.round((nutrition_fiber / 25) * 100)
+    }
+  },
+  dv_vitaminACA(nutrition_vitaminA) {
+    if (nutrition_vitaminA) {
+      return Math.round((nutrition_vitaminA / 1000) * 100)
+    }
+  },
+  dv_vitaminCCA(nutrition_vitaminC) {
+    if (nutrition_vitaminC) {
+      return Math.round((nutrition_vitaminC / 60) * 100)
+    }
+  },
+  dv_calciumCA(nutrition_calcium) {
+    if (nutrition_calcium) {
+      return Math.round((nutrition_calcium / 1100) * 100)
+    }
+  },
+  dv_ironCA(nutrition_iron) {
+    if (nutrition_iron) {
+      return Math.round((nutrition_iron / 14) * 100)
     }
   }
 })

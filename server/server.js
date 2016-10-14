@@ -460,7 +460,7 @@ Meteor.methods({
     }
   },
 
-  insertNutrition(nutrition_code, nutrition_name, nutrition_servingsPerContainer, nutrition_servingSize, nutrition_calories, nutrition_totalFat, nutrition_saturatedFat, nutrition_transFat, nutrition_cholesterol, nutrition_sodium, nutrition_carbohydrates, nutrition_fiber, nutrition_sugar, nutrition_addedSugar, nutrition_protein, nutrition_vitaminA, nutrition_vitaminC, nutrition_vitaminD, nutrition_calcium, nutrition_iron, nutrition_potassium) {
+  insertNutrition(nutrition_code, nutrition_name, nutrition_servingsPerContainer, nutrition_servingSize, nutrition_servingSizeFR, nutrition_calories, nutrition_totalFat, nutrition_saturatedFat, nutrition_transFat, nutrition_cholesterol, nutrition_sodium, nutrition_carbohydrates, nutrition_fiber, nutrition_sugar, nutrition_addedSugar, nutrition_protein, nutrition_vitaminA, nutrition_vitaminC, nutrition_vitaminD, nutrition_calcium, nutrition_iron, nutrition_potassium) {
     if (this.userId) {
       var companyId = Meteor.user().companyId
       var exists = Nutrition.findOne({
@@ -479,6 +479,7 @@ Meteor.methods({
           'nutrition_name': nutrition_name,
           'nutrition_servingsPerContainer': nutrition_servingsPerContainer,
           'nutrition_servingSize': nutrition_servingSize,
+          'nutrition_servingSizeFR': nutrition_servingSizeFR,
           'nutrition_calories': nutrition_calories,
           'nutrition_totalFat': nutrition_totalFat,
           'nutrition_saturatedFat': nutrition_saturatedFat,
@@ -508,7 +509,7 @@ Meteor.methods({
     }
   },
 
-  updateNutrition(nutrition_code, nutrition_name, nutrition_servingsPerContainer, nutrition_servingSize, nutrition_calories, nutrition_totalFat, nutrition_saturatedFat, nutrition_transFat, nutrition_cholesterol, nutrition_sodium, nutrition_carbohydrates, nutrition_fiber, nutrition_sugar, nutrition_addedSugar, nutrition_protein, nutrition_vitaminA, nutrition_vitaminC, nutrition_vitaminD, nutrition_calcium, nutrition_iron, nutrition_potassium) {
+  updateNutrition(nutrition_code, nutrition_name, nutrition_servingsPerContainer, nutrition_servingSize, nutrition_servingSizeFR, nutrition_calories, nutrition_totalFat, nutrition_saturatedFat, nutrition_transFat, nutrition_cholesterol, nutrition_sodium, nutrition_carbohydrates, nutrition_fiber, nutrition_sugar, nutrition_addedSugar, nutrition_protein, nutrition_vitaminA, nutrition_vitaminC, nutrition_vitaminD, nutrition_calcium, nutrition_iron, nutrition_potassium) {
     if (this.userId) {
       var companyId = Meteor.user().companyId
       Nutrition.update({
@@ -522,6 +523,7 @@ Meteor.methods({
             'nutrition_name': nutrition_name,
             'nutrition_servingsPerContainer': nutrition_servingsPerContainer,
             'nutrition_servingSize': nutrition_servingSize,
+            'nutrition_servingSizeFR': nutrition_servingSizeFR,
             'nutrition_calories': nutrition_calories,
             'nutrition_totalFat': nutrition_totalFat,
             'nutrition_saturatedFat': nutrition_saturatedFat,
