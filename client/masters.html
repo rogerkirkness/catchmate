@@ -793,7 +793,7 @@
 			<input type="text" id="nutrition_protein" class="form-control">
 		</div>
 		<div class="form-group">
-			<label for="nutrition_vitaminA" class="control-label">Vitamin A (micrograms) (Canada-only)</label>
+			<label for="nutrition_vitaminA" class="control-label">Vitamin A (RE) (Canada-only)</label>
 			<input type="text" id="nutrition_vitaminA" class="form-control">
 		</div>
 		<div class="form-group">
@@ -886,7 +886,7 @@
 			<input type="text" id="nutrition_protein_edit" class="form-control" value="{{nutrition.nutrition_protein}}">
 		</div>
 		<div class="form-group">
-			<label for="nutrition_vitaminA_edit" class="control-label">Vitamin A (micrograms) (Canada-only)</label>
+			<label for="nutrition_vitaminA_edit" class="control-label">Vitamin A (RE) (Canada-only)</label>
 			<input type="text" id="nutrition_vitaminA_edit" class="form-control" value="{{nutrition.nutrition_vitaminA}}">
 		</div>
 		<div class="form-group">
@@ -921,8 +921,8 @@
 			<div class="servingSize">{{nutrition.nutrition_servingSize}}</div>
 			<div class="servingSizeText">Serving size</div>
 			<div class="bar1"></div>
-			<div class="line amountPerServing"><b>Amount per serving</b></div>
 			<div class="calories">{{nutrition.nutrition_calories}}</div>
+			<div class="line amountPerServing"><b>Amount per serving</b></div>
 			<div class="caloriesText"><b>Calories</b></div>
 			<div class="bar2"></div>
 			<div class="line dailyValue"><b>% Daily Value *</b></div>
@@ -1059,8 +1059,8 @@
 				</tr>
 				{{#each nutritions}}
 					<tr>
-						<td>{{nutrition.nutrition_code}}</td>
-						<td>{{nutrition.nutrition_name}}</td>
+						<td>{{nutrition_code}}</td>
+						<td>{{nutrition_name}}</td>
 						<td><button id="edit" class="btn btn-sm btn-default"><span class="caret"></span></button></td>
 					</tr>
 				{{/each}}
