@@ -14,6 +14,7 @@ Accounts.onCreateUser(function (options, user) {
   user.numUnitsChecked = false
   user.batchCodeChecked = false
   user.customerChecked = true
+  user.multiItemChecked = false
   user.priceList = null
   return user
 })
@@ -767,6 +768,22 @@ Meteor.methods({
     }
   },
 
+  updateMultiItemField(status) {
+    if (this.userId) {
+      Meteor.users.upsert(this.userId, {
+        $set: {
+          'multiItemChecked': status
+        }
+      }, function (error, number) {
+        if (error != null) {
+          throw new Meteor.Error("update-error", "Update operations failed, contact support")
+        } else {
+          console.log("Successfully updated " + number + " document(s).")
+        }
+      })
+    }
+  },
+
   insertUser(email, password, companyId) {
     var userObject = {
       'email': email,
@@ -900,7 +917,8 @@ Meteor.publish('users', function () {
           'label': 1,
           'numUnitsChecked': 1,
           'batchCodeChecked': 1,
-          'customerChecked': 1
+          'customerChecked': 1,
+          'multiItemChecked': 1
         }
       })
   }

@@ -14,10 +14,39 @@
 			</div>
 		</div>
 		<div class="form-group">
-			<label for="item_code" class="control-label">Item Code</label> {{> inputAutocomplete settings=itemSettings id="item_code"
-			class="item_code form-control input-lg" type="text" }}
+			<label for="item_code" class="control-label">Item Code</label>
+			<div class="input-group">
+				{{> inputAutocomplete settings=itemSettings id="item_code" class="item_code form-control input-lg" type="text" }}
+				{{#if mi.true}}
+					<span class="input-group-addon" id="addItem">&nbsp;+&nbsp;</span>
+				{{/if}}
+			</div><br>
+			{{#if itemList}}
+				<table class="table table-condensed table-striped table-bordered table-white">
+					<tbody>
+						<tr class="itemHeader">
+							<td>Contents</td>
+							<td>Weight (kg)</td>
+						</tr>
+						<tr>
+							<td>Packaging</td>
+							<td>{{tare}}</td>
+						</tr>
+						{{#each itemList}}
+							<tr>
+								<td>Item: {{itemCode}}</td>
+								<td>{{itemWeight}}</td>
+							</tr>
+						{{/each}}
+						<tr class="itemFooter">
+							<td>Total Weight</td>
+							<td>{{caseWeight}}</td>
+						</tr>
+					</tbody>
+				</table>
+			{{/if}}
 		</div>
-		{{#if cuShowTrue}}
+		{{#if cu.true}}
 			<div class="form-group">
 				<label for="cust_code" class="control-label">Customer Code</label> {{> inputAutocomplete settings=custSettings id="cust_code"
 				class="cust_code form-control input-lg" type="text" }}
@@ -27,7 +56,7 @@
 				<input type="hidden" id="cust_code" class="cust_code form-control">
 			</div>
 		{{/if}}
-		{{#if nuShowTrue}}
+		{{#if nu.true}}
 			<div class="form-group">
 				<label for="num_units" class="control-label">Number of Units</label>
 				<input type="text" id="num_units" class="form-control input-lg">
@@ -37,7 +66,7 @@
 				<input type="hidden" id="num_units" class="form-control">
 			</div>
 		{{/if}}
-		{{#if bcShowTrue}}
+		{{#if bc.true}}
 			<div class="form-group">
 				<label for="batch_code" class="control-label">Batch Code</label>
 				<input type="text" id="batch_code" class="form-control input-lg">
@@ -81,7 +110,7 @@
 							</tr>
 							<tr>
 								<td colspan="3">
-									<img class="barcode" src="{{url}}" alt="barcode">
+									<img class="barcode" src="data:image/png;base64,{{url}}" alt="barcode">
 								</td>
 							</tr>
 						</tbody>
@@ -138,17 +167,22 @@
 		</div>
 		<div class="checkbox">
 			<label>
-        <input type="checkbox" id="custCodeCheckbox" {{cuChecked}}> Show customer code field?
+        <input type="checkbox" id="custCodeCheckbox" {{cu.checked}}> Show customer code field?
       </label>
 		</div>
 		<div class="checkbox">
 			<label>
-        <input type="checkbox" id="numUnitsCheckbox" {{nuChecked}}> Show number of units field?
+        <input type="checkbox" id="numUnitsCheckbox" {{nu.checked}}> Show number of units field?
       </label>
 		</div>
 		<div class="checkbox">
 			<label>
-        <input type="checkbox" id="batchCodeCheckbox" {{bcChecked}}> Show manual batch code field?
+        <input type="checkbox" id="batchCodeCheckbox" {{bc.checked}}> Show manual batch code field?
+      </label>
+		</div>
+		<div class="checkbox">
+			<label>
+        <input type="checkbox" id="multiItemCheckbox" {{mi.checked}}> Show multi-item case field?
       </label>
 		</div>
 	</div>

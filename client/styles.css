@@ -139,6 +139,14 @@ body {
   padding-bottom: 200px;
 }
 
+.itemHeader {
+	border-bottom: 1px solid #333;
+}
+
+.itemFooter {
+	border-top: 1px solid #333;
+}
+
 /* 
 Nutrition label US-version 
 */
