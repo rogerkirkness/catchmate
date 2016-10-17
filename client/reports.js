@@ -14,7 +14,7 @@ Template.customerVolumeReport.onCreated(function () {
 })
 
 Template.customerVolumeReport.events({
-  'click .updateReport' (event) {
+  'click .updateReport'(event) {
     var fromDateRaw = document.getElementById('fromDate').value
     var toDateRaw = document.getElementById('toDate').value
     var from = moment(fromDateRaw, 'YYYY-MM-DD').toDate()
@@ -25,23 +25,34 @@ Template.customerVolumeReport.events({
 })
 
 Template.customerVolumeReport.helpers({
-  custBatches () {
+  custBatches() {
     var items = {}
     var fDate = Template.instance().templateDict.get('fromDate')
     var tDate = Template.instance().templateDict.get('toDate')
-    Batches.find({ $and: [ { createdAt: { $gte: fDate } }, { createdAt: { $lte: tDate } } ] }).forEach(function (e) {
+    var searchResults = Batches.find({
+      $and: [
+        { createdAt: { $gte: fDate } },
+        { createdAt: { $lte: tDate } }
+      ]
+    })
+    _.forEach(searchResults.fetch(), function (e) {
       if (items[e.cust_code] == null) {
         items[e.cust_code] = 0
       }
       items[e.cust_code] += e.item_weight * e.num_units
     })
+    console.log(items)
     var results = []
     _.forEach(items, function (value, key) {
       var displayValue = (value / 1000).toFixed(3)
-      var name = Customers.findOne({customer_code: key}).customer_name
-      results.push({cust_code: key, customer_name: name, item_weight: displayValue})
+      if (key != "") {
+        var custName = Customers.findOne({ customer_code: key }).customer_name
+      } else {
+        var custName = 'No customer'
+      }
+      results.push({ cust_code: key, customer_name: custName, item_weight: displayValue })
     })
-    if (results != null) {
+    if (results != []) {
       return results
     }
   }
@@ -60,7 +71,7 @@ Template.itemVolumeReport.onCreated(function () {
 })
 
 Template.itemVolumeReport.events({
-  'click .updateReport' (event) {
+  'click .updateReport'(event) {
     var fromDateRaw = document.getElementById('fromDate').value
     var toDateRaw = document.getElementById('toDate').value
     var from = moment(fromDateRaw, 'YYYY-MM-DD').toDate()
@@ -71,11 +82,17 @@ Template.itemVolumeReport.events({
 })
 
 Template.itemVolumeReport.helpers({
-  itemBatches () {
+  itemBatches() {
     var items = {}
     var fDate = Template.instance().templateDict.get('fromDate')
     var tDate = Template.instance().templateDict.get('toDate')
-    Batches.find({ $and: [ { createdAt: { $gte: fDate } }, { createdAt: { $lte: tDate } } ] }).forEach(function (e) {
+    var searchResults = Batches.find({
+      $and: [
+        { createdAt: { $gte: fDate } },
+        { createdAt: { $lte: tDate } }
+      ]
+    })
+    _.forEach(searchResults.fetch(), function (e) {
       if (items[e.item_code] == null) {
         items[e.item_code] = 0
       }
@@ -84,8 +101,10 @@ Template.itemVolumeReport.helpers({
     var results = []
     _.forEach(items, function (value, key) {
       var displayValue = (value / 1000).toFixed(3)
-      var name = Items.findOne({item_code: key}).item_name
-      results.push({item_code: key, item_name: name, item_weight: displayValue})
+      if (key != "") {
+        var name = Items.findOne({ item_code: key }).item_name
+      }
+      results.push({ item_code: key, item_name: name, item_weight: displayValue })
     })
     if (results != null) {
       return results
@@ -115,7 +134,9 @@ Template.traceReport.helpers({
     var batchCode = Template.instance().templateDict.get('batchCode')
     if (batchCode != null) {
       var input = {}
-      var searchResults = Batches.find({ batch_code: batchCode })
+      var searchResults = Batches.find({
+        batch_code: batchCode
+      })
       _.forEach(searchResults.fetch(), function (result) {
         if (input[result.cust_code] == null) {
           input[result.cust_code] = 0
@@ -133,5 +154,76 @@ Template.traceReport.helpers({
         return output
       }
     }
+  }
+})
+
+//
+// Customer Packing List
+//
+
+Template.customerPackingList.onCreated(function () {
+  this.templateDict = new ReactiveDict()
+  this.templateDict.set('custCode', null)
+  this.templateDict.set('batchCode', null)
+  this.templateDict.set('caseWeight', null)
+  this.subscribe('customers')
+  this.subscribe('batches')
+  this.subscribe('items')
+})
+
+Template.customerPackingList.events({
+  'click #updateQuery'(event) {
+    var custCode = document.getElementById('custCode').value
+    var batchCode = document.getElementById('batchCode').value
+    Template.instance().templateDict.set('custCode', custCode)
+    Template.instance().templateDict.set('batchCode', batchCode)
+  }
+})
+
+Template.customerPackingList.helpers({
+  customerPackingList() {
+    var batchCode = Template.instance().templateDict.get('batchCode')
+    if (batchCode != null) {
+      var input = {}
+      var searchResults = Batches.find({
+        batch_code: batchCode
+      })
+      _.forEach(searchResults.fetch(), function (result) {
+        if (input[result.item_code] == null) {
+          input[result.item_code] = 0
+        }
+        input[result.item_code] += result.item_weight * result.num_units
+      })
+      var caseWeight = 0
+      for (var key in input) {
+        caseWeight += input[key]
+      }
+      Template.instance().templateDict.set('caseWeight', caseWeight)
+      var output = []
+      _.forEach(input, function (value, key) {
+        var code = key
+        var name = Items.findOne({ item_code: key }).item_name
+        var weight = value
+        output.push({ item_code: code, item_name: name, item_weight: weight })
+      })
+      if (output != null) {
+        return output
+      }
+    }
+  },
+  caseWeight() {
+    return Template.instance().templateDict.get('caseWeight') + " kg"
+  },
+  cust() {
+    var customer = {}
+    var custCode = Template.instance().templateDict.get('custCode')
+    if (custCode != null) {
+      customer.code = custCode
+      customer.name = Customers.findOne({ customer_code: custCode }).customer_name
+    }
+    return customer
+  },
+  batchCode() {
+    return Template.instance().templateDict.get('batchCode')
   }
 })

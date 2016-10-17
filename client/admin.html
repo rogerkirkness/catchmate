@@ -3,9 +3,9 @@
   -->
 
 <head>
-  <title>Catchmate</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <link rel="icon" href="data:;base64,iVBORw0KGgo=">
+	<title>Catchmate</title>
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<link rel="icon" href="data:;base64,iVBORw0KGgo=">
 </head>
 
 <!--
@@ -13,88 +13,89 @@
   -->
 
 <body>
-  <header class="hidden-print">
-    <nav class="navbar navbar-default navbar-static-top hidden-print" role="navigation">
-      <div class="container">
-        <div class="navbar-header">
-          <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#main-nav">
+	<header class="hidden-print">
+		<nav class="navbar navbar-default navbar-static-top hidden-print" role="navigation">
+			<div class="container">
+				<div class="navbar-header">
+					<button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#main-nav">
             <span class="sr-only">Toggle navigation</span>
             <span class="icon-bar"></span>
             <span class="icon-bar"></span>
             <span class="icon-bar"></span>
           </button>
-          <a class="navbar-brand">Catchmate</a>
-        </div>
-        <div class="collapse navbar-collapse" id="main-nav">
-          {{#if currentUser}}
-            <ul class="nav navbar-nav navbar-right">
-              <li><a class="link" id="weigh">Weigh</a></li>
-              <li class="dropdown">
-                <a class="dropdown-toggle" data-toggle="dropdown">Data Setup <span class="caret"></span></a>
-                <ul class="dropdown-menu" role="menu">
-                  <li><a class="link" id="customerMaster">Customer Master</a></li>
-                  <li><a class="link" id="ingredientMaster">Ingredient Master</a></li>
-                  <li><a class="link" id="itemMaster">Item Master</a></li>
-                  <li><a class="link" id="labelMaster">Label Master</a></li>
-                  <li><a class="link" id="printerMaster">Printer Master</a></li>
-                  <li><a class="link" id="scaleMaster">Scale Master</a></li>
-                  <li><a class="link" id="priceListMaster">Pricing Master</a></li>
-                  <li><a class="link" id="nutritionFactsMaster">Nutrition Master</a></li>
-                </ul>
-              </li>
-              <li class="dropdown">
-                <a class="dropdown-toggle" data-toggle="dropdown">Reports <span class="caret"></span></a>
-                <ul class="dropdown-menu" role="menu">
-                  <li><a class="link" id="customerVolumeReport">Customer Volume</a></li>
-                  <li><a class="link" id="itemVolumeReport">Item Volume</a></li>
-                  <li><a class="link" id="traceReport">Trace Batch</a></li>
-                </ul>
-              </li>
-              <li><a class="link" id="settings">Admin</a></li>
-            </ul>
-          {{/if}}
-        </div>
-      </div>
-    </nav>
-  </header>
-  <div class="container">
-    {{#if currentUser}}
-      {{>Template.dynamic template=activePage}}
-    {{else}}
-      <div class="container">
-        <div class="loginBlock">
-          <div class="signInBlock">
-            <h4>Sign In</h4>
-            <div class="form-group">
-              <label for="user" class="control-label">Email</label>
-              <input type="text" id="user" class="form-control input-lg">
-            </div>
-            <div class="form-group">
-              <label for="password" class="control-label">Password</label>
-              <input type="password" id="password" class="form-control input-lg">
-            </div>
-            <button class="signIn btn btn-default btn-lg btn-block">Sign In</button>
-          </div>
-          <div class="signUpBlock">
-            <h4>Sign Up</h4>
-            <div class="form-group">
-              <label for="user_signup" class="control-label">Email</label>
-              <input type="text" id="user_signup" class="form-control input-lg">
-            </div>
-            <div class="form-group">
-              <label for="password_signup" class="control-label">Password</label>
-              <input type="password" id="password_signup" class="form-control input-lg">
-            </div>
-            <div class="form-group">
-              <label for="companyId" class="control-label">CompanyId</label>
-              <input type="text" id="companyId" class="form-control input-lg">
-            </div>
-            <button class="signUp btn btn-default btn-lg btn-block">Sign Up</button>
-          </div>
-        </div>
-      </div>
-    {{/if}}
-  </div>
+					<a class="navbar-brand">Catchmate</a>
+				</div>
+				<div class="collapse navbar-collapse" id="main-nav">
+					{{#if currentUser}}
+						<ul class="nav navbar-nav navbar-right">
+							<li><a class="link" id="weigh">Weigh</a></li>
+							<li class="dropdown">
+								<a class="dropdown-toggle" data-toggle="dropdown">Data Setup <span class="caret"></span></a>
+								<ul class="dropdown-menu" role="menu">
+									<li><a class="link" id="customerMaster">Customer Master</a></li>
+									<li><a class="link" id="ingredientMaster">Ingredient Master</a></li>
+									<li><a class="link" id="itemMaster">Item Master</a></li>
+									<li><a class="link" id="labelMaster">Label Master</a></li>
+									<li><a class="link" id="printerMaster">Printer Master</a></li>
+									<li><a class="link" id="scaleMaster">Scale Master</a></li>
+									<li><a class="link" id="priceListMaster">Pricing Master</a></li>
+									<li><a class="link" id="nutritionFactsMaster">Nutrition Master</a></li>
+								</ul>
+							</li>
+							<li class="dropdown">
+								<a class="dropdown-toggle" data-toggle="dropdown">Reports <span class="caret"></span></a>
+								<ul class="dropdown-menu" role="menu">
+									<li><a class="link" id="customerVolumeReport">Customer Volume</a></li>
+									<li><a class="link" id="itemVolumeReport">Item Volume</a></li>
+									<li><a class="link" id="traceReport">Trace Batch</a></li>
+									<li><a class="link" id="customerPackingList">Customer Packing List</a></li>
+								</ul>
+							</li>
+							<li><a class="link" id="settings">Admin</a></li>
+						</ul>
+					{{/if}}
+				</div>
+			</div>
+		</nav>
+	</header>
+	<div class="container">
+		{{#if currentUser}}
+			{{>Template.dynamic template=activePage}}
+		{{else}}
+			<div class="container">
+				<div class="loginBlock">
+					<div class="signInBlock">
+						<h4>Sign In</h4>
+						<div class="form-group">
+							<label for="user" class="control-label">Email</label>
+							<input type="text" id="user" class="form-control input-lg">
+						</div>
+						<div class="form-group">
+							<label for="password" class="control-label">Password</label>
+							<input type="password" id="password" class="form-control input-lg">
+						</div>
+						<button class="signIn btn btn-default btn-lg btn-block">Sign In</button>
+					</div>
+					<div class="signUpBlock">
+						<h4>Sign Up</h4>
+						<div class="form-group">
+							<label for="user_signup" class="control-label">Email</label>
+							<input type="text" id="user_signup" class="form-control input-lg">
+						</div>
+						<div class="form-group">
+							<label for="password_signup" class="control-label">Password</label>
+							<input type="password" id="password_signup" class="form-control input-lg">
+						</div>
+						<div class="form-group">
+							<label for="companyId" class="control-label">CompanyId</label>
+							<input type="text" id="companyId" class="form-control input-lg">
+						</div>
+						<button class="signUp btn btn-default btn-lg btn-block">Sign Up</button>
+					</div>
+				</div>
+			</div>
+		{{/if}}
+	</div>
 </body>
 
 <!--
@@ -102,80 +103,80 @@
   -->
 
 <template name="settings">
-  <div class="col-sm-4">
-    <h4>Company Information</h4>
-    <hr class="horizontalRule">
-    <div class="form-group">
-      <label for="companyName" class="control-label">Company Name: </label>
-      <input type="text" id="companyName" class="form-control" value="{{settings.company_name}}">
-    </div>
-    <div class="form-group">
-      <label for="plantNumber" class="control-label">License / Plant Number: </label>
-      <input type="text" id="plantNumber" class="form-control" value="{{settings.plant_number}}">
-    </div>
-    <div class="form-group">
-      <label for="profile_prefix" class="control-label">GS1 Company Prefix (7 digits): </label>
-      <input type="text" id="profile_prefix" class="form-control" value="{{settings.prefix}}">
-    </div>
-    <div class="form-group">
-      <label for="companyId" class="control-label">Company ID: </label>
-      <input type="text" id="companyId" class="form-control" value="{{companyId}}" disabled>
-    </div>
-    <div class="form-group">
-      <label for="selectPriceList" class="control-label">Default Price List</label>
-      <select class="form-control" id="selectPriceList">
+	<div class="col-sm-4">
+		<h4>Company Information</h4>
+		<hr class="horizontalRule">
+		<div class="form-group">
+			<label for="companyName" class="control-label">Company Name: </label>
+			<input type="text" id="companyName" class="form-control" value="{{settings.company_name}}">
+		</div>
+		<div class="form-group">
+			<label for="plantNumber" class="control-label">License / Plant Number: </label>
+			<input type="text" id="plantNumber" class="form-control" value="{{settings.plant_number}}">
+		</div>
+		<div class="form-group">
+			<label for="profile_prefix" class="control-label">GS1 Company Prefix (7 digits): </label>
+			<input type="text" id="profile_prefix" class="form-control" value="{{settings.prefix}}">
+		</div>
+		<div class="form-group">
+			<label for="companyId" class="control-label">Company ID: </label>
+			<input type="text" id="companyId" class="form-control" value="{{companyId}}" disabled>
+		</div>
+		<div class="form-group">
+			<label for="selectPriceList" class="control-label">Default Price List</label>
+			<select class="form-control" id="selectPriceList">
         {{#each priceLists}}
         <option class="dropdown optionDropdown" {{selectedPriceList}}>{{price_code}}</option>
         {{/each}}
       </select>
-    </div><br>
-    <h4>Account</h4>
-    <hr class="horizontalRule">
-    <a class="emailSupport" href="mailto:support@catchmate.ca?subject={{companyId}}"><button>Email Support</button></a>
-    <button class="signOut">Sign Out</button>
-  </div>
-  <div class="col-sm-4">
-    <h4>Plant Address</h4>
-    <hr class="horizontalRule">
-    <div class="form-group">
-      <label for="profile_street1" class="control-label">Address Line 1: </label>
-      <input type="text" id="profile_street1" class="form-control" value="{{settings.street1}}">
-    </div>
-    <div class="form-group">
-      <label for="profile_street2" class="control-label">Address Line 2: </label>
-      <input type="text" id="profile_street2" class="form-control" value="{{settings.street2}}">
-    </div>
-    <div class="form-group">
-      <label for="profile_city" class="control-label">City: </label>
-      <input type="text" id="profile_city" class="form-control" value="{{settings.city}}">
-    </div>
-    <div class="form-group">
-      <label for="profile_province" class="control-label">State / Province: </label>
-      <input type="text" id="profile_province" class="form-control" value="{{settings.province}}">
-    </div>
-    <div class="form-group">
-      <label for="profile_country" class="control-label">Country: </label>
-      <input type="text" id="profile_country" class="form-control" value="{{settings.country}}">
-    </div>
-    <div class="form-group">
-      <label for="profile_postal" class="control-label">Zip / Postal Code: </label>
-      <input type="text" id="profile_postal" class="form-control" value="{{settings.postal}}">
-    </div>
-  </div>
-  <div class="col-sm-4 signUpBlock">
-    <h4>Logos</h4>
-    <hr class="horizontalRule">
-    <div class="form-group">
-      <label for="companyLogo" class="control-label"> Upload Company Logo: </label>
-      <input type="file" class="companyLogo" id="companyLogo"><br>
-      <img src="{{companylogo}}" alt="(Company Logo)" class="thumbnail">
-      <button class="delete_clogo">Remove</button>
-    </div>
-    <div class="form-group">
-      <label for="plantLogo" class="control-label">Upload Plant Logo: </label>
-      <input type="file" class="plantLogo" id="plantLogo"><br>
-      <img src="{{plantlogo}}" alt="(Plant Logo)" class="thumbnail">
-      <button class="delete_plogo">Remove</button>
-    </div>
-  </div>
+		</div><br>
+		<h4>Account</h4>
+		<hr class="horizontalRule">
+		<a class="emailSupport" href="mailto:support@catchmate.ca?subject={{companyId}}"><button>Email Support</button></a>
+		<button class="signOut">Sign Out</button>
+	</div>
+	<div class="col-sm-4">
+		<h4>Plant Address</h4>
+		<hr class="horizontalRule">
+		<div class="form-group">
+			<label for="profile_street1" class="control-label">Address Line 1: </label>
+			<input type="text" id="profile_street1" class="form-control" value="{{settings.street1}}">
+		</div>
+		<div class="form-group">
+			<label for="profile_street2" class="control-label">Address Line 2: </label>
+			<input type="text" id="profile_street2" class="form-control" value="{{settings.street2}}">
+		</div>
+		<div class="form-group">
+			<label for="profile_city" class="control-label">City: </label>
+			<input type="text" id="profile_city" class="form-control" value="{{settings.city}}">
+		</div>
+		<div class="form-group">
+			<label for="profile_province" class="control-label">State / Province: </label>
+			<input type="text" id="profile_province" class="form-control" value="{{settings.province}}">
+		</div>
+		<div class="form-group">
+			<label for="profile_country" class="control-label">Country: </label>
+			<input type="text" id="profile_country" class="form-control" value="{{settings.country}}">
+		</div>
+		<div class="form-group">
+			<label for="profile_postal" class="control-label">Zip / Postal Code: </label>
+			<input type="text" id="profile_postal" class="form-control" value="{{settings.postal}}">
+		</div>
+	</div>
+	<div class="col-sm-4 signUpBlock">
+		<h4>Logos</h4>
+		<hr class="horizontalRule">
+		<div class="form-group">
+			<label for="companyLogo" class="control-label"> Upload Company Logo: </label>
+			<input type="file" class="companyLogo" id="companyLogo"><br>
+			<img src="{{companylogo}}" alt="(Company Logo)" class="thumbnail">
+			<button class="delete_clogo">Remove</button>
+		</div>
+		<div class="form-group">
+			<label for="plantLogo" class="control-label">Upload Plant Logo: </label>
+			<input type="file" class="plantLogo" id="plantLogo"><br>
+			<img src="{{plantlogo}}" alt="(Plant Logo)" class="thumbnail">
+			<button class="delete_plogo">Remove</button>
+		</div>
+	</div>
 </template>

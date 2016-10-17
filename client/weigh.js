@@ -239,7 +239,7 @@ Template.weigh.helpers({
           var stdWeight = Items.findOne({ item_code: item }).item_stdWeight
           var maxWeight = Items.findOne({ item_code: item }).item_maxWeight
           var minWeight = Items.findOne({ item_code: item }).item_minWeight
-          if (stdWeight != null && stdWeight != 0) {
+          if (stdWeight != null && stdWeight != 0 && stdWeight != '') {
             var standardWeight = {}
             standardWeight.weight = stdWeight
             standardWeight.display = (stdWeight / 1000).toFixed(3) + ' kg'
@@ -249,7 +249,7 @@ Template.weigh.helpers({
           } else {
             var scaleWeight = {}
             scaleWeight.weight = indicator
-            scaleWeight.display = (scaleWeight / 1000).toFixed(3) + ' kg'
+            scaleWeight.display = (scaleWeight.weight / 1000).toFixed(3) + ' kg'
             if (maxWeight < indicator) {
               scaleWeight.status = 'blue'
               scaleWeight.message = 'Over Max Weight'

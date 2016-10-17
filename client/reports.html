@@ -3,41 +3,41 @@
   -->
 
 <template name="customerVolumeReport">
-  <h4>Customer Volume Report</h4>
-  <hr class="horizontalRule">
-  <div class="col-sm-3">
-    <div class="form-group">
-      <label for="fromDate" class="control-label">From Date</label>
-      <p>Enter the start date "yyyy-mm-dd".</p>
-      <input type="date" id="fromDate" class="form-control">
-    </div>
-    <div class="form-group">
-      <label for="toDate" class="control-label">To Date</label>
-      <p>Enter the end date "yyyy-mm-dd".</p>
-      <input type="date" id="toDate" class="form-control">
-    </div>
-    <div class="form-group">
-      <button type="submit" class="updateReport btn btn-default btn-lg btn-block">Update Report</button>
-    </div>
-  </div>
-  <div class="col-sm-9">
-    <table class="table table-condensed table-striped table-bordered table-white">
-      <tbody>
-        <tr>
-          <td><b>Customer Code</b></td>
-          <td><b>Customer Name</b></td>
-          <td><b>Weight (kg)</b></td>
-        </tr>
-        {{#each custBatches}}
-        <tr>
-          <td>{{cust_code}}</td>
-          <td>{{customer_name}}</td>
-          <td>{{item_weight}}</td>
-        </tr>
-        {{/each}}
-      </tbody>
-    </table>
-  </div>
+	<h4>Customer Volume Report</h4>
+	<hr class="horizontalRule">
+	<div class="col-sm-3">
+		<div class="form-group">
+			<label for="fromDate" class="control-label">From Date</label>
+			<p>Enter the start date "yyyy-mm-dd".</p>
+			<input type="date" id="fromDate" class="form-control">
+		</div>
+		<div class="form-group">
+			<label for="toDate" class="control-label">To Date</label>
+			<p>Enter the end date "yyyy-mm-dd".</p>
+			<input type="date" id="toDate" class="form-control">
+		</div>
+		<div class="form-group">
+			<button type="submit" class="updateReport btn btn-default btn-lg btn-block">Generate Report</button>
+		</div>
+	</div>
+	<div class="col-sm-9">
+		<table class="table table-condensed table-striped table-bordered table-white">
+			<tbody>
+				<tr>
+					<td><b>Customer Code</b></td>
+					<td><b>Customer Name</b></td>
+					<td><b>Weight (kg)</b></td>
+				</tr>
+				{{#each custBatches}}
+					<tr>
+						<td>{{cust_code}}</td>
+						<td>{{customer_name}}</td>
+						<td>{{item_weight}}</td>
+					</tr>
+				{{/each}}
+			</tbody>
+		</table>
+	</div>
 </template>
 
 <!--
@@ -45,41 +45,41 @@
   -->
 
 <template name="itemVolumeReport">
-  <h4>Item Volume Report</h4>
-  <hr class="horizontalRule">
-  <div class="col-sm-3">
-    <div class="form-group">
-      <label for="fromDate" class="control-label">From Date</label>
-      <p>Enter the start date "yyyy-mm-dd".</p>
-      <input type="date" id="fromDate" class="form-control">
-    </div>
-    <div class="form-group">
-      <label for="toDate" class="control-label">To Date</label>
-      <p>Enter the end date "yyyy-mm-dd".</p>
-      <input type="date" id="toDate" class="form-control">
-    </div>
-    <div class="form-group">
-      <button type="submit" class="updateReport btn btn-default btn-lg btn-block">Update Report</button>
-    </div>
-  </div>
-  <div class="col-sm-9">
-    <table class="table table-condensed table-striped table-bordered table-white">
-      <tbody>
-        <tr>
-          <td><b>Item Code</b></td>
-          <td><b>Item Name</b></td>
-          <td><b>Weight (kg)</b></td>
-        </tr>
-        {{#each itemBatches}}
-        <tr>
-          <td>{{item_code}}</td>
-          <td>{{item_name}}</td>
-          <td>{{item_weight}}</td>
-        </tr>
-        {{/each}}
-      </tbody>
-    </table>
-  </div>
+	<h4>Item Volume Report</h4>
+	<hr class="horizontalRule">
+	<div class="col-sm-3">
+		<div class="form-group">
+			<label for="fromDate" class="control-label">From Date</label>
+			<p>Enter the start date "yyyy-mm-dd".</p>
+			<input type="date" id="fromDate" class="form-control">
+		</div>
+		<div class="form-group">
+			<label for="toDate" class="control-label">To Date</label>
+			<p>Enter the end date "yyyy-mm-dd".</p>
+			<input type="date" id="toDate" class="form-control">
+		</div>
+		<div class="form-group">
+			<button type="submit" class="updateReport btn btn-default btn-lg btn-block">Generate Report</button>
+		</div>
+	</div>
+	<div class="col-sm-9">
+		<table class="table table-condensed table-striped table-bordered table-white">
+			<tbody>
+				<tr>
+					<td><b>Item Code</b></td>
+					<td><b>Item Name</b></td>
+					<td><b>Weight (kg)</b></td>
+				</tr>
+				{{#each itemBatches}}
+					<tr>
+						<td>{{item_code}}</td>
+						<td>{{item_name}}</td>
+						<td>{{item_weight}}</td>
+					</tr>
+				{{/each}}
+			</tbody>
+		</table>
+	</div>
 </template>
 
 <!-- 
@@ -87,34 +87,84 @@
   -->
 
 <template name="traceReport">
-  <h4>Trace Report</h4>
-  <hr class="horizontalRule">
-  <div class="col-sm-3">
-    <div class="form-group">
-      <label for="batchCode" class="control-label">Batch Code</label>
-      <p>Enter the serial number, batch code or lot code you want to search for. </p>
-      <input type="text" id="batchCode" class="form-control">
-    </div>
-    <div class="form-group">
-      <button type="submit" class="updateReport btn btn-default btn-lg btn-block">Update Report</button>
-    </div>
-  </div>
-  <div class="col-sm-9">
-    <table class="table table-condensed table-striped table-bordered table-white">
-        <tbody>
-          <tr>
-            <td><b>Batch Code</b></td>
-            <td><b>Customer Code</b></td>
-            <td><b>Amount Sold (kg)</b></td>
-          </tr>
-          {{#each traceBatch}}
-          <tr>
-            <td>{{batch_code}}</td>
-            <td>{{cust_code}}</td>
-            <td>{{amount_sold}}</td>
-          </tr>
-          {{/each}}
-        </tbody>
-      </table>
-  </div>
+	<h4>Trace Report</h4>
+	<hr class="horizontalRule">
+	<div class="col-sm-3">
+		<div class="form-group">
+			<label for="batchCode" class="control-label">Batch Code</label>
+			<p>Enter the serial number, batch code or lot code you want to search for. </p>
+			<input type="text" id="batchCode" class="form-control">
+		</div>
+		<div class="form-group">
+			<button type="submit" class="updateReport btn btn-default btn-lg btn-block">Generate Report</button>
+		</div>
+	</div>
+	<div class="col-sm-9">
+		<table class="table table-condensed table-striped table-bordered table-white">
+			<tbody>
+				<tr>
+					<td><b>Batch Code</b></td>
+					<td><b>Customer Code</b></td>
+					<td><b>Amount Sold (kg)</b></td>
+				</tr>
+				{{#each traceReport}}
+					<tr>
+						<td>{{batch_code}}</td>
+						<td>{{cust_code}}</td>
+						<td>{{amount_sold}}</td>
+					</tr>
+				{{/each}}
+			</tbody>
+		</table>
+	</div>
+</template>
+
+<!--
+  Customer Packing List Report
+  -->
+
+<template name="customerPackingList">
+	<h4 class="hidden-print">Customer Packing List</h4>
+	<hr class="horizontalRule hidden-print">
+	<div class="col-sm-3 hidden-print">
+		<div class="form-group">
+			<label for="custCode" class="control-label">Customer Code</label>
+			<p>Enter the customer code you want</p>
+			<input type="text" id="custCode" class="form-control">
+		</div>
+		<div class="form-group">
+			<label for="batchCode" class="control-label">Batch Code</label>
+			<p>Enter the batch code you want</p>
+			<input type="text" id="batchCode" class="form-control">
+		</div>
+		<div class="form-group">
+			<button type="submit" id="updateQuery" class="btn btn-default btn-lg btn-block">Generate Report</button>
+		</div>
+	</div>
+	<div class="col-sm-7">
+		<div class="customerPackingList report-print">
+			<p class="customerPackingListH">Customer: {{cust.name}}<br> Account #: {{cust.code}}<br> Batch/WO: {{batchCode}}</p>
+			<table class="table table-condensed table-white">
+				<tbody>
+					<tr class="itemHeader">
+						<td><b>Item Code</b></td>
+						<td><b>Description</b></td>
+						<td><b>Amount / Volume</b></td>
+					</tr>
+					{{#each customerPackingList}}
+						<tr>
+							<td>{{item_code}}</td>
+							<td>{{item_name}}</td>
+							<td>{{item_weight}}</td>
+						</tr>
+					{{/each}}
+					<tr class="itemFooter">
+						<td><b>Total Weight</b></td>
+						<td></td>
+						<td><b>{{caseWeight}}</b></td>
+					</tr>
+				</tbody>
+			</table>
+		</div>
+	</div>
 </template>

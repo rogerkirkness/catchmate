@@ -11,9 +11,13 @@
 	  border: 0;
   }
 
-  #section-to-print, #section-to-print * {
+  #section-to-print, #section-to-print *, .report-print, .report-print * {
     visibility: visible;
   }
+
+	.report-print {
+		width: 100%
+	}
 
   #section-to-print {
     transform: translate(0%, -100%) rotate(90deg);
@@ -145,6 +149,17 @@ body {
 
 .itemFooter {
 	border-top: 1px solid #333;
+}
+
+.customerPackingList {
+	background-color: #fff;
+	padding: 20px 20px 20px 20px;
+	border: 1px solid #333;
+}
+
+.customerPackingListH {
+	font-size: 12pt;
+	font-weight: 700;
 }
 
 /* 

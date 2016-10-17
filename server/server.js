@@ -1,5 +1,6 @@
 var net = require('net')
 var bwipjs = require('bwip-js')
+var _ = require('underscore')
 
 Accounts.onCreateUser(function (options, user) {
   user.companyId = options.companyId
