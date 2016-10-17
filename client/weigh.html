@@ -8,9 +8,9 @@
 		<hr class="horizontalRule hidden-print">
 		<div class="form-group">
 			<div class="input-group">
-				<input type="hidden" id="item_weight" class="form-control" value="{{indicator}}">
-				<span class="status form-control">{{displayIndicator}}</span>
-				<span class="input-group-addon" id="statusMessage" style="background-color:{{getStatus}}">{{statusMessage}}</span>
+				<input type="hidden" id="item_weight" class="form-control" value="{{indicator.weight}}">
+				<span class="status form-control">{{indicator.display}}</span>
+				<span class="input-group-addon" id="statusMessage" style="background-color:{{indicator.status}}">{{indicator.message}}</span>
 			</div>
 		</div>
 		<div class="form-group">
@@ -94,8 +94,8 @@
 								<td><b>{{settings.company_name}}</b><br>{{settings.street1}} {{settings.street2}}<br>{{settings.city}}, {{settings.province}},
 									{{settings.country}}
 									<br>{{settings.postal}}</td>
-								<td><img class="clogo" src="{{companylogo}}"></td>
-								<td><img class="plogo" src="{{plantlogo}}"></td>
+								<td><img class="clogo" src="{{settings.clogo}}"></td>
+								<td><img class="plogo" src="{{settings.plogo}}"></td>
 							</tr>
 							<tr>
 								<td><b>Date:</b> {{dateFull createdAt}}<br><b>Gr Weight:</b> {{showWeight item_weight}}<br><b>Net Weight:</b> {{netWeight

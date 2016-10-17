@@ -153,7 +153,6 @@ Template.weigh.events({
   },
 
   'click .undo'(event) {
-    event.preventDefault()
     window.confirm('Are you sure you want to undo that label?')
     var lastBatch = Template.instance().templateDict.get('batch')
     Meteor.call('deleteBatch', lastBatch, function (error) {
@@ -164,9 +163,7 @@ Template.weigh.events({
   },
 
   'input .profileTare'(event) {
-    event.preventDefault()
-    var Tare = event.target.value
-    Meteor.call('updateTareProfile', Tare, function (error) {
+    Meteor.call('updateTareProfile', event.target.value, function (error) {
       if (error) {
         window.alert(error)
       }
@@ -174,11 +171,7 @@ Template.weigh.events({
   },
 
   'change #selectscale'(event) {
-    event.preventDefault()
-    var Scale = event.target.value
-    var port = Scales.findOne({ scale_name: Scale }).scale_port
-    var host = Scales.findOne({ scale_name: Scale }).scale_host
-    Meteor.call('updateScaleProfile', Scale, port, host, function (error) {
+    Meteor.call('updateScaleProfile', event.target.value, function (error) {
       if (error) {
         window.alert(error)
       }
@@ -186,11 +179,7 @@ Template.weigh.events({
   },
 
   'change #selectprinter'(event) {
-    event.preventDefault()
-    var Printer = event.target.value
-    var port = Printers.findOne({ printer_name: Printer }).printer_port
-    var host = Printers.findOne({ printer_name: Printer }).printer_host
-    Meteor.call('updatePrinterProfile', Printer, port, host, function (error) {
+    Meteor.call('updatePrinterProfile', event.target.value, function (error) {
       if (error) {
         window.alert(error)
       }
@@ -198,9 +187,7 @@ Template.weigh.events({
   },
 
   'change #selectlabel'(event) {
-    event.preventDefault()
-    var label = event.target.value
-    Meteor.call('updateLabelProfile', label, function (error) {
+    Meteor.call('updateLabelProfile', event.target.value, function (error) {
       if (error) {
         window.alert(error)
       }
@@ -208,7 +195,6 @@ Template.weigh.events({
   },
 
   'change #custCodeCheckbox'(event) {
-    event.preventDefault()
     Meteor.call('updateCustomerField', event.target.checked, function (error) {
       if (error) {
         window.alert(error)
@@ -217,7 +203,6 @@ Template.weigh.events({
   },
 
   'change #numUnitsCheckbox'(event) {
-    event.preventDefault()
     Meteor.call('updateNumUnitsField', event.target.checked, function (error) {
       if (error) {
         window.alert(error)
@@ -226,7 +211,6 @@ Template.weigh.events({
   },
 
   'change #batchCodeCheckbox'(event) {
-    event.preventDefault()
     Meteor.call('updateBatchCodeField', event.target.checked, function (error) {
       if (error) {
         window.alert(error)
@@ -235,7 +219,6 @@ Template.weigh.events({
   },
 
   'change #multiItemCheckbox'(event) {
-    event.preventDefault()
     Meteor.call('updateMultiItemField', event.target.checked, function (error) {
       if (error) {
         window.alert(error)
@@ -254,76 +237,38 @@ Template.weigh.helpers({
         var item = Template.instance().templateDict.get('validItem')
         if (item != null) {
           var stdWeight = Items.findOne({ item_code: item }).item_stdWeight
+          var maxWeight = Items.findOne({ item_code: item }).item_maxWeight
+          var minWeight = Items.findOne({ item_code: item }).item_minWeight
           if (stdWeight != null && stdWeight != 0) {
-            return stdWeight
+            var standardWeight = {}
+            standardWeight.weight = stdWeight
+            standardWeight.display = (stdWeight / 1000).toFixed(3) + ' kg'
+            standardWeight.status = 'green'
+            standardWeight.message = 'Standard Weight'
+            return standardWeight
           } else {
-            return indicator
-          }
-        }
-      }
-    }
-  },
-
-  displayIndicator() {
-    if (typeof WeightData.findOne("weight") != 'undefined') {
-      var indicator = WeightData.findOne("weight").data
-      if (indicator != null) {
-        var item = Template.instance().templateDict.get('validItem')
-        if (item != null) {
-          var stdWeight = Items.findOne({ item_code: item }).item_stdWeight
-          if (stdWeight != null && stdWeight != 0) {
-            return (stdWeight / 1000).toFixed(3) + ' kg'
-          } else {
-            return (indicator / 1000).toFixed(3) + ' kg'
+            var scaleWeight = {}
+            scaleWeight.weight = indicator
+            scaleWeight.display = (scaleWeight / 1000).toFixed(3) + ' kg'
+            if (maxWeight < indicator) {
+              scaleWeight.status = 'blue'
+              scaleWeight.message = 'Over Max Weight'
+            } else if (minWeight > indicator) {
+              scaleWeight.status = 'red'
+              scaleWeight.message = 'Under Min Weight'
+            } else {
+              scaleWeight.status = 'green'
+              scaleWeight.message = 'In Range'
+            }
+            return scaleWeight
           }
         } else {
-          return (indicator / 1000).toFixed(3) + ' kg'
-        }
-      }
-    }
-  },
-
-  getStatus() {
-    if (typeof WeightData.findOne("weight") != 'undefined') {
-      var indicator = WeightData.findOne("weight").data
-      var item = Template.instance().templateDict.get('validItem')
-      if (item != null && indicator != null) {
-        var stdWeight = Items.findOne({ item_code: item }).item_stdWeight
-        var maxWeight = Items.findOne({ item_code: item }).item_maxWeight
-        var minWeight = Items.findOne({ item_code: item }).item_minWeight
-        if (stdWeight != null && stdWeight != 0) {
-          return 'green'
-        } else {
-          if (maxWeight < indicator) {
-            return 'blue'
-          } else if (minWeight > indicator) {
-            return 'red'
-          } else {
-            return 'green'
-          }
-        }
-      }
-    }
-  },
-
-  statusMessage() {
-    if (typeof WeightData.findOne("weight") != 'undefined') {
-      var indicator = WeightData.findOne("weight").data
-      var item = Template.instance().templateDict.get('validItem')
-      if (item != null && indicator != null) {
-        var stdWeight = Items.findOne({ item_code: item }).item_stdWeight
-        var maxWeight = Items.findOne({ item_code: item }).item_maxWeight
-        var minWeight = Items.findOne({ item_code: item }).item_minWeight
-        if (stdWeight != null && stdWeight != 0) {
-          return 'Standard Weight'
-        } else {
-          if (maxWeight < indicator) {
-            return 'Over Max Weight'
-          } else if (minWeight > indicator) {
-            return 'Under Min Weight'
-          } else {
-            return 'In Range'
-          }
+          var testWeight = {}
+          testWeight.weight = indicator
+          testWeight.display = (indicator / 1000).toFixed(3) + ' kg'
+          testWeight.status = 'black'
+          testWeight.message = 'No Item Selected'
+          return testWeight
         }
       }
     }
@@ -346,18 +291,7 @@ Template.weigh.helpers({
   },
 
   settings() {
-    var companyId = Meteor.users.findOne(Meteor.userId()).companyId
-    return Company.findOne({ settings: companyId })
-  },
-
-  companylogo() {
-    var companyId = Meteor.users.findOne(Meteor.userId()).companyId
-    return Company.findOne({ settings: companyId }).clogo
-  },
-
-  plantlogo() {
-    var companyId = Meteor.users.findOne(Meteor.userId()).companyId
-    return Company.findOne({ settings: companyId }).plogo
+    return Company.findOne({ settings: Meteor.users.findOne(Meteor.userId()).companyId })
   },
 
   item() {
@@ -445,8 +379,7 @@ Template.weigh.helpers({
   },
 
   codeWeight(item_weight) {
-    var formatWeight = pad(item_weight, 6)
-    return formatWeight
+    return pad(item_weight, 6)
   },
 
   codeLot(createdAt) {
@@ -535,7 +468,7 @@ Template.weigh.helpers({
   itemSettings() {
     return {
       position: 'bottom',
-      limit: 5,
+      limit: 3,
       rules: [{
         token: '',
         collection: Items,
@@ -549,7 +482,7 @@ Template.weigh.helpers({
   custSettings() {
     return {
       position: 'bottom',
-      limit: 5,
+      limit: 3,
       rules: [{
         token: '',
         collection: Customers,

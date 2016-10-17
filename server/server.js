@@ -652,11 +652,11 @@ Meteor.methods({
     }
   },
 
-  updateTareProfile(Tare) {
+  updateTareProfile(tare) {
     if (this.userId) {
       Meteor.users.update(this.userId, {
         $set: {
-          'tare': Tare
+          'tare': tare
         }
       }, function (error, number) {
         if (error != null) {
@@ -668,11 +668,13 @@ Meteor.methods({
     }
   },
 
-  updatePrinterProfile(Printer, port, host) {
+  updatePrinterProfile(printer) {
     if (this.userId) {
+      var port = Printers.findOne({ printer_name: printer }).printer_port
+      var host = Printers.findOne({ printer_name: printer }).printer_host
       Meteor.users.update(this.userId, {
         $set: {
-          'printer': Printer,
+          'printer': printer,
           'printerport': port,
           'printerhost': host
         }
@@ -686,11 +688,13 @@ Meteor.methods({
     }
   },
 
-  updateScaleProfile(Scale, port, host) {
+  updateScaleProfile(scale) {
     if (this.userId) {
+      var port = Scales.findOne({ scale_name: scale }).scale_port
+      var host = Scales.findOne({ scale_name: scale }).scale_host
       Meteor.users.update(this.userId, {
         $set: {
-          'scale': Scale,
+          'scale': scale,
           'scaleport': port,
           'scalehost': host
         }
