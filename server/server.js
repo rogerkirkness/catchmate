@@ -974,10 +974,8 @@ Meteor.publish('barcode', function (barcode) {
   if (this.userId) {
     var self = this
     bwipjs.toBuffer({
-      bcid: 'gs1-128',
-      text: barcode,
-      includetext: true,
-      textsize: 8
+      bcid: 'gs1datamatrix',
+      text: barcode
     }, function (error, barcode) {
       if (error) {
         throw new Meteor.Error("Barcode error", "Error creating barcode")

@@ -36,6 +36,7 @@ Template.weigh.onCreated(function () {
   this.subscribe('labels')
   this.subscribe('users')
   this.subscribe('prices')
+  this.subscribe('nutrition')
 
   this.autorun(function () {
     Meteor.subscribe('barcode', Template.instance().templateDict.get('barcode'))
@@ -232,43 +233,41 @@ Template.weigh.helpers({
 
   indicator() {
     if (typeof WeightData.findOne("weight") != 'undefined') {
-      var indicator = WeightData.findOne("weight").data
-      if (indicator != null) {
+      var indicator = {}
+      var weight = WeightData.findOne("weight").data
+      if (weight != null) {
         var item = Template.instance().templateDict.get('validItem')
         if (item != null) {
           var stdWeight = Items.findOne({ item_code: item }).item_stdWeight
           var maxWeight = Items.findOne({ item_code: item }).item_maxWeight
           var minWeight = Items.findOne({ item_code: item }).item_minWeight
           if (stdWeight != null && stdWeight != 0 && stdWeight != '') {
-            var standardWeight = {}
-            standardWeight.weight = stdWeight
-            standardWeight.display = (stdWeight / 1000).toFixed(3) + ' kg'
-            standardWeight.status = 'green'
-            standardWeight.message = 'Standard Weight'
-            return standardWeight
+            indicator.weight = stdWeight
+            indicator.display = (stdWeight / 1000).toFixed(3) + ' kg'
+            indicator.status = 'green'
+            indicator.message = 'Standard Weight'
+            return indicator
           } else {
-            var scaleWeight = {}
-            scaleWeight.weight = indicator
-            scaleWeight.display = (scaleWeight.weight / 1000).toFixed(3) + ' kg'
-            if (maxWeight < indicator) {
-              scaleWeight.status = 'blue'
-              scaleWeight.message = 'Over Max Weight'
-            } else if (minWeight > indicator) {
-              scaleWeight.status = 'red'
-              scaleWeight.message = 'Under Min Weight'
+            indicator.weight = weight
+            indicator.display = (indicator.weight / 1000).toFixed(3) + ' kg'
+            if (maxWeight < weight) {
+              indicator.status = 'blue'
+              indicator.message = 'Over Max Weight'
+            } else if (minWeight > weight) {
+              indicator.status = 'red'
+              indicator.message = 'Under Min Weight'
             } else {
-              scaleWeight.status = 'green'
-              scaleWeight.message = 'In Range'
+              indicator.status = 'green'
+              indicator.message = 'In Range'
             }
-            return scaleWeight
+            return indicator
           }
         } else {
-          var testWeight = {}
-          testWeight.weight = indicator
-          testWeight.display = (indicator / 1000).toFixed(3) + ' kg'
-          testWeight.status = 'black'
-          testWeight.message = 'No Item Selected'
-          return testWeight
+          indicator.weight = weight
+          indicator.display = (weight / 1000).toFixed(3) + ' kg'
+          indicator.status = 'black'
+          indicator.message = 'No Item Selected'
+          return indicator
         }
       }
     }
@@ -295,9 +294,16 @@ Template.weigh.helpers({
   },
 
   item() {
-    var item = Items.findOne({ item_code: Template.instance().templateDict.get('item') })
+    return Items.findOne({ item_code: Template.instance().templateDict.get('item') })
+  },
+
+  itemNutrition() {
+    var item = Template.instance().templateDict.get('item')
     if (item != null) {
-      return item
+      var nutrition = Items.findOne({ item_code: item }).item_nutrition
+      if (nutrition != null) {
+        return Nutrition.findOne({ nutrition_code: nutrition })
+      }
     }
   },
 
@@ -556,6 +562,112 @@ Template.weigh.helpers({
     var layout = Labels.findOne({ label_code: Meteor.user().label }).label_layout
     var zpl = layout.replace('{{settings.company_name}}', settingsCompanyName).replace('{{settings.street1}}', settingsStreetOne).replace('{{settings.street2}}', settingsStreetTwo).replace('{{settings.city}}', settingsCity).replace('{{settings.province}}', settingsProvince).replace('{{settings.country}}', settingsCountry).replace('{{settings.postal}}', settingsPostal).replace('{{settings.plant_number}}', settingsPlantNumber).replace('{{settings.prefix}}', settingsPrefix).replace('{{dateFull createdAt}}', productionDate).replace('{{showWeight item_weight}}', grossWeight).replace('{{netWeight item_weight}}', netWeight).replace('{{itemName}}', itemName).replace('{{item_code}}', itemCode).replace('{{lotNumber1 createdAt}}', lotNumber).replace('{{custName}}', custName).replace('{{cust_code}}', custCode).replace('{{shelfLife createdAt}}', shelfLife).replace('{{ingredients}}', ingredientsList).replace('{{item_code}}', itemCode).replace('{{codeDate createdAt}}', bcProdDate).replace('{{codeWeight item_weight}}', bcItemWeight).replace('{{codeLot createdAt}}', bcLotNumber).replace(/ {2}/g, '')
     return zpl
-  }
+  },
 
+  dv_totalFat(nutrition_totalFat) {
+    if (nutrition_totalFat) {
+      return Math.round((nutrition_totalFat / 80) * 100)
+    }
+  },
+  dv_saturatedFat(nutrition_saturatedFat) {
+    if (nutrition_saturatedFat) {
+      return Math.round((nutrition_saturatedFat / 20) * 100)
+    }
+  },
+  dv_cholesterol(nutrition_cholesterol) {
+    if (nutrition_cholesterol) {
+      return Math.round((nutrition_cholesterol / 300) * 100)
+    }
+  },
+  dv_sodium(nutrition_sodium) {
+    if (nutrition_sodium) {
+      return Math.round((nutrition_sodium / 2400) * 100)
+    }
+  },
+  dv_carbohydrates(nutrition_carbohydrates) {
+    if (nutrition_carbohydrates) {
+      return Math.round((nutrition_carbohydrates / 280) * 100)
+    }
+  },
+  dv_fiber(nutrition_fiber) {
+    if (nutrition_fiber) {
+      return Math.round((nutrition_fiber / 30) * 100)
+    }
+  },
+  dv_addedSugar(nutrition_addedSugar) {
+    if (nutrition_addedSugar) {
+      return Math.round((nutrition_addedSugar / 50) * 100)
+    }
+  },
+  dv_vitaminD(nutrition_vitaminD) {
+    if (nutrition_vitaminD) {
+      return Math.round((nutrition_vitaminD / 20) * 100)
+    }
+  },
+  dv_calcium(nutrition_calcium) {
+    if (nutrition_calcium) {
+      return Math.round((nutrition_calcium / 1300) * 100)
+    }
+  },
+  dv_iron(nutrition_iron) {
+    if (nutrition_iron) {
+      return Math.round((nutrition_iron / 18) * 100)
+    }
+  },
+  dv_potassium(nutrition_potassium) {
+    if (nutrition_potassium) {
+      return Math.round((nutrition_potassium / 3500) * 100)
+    }
+  },
+  dv_totalFatCA(nutrition_totalFat) {
+    if (nutrition_totalFat) {
+      return Math.round((nutrition_totalFat / 65) * 100)
+    }
+  },
+  dv_saturatedFatCA(nutrition_saturatedFat, nutrition_transFat) {
+    if (nutrition_saturatedFat || nutrition_transFat) {
+      var totalSatTrans = Number(nutrition_saturatedFat) + Number(nutrition_transFat)
+      return Math.round((totalSatTrans / 20) * 100)
+    }
+  },
+  dv_cholesterolCA(nutrition_cholesterol) {
+    if (nutrition_cholesterol) {
+      return Math.round((nutrition_cholesterol / 300) * 100)
+    }
+  },
+  dv_sodiumCA(nutrition_sodium) {
+    if (nutrition_sodium) {
+      return Math.round((nutrition_sodium / 2400) * 100)
+    }
+  },
+  dv_carbohydratesCA(nutrition_carbohydrates) {
+    if (nutrition_carbohydrates) {
+      return Math.round((nutrition_carbohydrates / 300) * 100)
+    }
+  },
+  dv_fiberCA(nutrition_fiber) {
+    if (nutrition_fiber) {
+      return Math.round((nutrition_fiber / 25) * 100)
+    }
+  },
+  dv_vitaminACA(nutrition_vitaminA) {
+    if (nutrition_vitaminA) {
+      return Math.round((nutrition_vitaminA / 1000) * 100)
+    }
+  },
+  dv_vitaminCCA(nutrition_vitaminC) {
+    if (nutrition_vitaminC) {
+      return Math.round((nutrition_vitaminC / 60) * 100)
+    }
+  },
+  dv_calciumCA(nutrition_calcium) {
+    if (nutrition_calcium) {
+      return Math.round((nutrition_calcium / 1100) * 100)
+    }
+  },
+  dv_ironCA(nutrition_iron) {
+    if (nutrition_iron) {
+      return Math.round((nutrition_iron / 14) * 100)
+    }
+  }
 })

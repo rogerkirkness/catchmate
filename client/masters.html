@@ -263,7 +263,7 @@
 			<label for="selectNutrition" class="control-label">Nutrition Facts</label>
 			<select class="form-control" id="selectNutrition">
         {{#each nutritions}}
-        <option class="dropdown optionDropdown">{{nutrition.nutrition_code}}</option>
+        <option class="dropdown optionDropdown">{{nutrition_code}}</option>
         {{/each}}
       </select>
 		</div>
@@ -320,7 +320,7 @@
 			<label for="selectNutrition_edit" class="control-label">Nutrition Facts</label>
 			<select class="form-control" id="selectNutrition_edit">
         {{#each nutritions}}
-        <option class="dropdown optionDropdown" {{selectedNutrition}}>{{nutrition.nutrition_code}}</option>
+        <option class="dropdown optionDropdown" {{selectedNutrition}}>{{nutrition_code}}</option>
         {{/each}}
       </select>
 		</div>

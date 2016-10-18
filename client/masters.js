@@ -137,6 +137,7 @@ Template.itemMaster.onCreated(function () {
   this.subscribe('ingredients')
   this.subscribe('nutrition')
   window.Ingredients = Ingredients
+  window.Nutrition = Nutrition
 })
 
 Template.itemMaster.events({
