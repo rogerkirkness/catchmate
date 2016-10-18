@@ -137,7 +137,7 @@ Template.weigh.events({
     var copies = Template.instance().templateDict.get('numUnits')
     var port = Meteor.user().printerport
     var host = Meteor.user().printerhost
-    if (port != null && host != null) {
+    if (port != null && port != '0') {
       var zpl = document.getElementById('zpl').value
       var ip_address = host + ':' + port
       var url = 'http://' + ip_address + '/pstprnt'
