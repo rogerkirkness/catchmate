@@ -32,7 +32,7 @@ Meteor.methods({
       })
       if (exists != null) {
         if (exists.customer_code === customer_code) {
-          throw new Meteor.Error("duplicate-code", "Code: " + exists.customer_code + " already exists.")
+          throw new Meteor.Error("duplicate-code", "Customer code: " + exists.customer_code + " already exists.")
         }
       }
       Customers.insert({
@@ -48,9 +48,9 @@ Meteor.methods({
         'customer_companyId': companyId
       }, function (error, id) {
         if (error != null) {
-          throw new Meteor.Error("insert-error", "Insert operation failed, contact support")
+          throw new Meteor.Error("insert-error", "Customer insert operation failed, contact support")
         } else {
-          console.log("Successfully inserted document: " + id)
+          console.log("Successfully inserted customer: " + id)
         }
       })
     }
@@ -78,9 +78,9 @@ Meteor.methods({
           }
         }, function (error, number) {
           if (error != null) {
-            throw new Meteor.Error("update-error", "Update operation failed, contact support")
+            throw new Meteor.Error("update-error", "Customer update operation failed, contact support")
           } else {
-            console.log("Successfully updated " + number + " document(s).")
+            console.log("Successfully updated " + number + " customer(s).")
           }
         })
     }
@@ -99,9 +99,9 @@ Meteor.methods({
         'batch_companyId': companyId
       }, function (error, id) {
         if (error != null) {
-          throw new Meteor.Error("insert-error", "Insert operation failed, contact support")
+          throw new Meteor.Error("insert-error", "Batch insert operation failed, contact support")
         } else {
-          console.log("Successfully inserted document: " + id)
+          console.log("Successfully inserted batch: " + id)
         }
       })
     }
@@ -117,9 +117,9 @@ Meteor.methods({
         ]
       }, function (error) {
         if (error != null) {
-          throw new Meteor.Error("insert-error", "Insert operation failed, contact support")
+          throw new Meteor.Error("insert-error", "Delete batch operation failed, contact support")
         } else {
-          console.log("Successfully removed document.")
+          console.log("Successfully removed batch: " + id)
         }
       })
     }
@@ -136,7 +136,7 @@ Meteor.methods({
       })
       if (exists != null) {
         if (exists.item_code === item_code) {
-          throw new Meteor.Error("duplicate-code", "Code: " + exists.item_code + " already exists.")
+          throw new Meteor.Error("duplicate-code", "Item code: " + exists.item_code + " already exists.")
         }
       } else {
         Items.insert({
@@ -154,9 +154,9 @@ Meteor.methods({
           'item_companyId': companyId
         }, function (error, id) {
           if (error != null) {
-            throw new Meteor.Error("insert-error", "Insert operation failed, contact support")
+            throw new Meteor.Error("insert-error", "Item insert operation failed, contact support")
           } else {
-            console.log("Successfully inserted document: " + id)
+            console.log("Successfully inserted item: " + id)
           }
         })
       }
@@ -186,9 +186,9 @@ Meteor.methods({
           }
         }, function (error, number) {
           if (error != null) {
-            throw new Meteor.Error("update-error", "Update operation failed, contact support")
+            throw new Meteor.Error("update-error", "Item update operation failed, contact support")
           } else {
-            console.log("Successfully updated " + number + " document(s).")
+            console.log("Successfully updated " + number + " items(s).")
           }
         })
     }
@@ -205,7 +205,7 @@ Meteor.methods({
       })
       if (exists != null) {
         if (exists.ingredients_code === ingredients_code) {
-          throw new Meteor.Error("duplicate-code", "Code: " + exists.ingredients_code + " already exists.")
+          throw new Meteor.Error("duplicate-code", "Ingredient code: " + exists.ingredients_code + " already exists.")
         }
       } else {
         Ingredients.insert({
@@ -214,9 +214,9 @@ Meteor.methods({
           'ingredients_companyId': companyId
         }, function (error, id) {
           if (error != null) {
-            throw new Meteor.Error("insert-error", "Insert operation failed, contact support")
+            throw new Meteor.Error("insert-error", "Ingredient insert operation failed, contact support")
           } else {
-            console.log("Successfully inserted document: " + id)
+            console.log("Successfully inserted ingredient: " + id)
           }
         })
       }
@@ -237,9 +237,9 @@ Meteor.methods({
           }
         }, function (error, number) {
           if (error != null) {
-            throw new Meteor.Error("update-error", "Update operation failed, contact support")
+            throw new Meteor.Error("update-error", "Ingredient update operation failed, contact support")
           } else {
-            console.log("Successfully updated " + number + " document(s).")
+            console.log("Successfully updated " + number + " ingredients(s).")
           }
         })
     }
@@ -256,7 +256,7 @@ Meteor.methods({
       })
       if (exists != null) {
         if (exists.label_code === label_code) {
-          throw new Meteor.Error("duplicate-code", "Code: " + exists.label_code + " already exists.")
+          throw new Meteor.Error("duplicate-code", "Label code: " + exists.label_code + " already exists.")
         }
       } else {
         Labels.insert({
@@ -266,9 +266,9 @@ Meteor.methods({
           'label_companyId': companyId
         }, function (error, id) {
           if (error != null) {
-            throw new Meteor.Error("insert-error", "Insert operation failed, contact support")
+            throw new Meteor.Error("insert-error", "Label insert operation failed, contact support")
           } else {
-            console.log("Successfully inserted document: " + id)
+            console.log("Successfully inserted label: " + id)
           }
         })
       }
@@ -290,9 +290,9 @@ Meteor.methods({
           }
         }, function (error, number) {
           if (error != null) {
-            throw new Meteor.Error("update-error", "Update operation failed, contact support")
+            throw new Meteor.Error("update-error", "Label update operation failed, contact support")
           } else {
-            console.log("Successfully updated " + number + " document(s).")
+            console.log("Successfully updated " + number + " label(s).")
           }
         })
     }
@@ -309,7 +309,7 @@ Meteor.methods({
       })
       if (exists != null) {
         if (exists.scale_code === scale_code) {
-          throw new Meteor.Error("duplicate-code", "Code: " + exists.scale_code + " already exists.")
+          throw new Meteor.Error("duplicate-code", "Scale code: " + exists.scale_code + " already exists.")
         }
       } else {
         Scales.insert({
@@ -320,9 +320,9 @@ Meteor.methods({
           'scale_companyId': companyId
         }, function (error, id) {
           if (error != null) {
-            throw new Meteor.Error("insert-error", "Insert operation failed, contact support")
+            throw new Meteor.Error("insert-error", "Scale insert operation failed, contact support")
           } else {
-            console.log("Successfully inserted document: " + id)
+            console.log("Successfully inserted scale: " + id)
           }
         })
       }
@@ -345,9 +345,9 @@ Meteor.methods({
           }
         }, function (error, number) {
           if (error != null) {
-            throw new Meteor.Error("update-error", "Update operation failed, contact support")
+            throw new Meteor.Error("update-error", "Scale update operation failed, contact support")
           } else {
-            console.log("Successfully updated " + number + " document(s).")
+            console.log("Successfully updated " + number + " scales(s).")
           }
         })
     }
@@ -364,7 +364,7 @@ Meteor.methods({
       })
       if (exists != null) {
         if (exists.printer_code === printer_code) {
-          throw new Meteor.Error("duplicate-code", "Code: " + exists.printer_code + " already exists.")
+          throw new Meteor.Error("duplicate-code", "Printer code: " + exists.printer_code + " already exists.")
         }
       } else {
         Printers.insert({
@@ -375,9 +375,9 @@ Meteor.methods({
           'printer_companyId': companyId
         }, function (error, id) {
           if (error != null) {
-            throw new Meteor.Error("insert-error", "Insert operation failed, contact support")
+            throw new Meteor.Error("insert-error", "Printer insert operation failed, contact support")
           } else {
-            console.log("Successfully inserted document: " + id)
+            console.log("Successfully inserted printer: " + id)
           }
         })
       }
@@ -400,9 +400,9 @@ Meteor.methods({
           }
         }, function (error, number) {
           if (error != null) {
-            throw new Meteor.Error("update-error", "Update operation failed, contact support")
+            throw new Meteor.Error("update-error", "Printer update operation failed, contact support")
           } else {
-            console.log("Successfully updated " + number + " document(s).")
+            console.log("Successfully updated " + number + " printer(s).")
           }
         })
     }
@@ -419,7 +419,7 @@ Meteor.methods({
       })
       if (exists != null) {
         if (exists.price_code === price_code) {
-          throw new Meteor.Error("duplicate-code", "Code: " + exists.price_code + " already exists.")
+          throw new Meteor.Error("duplicate-code", "Price code: " + exists.price_code + " already exists.")
         }
       } else {
         Prices.insert({
@@ -429,9 +429,9 @@ Meteor.methods({
           'price_companyId': companyId
         }, function (error, id) {
           if (error != null) {
-            throw new Meteor.Error("insert-error", "Insert operation failed, contact support")
+            throw new Meteor.Error("insert-error", "Price insert operation failed, contact support")
           } else {
-            console.log("Successfully inserted document: " + id)
+            console.log("Successfully inserted price: " + id)
           }
         })
       }
@@ -453,9 +453,9 @@ Meteor.methods({
           }
         }, function (error, number) {
           if (error != null) {
-            throw new Meteor.Error("update-error", "Update operation failed, contact support")
+            throw new Meteor.Error("update-error", "Price update operation failed, contact support")
           } else {
-            console.log("Successfully updated " + number + " document(s).")
+            console.log("Successfully updated " + number + " price(s).")
           }
         }
       )
@@ -473,7 +473,7 @@ Meteor.methods({
       })
       if (exists != null) {
         if (exists.nutrition_code === nutrition_code) {
-          throw new Meteor.Error("duplicate-code", "Code: " + exists.nutrition_code + " already exists.")
+          throw new Meteor.Error("duplicate-code", "Nutrition code: " + exists.nutrition_code + " already exists.")
         }
       } else {
         Nutrition.insert({
@@ -502,9 +502,9 @@ Meteor.methods({
           'nutrition_companyId': companyId
         }, function (error, id) {
           if (error != null) {
-            throw new Meteor.Error("insert-error", "Insert operation failed, contact support")
+            throw new Meteor.Error("insert-error", "Nutrition insert operation failed, contact support")
           } else {
-            console.log("Successfully inserted document: " + id)
+            console.log("Successfully inserted nutrition: " + id)
           }
         })
       }
@@ -546,9 +546,9 @@ Meteor.methods({
           }
         }, function (error, number) {
           if (error != null) {
-            throw new Meteor.Error("update-error", "Update operation failed, contact support")
+            throw new Meteor.Error("update-error", "Nutrition update operation failed, contact support")
           } else {
-            console.log("Successfully updated " + number + " document(s).")
+            console.log("Successfully updated " + number + " nutrition(s).")
           }
         })
     }
@@ -573,9 +573,9 @@ Meteor.methods({
           }
         }, function (error, number) {
           if (error != null) {
-            throw new Meteor.Error("update-error", "Update operation failed, contact support")
+            throw new Meteor.Error("update-error", "Settings update operation failed, contact support")
           } else {
-            console.log("Successfully updated " + number + " document(s).")
+            console.log("Successfully updated settings.")
           }
         })
     }
@@ -591,9 +591,9 @@ Meteor.methods({
           }
         }, function (error, number) {
           if (error != null) {
-            throw new Meteor.Error("update-error", "Update operation failed, contact support")
+            throw new Meteor.Error("update-error", "Company logo update operation failed, contact support")
           } else {
-            console.log("Successfully updated " + number + " document(s).")
+            console.log("Successfully updated company logo.")
           }
         })
     }
@@ -609,9 +609,9 @@ Meteor.methods({
           }
         }, function (error, number) {
           if (error != null) {
-            throw new Meteor.Error("update-error", "Update operation failed, contact support")
+            throw new Meteor.Error("update-error", "Plant logo update operation failed, contact support")
           } else {
-            console.log("Successfully updated " + number + " document(s).")
+            console.log("Successfully updated plant logo.")
           }
         })
     }
@@ -627,9 +627,9 @@ Meteor.methods({
           }
         }, function (error, number) {
           if (error != null) {
-            throw new Meteor.Error("update-error", "Update operation failed, contact support")
+            throw new Meteor.Error("update-error", "Company logo remove operation failed, contact support")
           } else {
-            console.log("Successfully updated " + number + " document(s).")
+            console.log("Successfully removed company logo.")
           }
         })
     }
@@ -645,9 +645,9 @@ Meteor.methods({
           }
         }, function (error, number) {
           if (error != null) {
-            throw new Meteor.Error("update-error", "Update operation failed, contact support")
+            throw new Meteor.Error("update-error", "Plant logo remove operation failed, contact support")
           } else {
-            console.log("Successfully updated " + number + " document(s).")
+            console.log("Successfully removed plant logo.")
           }
         })
     }
@@ -661,9 +661,9 @@ Meteor.methods({
         }
       }, function (error, number) {
         if (error != null) {
-          throw new Meteor.Error("update-error", "Update operation failed, contact support")
+          throw new Meteor.Error("update-error", "Tare update operation failed, contact support")
         } else {
-          console.log("Successfully updated " + number + " document(s).")
+          console.log("Successfully updated tare weight.")
         }
       })
     }
@@ -681,9 +681,9 @@ Meteor.methods({
         }
       }, function (error, number) {
         if (error != null) {
-          throw new Meteor.Error("update-error", "Update operation failed, contact support")
+          throw new Meteor.Error("update-error", "Printer settings update operation failed, contact support")
         } else {
-          console.log("Successfully updated " + number + " document(s).")
+          console.log("Successfully updated printer settings.")
         }
       })
     }
@@ -701,9 +701,9 @@ Meteor.methods({
         }
       }, function (error, number) {
         if (error != null) {
-          throw new Meteor.Error("update-error", "Update operation failed, contact support")
+          throw new Meteor.Error("update-error", "Scale settings update operation failed, contact support")
         } else {
-          console.log("Successfully updated " + number + " document(s).")
+          console.log("Successfully updated scale settings.")
         }
       })
     }
@@ -717,9 +717,9 @@ Meteor.methods({
         }
       }, function (error, number) {
         if (error != null) {
-          throw new Meteor.Error("update-error", "Update operation failed, contact support")
+          throw new Meteor.Error("update-error", "Label settings operation failed, contact support")
         } else {
-          console.log("Successfully updated " + number + " document(s).")
+          console.log("Successfully updated label settings.")
         }
       })
     }
@@ -733,9 +733,9 @@ Meteor.methods({
         }
       }, function (error, number) {
         if (error != null) {
-          throw new Meteor.Error("update-error", "Update operation failed, contact support")
+          throw new Meteor.Error("update-error", "Show customer field update operation failed, contact support")
         } else {
-          console.log("Successfully updated " + number + " document(s).")
+          console.log("Successfully updated customer field setting.")
         }
       })
     }
@@ -749,9 +749,9 @@ Meteor.methods({
         }
       }, function (error, number) {
         if (error != null) {
-          throw new Meteor.Error("update-error", "Update operation failed, contact support")
+          throw new Meteor.Error("update-error", "Show number of units field setting operation failed, contact support")
         } else {
-          console.log("Successfully updated " + number + " document(s).")
+          console.log("Successfully updated number of units field setting.")
         }
       })
     }
@@ -765,9 +765,9 @@ Meteor.methods({
         }
       }, function (error, number) {
         if (error != null) {
-          throw new Meteor.Error("update-error", "Update operation failed, contact support")
+          throw new Meteor.Error("update-error", "Show batch code field setting update operation failed, contact support")
         } else {
-          console.log("Successfully updated " + number + " document(s).")
+          console.log("Successfully updated batch code field setting.")
         }
       })
     }
@@ -781,9 +781,9 @@ Meteor.methods({
         }
       }, function (error, number) {
         if (error != null) {
-          throw new Meteor.Error("update-error", "Update operations failed, contact support")
+          throw new Meteor.Error("update-error", "Show multi item field setting update operations failed, contact support")
         } else {
-          console.log("Successfully updated " + number + " document(s).")
+          console.log("Successfully updated multi item field setting.")
         }
       })
     }

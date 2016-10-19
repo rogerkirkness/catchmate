@@ -41,7 +41,6 @@ Template.customerVolumeReport.helpers({
       }
       items[e.cust_code] += e.item_weight * e.num_units
     })
-    console.log(items)
     var results = []
     _.forEach(items, function (value, key) {
       var displayValue = (value / 1000).toFixed(3)
