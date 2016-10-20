@@ -16,6 +16,12 @@
 	  border: 0;
   }
 
+	.col-sm-6 {
+		padding-right: 0px;
+		padding-left: 0px;
+		min-height: 0px;
+	}
+
   #section-to-print, #section-to-print *, .report-print, .report-print * {
     visibility: visible;
   }
@@ -25,12 +31,7 @@
 	}
 
   #section-to-print {
-    transform: translate(0%, -100%) rotate(90deg);
-    transform-origin: bottom left;
-    font-size: 9pt;
-    line-height: 1.2;
-		display: block;
-    border: 0px;
+    font-size: 8pt;
   }
 
 }
@@ -47,14 +48,15 @@ body {
 }
 
 .table-print {
+	padding: 2px 2px 2px 2px;
   font-family: Georgia, serif;
   font-size: 12px;
-  border: 2px dashed #808080;
   background-color: #FFF;
+	line-height: 1.2;
+	display: block;
 }
 
 .table-print > tbody > tr > td {
-	padding-left: 5px;
 	vertical-align: top;
 }
 
@@ -276,10 +278,10 @@ Nutrition label CA-version
 	font-family: Arial, Helvetica, sans-serif;
 	background-color: #FFF;
 	border: 1pt solid #000;
-	line-height: 1.3;
+	line-height: 1.2;
 	padding: 3pt;
 	color: #000;
-	width: 220px;
+	width: 215px;
 }
 
 .nutritionLabelCA .titleText {

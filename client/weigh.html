@@ -93,85 +93,97 @@
 						<tbody>
 							<tr>
 								<td>
-									<div class="logo">
-										<img class="clogo" src="{{settings.clogo}}">
-										<img class="plogo" src="{{settings.plogo}}">
-									</div>
-									<b>{{settings.company_name}}</b>, {{settings.street1}}, {{settings.street2}}, {{settings.city}}, {{settings.province}},
-									{{settings.country}}, {{settings.postal}}<br><br>
-									<b>Customer: </b>{{customer.customer_code}} - {{customer.customer_name}}<br>
+									{{#if settings}}
+										<div class="logo">
+											<img class="clogo" src="{{settings.clogo}}">
+											<img class="plogo" src="{{settings.plogo}}">
+										</div>
+										<b>{{settings.company_name}}</b>, {{settings.street1}}, {{settings.street2}}, {{settings.city}}, {{settings.province}},
+										{{settings.country}}, {{settings.postal}}<br>
+									{{/if}}
 									<b>Item: </b>{{item.item_code}} - {{item.item_name}}<br>
-									<b>Case Price: </b>{{price}}<br>
-									<b>Best Before: </b>{{shelfLife createdAt}}<br>
-									<b>Ingredients:</b> {{ingredients}}<br>
 									<b>Production Date: </b>{{dateFull createdAt}}<br>
 									<b>Gross Weight: </b>{{showWeight item_weight}}<br>
 									<b>Net Weight: </b>{{netWeight item_weight}}<br>
 									<b>Lot Number: </b>{{lotNumber1 createdAt}}<br>
+									{{#if price}}
+										<b>Case Price: </b>{{price}}<br>
+									{{/if}}
+									{{#if shelfLife}}
+										<b>Best Before: </b>{{shelfLife createdAt}}<br>
+									{{/if}}
+									{{#if customer}}
+										<b>Customer: </b>{{customer.customer_code}} - {{customer.customer_name}}<br>
+									{{/if}}
+									{{#if ingredients}}
+										<b>Ingredients:</b> {{ingredients}}<br>
+									{{/if}}
 									<img class="barcode" src="data:image/png;base64,{{url}}" alt="barcode">
 								</td>
-								<td>
-									<div class="nutritionLabelCA">
-										<div class="titleText">Nutrition Facts</div>
-										<div class="titleText">Valeur nutritive</div>
-										<div class="servingSizeText">Per {{itemNutrition.nutrition_servingSize}}</div>
-										<div class="servingSizeText">pour {{itemNutrition.nutrition_servingSizeFR}}</div>
-										<div class="bar"></div>
-										<div class="line">
-											<div class="amountPerServing">Amount</div>
-											<div class="dailyValue">% Daily Value</div>
-											<div class="amountPerServing">Teneur</div>
-											<div class="dailyValue">% veleur quotidienne</div>
+								{{#if itemNutrition}}
+									<td>
+										<div class="nutritionLabelCA">
+											<div class="titleText">Nutrition Facts</div>
+											<div class="titleText">Valeur nutritive</div>
+											<div class="servingSizeText">Per {{itemNutrition.nutrition_servingSize}}</div>
+											<div class="servingSizeText">pour {{itemNutrition.nutrition_servingSizeFR}}</div>
+											<div class="bar"></div>
+											<div class="line">
+												<div class="amountPerServing">Amount</div>
+												<div class="dailyValue">% Daily Value</div>
+												<div class="amountPerServing">Teneur</div>
+												<div class="dailyValue">% veleur quotidienne</div>
+											</div>
+											<div class="line">
+												<b>Calories / Calories</b> {{itemNutrition.nutrition_calories}}
+											</div>
+											<div class="line">
+												<div class="dv">{{dv_totalFatCA itemNutrition.nutrition_totalFat}}%</div>
+												<b>Fat / Lipides</b> {{itemNutrition.nutrition_totalFat}}g
+											</div>
+											<div class="line">
+												<div class="dvFat">{{dv_saturatedFatCA itemNutrition.nutrition_saturatedFat itemNutrition.nutrition_transFat}}%</div>
+												<div class="padLeft">Saturated / saturés {{itemNutrition.nutrition_saturatedFat}}g</div>
+												<div class="padLeft">+ Trans / trans {{itemNutrition.nutrition_transFat}}g</div>
+											</div>
+											<div class="line">
+												<div class="dv">{{dv_cholesterolCA itemNutrition.nutrition_cholesterol}}%</div>
+												<b>Cholesterol / Cholestérol </b> {{itemNutrition.nutrition_cholesterol}}mg
+											</div>
+											<div class="line">
+												<div class="dv">{{dv_sodiumCA itemNutrition.nutrition_sodium}}%</div>
+												<b>Sodium / Sodium</b> {{itemNutrition.nutrition_sodium}}mg
+											</div>
+											<div class="line">
+												<div class="dv">{{dv_carbohydratesCA itemNutrition.nutrition_carbohydrates}}%</div>
+												<b>Carbohydrate / Glucides</b> {{itemNutrition.nutrition_carbohydrates}}g
+											</div>
+											<div class="line">
+												<div class="dv">{{dv_fiberCA itemNutrition.nutrition_fiber}}%</div>
+												<div class="padLeft">Fibre / Fibres {{itemNutrition.nutrition_fiber}}g</div>
+											</div>
+											<div class="line pad">
+												Sugars / Sucres {{itemNutrition.nutrition_sugar}}g
+											</div>
+											<div class="line">
+												<b>Protein / Protéines</b> {{itemNutrition.nutrition_protein}}g
+											</div>
+											<div class="bar"></div>
+											<div class="line nutrients">
+												<div class="dv">{{dv_vitaminACA itemNutrition.nutrition_vitaminA}}%</div>Vitamin A / Vitamine A
+											</div>
+											<div class="line nutrients">
+												<div class="dv">{{dv_vitaminCCA itemNutrition.nutrition_vitaminC}}%</div>Vitamin C / Vitamine C
+											</div>
+											<div class="line nutrients">
+												<div class="dv">{{dv_calciumCA itemNutrition.nutrition_calcium}}%</div>Calcium / Calcium
+											</div>
+											<div class="line nutrients">
+												<div class="dv">{{dv_ironCA itemNutrition.nutrition_iron}}%</div>Iron / Fer
+											</div>
 										</div>
-										<div class="line">
-											<b>Calories / Calories</b> {{itemNutrition.nutrition_calories}}
-										</div>
-										<div class="line">
-											<div class="dv">{{dv_totalFatCA itemNutrition.nutrition_totalFat}}%</div>
-											<b>Fat / Lipides</b> {{itemNutrition.nutrition_totalFat}}g
-										</div>
-										<div class="line">
-											<div class="dvFat">{{dv_saturatedFatCA itemNutrition.nutrition_saturatedFat itemNutrition.nutrition_transFat}}%</div>
-											<div class="padLeft">Saturated / saturés {{itemNutrition.nutrition_saturatedFat}}g</div>
-											<div class="padLeft">+ Trans / trans {{itemNutrition.nutrition_transFat}}g</div>
-										</div>
-										<div class="line">
-											<div class="dv">{{dv_cholesterolCA itemNutrition.nutrition_cholesterol}}%</div>
-											<b>Cholesterol / Cholestérol </b> {{itemNutrition.nutrition_cholesterol}}mg
-										</div>
-										<div class="line">
-											<div class="dv">{{dv_sodiumCA itemNutrition.nutrition_sodium}}%</div>
-											<b>Sodium / Sodium</b> {{itemNutrition.nutrition_sodium}}mg
-										</div>
-										<div class="line">
-											<div class="dv">{{dv_carbohydratesCA itemNutrition.nutrition_carbohydrates}}%</div>
-											<b>Carbohydrate / Glucides</b> {{itemNutrition.nutrition_carbohydrates}}g
-										</div>
-										<div class="line">
-											<div class="dv">{{dv_fiberCA itemNutrition.nutrition_fiber}}%</div>
-											<div class="padLeft">Fibre / Fibres {{itemNutrition.nutrition_fiber}}g</div>
-										</div>
-										<div class="line pad">
-											Sugars / Sucres {{itemNutrition.nutrition_sugar}}g
-										</div>
-										<div class="line">
-											<b>Protein / Protéines</b> {{itemNutrition.nutrition_protein}}g
-										</div>
-										<div class="bar"></div>
-										<div class="line nutrients">
-											<div class="dv">{{dv_vitaminACA itemNutrition.nutrition_vitaminA}}%</div>Vitamin A / Vitamine A
-										</div>
-										<div class="line nutrients">
-											<div class="dv">{{dv_vitaminCCA itemNutrition.nutrition_vitaminC}}%</div>Vitamin C / Vitamine C
-										</div>
-										<div class="line nutrients">
-											<div class="dv">{{dv_calciumCA itemNutrition.nutrition_calcium}}%</div>Calcium / Calcium
-										</div>
-										<div class="line nutrients">
-											<div class="dv">{{dv_ironCA itemNutrition.nutrition_iron}}%</div>Iron / Fer
-										</div>
-									</div>
-								</td>
+									</td>
+								{{/if}}
 							</tr>
 						</tbody>
 					</table>
@@ -199,6 +211,7 @@
 			<div class="input-group">
 				<span class="input-group-addon">Scale:</span>
 				<select class="scale_name form-control input-lg" id="selectscale">
+					<option class="dropdown optionDropdown"></option>
           {{#each scales}}
           <option class="dropdown optionDropdown" {{scaleSelected}}>{{scale_name}}</option>
           {{/each}}
@@ -209,6 +222,7 @@
 			<div class="input-group">
 				<span class="input-group-addon">Printer:</span>
 				<select class="printer_name form-control input-lg" id="selectprinter">
+					<option class="dropdown optionDropdown"></option>
           {{#each printers}}
           <option class="dropdown optionDropdown" {{printerSelected}}>{{printer_name}}</option>
           {{/each}}
@@ -219,6 +233,7 @@
 			<div class="input-group">
 				<span class="input-group-addon">Label:</span>
 				<select class="label_code form-control input-lg" id="selectlabel">
+					<option class="dropdown optionDropdown"></option>
           {{#each labels}}
           <option class="dropdown optionDropdown" {{labelSelected}}>{{label_code}}</option>
           {{/each}}

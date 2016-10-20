@@ -290,7 +290,10 @@ Template.weigh.helpers({
   },
 
   settings() {
-    return Company.findOne({ settings: Meteor.users.findOne(Meteor.userId()).companyId })
+    var settings = Company.findOne({ settings: Meteor.users.findOne(Meteor.userId()).companyId })
+    if (settings) {
+      return settings
+    }
   },
 
   item() {

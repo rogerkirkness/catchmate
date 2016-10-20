@@ -41,6 +41,7 @@
 		<div class="form-group">
 			<label for="selectPriceList" class="control-label">Price List</label>
 			<select class="form-control" id="selectPriceList">
+				<option class="dropdown optionDropdown"></option>
         {{#each priceList}}
         <option class="dropdown optionDropdown">{{price_code}}</option>
         {{/each}}
@@ -86,6 +87,7 @@
 		<div class="form-group">
 			<label for="selectPriceList_edit" class="control-label">Price List</label>
 			<select class="form-control" id="selectPriceList_edit">
+				<option class="dropdown optionDropdown"></option>
         {{#each priceList}}
         <option class="dropdown optionDropdown" {{selectedPriceList}}>{{price_code}}</option>
         {{/each}}
@@ -254,6 +256,7 @@
 		<div class="form-group">
 			<label for="selectIngredients" class="control-label">Ingredient List</label>
 			<select class="form-control" id="selectIngredients">
+				<option class="dropdown optionDropdown"></option>
         {{#each ingredients}}
         <option class="dropdown optionDropdown">{{ingredients_code}}</option>
         {{/each}}
@@ -262,6 +265,7 @@
 		<div class="form-group">
 			<label for="selectNutrition" class="control-label">Nutrition Facts</label>
 			<select class="form-control" id="selectNutrition">
+				<option class="dropdown optionDropdown"></option>
         {{#each nutritions}}
         <option class="dropdown optionDropdown">{{nutrition_code}}</option>
         {{/each}}
@@ -311,6 +315,7 @@
 		<div class="form-group">
 			<label for="selectIngredients_edit" class="control-label">Ingredient List</label>
 			<select class="form-control" id="selectIngredients_edit">
+				<option class="dropdown optionDropdown"></option>
         {{#each ingredients}}
         <option class="dropdown optionDropdown" {{selectedIngredient}}>{{ingredients_code}}</option>
         {{/each}}
@@ -319,6 +324,7 @@
 		<div class="form-group">
 			<label for="selectNutrition_edit" class="control-label">Nutrition Facts</label>
 			<select class="form-control" id="selectNutrition_edit">
+				<option class="dropdown optionDropdown"></option>
         {{#each nutritions}}
         <option class="dropdown optionDropdown" {{selectedNutrition}}>{{nutrition_code}}</option>
         {{/each}}
