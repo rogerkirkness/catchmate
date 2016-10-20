@@ -27,7 +27,7 @@
   #section-to-print {
     transform: translate(0%, -100%) rotate(90deg);
     transform-origin: bottom left;
-    font-size: 8pt;
+    font-size: 9pt;
     line-height: 1.2;
 		display: block;
     border: 0px;
@@ -55,6 +55,7 @@ body {
 
 .table-print > tbody > tr > td {
 	padding-left: 5px;
+	vertical-align: top;
 }
 
 #statusMessage {
@@ -81,7 +82,7 @@ body {
 }
 
 .barcode {
-  padding: 10px 10px 10px 10px;
+  padding-top: 20px;
 	margin-left: auto;
 	margin-right: auto;
 	display: block;
