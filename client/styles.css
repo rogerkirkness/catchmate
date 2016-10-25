@@ -14,26 +14,31 @@
     margin: 0;
 	  padding: 0;
 	  border: 0;
+		min-height: 0;
   }
 
 	.col-sm-6 {
-		padding-right: 0px;
-		padding-left: 0px;
-		min-height: 0px;
+		margin: 0;
+		padding: 0;
+		border: 0;
+		min-height: 0;
 	}
 
   #section-to-print, #section-to-print *, .report-print, .report-print * {
     visibility: visible;
   }
 
-	.report-print {
-		width: 100%
+	#section-to-print, #section-to-print *, .nutritionLabelCA {
+		zoom: 110%;
 	}
 
-  #section-to-print {
-    font-size: 8pt;
-  }
-
+	#section-to-print {
+		padding: 2px;
+	}
+	
+	.report-print {
+		width: 100%;
+	}
 }
 
 /* App and label styles */
@@ -47,17 +52,24 @@ body {
   line-height:30px;
 }
 
-.table-print {
-	padding: 2px 2px 2px 2px;
-  font-family: Georgia, serif;
-  font-size: 12px;
-  background-color: #FFF;
-	line-height: 1.2;
-	display: block;
+.middle {
+	position: relative;
+	float: left;
 }
 
-.table-print > tbody > tr > td {
+.info {
+	padding: 2px 2px 2px 2px;
+  font-family: Georgia, serif;
+	line-height: 1.2;
+	font-size: 13px;
+	background-color: #FFF;
+	display: inline-block;
+	width: 240px;
 	vertical-align: top;
+}
+
+.nutritionLabelBox {
+	display: inline-block;
 }
 
 #statusMessage {
@@ -70,7 +82,6 @@ body {
 
 .logo {
 	display: block;
-	width: 1.8in;
 }
 
 .clogo {
@@ -281,7 +292,7 @@ Nutrition label CA-version
 	line-height: 1.2;
 	padding: 3pt;
 	color: #000;
-	width: 215px;
+	width: 220px;
 }
 
 .nutritionLabelCA .titleText {

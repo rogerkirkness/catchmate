@@ -951,8 +951,10 @@ Meteor.publish('update', function () {
         })
         socket.on('data', function (data) {
           var rawOutput = data.toString()
+          console.log(rawOutput)
           var output = rawOutput.replace(/\D+/g, '')
-          self.changed("weightdata", "weight", { data: weight })
+          console.log(output)
+          self.changed("weightdata", "weight", { data: output })
           self.ready()
         })
         socket.on('error', function (error) {
