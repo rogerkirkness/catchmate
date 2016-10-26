@@ -3,9 +3,5 @@
     "env": {
       "MONGO_URL": "mongodb://cmadmin:GanIacbennu5@ds037366-a0.mlab.com:37366,ds037366-a1.mlab.com:37366/cm-live?replicaSet=rs-ds037366"
     }
-  },
-  "kadira": { 
-    "appId": "EJfyQAYvvLYKgonWw", 
-    "appSecret": "f36af146-24a0-42f5-9568-3fc76951b92b" 
- }
+  }
 }
