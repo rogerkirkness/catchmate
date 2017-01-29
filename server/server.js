@@ -21,6 +21,48 @@ Accounts.onCreateUser(function (options, user) {
 })
 
 Meteor.methods({
+
+  loadCustomers() {
+    if (this.userId) {
+      var companyId = Meteor.user().companyId
+      if (companyId = "SMUCKERS") {
+        Sql.q("select * from customers", function (error, results) {
+          if (error != null) {
+            throw new Meteor.Error("SQL-query-error", "Querying customers from SQL failed, contact support")
+          } else {
+            console.log("SQL query results: " + results)
+            _.forEach(results, function (result) {
+              Customers.upsert({
+                $and: [
+                  { customer_code: result.code },
+                  { customer_companyId: companyId }
+                ]
+              }, {
+                  $set: {
+                    'customer_code': result.code,
+                    'customer_name': result.name,
+                    'customer_street1': result.street1,
+                    'customer_street2': result.street2,
+                    'customer_city': result.city,
+                    'customer_province': result.province,
+                    'customer_country': result.country,
+                    'customer_postal': result.zip
+                  }
+                }, function (error, number) {
+                  if (error != null) {
+                    throw new Meteor.Error("upsert-error", "Customer upsert operation failed, contact support")
+                  } else {
+                    console.log("Successfully loaded customer(s).")
+                  }
+                }
+              )
+            })
+          }
+        })
+      }
+    }
+  },
+
   insertCustomer(customer_code, customer_name, customer_street1, customer_street2, customer_city, customer_province, customer_country, customer_postal, customer_priceList) {
     if (this.userId) {
       var companyId = Meteor.user().companyId
