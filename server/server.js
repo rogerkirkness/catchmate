@@ -22,31 +22,29 @@ Accounts.onCreateUser(function (options, user) {
 
 Meteor.methods({
 
-  loadCustomers() {
+  importSQL() {
     if (this.userId) {
-      var companyId = Meteor.user().companyId
-      if (companyId = "SMUCKERS") {
+      if (Meteor.user().companyId == "SMUCKERS") {
         Sql.q("select * from customers", function (error, results) {
           if (error != null) {
             throw new Meteor.Error("SQL-query-error", "Querying customers from SQL failed, contact support")
           } else {
-            console.log("SQL query results: " + results)
             _.forEach(results, function (result) {
               Customers.upsert({
                 $and: [
-                  { customer_code: result.code },
+                  { customer_code: result.code }, // Change to correct syntax
                   { customer_companyId: companyId }
                 ]
               }, {
                   $set: {
-                    'customer_code': result.code,
-                    'customer_name': result.name,
-                    'customer_street1': result.street1,
-                    'customer_street2': result.street2,
-                    'customer_city': result.city,
-                    'customer_province': result.province,
-                    'customer_country': result.country,
-                    'customer_postal': result.zip
+                    'customer_code': result.code, // Change to correct syntax
+                    'customer_name': result.name, // Change to correct syntax
+                    'customer_street1': result.street1, // Change to correct syntax
+                    'customer_street2': result.street2, // Change to correct syntax
+                    'customer_city': result.city, // Change to correct syntax
+                    'customer_province': result.state, // Change to correct syntax
+                    'customer_country': result.country, // Change to correct syntax
+                    'customer_postal': result.zip // Change to correct syntax
                   }
                 }, function (error, number) {
                   if (error != null) {
@@ -978,24 +976,23 @@ Meteor.publish('update', function () {
     if (typeof Meteor.users.findOne(this.userId).scaleport != 'null' && typeof Meteor.users.findOne(this.userId).scalehost != 'null') {
       var port = Meteor.users.findOne(this.userId).scaleport
       var host = Meteor.users.findOne(this.userId).scalehost
+      var companyId = Meteor.users.findOne(this.userId).companyId
       if (port === '9999') {
         self.changed("weightdata", "weight", { data: 500 })
         self.ready()
       } else if (port != null) {
         var socket = new net.Socket()
         socket.connect(port, host, function () {
-          function writeSocket() {
-            if (socket.writable) {
-              socket.write('P')
+            function writeSocket() {
+              if (socket.writable) {
+                socket.write('P')
+              }
             }
-          }
-          setInterval(writeSocket, 250)
+            setInterval(writeSocket, 500)
         })
         socket.on('data', function (data) {
-          var rawOutput = data.toString()
-          console.log(rawOutput)
-          var output = rawOutput.replace(/\D+/g, '')
-          console.log(output)
+          var raw = data.toString()
+          var output = raw.replace(/\D+/g, '')
           self.changed("weightdata", "weight", { data: output })
           self.ready()
         })

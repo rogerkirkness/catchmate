@@ -27,7 +27,7 @@
 					<tbody>
 						<tr class="itemHeader">
 							<td>Contents</td>
-							<td>Weight (kg)</td>
+							<td>Weight</td>
 						</tr>
 						<tr>
 							<td>Packaging</td>
@@ -36,7 +36,7 @@
 						{{#each itemList}}
 							<tr>
 								<td>Item: {{itemCode}}</td>
-								<td>{{itemWeight}}</td>
+								<td>{{itemWeight}} {{itemUnit}}</td>
 							</tr>
 						{{/each}}
 						<tr class="itemFooter">
@@ -99,10 +99,18 @@
 								<b>{{settings.company_name}}</b>, {{settings.street1}}, {{settings.street2}}, {{settings.city}}, {{settings.province}},
 								{{settings.country}}, {{settings.postal}}<br>
 							{{/if}}
-							<b>Item: </b>{{item.item_code}} - {{item.item_name}}<br>
+							<b>Item(s):</b><br>
+							{{#if item}}
+								{{item.item_code}} - {{item.item_name}}<br>
+							{{/if}}
+							{{#if itemList}}
+								{{#each itemList}}
+								 {{itemCode}} - {{itemName}} - {{itemWeight}} {itemUnit}<br>
+								{{/each}}
+							{{/if}}
 							<b>Production Date: </b>{{dateFull createdAt}}<br>
-							<b>Gross Weight: </b>{{showWeight item_weight}}<br>
-							<b>Net Weight: </b>{{netWeight item_weight}}<br>
+							<b>Gross Weight: </b>{{showWeight item_weight}} {{item.item_unit}}<br>
+							<b>Net Weight: </b>{{netWeight item_weight}} {{item.item_unit}}<br>
 							<b>Lot Number: </b>{{lotNumber1 createdAt}}<br>
 							{{#if price}}
 								<b>Case Price: </b>{{price}}<br>
@@ -110,13 +118,16 @@
 							{{#if shelfLife}}
 								<b>Best Before: </b>{{shelfLife createdAt}}<br>
 							{{/if}}
+
 							{{#if customer}}
 								<b>Customer: </b>{{customer.customer_code}} - {{customer.customer_name}}<br>
 							{{/if}}
-							{{#if ingredients}}
-								<b>Ingredients:</b> {{ingredients}}<br>
-							{{/if}}
-							<img class="barcode" src="data:image/png;base64,{{url}}" alt="barcode">
+							{{#unless itemList}}
+								{{#if ingredients}}
+										<b>Ingredients:</b> {{ingredients}}<br>
+								{{/if}}
+								<img class="barcode" src="data:image/png;base64,{{url}}" alt="barcode">
+							{{/unless}}
 						</div>
 						{{#if itemNutrition}}
 							<div class="nutritionLabelCA nutritionLabelBox">
@@ -181,9 +192,9 @@
 							</div>
 						{{/if}}
 					</div>
-					<textarea class="zpl hidden-print" id="zpl">
+					<!--<textarea class="zpl hidden-print" id="zpl">
       			{{zpl}}
-    			</textarea>
+    			</textarea>-->
 				{{/each}}
 			{{else}}
 				<p>Loading...</p>

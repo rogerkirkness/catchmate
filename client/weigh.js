@@ -63,8 +63,12 @@ Template.weigh.events({
       caseWeight = Meteor.user().tare
     }
     var itemObject = {}
-    itemObject['itemCode'] = document.getElementById('item_code').value
+    
+    var result = Items.findOne({ item_code: document.getElementById('item_code').value })
+    itemObject['itemName'] = result.item_name
+    itemObject['itemUnit'] = result.item_unit
     itemObject['itemWeight'] = itemWeight - caseWeight
+    itemObject['itemCode'] = document.getElementById('item_code').value
     itemList.push(itemObject)
     Template.instance().templateDict.set('items', itemList)
     Template.instance().templateDict.set('caseWeight', itemWeight)
@@ -119,7 +123,6 @@ Template.weigh.events({
         var item_weight = document.getElementById('item_weight').value
         var bcItemWeight = pad(item_weight, 6)
         var barcode = '(01)' + settingsPrefix + itemGTIN + '(11)' + bcProdDate + '(3102)' + bcItemWeight + '(21)' + bcLotNumber
-
         Template.instance().templateDict.set('barcode', barcode)
         Template.instance().templateDict.set('item', item_code)
         Template.instance().templateDict.set('weight', item_weight)
@@ -243,13 +246,13 @@ Template.weigh.helpers({
           var minWeight = Items.findOne({ item_code: item }).item_minWeight
           if (stdWeight != null && stdWeight != 0 && stdWeight != '') {
             indicator.weight = stdWeight
-            indicator.display = (stdWeight / 1000).toFixed(3) + ' kg'
+            indicator.display = (stdWeight / 1000).toFixed(3)
             indicator.status = 'green'
             indicator.message = 'Standard Weight'
             return indicator
           } else {
             indicator.weight = weight
-            indicator.display = (indicator.weight / 1000).toFixed(3) + ' kg'
+            indicator.display = (indicator.weight / 1000).toFixed(3)
             if (maxWeight < weight) {
               indicator.status = 'blue'
               indicator.message = 'Over Max Weight'
@@ -264,7 +267,7 @@ Template.weigh.helpers({
           }
         } else {
           indicator.weight = weight
-          indicator.display = (weight / 1000).toFixed(3) + ' kg'
+          indicator.display = (weight / 1000).toFixed(3)
           indicator.status = 'black'
           indicator.message = 'No Item Selected'
           return indicator
@@ -278,7 +281,7 @@ Template.weigh.helpers({
   },
 
   caseWeight() {
-    return Template.instance().templateDict.get('caseWeight') + " kg"
+    return Template.instance().templateDict.get('caseWeight')
   },
 
   hideLabel() {
@@ -323,12 +326,12 @@ Template.weigh.helpers({
   },
 
   showWeight(item_weight) {
-    return (item_weight / 1000).toFixed(3) + ' kg'
+    return (item_weight / 1000).toFixed(3)
   },
 
   netWeight(item_weight) {
     var tare = Meteor.user().tare
-    return (item_weight / 1000 - tare).toFixed(3) + ' kg'
+    return (item_weight / 1000 - tare).toFixed(3)
   },
 
   dateFull(createdAt) {
@@ -542,12 +545,12 @@ Template.weigh.helpers({
     }
     var grossWeight = function () {
       var item_weight = document.getElementById('item_weight').value
-      return (item_weight / 1000).toFixed(3) + ' kg'
+      return (item_weight / 1000).toFixed(3)
     }
     var netWeight = function () {
       var item_weight = document.getElementById('item_weight').value
       var tare = Meteor.user().tare
-      return (item_weight / 1000 - tare).toFixed(3) + ' kg'
+      return (item_weight / 1000 - tare).toFixed(3)
     }
     var bcItemWeight = function () {
       var item_weight = document.getElementById('item_weight').value

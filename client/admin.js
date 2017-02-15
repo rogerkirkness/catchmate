@@ -122,9 +122,9 @@ Template.settings.events({
       }
     })
   },
-  'click .loadCustomers' () {
+  'click .importSQL' () {
     event.preventDefault()
-    Meteor.call('loadCustomers', function(error){
+    Meteor.call('importSQL', function(error){
       if (error) {
         window.alert(error)
       }
@@ -156,11 +156,6 @@ Template.settings.helpers({
     var priceList = Company.findOne({settings: companyId}).priceList
     if (this.price_code === priceList) {
       return 'selected'
-    }
-  },
-  isSmuckers() {
-    if(Meteor.users.findOne(Meteor.userId()).companyId === 'SMUCKERS') {
-      return 'true'
     }
   }
 })
