@@ -91,43 +91,81 @@
 				{{#each batches}}
 					<div id="section-to-print">
 						<div class="info">
-							{{#if settings}}
-								<div class="logo">
-									<img class="clogo" src="{{settings.clogo}}">
-									<img class="plogo" src="{{settings.plogo}}">
-								</div>
-								<b>{{settings.company_name}}</b>, {{settings.street1}}, {{settings.street2}}, {{settings.city}}, {{settings.province}},
-								{{settings.country}}, {{settings.postal}}<br>
-							{{/if}}
-							<b>Item(s):</b><br>
-							{{#if item}}
-								{{item.item_code}} - {{item.item_name}}<br>
-							{{/if}}
-							{{#if itemList}}
-								{{#each itemList}}
-								 {{itemCode}} - {{itemName}} - {{itemWeight}} {itemUnit}<br>
-								{{/each}}
-							{{/if}}
-							<b>Production Date: </b>{{dateFull createdAt}}<br>
-							<b>Gross Weight: </b>{{showWeight item_weight}} {{item.item_unit}}<br>
-							<b>Net Weight: </b>{{netWeight item_weight}} {{item.item_unit}}<br>
-							<b>Lot Number: </b>{{lotNumber1 createdAt}}<br>
-							{{#if price}}
-								<b>Case Price: </b>{{price}}<br>
-							{{/if}}
-							{{#if shelfLife}}
-								<b>Best Before: </b>{{shelfLife createdAt}}<br>
-							{{/if}}
-
-							{{#if customer}}
-								<b>Customer: </b>{{customer.customer_code}} - {{customer.customer_name}}<br>
-							{{/if}}
-							{{#unless itemList}}
-								{{#if ingredients}}
-										<b>Ingredients:</b> {{ingredients}}<br>
+							{{#if smuckers}}
+								{{#if settings.plogo}}
+									<div class="logo">
+										<img class="smuckPlogo" src="{{settings.plogo}}">
+									</div>
+								{{/if}}<br>
+								{{#if customer}}
+									<p style="font-size:170%;text-align: center;">{{customer.customer_name}}<br> {{lotNumber1 createdAt}}</p><br> {{customer.customer_street1}}, {{customer.customer_city}},
+									{{customer.customer_province}}, {{customer.customer_postal}}<br><br>
 								{{/if}}
-								<img class="barcode" src="data:image/png;base64,{{url}}" alt="barcode">
-							{{/unless}}
+								{{#unless itemList}}
+									{{#if item}}
+										<b>Item:</b><br> {{item.item_code}} - {{item.item_name}}<br><br>
+									{{/if}}
+								{{/unless}}
+								{{#if itemList}}
+									<b>Items:</b><br>
+									{{#each itemList}}
+										{{itemCode}} - {{itemName}} - {{itemWeight}} {{itemUnit}}<br>
+									{{/each}}
+									<br>
+								{{/if}}
+								<b>Production Date: </b>{{dateFull createdAt}}<br>
+								<b>Gross Weight: </b>{{showWeight item_weight}} {{item.item_unit}}<br>
+								<b>Net Weight: </b>{{netWeight item_weight}} {{item.item_unit}}<br>
+								{{#if price}}
+									<b>Case Price: </b>{{price}}<br>
+								{{/if}}
+								{{#if shelfLife}}
+									<b>Best Before: </b>{{shelfLife createdAt}}<br>
+								{{/if}}
+								{{#unless itemList}}
+									{{#if ingredients}}
+										<b>Ingredients:</b> {{ingredients}}<br>
+									{{/if}}
+									<img class="barcode" src="data:image/png;base64,{{url}}" alt="barcode">
+								{{/unless}}
+							{{else}}
+								{{#if settings}}
+									<div class="logo">
+										<img class="clogo" src="{{settings.clogo}}">
+										<img class="plogo" src="{{settings.plogo}}">
+									</div>
+									<b>{{settings.company_name}}</b>, {{settings.street1}}, {{settings.street2}}, {{settings.city}}, {{settings.province}},
+									{{settings.country}}, {{settings.postal}}<br>
+								{{/if}}
+								<b>Item(s):</b><br>
+								{{#if item}}
+									{{item.item_code}} - {{item.item_name}}<br>
+								{{/if}}
+								{{#if itemList}}
+									{{#each itemList}}
+										{{itemCode}} - {{itemName}} - {{itemWeight}} {{itemUnit}}<br>
+									{{/each}}
+								{{/if}}
+								<b>Production Date: </b>{{dateFull createdAt}}<br>
+								<b>Gross Weight: </b>{{showWeight item_weight}} {{item.item_unit}}<br>
+								<b>Net Weight: </b>{{netWeight item_weight}} {{item.item_unit}}<br>
+								<b>Lot Number: </b>{{lotNumber1 createdAt}}<br>
+								{{#if price}}
+									<b>Case Price: </b>{{price}}<br>
+								{{/if}}
+								{{#if shelfLife}}
+									<b>Best Before: </b>{{shelfLife createdAt}}<br>
+								{{/if}}
+								{{#if customer}}
+									<b>Customer: </b>{{customer.customer_code}} - {{customer.customer_name}}<br>
+								{{/if}}
+								{{#unless itemList}}
+									{{#if ingredients}}
+										<b>Ingredients:</b> {{ingredients}}<br>
+									{{/if}}
+									<img class="barcode" src="data:image/png;base64,{{url}}" alt="barcode">
+								{{/unless}}F
+							{{/if}}
 						</div>
 						{{#if itemNutrition}}
 							<div class="nutritionLabelCA nutritionLabelBox">

@@ -94,6 +94,11 @@ body {
   width: 75px;
 }
 
+.smuckPlogo {
+	height: 80px;
+	width: 80px;
+}
+
 .barcode {
   padding-top: 20px;
 	margin-left: auto;

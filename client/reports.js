@@ -202,7 +202,7 @@ Template.customerPackingList.helpers({
       _.forEach(input, function (value, key) {
         var code = key
         var name = Items.findOne({ item_code: key }).item_name
-        var weight = value
+        var weight = (value / 1000).toFixed(3)
         output.push({ item_code: code, item_name: name, item_weight: weight })
       })
       if (output != null) {
@@ -211,7 +211,7 @@ Template.customerPackingList.helpers({
     }
   },
   caseWeight() {
-    return Template.instance().templateDict.get('caseWeight') + " kg"
+    return (Template.instance().templateDict.get('caseWeight') / 1000).toFixed(3)
   },
   cust() {
     var customer = {}

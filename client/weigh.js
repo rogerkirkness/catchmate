@@ -57,13 +57,22 @@ Template.weigh.events({
 
   'click #addItem'(event) {
     var itemList = Template.instance().templateDict.get('items')
-    var itemWeight = WeightData.findOne("weight").data / 1000
+    var companyId = Meteor.users.findOne(Meteor.userId()).companyId
+    var weightInput = WeightData.findOne("weight").data
+    function weightData(weight, company) {
+      if (company === "SMUCKERS") {
+        return weight / 100
+      } else {
+        return weight / 1000
+      }
+    }
+    var itemWeight = weightData(weightInput, companyId)
+
     var caseWeight = Template.instance().templateDict.get('caseWeight')
     if (caseWeight === 0) {
       caseWeight = Meteor.user().tare
     }
     var itemObject = {}
-    
     var result = Items.findOne({ item_code: document.getElementById('item_code').value })
     itemObject['itemName'] = result.item_name
     itemObject['itemUnit'] = result.item_unit
@@ -111,8 +120,17 @@ Template.weigh.events({
         })
       }
     } else {
+      var companyId = Meteor.users.findOne(Meteor.userId()).companyId
       var item = Template.instance().templateDict.get('validItem')
-      var indicator = WeightData.findOne("weight").data
+      var weightData = WeightData.findOne("weight").data
+      function indicatorData(weight, company) {
+        if (company === "SMUCKERS") {
+          return weight * 10
+        } else {
+          return weight
+        }
+      }
+      var indicator = indicatorData(weightData, companyId)
       var minWeight = Items.findOne({ item_code: item }).item_minWeight
       var maxWeight = Items.findOne({ item_code: item }).item_maxWeight
       if (maxWeight > indicator && minWeight < indicator) {
@@ -120,7 +138,7 @@ Template.weigh.events({
         var itemGTIN = Items.findOne({ item_code: item_code }).item_gtin
         var bcProdDate = moment(created).format('YYMMDD')
         var bcLotNumber = moment(created).format('YYMMDDHHmmss')
-        var item_weight = document.getElementById('item_weight').value
+        var item_weight = indicator
         var bcItemWeight = pad(item_weight, 6)
         var barcode = '(01)' + settingsPrefix + itemGTIN + '(11)' + bcProdDate + '(3102)' + bcItemWeight + '(21)' + bcLotNumber
         Template.instance().templateDict.set('barcode', barcode)
@@ -252,7 +270,14 @@ Template.weigh.helpers({
             return indicator
           } else {
             indicator.weight = weight
-            indicator.display = (indicator.weight / 1000).toFixed(3)
+            indicator.display = function() {
+              var companyId = Meteor.users.findOne(Meteor.userId()).companyId
+              if (companyId === "SMUCKERS") {
+                return (indicator.weight / 100).toFixed(3)
+              } else {
+                return (indicator.weight / 1000).toFixed(3)
+              }
+            }
             if (maxWeight < weight) {
               indicator.status = 'blue'
               indicator.message = 'Over Max Weight'
@@ -267,7 +292,14 @@ Template.weigh.helpers({
           }
         } else {
           indicator.weight = weight
-          indicator.display = (weight / 1000).toFixed(3)
+          indicator.display = function() {
+              var companyId = Meteor.users.findOne(Meteor.userId()).companyId
+              if (companyId === "SMUCKERS") {
+                return (indicator.weight / 100).toFixed(3)
+              } else {
+                return (indicator.weight / 1000).toFixed(3)
+              }
+          }
           indicator.status = 'black'
           indicator.message = 'No Item Selected'
           return indicator
@@ -299,6 +331,17 @@ Template.weigh.helpers({
     }
   },
 
+  smuckers() {
+    var companyId = Meteor.users.findOne(Meteor.userId()).companyId
+    if (companyId === "SMUCKERS") {
+      console.log("SMUCKERS")
+      return true
+    } else {
+      console.log("Not smuckers...")
+      return false
+    }
+  },
+
   item() {
     return Items.findOne({ item_code: Template.instance().templateDict.get('item') })
   },
@@ -325,13 +368,12 @@ Template.weigh.helpers({
     return moment(createdAt).add(shelfLife, 'days').format('DD/MM/YYYY')
   },
 
-  showWeight(item_weight) {
-    return (item_weight / 1000).toFixed(3)
+  showWeight() {
+    return (Template.instance().templateDict.get('weight') / 1000).toFixed(3)
   },
 
-  netWeight(item_weight) {
-    var tare = Meteor.user().tare
-    return (item_weight / 1000 - tare).toFixed(3)
+  netWeight() {
+    return (Template.instance().templateDict.get('weight') / 1000 - Meteor.user().tare).toFixed(3)
   },
 
   dateFull(createdAt) {

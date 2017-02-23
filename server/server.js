@@ -25,26 +25,25 @@ Meteor.methods({
   importSQL() {
     if (this.userId) {
       if (Meteor.user().companyId == "SMUCKERS") {
-        Sql.q("select * from customers", function (error, results) {
+        Sql.q("select * from dbo.Customers", function (error, results) {
           if (error != null) {
             throw new Meteor.Error("SQL-query-error", "Querying customers from SQL failed, contact support")
           } else {
+            console.log(result)
             _.forEach(results, function (result) {
               Customers.upsert({
                 $and: [
-                  { customer_code: result.code }, // Change to correct syntax
+                  { customer_code: result.CustomerID }, // Change to correct syntax
                   { customer_companyId: companyId }
                 ]
               }, {
                   $set: {
-                    'customer_code': result.code, // Change to correct syntax
-                    'customer_name': result.name, // Change to correct syntax
-                    'customer_street1': result.street1, // Change to correct syntax
-                    'customer_street2': result.street2, // Change to correct syntax
-                    'customer_city': result.city, // Change to correct syntax
-                    'customer_province': result.state, // Change to correct syntax
-                    'customer_country': result.country, // Change to correct syntax
-                    'customer_postal': result.zip // Change to correct syntax
+                    'customer_code': result.CustomerID, // Change to correct syntax
+                    'customer_name': result.Company, // Change to correct syntax
+                    'customer_street1': result.BillAddress, // Change to correct syntax
+                    'customer_city': result.BillCity, // Change to correct syntax
+                    'customer_province': result.BillState, // Change to correct syntax
+                    'customer_postal': result.BillZip // Change to correct syntax
                   }
                 }, function (error, number) {
                   if (error != null) {
@@ -992,7 +991,12 @@ Meteor.publish('update', function () {
         })
         socket.on('data', function (data) {
           var raw = data.toString()
-          var output = raw.replace(/\D+/g, '')
+          if (companyId === "SMUCKERS") {
+            var rawOutput = raw.replace(/\D+/g, '')
+            var output = rawOutput.substr(0,3)
+          } else {
+            var output = raw.replace(/\D+/g, '')
+          }
           self.changed("weightdata", "weight", { data: output })
           self.ready()
         })
