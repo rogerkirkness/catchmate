@@ -24,32 +24,33 @@ Meteor.methods({
 
   importSQL() {
     if (this.userId) {
-      if (Meteor.user().companyId == "SMUCKERS") {
+      var companyId = Meteor.user().companyId
+      if (companyId === "SMUCKERS") {
         Sql.q("select * from dbo.Customers", function (error, results) {
           if (error != null) {
             throw new Meteor.Error("SQL-query-error", "Querying customers from SQL failed, contact support")
           } else {
-            console.log(result)
             _.forEach(results, function (result) {
               Customers.upsert({
                 $and: [
-                  { customer_code: result.CustomerID }, // Change to correct syntax
+                  { customer_code: result.CustomerID },
                   { customer_companyId: companyId }
                 ]
               }, {
                   $set: {
-                    'customer_code': result.CustomerID, // Change to correct syntax
-                    'customer_name': result.Company, // Change to correct syntax
-                    'customer_street1': result.BillAddress, // Change to correct syntax
-                    'customer_city': result.BillCity, // Change to correct syntax
-                    'customer_province': result.BillState, // Change to correct syntax
-                    'customer_postal': result.BillZip // Change to correct syntax
+                    'customer_code': result.CustomerID,
+                    'customer_name': result.Company,
+                    'customer_street1': result.BillAddress,
+                    'customer_city': result.BillCity,
+                    'customer_province': result.BillState,
+                    'customer_postal': result.BillZip,
+                    'customer_companyId': companyId
                   }
                 }, function (error, number) {
                   if (error != null) {
                     throw new Meteor.Error("upsert-error", "Customer upsert operation failed, contact support")
                   } else {
-                    console.log("Successfully loaded customer(s).")
+                    console.log("Successfully upserted customer record.")
                   }
                 }
               )
@@ -60,7 +61,7 @@ Meteor.methods({
     }
   },
 
-  insertCustomer(customer_code, customer_name, customer_street1, customer_street2, customer_city, customer_province, customer_country, customer_postal, customer_priceList) {
+  insertCustomer(customer_code, customer_logo, customer_name, customer_street1, customer_street2, customer_city, customer_province, customer_country, customer_postal, customer_priceList) {
     if (this.userId) {
       var companyId = Meteor.user().companyId
       var exists = Customers.findOne({
@@ -76,6 +77,7 @@ Meteor.methods({
       }
       Customers.insert({
         'customer_code': customer_code,
+        'customer_logo': customer_logo,
         'customer_name': customer_name,
         'customer_street1': customer_street1,
         'customer_street2': customer_street2,
@@ -95,7 +97,7 @@ Meteor.methods({
     }
   },
 
-  updateCustomer(customer_code, customer_name, customer_street1, customer_street2, customer_city, customer_province, customer_country, customer_postal, customer_priceList) {
+  updateCustomer(customer_code, customer_logo, customer_name, customer_street1, customer_street2, customer_city, customer_province, customer_country, customer_postal, customer_priceList) {
     if (this.userId) {
       var companyId = Meteor.user().companyId
       Customers.update({
@@ -107,6 +109,7 @@ Meteor.methods({
         {
           $set: {
             'customer_name': customer_name,
+            'customer_logo': customer_logo,
             'customer_street1': customer_street1,
             'customer_street2': customer_street2,
             'customer_city': customer_city,
@@ -121,7 +124,32 @@ Meteor.methods({
           } else {
             console.log("Successfully updated " + number + " customer(s).")
           }
-        })
+        }
+      )
+    }
+  },
+
+  updateCustomerLogo(customer_logo, customer_code) {
+    if (this.userId) {
+      var companyId = Meteor.user().companyId
+      Customers.update({
+        $and: [
+          { customer_code: customer_code },
+          { customer_companyId: companyId }
+        ]
+      },
+        {
+          $set: {
+            'customer_logo': customer_logo
+          }
+        }, function (error, number) {
+          if (error != null) {
+            throw new Meteor.Error("update-logo-error", "Customer logo update operation failed, contact support")
+          } else {
+            console.log("Successfully uploaded " + number + " customer logo")
+          }
+        }
+      )
     }
   },
 
@@ -982,18 +1010,21 @@ Meteor.publish('update', function () {
       } else if (port != null) {
         var socket = new net.Socket()
         socket.connect(port, host, function () {
-            function writeSocket() {
-              if (socket.writable) {
-                socket.write('P')
-              }
+          function writeSocket() {
+            if (socket.writable) {
+              socket.write('P')
             }
-            setInterval(writeSocket, 500)
+          }
+          setInterval(writeSocket, 500)
         })
         socket.on('data', function (data) {
           var raw = data.toString()
           if (companyId === "SMUCKERS") {
+            console.log(raw)
             var rawOutput = raw.replace(/\D+/g, '')
-            var output = rawOutput.substr(0,3)
+            console.log(rawOutput)
+            var output = rawOutput.substr(0, 3)
+            console.log(output)
           } else {
             var output = raw.replace(/\D+/g, '')
           }
@@ -1015,6 +1046,7 @@ Meteor.publish('update', function () {
   }
 })
 
+// Publish the barcode to the client for display on labels
 Meteor.publish('barcode', function (barcode) {
   if (this.userId) {
     var self = this
@@ -1030,5 +1062,24 @@ Meteor.publish('barcode', function (barcode) {
         self.ready()
       }
     })
+  }
+})
+
+// Publish key fields from Smuckers to the client
+Meteor.publish('smuckersCarcassID', function (batchCode) {
+  if (this.userId) {
+    var self = this
+    var companyId = Meteor.users.findOne(this.userId).companyId
+    if (companyId === "SMUCKERS") {
+      Sql.q("select " + batchCode + " from dbo.v_carcassesForOrder", function (error, result) {
+        if (error != null) {
+          throw new Meteor.Error("Error with CarcassID import", "Please check SQL connection and contact support")
+        } else {
+          var CarcassID = result.CarcassID
+          self.added("smuckers", "CarcassID", { data: CarcassID })
+          self.ready()
+        }
+      })
+    }
   }
 })

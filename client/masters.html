@@ -57,6 +57,11 @@
 			<input type="text" id="customer_code_edit" class="form-control" value="{{customer.customer_code}}" readonly>
 		</div>
 		<div class="form-group">
+			<label for="customerLogo" class="control-label">Update Customer Logo: </label>
+			<input type="file" class="customerLogo" id="customerLogo"><br>
+			<img src="{{customer.customer_logo}}" alt="(Customer Logo)" class="custLogo">
+		</div>
+		<div class="form-group">
 			<label for="customer_name_edit" class="control-label">Customer Name: </label>
 			<input type="text" id="customer_name_edit" class="form-control" value="{{customer.customer_name}}">
 		</div>
@@ -101,6 +106,7 @@
 		<p>
 			<i>Customer information can be shown on various places on your labels. </i><br><br>
 			<b>Customer Code</b><br>Choose a number for the customer record. <br><br>
+			<b>Customer Logo</b><br>Upload your customers logo. <br><br>
 			<b>Customer Name</b><br>No length limit. <br><br>
 			<b>Address Line 1</b><br>No length limit. <br><br>
 			<b>Address Line 2</b><br>No length limit. <br><br>

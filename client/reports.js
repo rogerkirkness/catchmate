@@ -43,7 +43,7 @@ Template.customerVolumeReport.helpers({
     })
     var results = []
     _.forEach(items, function (value, key) {
-      var displayValue = (value / 1000).toFixed(3)
+      var displayValue = (value / 1000).toFixed(2)
       if (key != "") {
         var custName = Customers.findOne({ customer_code: key }).customer_name
       } else {
@@ -99,7 +99,7 @@ Template.itemVolumeReport.helpers({
     })
     var results = []
     _.forEach(items, function (value, key) {
-      var displayValue = (value / 1000).toFixed(3)
+      var displayValue = (value / 1000).toFixed(2)
       if (key != "") {
         var name = Items.findOne({ item_code: key }).item_name
       }
@@ -144,7 +144,7 @@ Template.traceReport.helpers({
       })
       var output = []
       _.forEach(input, function (key, value) {
-        var amountSold = (key / 1000).toFixed(3)
+        var amountSold = (key / 1000).toFixed(2)
         var batchCode = Template.instance().templateDict.get('batchCode')
         var custCode = value
         output.push({ batch_code: batchCode, cust_code: custCode, amount_sold: amountSold })
@@ -165,6 +165,7 @@ Template.customerPackingList.onCreated(function () {
   this.templateDict.set('custCode', null)
   this.templateDict.set('batchCode', null)
   this.templateDict.set('caseWeight', null)
+  this.templateDict.set('outputCSV', null)
   this.subscribe('customers')
   this.subscribe('batches')
   this.subscribe('items')
@@ -176,12 +177,18 @@ Template.customerPackingList.events({
     var batchCode = document.getElementById('batchCode').value
     Template.instance().templateDict.set('custCode', custCode)
     Template.instance().templateDict.set('batchCode', batchCode)
+  },
+  'click #downloadCSV'(event) {
+    var output = Template.instance().templateDict.get('outputCSV')
+    var csvContent = CSV.unparse(output)
+    window.open('data:text/csv;charset=utf-8,' + escape(csvContent), '_blank')
   }
 })
 
 Template.customerPackingList.helpers({
   customerPackingList() {
     var batchCode = Template.instance().templateDict.get('batchCode')
+    var custCode = Template.instance().templateDict.get('custCode')
     if (batchCode != null) {
       var input = {}
       var searchResults = Batches.find({
@@ -200,18 +207,21 @@ Template.customerPackingList.helpers({
       Template.instance().templateDict.set('caseWeight', caseWeight)
       var output = []
       _.forEach(input, function (value, key) {
-        var code = key
-        var name = Items.findOne({ item_code: key }).item_name
-        var weight = (value / 1000).toFixed(3)
-        output.push({ item_code: code, item_name: name, item_weight: weight })
+        var item = Items.findOne({ item_code: key })
+        var weight = (value / 1000).toFixed(2)
+        output.push({ cust_code: custCode, batch_code: batchCode, item_code: key, item_name: item.item_name, item_weight: weight, item_unit: item.item_unit })
       })
       if (output != null) {
+        Template.instance().templateDict.set('outputCSV', output)
         return output
       }
     }
   },
   caseWeight() {
-    return (Template.instance().templateDict.get('caseWeight') / 1000).toFixed(3)
+    var caseWeight = {}
+    caseWeight.weight = (Template.instance().templateDict.get('caseWeight') / 1000).toFixed(2)
+    caseWeight.unit = "lb"
+    return caseWeight
   },
   cust() {
     var customer = {}

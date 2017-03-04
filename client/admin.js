@@ -69,7 +69,11 @@ Template.settings.events({
     var clogo = event.target.files[0]
     var reader = new FileReader()
     reader.onload = function(e){
-      Meteor.call('upsertClogo', e.target.result)
+      Meteor.call('upsertClogo', e.target.result, function(error) {
+        if (error) {
+          window.alert(error)
+        }
+      })
     }
     reader.readAsDataURL(clogo)
   },
@@ -77,7 +81,11 @@ Template.settings.events({
     var plogo = event.target.files[0]
     var reader = new FileReader()
     reader.onload = function(e){
-      Meteor.call('upsertPlogo', e.target.result)
+      Meteor.call('upsertPlogo', e.target.result, function(error) {
+        if (error) {
+          window.alert(error)
+        }
+      })
     }
     reader.readAsDataURL(plogo)
   },

@@ -85,6 +85,18 @@ Template.weigh.events({
 
   'click .weigh'(event) {
     event.preventDefault()
+
+    function resetForm() {
+      var cust_code = document.getElementById('cust_code')
+      var num_units = document.getElementById('num_units')
+      var batch_code = document.getElementById('batch_code')
+      var item_code = document.getElementById('item_code')
+      cust_code.value = ""
+      num_units.value = ""
+      batch_code.value = ""
+      item_code.value = ""
+    }
+
     var cust_code = document.getElementById('cust_code').value
     var companyId = Meteor.users.findOne(Meteor.userId()).companyId
     var settingsPrefix = Company.findOne({ settings: companyId }).prefix
@@ -118,6 +130,7 @@ Template.weigh.events({
             window.alert(error)
           }
         })
+        resetForm()
       }
     } else {
       var companyId = Meteor.users.findOne(Meteor.userId()).companyId
@@ -149,6 +162,7 @@ Template.weigh.events({
             window.alert(error)
           }
         })
+        resetForm()
       }
     }
   },
@@ -171,6 +185,8 @@ Template.weigh.events({
         window.print()
         copies = copies - 1
       }
+      Template.instance().templateDict.set('ready', true)
+      Template.instnace().templateDict.set('items', [])
     }
   },
 
@@ -264,7 +280,7 @@ Template.weigh.helpers({
           var minWeight = Items.findOne({ item_code: item }).item_minWeight
           if (stdWeight != null && stdWeight != 0 && stdWeight != '') {
             indicator.weight = stdWeight
-            indicator.display = (stdWeight / 1000).toFixed(3)
+            indicator.display = (stdWeight / 1000).toFixed(2)
             indicator.status = 'green'
             indicator.message = 'Standard Weight'
             return indicator
@@ -273,9 +289,9 @@ Template.weigh.helpers({
             indicator.display = function() {
               var companyId = Meteor.users.findOne(Meteor.userId()).companyId
               if (companyId === "SMUCKERS") {
-                return (indicator.weight / 100).toFixed(3)
+                return (indicator.weight / 100).toFixed(2)
               } else {
-                return (indicator.weight / 1000).toFixed(3)
+                return (indicator.weight / 1000).toFixed(2)
               }
             }
             if (maxWeight < weight) {
@@ -295,9 +311,9 @@ Template.weigh.helpers({
           indicator.display = function() {
               var companyId = Meteor.users.findOne(Meteor.userId()).companyId
               if (companyId === "SMUCKERS") {
-                return (indicator.weight / 100).toFixed(3)
+                return (indicator.weight / 100).toFixed(2)
               } else {
-                return (indicator.weight / 1000).toFixed(3)
+                return (indicator.weight / 1000).toFixed(2)
               }
           }
           indicator.status = 'black'
@@ -334,10 +350,8 @@ Template.weigh.helpers({
   smuckers() {
     var companyId = Meteor.users.findOne(Meteor.userId()).companyId
     if (companyId === "SMUCKERS") {
-      console.log("SMUCKERS")
       return true
     } else {
-      console.log("Not smuckers...")
       return false
     }
   },
@@ -369,11 +383,11 @@ Template.weigh.helpers({
   },
 
   showWeight() {
-    return (Template.instance().templateDict.get('weight') / 1000).toFixed(3)
+    return (Template.instance().templateDict.get('weight') / 1000).toFixed(2)
   },
 
   netWeight() {
-    return (Template.instance().templateDict.get('weight') / 1000 - Meteor.user().tare).toFixed(3)
+    return (Template.instance().templateDict.get('weight') / 1000 - Meteor.user().tare).toFixed(2)
   },
 
   dateFull(createdAt) {
@@ -587,12 +601,12 @@ Template.weigh.helpers({
     }
     var grossWeight = function () {
       var item_weight = document.getElementById('item_weight').value
-      return (item_weight / 1000).toFixed(3)
+      return (item_weight / 1000).toFixed(2)
     }
     var netWeight = function () {
       var item_weight = document.getElementById('item_weight').value
       var tare = Meteor.user().tare
-      return (item_weight / 1000 - tare).toFixed(3)
+      return (item_weight / 1000 - tare).toFixed(2)
     }
     var bcItemWeight = function () {
       var item_weight = document.getElementById('item_weight').value

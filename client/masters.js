@@ -20,6 +20,7 @@ Template.customerMaster.events({
   'click #addCustomer'(event) {
     event.preventDefault()
     var customer_code = document.getElementById('customer_code').value
+    var customer_logo = Template.instance().templateDict.get('custLogo')
     var customer_name = document.getElementById('customer_name').value
     var customer_street1 = document.getElementById('customer_street1').value
     var customer_street2 = document.getElementById('customer_street2').value
@@ -28,7 +29,7 @@ Template.customerMaster.events({
     var customer_country = document.getElementById('customer_country').value
     var customer_postal = document.getElementById('customer_postal').value
     var customer_priceList = document.getElementById('selectPriceList').value
-    Meteor.call('insertCustomer', customer_code, customer_name, customer_street1, customer_street2, customer_city, customer_province, customer_country, customer_postal, customer_priceList, function (error) {
+    Meteor.call('insertCustomer', customer_code, customer_logo, customer_name, customer_street1, customer_street2, customer_city, customer_province, customer_country, customer_postal, customer_priceList, function (error) {
       if (error) {
         window.alert(error)
       }
@@ -37,6 +38,7 @@ Template.customerMaster.events({
   'click #editCustomer'(event) {
     event.preventDefault()
     var customer_code = document.getElementById('customer_code_edit').value
+    var customer_logo = Template.instance().templateDict.get('custLogoEdit')
     var customer_name = document.getElementById('customer_name_edit').value
     var customer_street1 = document.getElementById('customer_street1_edit').value
     var customer_street2 = document.getElementById('customer_street2_edit').value
@@ -45,11 +47,25 @@ Template.customerMaster.events({
     var customer_country = document.getElementById('customer_country_edit').value
     var customer_postal = document.getElementById('customer_postal_edit').value
     var customer_priceList = document.getElementById('selectPriceList_edit').value
-    Meteor.call('updateCustomer', customer_code, customer_name, customer_street1, customer_street2, customer_city, customer_province, customer_country, customer_postal, customer_priceList, function (error) {
+    Meteor.call('updateCustomer', customer_code, customer_logo, customer_name, customer_street1, customer_street2, customer_city, customer_province, customer_country, customer_postal, customer_priceList, function (error) {
       if (error) {
         window.alert(error)
       }
     })
+  },
+  'change .customerLogo'(event) {
+    var logo = event.target.files[0]
+    var reader = new FileReader()
+    reader.onload = function (e, custCode) {
+      Meteor.call('updateCustomerLogo', e.target.result, customerCode, function (error) {
+        if (error) {
+          window.alert(error)
+        }
+      })
+    }
+    var customer = Template.instance().templateDict.get('customer')
+    var customerCode = Customers.findOne(customer).customer_code
+    reader.readAsDataURL(logo, customerCode)
   }
 })
 

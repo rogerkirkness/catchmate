@@ -140,6 +140,9 @@
 		<div class="form-group">
 			<button type="submit" id="updateQuery" class="btn btn-default btn-lg btn-block">Generate Report</button>
 		</div>
+		<div class="form-group">
+			<button type="submit" id="downloadCSV" class="btn btn-default btn-lg btn-block">Download CSV</button>
+		</div>
 	</div>
 	<div class="col-sm-7">
 		<div class="customerPackingList report-print">
@@ -155,13 +158,13 @@
 						<tr>
 							<td>{{item_code}}</td>
 							<td>{{item_name}}</td>
-							<td>{{item_weight}}</td>
+							<td>{{item_weight}} {{item_unit}}</td>
 						</tr>
 					{{/each}}
 					<tr class="itemFooter">
 						<td><b>Total Weight</b></td>
 						<td></td>
-						<td><b>{{caseWeight}}</b></td>
+						<td><b>{{caseWeight.weight}} {{caseWeight.unit}}</b></td>
 					</tr>
 				</tbody>
 			</table>

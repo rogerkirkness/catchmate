@@ -29,7 +29,7 @@
   }
 
 	#section-to-print, #section-to-print *, .nutritionLabelCA {
-		zoom: 110%;
+		zoom: 120%;
 	}
 
 	#section-to-print {
@@ -68,6 +68,17 @@ body {
 	vertical-align: top;
 }
 
+.smuckInfo {
+	padding: 2px 2px 2px 2px;
+  font-family: Georgia, serif;
+	line-height: 1.2;
+	font-size: 13px;
+	background-color: #FFF;
+	display: inline-block;
+	width: 400px;
+	vertical-align: top;
+}
+
 .nutritionLabelBox {
 	display: inline-block;
 }
@@ -97,6 +108,11 @@ body {
 .smuckPlogo {
 	height: 80px;
 	width: 80px;
+}
+
+.custLogo {
+	width: 110px;
+	height: 80px;
 }
 
 .barcode {

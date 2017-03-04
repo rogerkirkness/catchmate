@@ -90,11 +90,14 @@
 			{{#if Template.subscriptionsReady}}
 				{{#each batches}}
 					<div id="section-to-print">
-						<div class="info">
-							{{#if smuckers}}
+						{{#if smuckers}}
+							<div class="smuckInfo">
 								{{#if settings.plogo}}
 									<div class="logo">
 										<img class="smuckPlogo" src="{{settings.plogo}}">
+										{{#if customer.customer_logo}}
+											<img class="custLogo" src="{{customer.customer_logo}}">
+										{{/if}}
 									</div>
 								{{/if}}<br>
 								{{#if customer}}
@@ -128,7 +131,9 @@
 									{{/if}}
 									<img class="barcode" src="data:image/png;base64,{{url}}" alt="barcode">
 								{{/unless}}
-							{{else}}
+							</div>
+						{{else}}
+							<div class="info">
 								{{#if settings}}
 									<div class="logo">
 										<img class="clogo" src="{{settings.clogo}}">
@@ -164,9 +169,9 @@
 										<b>Ingredients:</b> {{ingredients}}<br>
 									{{/if}}
 									<img class="barcode" src="data:image/png;base64,{{url}}" alt="barcode">
-								{{/unless}}F
-							{{/if}}
-						</div>
+								{{/unless}}
+							</div>
+						{{/if}}
 						{{#if itemNutrition}}
 							<div class="nutritionLabelCA nutritionLabelBox">
 								<div class="titleText">Nutrition Facts</div>
