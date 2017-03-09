@@ -26,7 +26,7 @@ Meteor.methods({
     if (this.userId) {
       var companyId = Meteor.user().companyId
       if (companyId === "SMUCKERS") {
-        Sql.q("select * from dbo.Customers", function (error, results) {
+        Sql.q("SELECT * FROM dbo.Customers", function (error, results) {
           if (error != null) {
             throw new Meteor.Error("SQL-query-error", "Querying customers from SQL failed, contact support")
           } else {
@@ -44,6 +44,7 @@ Meteor.methods({
                     'customer_city': result.BillCity,
                     'customer_province': result.BillState,
                     'customer_postal': result.BillZip,
+                    'customer_billID': result.ID,
                     'customer_companyId': companyId
                   }
                 }, function (error, number) {
@@ -1018,13 +1019,10 @@ Meteor.publish('update', function () {
           setInterval(writeSocket, 500)
         })
         socket.on('data', function (data) {
-          var raw = data.toString()
+          var rawOutput = data.toString()
           if (companyId === "SMUCKERS") {
-            console.log(raw)
-            var rawOutput = raw.replace(/\D+/g, '')
-            console.log(rawOutput)
-            var output = rawOutput.substr(0, 3)
-            console.log(output)
+            var rawWeight = rawOutput.substr(0, rawOutput.indexOf('\n'))
+            var output = rawWeight.replace(/\D+/g, '')
           } else {
             var output = raw.replace(/\D+/g, '')
           }
@@ -1065,19 +1063,27 @@ Meteor.publish('barcode', function (barcode) {
   }
 })
 
-// Publish key fields from Smuckers to the client
-Meteor.publish('smuckersCarcassID', function (batchCode) {
+Meteor.publish('smuckers', function (batchCode) {
   if (this.userId) {
     var self = this
     var companyId = Meteor.users.findOne(this.userId).companyId
-    if (companyId === "SMUCKERS") {
-      Sql.q("select " + batchCode + " from dbo.v_carcassesForOrder", function (error, result) {
+    if (companyId === "SMUCKERS" && batchCode != null) {
+      var ordersQuery = "SELECT BillToID, ID, OrderType, OrderFor FROM dbo.orders WHERE OrderNumber = " + batchCode
+      Sql.q(ordersQuery, function (error, orderResult) {
         if (error != null) {
-          throw new Meteor.Error("Error with CarcassID import", "Please check SQL connection and contact support")
+          throw new Meteor.Error("Error with OrderID", "Please check SQL connection and batchCode")
         } else {
-          var CarcassID = result.CarcassID
-          self.added("smuckers", "CarcassID", { data: CarcassID })
-          self.ready()
+          self.added("smuckersdata", "orderResult", { data: orderResult })
+          self.added("smuckersdata", "customerCode", { data: orderResult[0].BillToID })
+          var carcassQuery = "SELECT CarcassID, HotWeight FROM dbo.v_carcassesForOrder WHERE OrderID = " + orderResult[0].ID
+          Sql.q(carcassQuery, function (error, carcassResults) {
+            if (error != null) {
+              throw new Meteor.Error("Error with CarcassID", "Please check SQL connection and OrderID")
+            } else {
+              self.added("smuckersdata", "carcassResult", { data: carcassResults })
+              self.ready()
+            }
+          })
         }
       })
     }

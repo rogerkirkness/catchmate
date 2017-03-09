@@ -69,7 +69,7 @@
 		{{/if}}
 		{{#if bc.true}}
 			<div class="form-group">
-				<label for="batch_code" class="control-label">Batch Code</label>
+				<label for="batch_code" class="control-label">Work Order / Batch Code</label>
 				<input type="text" id="batch_code" class="form-control input-lg">
 			</div>
 		{{else}}
@@ -101,16 +101,17 @@
 									</div>
 								{{/if}}<br>
 								{{#if customer}}
-									<p style="font-size:170%;text-align: center;">{{customer.customer_name}}<br> {{lotNumber1 createdAt}}</p><br> {{customer.customer_street1}}, {{customer.customer_city}},
-									{{customer.customer_province}}, {{customer.customer_postal}}<br><br>
+									<p>Packaged for:</p><br>
+									<p style="font-size:170%;">{{smuckersOrder.OrderFor}}<br> {{lotNumber1 createdAt}}</p><br> {{customer.customer_street1}},
+									{{customer.customer_city}}, {{customer.customer_province}}, {{customer.customer_postal}}<br><br>
 								{{/if}}
 								{{#unless itemList}}
 									{{#if item}}
-										<b>Item:</b><br> {{item.item_code}} - {{item.item_name}}<br><br>
+										<b>Item (Keep Refrigerated):</b><br> {{item.item_code}} - {{item.item_name}}<br><br>
 									{{/if}}
 								{{/unless}}
 								{{#if itemList}}
-									<b>Items:</b><br>
+									<b>Items (Keep Refrigerated):</b><br>
 									{{#each itemList}}
 										{{itemCode}} - {{itemName}} - {{itemWeight}} {{itemUnit}}<br>
 									{{/each}}
@@ -119,6 +120,12 @@
 								<b>Production Date: </b>{{dateFull createdAt}}<br>
 								<b>Gross Weight: </b>{{showWeight item_weight}} {{item.item_unit}}<br>
 								<b>Net Weight: </b>{{netWeight item_weight}} {{item.item_unit}}<br>
+								{{#if smuckersCarcass}}
+									<b>Carcass IDs:</b><br>
+									{{#each smuckersCarcass}}
+										{{CarcassID}} - {{HotWeight}} lb<br>
+									{{/each}}
+								{{/if}}
 								{{#if price}}
 									<b>Case Price: </b>{{price}}<br>
 								{{/if}}

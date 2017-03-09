@@ -2,6 +2,7 @@
 // Weigh Template
 //
 
+import _ from 'underscore'
 import moment from 'moment'
 
 var pad = function (n, width, z) {
@@ -12,6 +13,7 @@ var pad = function (n, width, z) {
 
 BarcodeData = new Mongo.Collection('barcodedata')
 WeightData = new Mongo.Collection('weightdata')
+SmuckersData = new Mongo.Collection('smuckersdata')
 
 Template.weigh.onCreated(function () {
   this.templateDict = new ReactiveDict()
@@ -19,6 +21,7 @@ Template.weigh.onCreated(function () {
   this.templateDict.set('batch', null)
   this.templateDict.set('numUnits', null)
   this.templateDict.set('cust', null)
+  this.templateDict.set('billCust', null)
   this.templateDict.set('validItem', null)
   this.templateDict.set('ready', true)
   this.templateDict.set('batchCode', null)
@@ -46,6 +49,9 @@ Template.weigh.onCreated(function () {
     Meteor.subscribe('update')
   })
 
+  this.autorun(function () {
+    Meteor.subscribe('smuckers', Template.instance().templateDict.get('batchCode'))
+  })
 })
 
 Template.weigh.events({
@@ -286,7 +292,7 @@ Template.weigh.helpers({
             return indicator
           } else {
             indicator.weight = weight
-            indicator.display = function() {
+            indicator.display = function () {
               var companyId = Meteor.users.findOne(Meteor.userId()).companyId
               if (companyId === "SMUCKERS") {
                 return (indicator.weight / 100).toFixed(2)
@@ -308,19 +314,32 @@ Template.weigh.helpers({
           }
         } else {
           indicator.weight = weight
-          indicator.display = function() {
-              var companyId = Meteor.users.findOne(Meteor.userId()).companyId
-              if (companyId === "SMUCKERS") {
-                return (indicator.weight / 100).toFixed(2)
-              } else {
-                return (indicator.weight / 1000).toFixed(2)
-              }
+          indicator.display = function () {
+            var companyId = Meteor.users.findOne(Meteor.userId()).companyId
+            if (companyId === "SMUCKERS") {
+              return (indicator.weight / 100).toFixed(2)
+            } else {
+              return (indicator.weight / 1000).toFixed(2)
+            }
           }
           indicator.status = 'black'
           indicator.message = 'No Item Selected'
           return indicator
         }
       }
+    }
+  },
+
+  smuckersOrder() {
+    if (typeof SmuckersData.findOne("orderResult") != undefined) {
+      var order = SmuckersData.findOne("orderResult").data
+      return order[0]
+    }
+  },
+
+  smuckersCarcass() {
+    if (typeof SmuckersData.findOne("carcassResult") != undefined) {
+      return SmuckersData.findOne("carcassResult").data
     }
   },
 
@@ -371,9 +390,15 @@ Template.weigh.helpers({
   },
 
   customer() {
-    var customer = Customers.findOne({ customer_code: Template.instance().templateDict.get('cust') })
-    if (customer != null) {
-      return customer
+    var companyId = Meteor.users.findOne(Meteor.userId()).companyId
+    if (companyId === "SMUCKERS") {
+      if (typeof SmuckersData.findOne("customerCode") != undefined) {
+        var customer = SmuckersData.findOne("customerCode").data
+        return Customers.findOne({ customer_billID: customer })
+      }
+    } else {
+      var customer = Template.instance().templateDict.get('cust')
+      return Customers.findOne({ customer_code: customer })
     }
   },
 

@@ -182,6 +182,9 @@ Template.customerPackingList.events({
     var output = Template.instance().templateDict.get('outputCSV')
     var csvContent = CSV.unparse(output)
     window.open('data:text/csv;charset=utf-8,' + escape(csvContent), '_blank')
+  },
+  'click #printReport' (event) {
+    window.print()
   }
 })
 
