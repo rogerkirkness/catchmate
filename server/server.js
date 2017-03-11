@@ -1075,6 +1075,7 @@ Meteor.publish('smuckers', function (batchCode) {
         } else {
           self.added("smuckersdata", "orderResult", { data: orderResult })
           self.added("smuckersdata", "customerCode", { data: orderResult[0].BillToID })
+          self.added("smuckersdata", "orderType", { data: orderResult[0].OrderType })
           var carcassQuery = "SELECT CarcassID, HotWeight FROM dbo.v_carcassesForOrder WHERE OrderID = " + orderResult[0].ID
           Sql.q(carcassQuery, function (error, carcassResults) {
             if (error != null) {

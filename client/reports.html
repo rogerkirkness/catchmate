@@ -127,16 +127,24 @@
 	<h4 class="hidden-print">Customer Packing List</h4>
 	<hr class="horizontalRule hidden-print">
 	<div class="col-sm-3 hidden-print">
-		<div class="form-group">
-			<label for="custCode" class="control-label">Customer Code</label>
-			<p>Enter the customer code you want</p>
-			<input type="text" id="custCode" class="form-control">
-		</div>
-		<div class="form-group">
-			<label for="batchCode" class="control-label">Batch Code</label>
-			<p>Enter the batch code you want</p>
-			<input type="text" id="batchCode" class="form-control">
-		</div>
+		{{#if smuckers}}
+			<div class="form-group">
+				<label for="batchCode" class="control-label">Work Order:</label>
+				<p>Enter the work order number</p>
+				<input type="text" id="batchCode" class="form-control">
+			</div>
+		{{else}}
+			<div class="form-group">
+				<label for="custCode" class="control-label">Customer Code</label>
+				<p>Enter the customer code you want</p>
+				<input type="text" id="custCode" class="form-control">
+			</div>
+			<div class="form-group">
+				<label for="batchCode" class="control-label">Batch Code</label>
+				<p>Enter the batch code you want</p>
+				<input type="text" id="batchCode" class="form-control">
+			</div>
+		{{/if}}
 		<div class="form-group">
 			<button type="submit" id="updateQuery" class="btn btn-default btn-lg btn-block">Generate Report</button>
 		</div>
@@ -149,7 +157,14 @@
 	</div>
 	<div class="col-sm-7">
 		<div class="customerPackingList report-print">
-			<p class="customerPackingListH">Customer: {{cust.name}}<br> Account #: {{cust.code}}<br> Batch/WO: {{batchCode}}</p>
+			<p class="customerPackingListH">
+				Customer: {{cust.name}}<br>
+				Account #: {{cust.code}}<br>
+				Batch/WO: {{batchCode}}<br>
+				Order Type: {{customerPackingList.orderType}}<br>
+				Carcass IDs: {{customerPackingList.carcassId}}<br>
+				Hot Weights: {{customerPackingList.hotWeight}}<br>
+			</p>
 			<table class="table table-condensed table-white">
 				<tbody>
 					<tr class="itemHeader">

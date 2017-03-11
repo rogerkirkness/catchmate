@@ -26,6 +26,7 @@ Template.weigh.onCreated(function () {
   this.templateDict.set('ready', true)
   this.templateDict.set('batchCode', null)
   this.templateDict.set('barcode', null)
+  this.templateDict.set('weight', null)
   this.templateDict.set('items', [])
   this.templateDict.set('caseWeight', 0)
 
@@ -73,20 +74,21 @@ Template.weigh.events({
       }
     }
     var itemWeight = weightData(weightInput, companyId)
-
     var caseWeight = Template.instance().templateDict.get('caseWeight')
     if (caseWeight === 0) {
       caseWeight = Meteor.user().tare
     }
     var itemObject = {}
     var result = Items.findOne({ item_code: document.getElementById('item_code').value })
-    itemObject['itemName'] = result.item_name
-    itemObject['itemUnit'] = result.item_unit
-    itemObject['itemWeight'] = itemWeight - caseWeight
-    itemObject['itemCode'] = document.getElementById('item_code').value
-    itemList.push(itemObject)
-    Template.instance().templateDict.set('items', itemList)
-    Template.instance().templateDict.set('caseWeight', itemWeight)
+    if (result != undefined) {
+      itemObject['itemName'] = result.item_name
+      itemObject['itemUnit'] = result.item_unit
+      itemObject['itemWeight'] = (itemWeight - caseWeight).toFixed(2)
+      itemObject['itemCode'] = document.getElementById('item_code').value
+      itemList.push(itemObject)
+      Template.instance().templateDict.set('items', itemList)
+      Template.instance().templateDict.set('caseWeight', itemWeight)
+    }
   },
 
   'click .weigh'(event) {
@@ -162,7 +164,8 @@ Template.weigh.events({
         var barcode = '(01)' + settingsPrefix + itemGTIN + '(11)' + bcProdDate + '(3102)' + bcItemWeight + '(21)' + bcLotNumber
         Template.instance().templateDict.set('barcode', barcode)
         Template.instance().templateDict.set('item', item_code)
-        Template.instance().templateDict.set('weight', item_weight)
+        var caseWeight = (item_weight / 1000)
+        Template.instance().templateDict.set('caseWeight', caseWeight)
         Meteor.call('insertBatch', created, item_code, cust_code, item_weight, num_units, batch_code, function (error) {
           if (error) {
             window.alert(error)
@@ -192,7 +195,8 @@ Template.weigh.events({
         copies = copies - 1
       }
       Template.instance().templateDict.set('ready', true)
-      Template.instnace().templateDict.set('items', [])
+      Template.instance().templateDict.set('items', [])
+      Template.instance().templateDict.set('caseWeight', 0)
     }
   },
 
@@ -402,17 +406,39 @@ Template.weigh.helpers({
     }
   },
 
+  orderType() {
+    var companyId = Meteor.users.findOne(Meteor.userId()).companyId
+    if (companyId === "SMUCKERS") {
+      if (typeof SmuckersData.findOne("orderType") != undefined) {
+        var orderType = SmuckersData.findOne("orderType").data
+        console.log()
+        if (orderType == "BE") {
+          var order = {}
+          order.plogo = Company.findOne({ settings: Meteor.users.findOne(Meteor.userId()).companyId }).plogo
+          order.type = "Beef"
+          return order
+        } else {
+          var order = {}
+          order.plogo = Customers.findOne({ customer_code: "LAMB" }).customer_logo
+          order.type = "Lamb"
+          return order
+        }
+      }
+    }
+  },
+
   shelfLife(createdAt) {
     var shelfLife = Items.findOne({ item_code: Template.instance().templateDict.get('item') }).item_shelfLife
     return moment(createdAt).add(shelfLife, 'days').format('DD/MM/YYYY')
   },
 
   showWeight() {
-    return (Template.instance().templateDict.get('weight') / 1000).toFixed(2)
+    var caseWeight = Template.instance().templateDict.get('caseWeight')
+    return (caseWeight).toFixed(2)
   },
 
   netWeight() {
-    return (Template.instance().templateDict.get('weight') / 1000 - Meteor.user().tare).toFixed(2)
+    return (Template.instance().templateDict.get('caseWeight') - Meteor.user().tare).toFixed(2)
   },
 
   dateFull(createdAt) {
@@ -441,7 +467,7 @@ Template.weigh.helpers({
   price() {
     var item = Template.instance().templateDict.get('item')
     var customer = Template.instance().templateDict.get('cust')
-    var weight = Template.instance().templateDict.get('weight')
+    var weight = Template.instance().templateDict.get('caseWeight')
     var tare = Meteor.user().tare
     if (item != null && customer != '') {
       var priceList = Customers.findOne({ 'customer_code': customer }).customer_priceList

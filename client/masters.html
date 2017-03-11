@@ -120,7 +120,8 @@
 	<div class="col-sm-12 pad-top">
 		<h4>Customer Master</h4>
 		<hr class="horizontalRule">
-		<table class="table table-condensed table-striped table-bordered table-white">
+		{{> tabular table=TabularTables.Customers class="table table-condensed table-striped table-bordered table-white"}}
+		<!--<table class="table table-condensed table-striped table-bordered table-white">
 			<tbody>
 				<tr>
 					<td><b>Code</b></td>
@@ -147,7 +148,7 @@
 					</tr>
 				{{/each}}
 			</tbody>
-		</table>
+		</table>-->
 	</div>
 </template>
 
@@ -356,7 +357,8 @@
 	<div class="col-sm-12 pad-top">
 		<h4>Item Master</h4>
 		<hr class="horizontalRule">
-		<table class="table table-condensed table-striped table-bordered table-white">
+		{{> tabular table=TabularTables.Items class="table table-condensed table-striped table-bordered table-white"}}
+		<!--<table class="table table-condensed table-striped table-bordered table-white">
 			<tbody>
 				<tr>
 					<td><b>Code</b></td>
@@ -383,7 +385,7 @@
 					</tr>
 				{{/each}}
 			</tbody>
-		</table>
+		</table>-->
 	</div>
 </template>
 

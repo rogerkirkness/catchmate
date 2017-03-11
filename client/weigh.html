@@ -94,7 +94,7 @@
 							<div class="smuckInfo">
 								{{#if settings.plogo}}
 									<div class="logo">
-										<img class="smuckPlogo" src="{{settings.plogo}}">
+										<img class="smuckPlogo" src="{{orderType.plogo}}">
 										{{#if customer.customer_logo}}
 											<img class="custLogo" src="{{customer.customer_logo}}">
 										{{/if}}
@@ -125,6 +125,9 @@
 									{{#each smuckersCarcass}}
 										{{CarcassID}} - {{HotWeight}} lb<br>
 									{{/each}}
+								{{/if}}
+								{{#if orderType}}
+									<b>Order Type: </b>{{orderType.type}}<br>
 								{{/if}}
 								{{#if price}}
 									<b>Case Price: </b>{{price}}<br>
