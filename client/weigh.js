@@ -132,7 +132,8 @@ Template.weigh.events({
     if (items.length > 0) {
       for (var i = 0; i < items.length; i++) {
         var item_code = items[i].itemCode
-        var item_weight = items[i].itemWeight
+        var item_weight = (items[i].itemWeight * 1000).toFixed(2)
+        console.log(item_weight)
         Meteor.call('insertBatch', created, item_code, cust_code, item_weight, num_units, batch_code, function (error) {
           if (error) {
             window.alert(error)
@@ -411,7 +412,6 @@ Template.weigh.helpers({
     if (companyId === "SMUCKERS") {
       if (typeof SmuckersData.findOne("orderType") != undefined) {
         var orderType = SmuckersData.findOne("orderType").data
-        console.log()
         if (orderType == "BE") {
           var order = {}
           order.plogo = Company.findOne({ settings: Meteor.users.findOne(Meteor.userId()).companyId }).plogo
