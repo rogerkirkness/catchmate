@@ -1,7 +1,7 @@
 {
   "galaxy.meteor.com": {
     "env": {
-      "MONGO_URL": "mongodb://cmadmin:GanIacbennu5@ds037366-a0.mlab.com:37366,ds037366-a1.mlab.com:37366/cm-live?replicaSet=rs-ds037366"
+      "MONGO_URL":    "mongodb://cmadmin:GanIacbennu5@cluster0-shard-00-00-2oyrv.mongodb.net:27017,cluster0-shard-00-01-2oyrv.mongodb.net:27017,cluster0-shard-00-02-2oyrv.mongodb.net:27017/meteor?ssl=true&replicaSet=Cluster0-shard-0&authSource=admin"
     }
   }
 }

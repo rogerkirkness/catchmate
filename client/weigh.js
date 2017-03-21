@@ -412,15 +412,15 @@ Template.weigh.helpers({
     if (companyId === "SMUCKERS") {
       if (typeof SmuckersData.findOne("orderType") != undefined) {
         var orderType = SmuckersData.findOne("orderType").data
-        if (orderType == "BE") {
+        if (orderType === "BI") {
           var order = {}
-          order.plogo = Company.findOne({ settings: Meteor.users.findOne(Meteor.userId()).companyId }).plogo
-          order.type = "Beef"
+          order.plogo = Customers.findOne({ customer_code: "LAMB" }).customer_logo
+          order.type = orderType
           return order
         } else {
           var order = {}
-          order.plogo = Customers.findOne({ customer_code: "LAMB" }).customer_logo
-          order.type = "Lamb"
+          order.plogo = Company.findOne({ settings: Meteor.users.findOne(Meteor.userId()).companyId }).plogo
+          order.type = orderType
           return order
         }
       }
