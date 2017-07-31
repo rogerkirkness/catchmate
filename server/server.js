@@ -892,6 +892,14 @@ Meteor.publish('customers', function () {
   }
 })
 
+Meteor.publish('customer', function (customer_code) {
+  if (this.userId) {
+    return Customers.find({
+      'customer_billID': customer_code
+    })
+  }
+})
+
 Meteor.publish('items', function () {
   if (this.userId) {
     var companyId = Meteor.users.findOne(this.userId).companyId
@@ -1011,12 +1019,7 @@ Meteor.publish('update', function () {
       } else if (port != null) {
         var socket = new net.Socket()
         socket.connect(port, host, function () {
-          function writeSocket() {
-            if (socket.writable) {
-              socket.write('P')
-            }
-          }
-          setInterval(writeSocket, 500)
+          console.log("Connected to:" + host + ":" + port)
         })
         socket.on('data', function (data) {
           var rawOutput = data.toString()
@@ -1030,7 +1033,14 @@ Meteor.publish('update', function () {
           self.ready()
         })
         socket.on('error', function (error) {
-          console.log(error)
+          if (error.code == 'ECONNRESET') {
+            console.log(error)
+            socket.setTimeout(2000, function() {
+              socket.connect(port, host, function () {
+                console.log("Connected to:" + host + ":" + port)
+              })
+            })
+          }
         })
         socket.on('close', function () { })
       } else {

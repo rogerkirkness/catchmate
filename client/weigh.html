@@ -21,6 +21,7 @@
 					<span class="input-group-addon" id="addItem">&nbsp;+&nbsp;</span>
 				{{/if}}
 			</div>
+			{{#if hideLabel}}
 			{{#if itemList}}
 				<br>
 				<table class="table table-condensed table-striped table-bordered table-white">
@@ -45,6 +46,7 @@
 						</tr>
 					</tbody>
 				</table>
+			{{/if}}
 			{{/if}}
 		</div>
 		{{#if cu.true}}

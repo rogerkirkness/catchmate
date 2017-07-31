@@ -1,7 +1,3 @@
-//
-// Weigh Template
-//
-
 import _ from 'underscore'
 import moment from 'moment'
 
@@ -26,13 +22,11 @@ Template.weigh.onCreated(function () {
   this.templateDict.set('ready', true)
   this.templateDict.set('batchCode', null)
   this.templateDict.set('barcode', null)
-  this.templateDict.set('weight', null)
   this.templateDict.set('items', [])
   this.templateDict.set('caseWeight', 0)
 
   this.subscribe('batch')
   this.subscribe('items')
-  this.subscribe('customers')
   this.subscribe('ingredients')
   this.subscribe('scales')
   this.subscribe('company')
@@ -41,6 +35,10 @@ Template.weigh.onCreated(function () {
   this.subscribe('users')
   this.subscribe('prices')
   this.subscribe('nutrition')
+  
+  this.autorun(function () {
+    Meteor.subscribe('customer', Template.instance().templateDict.get('cust'))
+  })
 
   this.autorun(function () {
     Meteor.subscribe('barcode', Template.instance().templateDict.get('barcode'))
@@ -59,7 +57,9 @@ Template.weigh.events({
 
   'blur .item_code'(event) {
     var item = event.target.value
-    Template.instance().templateDict.set('validItem', item)
+    if (item != "") {
+      Template.instance().templateDict.set('validItem', item)
+    }
   },
 
   'click #addItem'(event) {
@@ -79,7 +79,8 @@ Template.weigh.events({
       caseWeight = Meteor.user().tare
     }
     var itemObject = {}
-    var result = Items.findOne({ item_code: document.getElementById('item_code').value })
+    var item_code = document.getElementById('item_code')
+    var result = Items.findOne({ item_code: item_code.value })
     if (result != undefined) {
       itemObject['itemName'] = result.item_name
       itemObject['itemUnit'] = result.item_unit
@@ -89,11 +90,11 @@ Template.weigh.events({
       Template.instance().templateDict.set('items', itemList)
       Template.instance().templateDict.set('caseWeight', itemWeight)
     }
+    item_code.value = ""
   },
 
   'click .weigh'(event) {
     event.preventDefault()
-
     function resetForm() {
       var cust_code = document.getElementById('cust_code')
       var num_units = document.getElementById('num_units')
@@ -133,7 +134,6 @@ Template.weigh.events({
       for (var i = 0; i < items.length; i++) {
         var item_code = items[i].itemCode
         var item_weight = (items[i].itemWeight * 1000).toFixed(2)
-        console.log(item_weight)
         Meteor.call('insertBatch', created, item_code, cust_code, item_weight, num_units, batch_code, function (error) {
           if (error) {
             window.alert(error)
@@ -195,9 +195,17 @@ Template.weigh.events({
         window.print()
         copies = copies - 1
       }
-      Template.instance().templateDict.set('ready', true)
-      Template.instance().templateDict.set('items', [])
-      Template.instance().templateDict.set('caseWeight', 0)
+    Template.instance().templateDict.set('ready', true)
+    Template.instance().templateDict.set('items', [])
+    Template.instance().templateDict.set('caseWeight', 0)
+    Template.instance().templateDict.set('item', null)
+    Template.instance().templateDict.set('batch', null)
+    Template.instance().templateDict.set('numUnits', null)
+    Template.instance().templateDict.set('cust', null)
+    Template.instance().templateDict.set('billCust', null)
+    Template.instance().templateDict.set('batchCode', null)
+    Template.instance().templateDict.set('barcode', null)
+    Template.instance().templateDict.set('validItem', null)
     }
   },
 
@@ -209,6 +217,17 @@ Template.weigh.events({
         window.alert(error)
       }
     })
+    Template.instance().templateDict.set('ready', true)
+    Template.instance().templateDict.set('items', [])
+    Template.instance().templateDict.set('caseWeight', 0)
+    Template.instance().templateDict.set('item', null)
+    Template.instance().templateDict.set('batch', null)
+    Template.instance().templateDict.set('numUnits', null)
+    Template.instance().templateDict.set('cust', null)
+    Template.instance().templateDict.set('billCust', null)
+    Template.instance().templateDict.set('batchCode', null)
+    Template.instance().templateDict.set('barcode', null)
+    Template.instance().templateDict.set('validItem', null)
   },
 
   'input .profileTare'(event) {
@@ -335,6 +354,10 @@ Template.weigh.helpers({
     }
   },
 
+  scaleSubscription() {
+    return Template.instance().update.ready()
+  },
+
   smuckersOrder() {
     if (typeof SmuckersData.findOne("orderResult") != undefined) {
       var order = SmuckersData.findOne("orderResult").data
@@ -361,7 +384,7 @@ Template.weigh.helpers({
   },
 
   batches(createdAt) {
-    return Batches.find({}, { sort: { createdAt: -1 }, limit: 1 })
+    return Batches.find({}, { sort: { createdAt: 1 }, limit: 1 })
   },
 
   settings() {
@@ -399,6 +422,7 @@ Template.weigh.helpers({
     if (companyId === "SMUCKERS") {
       if (typeof SmuckersData.findOne("customerCode") != undefined) {
         var customer = SmuckersData.findOne("customerCode").data
+        Template.instance().templateDict.set('cust', customer)
         return Customers.findOne({ customer_billID: customer })
       }
     } else {

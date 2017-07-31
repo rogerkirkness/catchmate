@@ -77,6 +77,7 @@ Template.settings.events({
     }
     reader.readAsDataURL(clogo)
   },
+
   'change .plantLogo' (event) {
     var plogo = event.target.files[0]
     var reader = new FileReader()
@@ -89,6 +90,7 @@ Template.settings.events({
     }
     reader.readAsDataURL(plogo)
   },
+
   'input .form-control' (event) {
     event.preventDefault()
     var companyName = document.getElementById('companyName').value

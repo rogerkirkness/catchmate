@@ -168,10 +168,13 @@ Template.customerPackingList.onCreated(function () {
   this.templateDict.set('caseWeight', null)
   this.templateDict.set('outputCSV', null)
 
-  this.subscribe('customers')
   this.subscribe('batches')
   this.subscribe('items')
   this.subscribe('users')
+
+  this.autorun(function () {
+    Meteor.subscribe('customer', Template.instance().templateDict.get('custCode'))
+  })
 
   this.autorun(function () {
     Meteor.subscribe('smuckers', Template.instance().templateDict.get('batchCode'))
@@ -182,18 +185,17 @@ Template.customerPackingList.events({
   'click #updateQuery'(event) {
     var companyId = Meteor.users.findOne(Meteor.userId()).companyId
     if (companyId === "SMUCKERS") {
-      var custCode = null
+      // Do nothing
     } else {
       var custCode = document.getElementById('custCode').value
+      Template.instance().templateDict.set('custCode', custCode)
     }
     var batchCode = document.getElementById('batchCode').value
-    Template.instance().templateDict.set('custCode', custCode)
     Template.instance().templateDict.set('batchCode', batchCode)
   },
   'click #downloadCSV'(event) {
     var output = Template.instance().templateDict.get('outputCSV')
     var csvContent = CSV.unparse(output)
-    console.log(csvContent)
     window.open('data:text/csv;charset=utf-8,' + escape(csvContent), '_blank')
   },
   'click #printReport'(event) {
@@ -203,6 +205,11 @@ Template.customerPackingList.events({
 
 Template.customerPackingList.helpers({
   customerPackingList() {
+    var companyId = Meteor.users.findOne(Meteor.userId()).companyId
+    if (companyId === "SMUCKERS") {
+      var customerID = SmuckersData.findOne("customerCode").data
+      Template.instance().templateDict.set('custCode', customerID)
+    }
     var batchCode = Template.instance().templateDict.get('batchCode')
     if (batchCode != null) {
       var input = {}
@@ -220,9 +227,7 @@ Template.customerPackingList.helpers({
         caseWeight += input[key]
       }
       Template.instance().templateDict.set('caseWeight', caseWeight)
-      var companyId = Meteor.users.findOne(Meteor.userId()).companyId
       if (companyId === "SMUCKERS") {
-        var customerID = SmuckersData.findOne("customerCode").data
         var customer = Customers.findOne({ customer_billID: customerID })
         var orderResult = SmuckersData.findOne("orderResult").data
         var order = orderResult[0]
@@ -254,6 +259,7 @@ Template.customerPackingList.helpers({
           output.orderType = output[0].order_type
           output.carcassId = output[0].carcass_ids
           output.hotWeight = output[0].hot_weights
+          output.totalBox = output[0].total_boxes
         })
         Template.instance().templateDict.set('outputCSV', output)
       } else {
@@ -289,14 +295,15 @@ Template.customerPackingList.helpers({
   cust() {
     var customer = {}
     var custCode = Template.instance().templateDict.get('custCode')
-    if (custCode != null) {
-      customer.code = custCode
-      customer.name = Customers.findOne({ customer_code: custCode }).customer_name
-    } else {
+    var companyId = Meteor.users.findOne(Meteor.userId()).companyId
+    if (companyId === "SMUCKERS") {
       if (SmuckersData.findOne("customerCode").data != undefined) {
         customer.code = SmuckersData.findOne("customerCode").data
         customer.name = Customers.findOne({ customer_billID: customer.code }).customer_name
       }
+    } else {
+      customer.code = custCode
+      customer.name = Customers.findOne({ customer_code: custCode }).customer_name
     }
     return customer
   },
