@@ -2,7 +2,7 @@
   "name": "catchmate",
   "version": "0.0.0",
   "dependencies": {
-    "@babel/runtime": "^7.0.0-beta.40",
+    "@babel/runtime": "^7.26.0",
     "babel-runtime": "^6.18.0",
     "bcrypt": "5.1.0",
     "bwip-js": "^4.5.1",
